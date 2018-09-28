@@ -4,7 +4,7 @@ using Documenter
 makedocs(doctest = false)
 # deploy github
 deploydocs(
-    repo = "github.com/USER_NAME/PACKAGE_NAME.jl.git",
+    repo = "github.com/mjb3/Discuit.jl.git",
 )
 
 ## pdf (didn't work)
