@@ -69,6 +69,11 @@
     </ul>
 	    </li>
           
+            <li class="toctree-l1">
+		
+    <a class="" href="examples/">Examples</a>
+	    </li>
+          
         </ul>
       </div>
       &nbsp;
@@ -122,6 +127,10 @@ The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get s
 
 
 <ul>
+<li><a href="examples/#Examples-1">Examples</a><ul>
+<li><a href="examples/#SIS-model-1">SIS model</a></li>
+</ul>
+</li>
 <li><a href=".#Discuit.jl-documentation-1">Discuit.jl documentation</a><ul>
 <li><a href=".#Package-Features-1">Package Features</a></li>
 <li><a href=".#Functions-1">Functions</a></li>
@@ -137,28 +146,28 @@ The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get s
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fe151dbebafbd41a5897e53a95e18ce7188d3543/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9d27c6862e907f13704d139071881ed48d98b29e/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
 
 
 <p>Run a DGA simulation on <code>model</code>. Returns a SimResults containing the trajectory and observations data.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fe151dbebafbd41a5897e53a95e18ce7188d3543/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9d27c6862e907f13704d139071881ed48d98b29e/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
 
 
 <p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type ObsData. The number of samples obtained will be <code>steps</code> - <code>adapt_period</code>. Set <code>mbp</code> = true for model based proposals (false for standard). The proportion of parameter proposals (<code>ppp</code>) can be changed from the default value of 30%.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fe151dbebafbd41a5897e53a95e18ce7188d3543/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9d27c6862e907f13704d139071881ed48d98b29e/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
 <strong><code>Discuit.run_custom_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)</code></pre>
 
 
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fe151dbebafbd41a5897e53a95e18ce7188d3543/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9d27c6862e907f13704d139071881ed48d98b29e/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
 <ul>
 <li>link to <a href=".#Discuit.jl-documentation-1">Discuit.jl documentation</a></li>
 <li>link to <a href=".#Discuit.set_random_seed-Tuple{Int64}"><code>set_random_seed(seed::Int64)</code></a></li>
@@ -175,6 +184,13 @@ The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get s
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="examples/" class="btn btn-neutral float-right" title="Examples">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
   
 
   <hr/>
@@ -201,6 +217,8 @@ The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get s
       
       
       
+        <span style="margin-left: 15px"><a href="examples/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
     </span>
 </div>
     <script>var base_url = '.';</script>
@@ -215,5 +233,5 @@ The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get s
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-09-28 21:32:49
+Build Date UTC : 2018-09-28 21:43:38
 -->
