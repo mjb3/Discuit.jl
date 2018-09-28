@@ -16,3 +16,7 @@ Running an MCMC analysis based on a set of observations data is simple. TBC...
 ## Custom MCMC
 
 Some situations...
+
+
+- link to [Discuit.jl documentation](@ref)
+- link to [`set_random_seed(seed::Int64)`](@ref)
