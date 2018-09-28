@@ -6,6 +6,11 @@ struct Event
     event_type::Int16
 end
 ## observations data
+"""
+    ObsData
+
+A DSSCT model for use in Discuit. NEED TO EXPAND...
+"""
 struct ObsData
     time::Array{Float64, 1}
     val::Array{Int32, 2}
@@ -79,11 +84,11 @@ struct MarkovState
 end
 # results of an McMC analysis
 """
-    McMCResults
+    MCMCResults
 
 The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
 """
-struct McMCResults
+struct MCMCResults
     samples::Array{Float64, 2}
     mc_accepted::Array{Float64, 1}
     mean::Array{Float64, 1}

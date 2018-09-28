@@ -504,12 +504,12 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     pan = prop_param ? "MBP" : "Standard"
     ## MAKE GEWKE TEST OPTIONAL ****************
     gw = run_geweke_test(mc, adapt_period)
-    return McMCResults(mc, mc_accepted, mc_bar, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p)
+    return MCMCResults(mc, mc_accepted, mc_bar, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p)
 end
 ## convergence diagnostics
 const LAG_INT = 10
 # autocorrelation R
-function compute_autocorrelation(mcmc::McMCResults, lags::Int64 = 200)
+function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     output = zeros(lags + 1, length(mcmc.mean))
     # tmp = zeros(lags, length(mcmc.mean))
     # for each lag interval
@@ -533,7 +533,7 @@ function compute_autocorrelation(mcmc::McMCResults, lags::Int64 = 200)
 end
 # autocorrelation R'
 # - ADD OPTION FOR STANDARD FORM..? *
-function compute_autocorrelation(mcmc::Array{McMCResults, 1}, lags::Int64 = 200)
+function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     mce = Array{Float64, 2}(undef, length(mcmc), length(mcmc[1].mean))
     for mc in eachindex(mcmc)
         mce[mc,:] .= mcmc[mc].mean
@@ -612,7 +612,7 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::ObsData, initial
     print("\nrunning gelman diagnostic...")
     ## initialise Markov chains
     # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
-    mcmc = Array{McMCResults,1}(undef, size(initial_parameters, 1))
+    mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     for i in eachindex(mcmc)
         x0 = gillespie_sim_x0(model, initial_parameters[i,:], !mbp)
         # print(string("\nx0 length: ", length(x0.trajectory)))
@@ -631,7 +631,7 @@ function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::ObsDat
     model = get_private_model(model, obs_data)
     print("\nrunning gelman diagnostic...")
     ## initialise Markov chains
-    mcmc = Array{McMCResults,1}(undef, length(x0))
+    mcmc = Array{MCMCResults,1}(undef, length(x0))
     ## CHANGE XO.PARAMS
     for i in eachindex(mcmc)
         mcmc[i] = met_hastings_alg(model, steps, adapt_period, proposal_function, x0[i], prop_param, ppp)
@@ -641,7 +641,7 @@ function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::ObsDat
     return gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
 end
 # internal function
-function gelman_diagnostic(mcmc::Array{McMCResults,1}, theta_size::Int64, num_iter::Int64)
+function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_iter::Int64)
     ## compute W; B; V
     # collect means and variances
     mce = Array{Float64, 2}(undef, length(mcmc), theta_size)
@@ -764,11 +764,11 @@ function print_gelman_results(results::GelmanResults, dpath::String)
 end
 ## print MCMC results to file
 """
-    print_mcmc_results(mcmc::McMCResults, dpath::String)
+    print_mcmc_results(mcmc::MCMCResults, dpath::String)
 
 Save the results from a call to run_met_hastings_mcmc or run_custom_mcmc to the directory `dpath`, e.g. "./out/mcmc/".
 """
-function print_mcmc_results(mcmc::McMCResults, dpath::String)
+function print_mcmc_results(mcmc::MCMCResults, dpath::String)
     # NEED TO ADD / IF NOT THERE ALREADY *******
     # create directory
     isdir(dpath) || mkpath(dpath)

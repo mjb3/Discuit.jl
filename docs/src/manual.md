@@ -4,8 +4,7 @@
 
 ```@docs
 DiscuitModel
-McMCResults
-GelmanResults
+MCMCResults
 ```
 
 ## Functions
