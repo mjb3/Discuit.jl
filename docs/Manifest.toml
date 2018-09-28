@@ -71,9 +71,9 @@ uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
 [[Discuit]]
 deps = ["CSV", "Distributions", "Random"]
-git-tree-sha1 = "edf6b9815a0095987d6aff4902f3a111b78070fc"
+git-tree-sha1 = "de5a24540f1d744cbab579c1db3ebc0c211c2268"
 repo-rev = "master"
-repo-url = "/home/martin/AtomProjects/Discuit"
+repo-url = "https://github.com/mjb3/Discuit.jl"
 uuid = "faf035fc-c307-11e8-3375-ab6213540832"
 version = "0.1.0"
 
@@ -86,18 +86,6 @@ deps = ["Distributed", "LinearAlgebra", "PDMats", "Pkg", "Printf", "QuadGK", "Ra
 git-tree-sha1 = "c24e9b6500c037673f0241a2783472b8c3d080c7"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
 version = "0.16.4"
-
-[[DocStringExtensions]]
-deps = ["LibGit2", "Markdown", "Pkg", "Test"]
-git-tree-sha1 = "a016e0bfe98a748c4488e2248c2ef4c67d6fdd35"
-uuid = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
-version = "0.5.0"
-
-[[Documenter]]
-deps = ["Compat", "DocStringExtensions", "Logging", "REPL"]
-git-tree-sha1 = "7534ff3c50333a69ae0778d4d869e6f5c9ec022a"
-uuid = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-version = "0.19.6"
 
 [[Future]]
 deps = ["Random"]
