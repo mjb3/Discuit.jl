@@ -5,13 +5,20 @@ Fast parameter inference for discrete state space continuous time (DSSCT) models
 |:-----------------------------------------------------------------------------------------------:|
 | [![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url] |
 
-This package...
+The [Discuit.jl][discuit_repo] package contains tools for simulation and data augmented MCMC analysis of discrete state space continuous time (DSSCT) models.
 
 ## Installation
 
-The package is currently unregistered and must be added via the package manager.
+The package is not registered and must be added via the package manager Pkg.
 From the REPL type `]` to enter the Pkg mode and run:
 
 ```
 pkg> add https://github.com/mjb3/Discuit.jl
 ```
+
+## Documentation
+
+See the [package documentation][discuit_docs] for instructions and examples.
+
+[discuit_repo]: https://github.com/mjb3/Discuit.jl
+[discuit_docs]: https://mjb3.github.io/Discuit.jl/latest/
