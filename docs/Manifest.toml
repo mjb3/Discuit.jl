@@ -71,7 +71,9 @@ uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
 [[Discuit]]
 deps = ["CSV", "Distributions", "Random"]
-path = "/home/martin/AtomProjects/Discuit"
+git-tree-sha1 = "edf6b9815a0095987d6aff4902f3a111b78070fc"
+repo-rev = "master"
+repo-url = "/home/martin/AtomProjects/Discuit"
 uuid = "faf035fc-c307-11e8-3375-ab6213540832"
 version = "0.1.0"
 
