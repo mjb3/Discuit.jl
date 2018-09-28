@@ -1,7 +1,7 @@
 using Discuit
 using Documenter
 # create docs
-makedocs(doctest = false)
+makedocs()
 # deploy github
 deploydocs(repo = "github.com/mjb3/Discuit.jl.git")
 
