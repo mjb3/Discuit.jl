@@ -10,7 +10,7 @@ makedocs(modules=[Discuit], doctest=true)
 
 deploydocs(deps = Deps.pip("mkdocs", "python-markdown-math")
     , repo = "github.com/mjb3/Discuit.jl.git"
-    , julia  = nightly
+    , julia  = "nightly"
     , osname = "linux")
 
 ## pdf (didn't work)
