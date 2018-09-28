@@ -92,7 +92,7 @@ end
 # run sim and return trajectory
 # - ADD option for >1 sim?
 """
-    gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::Float64 = 100.0, num_obs::Int64 = 5)
+    gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)
 
 Run a DGA simulation on `model`. Returns a SimResults containing the trajectory and observations data.
 """
@@ -363,9 +363,9 @@ end
 # public wrappers
 # - vanilla
 """
-    run_met_hastings_mcmc(model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+    run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
-Run an MCMC analysis. NEED TO EXPAND.
+Run an MCMC analysis based on `model` and `obs_data` of type ObsData. The number of samples obtained will be `steps` - `adapt_period`. Set `mbp` = true for model based proposals (false for standard). The proportion of parameter proposals (`ppp`) can be changed from the default value of 30%.
 """
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
@@ -377,9 +377,9 @@ function run_met_hastings_mcmc(model::DiscuitModel, obs_data::ObsData, initial_p
 end
 # - custom MH MCMC
 """
-    run_custom_mcmc(model::DiscuitModel, obs_data::ObsData, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
+    run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)
 
-Run a custom MCMC analysis. NEED TO EXPAND.
+Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
 function run_custom_mcmc(model::DiscuitModel, obs_data::ObsData, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
