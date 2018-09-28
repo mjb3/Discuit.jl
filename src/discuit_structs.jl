@@ -1,4 +1,4 @@
-### Discuit data structures ###
+### Discuit custom data structures ###
 
 ## event instance
 struct Event
@@ -9,7 +9,10 @@ end
 """
     ObsData
 
-A DSSCT model for use in Discuit. NEED TO EXPAND...
+Stores one column vector of observation times and one or more column vectors of observation integer values.
+**Fields**
+- `time`    -- observation times.
+- `val`     -- observation values.
 """
 struct ObsData
     time::Array{Float64, 1}
