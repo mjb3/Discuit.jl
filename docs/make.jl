@@ -3,7 +3,7 @@ using Documenter
 # create docs
 makedocs()
 # deploy github
-deploydocs(repo = "github.com/mjb3/Discuit.jl.git")
+deploydocs(repo = "github.com/mjb3/Discuit.jl.git", target = "docs/build/")
 
 ## pdf (didn't work)
 # using DocumenterLaTeX
