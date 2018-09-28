@@ -3,10 +3,10 @@ using Documenter
 # create docs
 # makedocs()
 # deploy github
-deploydocs(repo = "github.com/mjb3/Discuit.jl.git", target = "docs/build/")
+# deploydocs(repo = "github.com/mjb3/Discuit.jl.git", target = "docs/build/")
 
 # create docs
-makedocs(modules=[PkgName], doctest=true)
+makedocs(modules=[Discuit.jl], doctest=true)
 
 deploydocs(deps = Deps.pip("mkdocs", "python-markdown-math")
     , repo = "github.com/mjb3/Discuit.jl.git"
