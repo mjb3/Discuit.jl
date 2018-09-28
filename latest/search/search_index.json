@@ -1,0 +1,29 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Discuit.jl documentation\n\n\nFast parameter inference for discrete state space continuous time models in Julia.\n\n\nDiscuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.\n\n\n!!! note\n    Please note that this package is still in development.\n\n\n\n\nPackage Features\n\n\n!-- - Write all your documentation in [Markdown](https://en.wikipedia.org/wiki/Markdown). --\n\n- Minimal configuration.\n- Supports Julia `0.6` and `0.7-dev`.\n- Generates tables of contents and docstring indexes.\n- Use `git push` to automatically build and deploy docs from Travis to GitHub Pages.\n\nThe [Discuit.jl documentation](@ref) provides a tutorial explaining how to get started using Documenter.\n\n\n\n\n\n\nDiscuit.jl documentation\n\n\nPackage Features\n\n\nFunctions\n\n\nIndex\n\n\n\n\n\n\n\n\n\n\nFunctions\n\n\n#\n\n\nDiscuit.set_random_seed\n \n \nMethod\n.\n\n\nset_random_seed(seed)\n\n\n\n\nDoes what it says on the tin but only if you give it an integer.\n\n\nsource\n\n\n\n\nlink to \nDiscuit.jl documentation\n\n\nlink to \nset_random_seed(seed::Int64)\n\n\n\n\n\n\nIndex\n\n\n\n\nDiscuit.set_random_seed", 
+            "title": "Introduction"
+        }, 
+        {
+            "location": "/#discuitjl-documentation", 
+            "text": "Fast parameter inference for discrete state space continuous time models in Julia.  Discuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.  !!! note\n    Please note that this package is still in development.", 
+            "title": "Discuit.jl documentation"
+        }, 
+        {
+            "location": "/#package-features", 
+            "text": "!-- - Write all your documentation in [Markdown](https://en.wikipedia.org/wiki/Markdown). -- \n- Minimal configuration.\n- Supports Julia `0.6` and `0.7-dev`.\n- Generates tables of contents and docstring indexes.\n- Use `git push` to automatically build and deploy docs from Travis to GitHub Pages.\n\nThe [Discuit.jl documentation](@ref) provides a tutorial explaining how to get started using Documenter.   Discuit.jl documentation  Package Features  Functions  Index", 
+            "title": "Package Features"
+        }, 
+        {
+            "location": "/#functions", 
+            "text": "#  Discuit.set_random_seed     Method .  set_random_seed(seed)  Does what it says on the tin but only if you give it an integer.  source   link to  Discuit.jl documentation  link to  set_random_seed(seed::Int64)", 
+            "title": "Functions"
+        }, 
+        {
+            "location": "/#index", 
+            "text": "Discuit.set_random_seed", 
+            "title": "Index"
+        }
+    ]
+}
