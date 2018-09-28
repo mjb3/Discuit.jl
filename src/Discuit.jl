@@ -517,13 +517,13 @@ function compute_autocorrelation(mcmc::McMCResults, lags::Int64 = 200)
         # for each parameter
         for j in 1:length(mcmc.mean)
             # compute SWAP AND VECTORISE
-            for i in (mcmc.adapt_period + 1):(size(mcmc.mc, 1) - (l*LAG_INT))
-                output[l + 1,j] += (mcmc.mc[i,j] - mcmc.mean[j]) * (mcmc.mc[i + (l*LAG_INT), j] - mcmc.mean[j])
-                # tmp[l,j] += mcmc.mc[i,j]
+            for i in (mcmc.adapt_period + 1):(size(mcmc.samples, 1) - (l*LAG_INT))
+                output[l + 1,j] += (mcmc.samples[i,j] - mcmc.mean[j]) * (mcmc.samples[i + (l*LAG_INT), j] - mcmc.mean[j])
+                # tmp[l,j] += mcmc.samples[i,j]
             end
-            output[l + 1,j] /= size(mcmc.mc, 1) - mcmc.adapt_period - (l*LAG_INT)
+            output[l + 1,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*LAG_INT)
             output[l + 1,j] /= mcmc.covar[j,j]
-            # tmp[l,j] /= size(mcmc.mc, 1) - mcmc.adapt_period - (l*LAG_INT)
+            # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*LAG_INT)
         end
     end
     # print(tmp[1,:])
@@ -546,22 +546,22 @@ function compute_autocorrelation(mcmc::Array{McMCResults, 1}, lags::Int64 = 200)
         # - VECTORISE THIS? ********
         mu[j] = mean(mce[:,j])
         for mc in eachindex(mcmc)
-            for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].mc, 1))
-                wcv[j] += (mcmc[mc].mc[i,j] - mu[j]) * (mcmc[mc].mc[i,j] - mu[j])
+            for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].samples, 1))
+                wcv[j] += (mcmc[mc].samples[i,j] - mu[j]) * (mcmc[mc].samples[i,j] - mu[j])
             end
         end
-        wcv[j] /= length(mcmc) * (size(mcmc[1].mc, 1) - mcmc[1].adapt_period)
+        wcv[j] /= length(mcmc) * (size(mcmc[1].samples, 1) - mcmc[1].adapt_period)
     end
     # for each lag interval
     output = zeros(lags + 1, length(mu))
     for l in 0:lags
         for j in eachindex(mu)
             for mc in eachindex(mcmc)
-                for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].mc, 1) - (l*LAG_INT))
-                    output[l + 1,j] += (mcmc[mc].mc[i,j] - mu[j]) * (mcmc[mc].mc[i + (l*LAG_INT), j] - mu[j])
+                for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].samples, 1) - (l*LAG_INT))
+                    output[l + 1,j] += (mcmc[mc].samples[i,j] - mu[j]) * (mcmc[mc].samples[i + (l*LAG_INT), j] - mu[j])
                 end
             end
-            output[l + 1,j] /= length(mcmc) * (size(mcmc[1].mc, 1) - mcmc[1].adapt_period)
+            output[l + 1,j] /= length(mcmc) * (size(mcmc[1].samples, 1) - mcmc[1].adapt_period)
             output[l + 1,j] /= wcv[j]
         end
     end
@@ -603,7 +603,7 @@ end
 # public wrappers
 # - calls mcmc
 """
-    run_gelman_diagnostic(m_model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+    run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 """
@@ -807,16 +807,16 @@ function print_mcmc_results(mcmc::McMCResults, dpath::String)
     open(string(dpath, "chain.csv"), "w") do f
         # print headers
         write(f, "iter, accepted")
-        for p in 1:size(mcmc.mc, 2)
+        for p in 1:size(mcmc.samples, 2)
             write(f, ", x$p, xf$p")
         end
         write(f, ", xf_ll, prop_type, ll_g, mh_prob")
         #
-        for i in 1:size(mcmc.mc, 1)
+        for i in 1:size(mcmc.samples, 1)
             write(f, "\n $i, $(mcmc.mc_accepted[i])")
-            for p in 1:size(mcmc.mc, 2)
+            for p in 1:size(mcmc.samples, 2)
                 # t = mc[i, p]
-                write(f, ", $(mcmc.mc[i, p]), $(mcmc.mcf[i, p])")
+                write(f, ", $(mcmc.samples[i, p]), $(mcmc.mcf[i, p])")
             end
             write(f, ", $(mcmc.mc_log_like[i]), $(mcmc.prop_type[i]), $(mcmc.ll_g[i]), $(mcmc.mh_prob[i])")
         end
@@ -824,11 +824,11 @@ function print_mcmc_results(mcmc::McMCResults, dpath::String)
 end
 ## save trajectory to file
 """
-    print_trajectory(model::DiscuitModel, sim::SimResults, fpath::String)
+    print_trajectory(model, sim_results, fpath)
 
 Save an augmented trajectory from a variable of type `SimResults` to the file `fpath`, e.g. "./out/sim.csv".
 """
-function print_trajectory(model::DiscuitModel, sim::SimResults, fpath::String)
+function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
     open(fpath, "w") do f
         population = copy(model.initial_condition)
         # print headers
@@ -839,11 +839,11 @@ function print_trajectory(model::DiscuitModel, sim::SimResults, fpath::String)
         end
         # print event trajectory
         evt_i = 1
-        for obs_i in eachindex(sim.observations.time)
+        for obs_i in eachindex(sim_results.observations.time)
             # handle events
-            while evt_i <= length(sim.trajectory)
-                sim.trajectory[evt_i].time > sim.observations.time[obs_i] && break
-                tp = sim.trajectory[evt_i].event_type
+            while evt_i <= length(sim_results.trajectory)
+                sim_results.trajectory[evt_i].time > sim_results.observations.time[obs_i] && break
+                tp = sim_results.trajectory[evt_i].event_type
                 write(f, "\n $(sim.trajectory[evt_i].time), $tp")
                 population .+= model.m_transition[tp,:]
                 for p in 1:length(population)
@@ -862,7 +862,7 @@ function print_trajectory(model::DiscuitModel, sim::SimResults, fpath::String)
 end # end of function
 ## save observations data to file
 """
-    print_observations(obs_data::ObsData, fpath::String)
+    print_observations(obs_data, fpath)
 
 Save a set of observations (e.g. from a `SimResults` variable) to the file `fpath`, e.g. "./out/obs.csv".
 """
@@ -883,7 +883,7 @@ function print_observations(obs_data::ObsData, fpath::String)
     end # end of print
 end
 """
-    read_obs_data_from_file(fpath::String)
+    read_obs_data_from_file(fpath)
 
 Read a set of observations from the location `fpath` and return the results as a variable of type `ObsData`.
 """
