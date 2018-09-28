@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Discuit.jl documentation\n\n\nFast parameter inference for discrete state space continuous time models in Julia.\n\n\nDiscuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.\n\n\n!!! note\n    Please note that this package is still in development.\n\n\n\n\nPackage Features\n\n\n\n\nMinimal configuration.\n\n\nSupports Julia \n0.6\n and \n0.7-dev\n.\n\n\nGenerates tables of contents and docstring indexes.\n\n\nUse \ngit push\n to automatically build and deploy docs from Travis to GitHub Pages.\n\n\n\n\nThe \nDiscuit.jl documentation\n provides a tutorial explaining how to get started using Documenter.\n\n\n\n\nExamples\n\n\nSIS model\n\n\nCustom MCMC\n\n\n\n\n\n\nDiscuit.jl manual\n\n\nCustom structs\n\n\nFunctions\n\n\n\n\n\n\nDiscuit.jl documentation\n\n\nPackage Features\n\n\nIndex\n\n\n\n\n\n\n\n\n\n\nIndex\n\n\n\n\nDiscuit.gillespie_sim\n\n\nDiscuit.run_custom_mcmc\n\n\nDiscuit.run_met_hastings_mcmc\n\n\nDiscuit.set_random_seed", 
+            "text": "Discuit.jl documentation\n\n\nFast parameter inference for discrete state space continuous time models in Julia.\n\n\nDiscuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.\n\n\n!!! note\n    Please note that this package is still in development.\n\n\n\n\nPackage Features\n\n\n\n\nMinimal configuration.\n\n\nSupports Julia \n0.6\n and \n0.7-dev\n.\n\n\nGenerates tables of contents and docstring indexes.\n\n\nUse \ngit push\n to automatically build and deploy docs from Travis to GitHub Pages.\n\n\n\n\n\n\nInstallation\n\n\nThe package can be installed by typing \n]\n in the REPL to enter the Pkg mode and running:\n\n\npkg\n add https://github.com/mjb3/Discuit.jl\n\n\n\n\n\n\nUsage\n\n\nThe \nDiscuit.jl examples\n section provides enough code to get up and running with further information available in the \nDiscuit.jl manual\n.\n\n\n\n\nDiscuit.jl manual\n\n\nSIS model\n\n\nCustom MCMC\n\n\n\n\n\n\nDiscuit.jl manual\n\n\nCustom structs\n\n\nFunctions\n\n\n\n\n\n\nDiscuit.jl documentation\n\n\nPackage Features\n\n\nInstallation\n\n\nUsage\n\n\nIndex\n\n\n\n\n\n\n\n\n\n\nIndex\n\n\n\n\nDiscuit.DiscuitModel\n\n\nDiscuit.gillespie_sim\n\n\nDiscuit.run_custom_mcmc\n\n\nDiscuit.run_met_hastings_mcmc\n\n\nDiscuit.set_random_seed", 
             "title": "Introduction"
         }, 
         {
@@ -12,23 +12,33 @@
         }, 
         {
             "location": "/#package-features", 
-            "text": "Minimal configuration.  Supports Julia  0.6  and  0.7-dev .  Generates tables of contents and docstring indexes.  Use  git push  to automatically build and deploy docs from Travis to GitHub Pages.   The  Discuit.jl documentation  provides a tutorial explaining how to get started using Documenter.   Examples  SIS model  Custom MCMC    Discuit.jl manual  Custom structs  Functions    Discuit.jl documentation  Package Features  Index", 
+            "text": "Minimal configuration.  Supports Julia  0.6  and  0.7-dev .  Generates tables of contents and docstring indexes.  Use  git push  to automatically build and deploy docs from Travis to GitHub Pages.", 
             "title": "Package Features"
         }, 
         {
+            "location": "/#installation", 
+            "text": "The package can be installed by typing  ]  in the REPL to enter the Pkg mode and running:  pkg  add https://github.com/mjb3/Discuit.jl", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/#usage", 
+            "text": "The  Discuit.jl examples  section provides enough code to get up and running with further information available in the  Discuit.jl manual .   Discuit.jl manual  SIS model  Custom MCMC    Discuit.jl manual  Custom structs  Functions    Discuit.jl documentation  Package Features  Installation  Usage  Index", 
+            "title": "Usage"
+        }, 
+        {
             "location": "/#index", 
-            "text": "Discuit.gillespie_sim  Discuit.run_custom_mcmc  Discuit.run_met_hastings_mcmc  Discuit.set_random_seed", 
+            "text": "Discuit.DiscuitModel  Discuit.gillespie_sim  Discuit.run_custom_mcmc  Discuit.run_met_hastings_mcmc  Discuit.set_random_seed", 
             "title": "Index"
         }, 
         {
             "location": "/examples/", 
-            "text": "Examples\n\n\nThe following examples provide a flavour of Discuit's core functionality. See the \nDiscuit.jl manual\n for more detailed instructions.\n\n\n\n\nSIS model\n\n\nThe following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,\n\n\n\n\nSimulation\n\n\n\n\nMCMC\n\n\nRunning an MCMC analysis based on a set of observations data is simple. TBC...\n\n\n\n\nCustom MCMC\n\n\nSome situations...\n\n\n\n\nlink to \nDiscuit.jl documentation\n\n\nlink to \nset_random_seed(seed::Int64)", 
+            "text": "Discuit.jl manual\n\n\nThe following examples provide a flavour of Discuit's core functionality. See the \nDiscuit.jl manual\n for more detailed instructions.\n\n\n\n\nSIS model\n\n\nThe following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,\n\n\n\n\nSimulation\n\n\n\n\nMCMC\n\n\nRunning an MCMC analysis based on a set of observations data is simple. TBC...\n\n\n\n\nCustom MCMC\n\n\nSome situations...\n\n\n\n\nlink to \nDiscuit.jl documentation\n\n\nlink to \nset_random_seed(seed::Int64)", 
             "title": "Examples"
         }, 
         {
-            "location": "/examples/#examples", 
+            "location": "/examples/#discuitjl-manual", 
             "text": "The following examples provide a flavour of Discuit's core functionality. See the  Discuit.jl manual  for more detailed instructions.", 
-            "title": "Examples"
+            "title": "Discuit.jl manual"
         }, 
         {
             "location": "/examples/#sis-model", 
@@ -52,7 +62,7 @@
         }, 
         {
             "location": "/manual/", 
-            "text": "Discuit.jl manual\n\n\n\n\nCustom structs\n\n\n\n\nFunctions\n\n\n#\n\n\nDiscuit.set_random_seed\n \n \nMethod\n.\n\n\nset_random_seed(seed)\n\n\n\n\nDoes what it says on the tin but only if you give it an integer.\n\n\nsource\n\n\n#\n\n\nDiscuit.gillespie_sim\n \n \nFunction\n.\n\n\ngillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)\n\n\n\n\nRun a DGA simulation on \nmodel\n. Returns a SimResults containing the trajectory and observations data.\n\n\nsource\n\n\n#\n\n\nDiscuit.run_met_hastings_mcmc\n \n \nFunction\n.\n\n\nrun_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)\n\n\n\n\nRun an MCMC analysis based on \nmodel\n and \nobs_data\n of type ObsData. The number of samples obtained will be \nsteps\n - \nadapt_period\n. Set \nmbp\n = true for model based proposals (false for standard). The proportion of parameter proposals (\nppp\n) can be changed from the default value of 30%.\n\n\nsource\n\n\n#\n\n\nDiscuit.run_custom_mcmc\n \n \nFunction\n.\n\n\nrun_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)\n\n\n\n\nRun a custom MCMC analysis. Similar to \nrun_met_hastings_mcmc\n except that the\nproposal_function\n (of type Function) and initial state \nx0\n (of type MarkovState) are user defined.\n\n\nsource", 
+            "text": "Discuit.jl manual\n\n\n\n\nCustom structs\n\n\n#\n\n\nDiscuit.DiscuitModel\n \n \nType\n.\n\n\nDiscuitModel\n\n\n\n\nA DSSCT model for use in Discuit. NEED TO EXPAND...\n\n\nsource\n\n\n\n\nFunctions\n\n\nThis section is organised in three parts:\n\n\n\n\nthe main package functionality for working with standard Discuit models\n\n\nutilities, mainly for printing, etc\n\n\n\n\n\n\nCore functionality\n\n\n#\n\n\nDiscuit.set_random_seed\n \n \nMethod\n.\n\n\nset_random_seed(seed)\n\n\n\n\nDoes what it says on the tin but only if you give it an integer.\n\n\nsource\n\n\n#\n\n\nDiscuit.gillespie_sim\n \n \nFunction\n.\n\n\ngillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)\n\n\n\n\nRun a DGA simulation on \nmodel\n. Returns a SimResults containing the trajectory and observations data.\n\n\nsource\n\n\n#\n\n\nDiscuit.run_met_hastings_mcmc\n \n \nFunction\n.\n\n\nrun_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)\n\n\n\n\nRun an MCMC analysis based on \nmodel\n and \nobs_data\n of type ObsData. The number of samples obtained will be \nsteps\n - \nadapt_period\n. Set \nmbp\n = true for model based proposals (false for standard). The proportion of parameter proposals (\nppp\n) can be changed from the default value of 30%.\n\n\nsource\n\n\n#\n\n\nDiscuit.run_custom_mcmc\n \n \nFunction\n.\n\n\nrun_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)\n\n\n\n\nRun a custom MCMC analysis. Similar to \nrun_met_hastings_mcmc\n except that the\nproposal_function\n (of type Function) and initial state \nx0\n (of type MarkovState) are user defined.\n\n\nsource\n\n\n\n\nUtilities", 
             "title": "Manual"
         }, 
         {
@@ -62,13 +72,23 @@
         }, 
         {
             "location": "/manual/#custom-structs", 
-            "text": "", 
+            "text": "#  Discuit.DiscuitModel     Type .  DiscuitModel  A DSSCT model for use in Discuit. NEED TO EXPAND...  source", 
             "title": "Custom structs"
         }, 
         {
             "location": "/manual/#functions", 
-            "text": "#  Discuit.set_random_seed     Method .  set_random_seed(seed)  Does what it says on the tin but only if you give it an integer.  source  #  Discuit.gillespie_sim     Function .  gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)  Run a DGA simulation on  model . Returns a SimResults containing the trajectory and observations data.  source  #  Discuit.run_met_hastings_mcmc     Function .  run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)  Run an MCMC analysis based on  model  and  obs_data  of type ObsData. The number of samples obtained will be  steps  -  adapt_period . Set  mbp  = true for model based proposals (false for standard). The proportion of parameter proposals ( ppp ) can be changed from the default value of 30%.  source  #  Discuit.run_custom_mcmc     Function .  run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)  Run a custom MCMC analysis. Similar to  run_met_hastings_mcmc  except that the proposal_function  (of type Function) and initial state  x0  (of type MarkovState) are user defined.  source", 
+            "text": "This section is organised in three parts:   the main package functionality for working with standard Discuit models  utilities, mainly for printing, etc", 
             "title": "Functions"
+        }, 
+        {
+            "location": "/manual/#core-functionality", 
+            "text": "#  Discuit.set_random_seed     Method .  set_random_seed(seed)  Does what it says on the tin but only if you give it an integer.  source  #  Discuit.gillespie_sim     Function .  gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)  Run a DGA simulation on  model . Returns a SimResults containing the trajectory and observations data.  source  #  Discuit.run_met_hastings_mcmc     Function .  run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)  Run an MCMC analysis based on  model  and  obs_data  of type ObsData. The number of samples obtained will be  steps  -  adapt_period . Set  mbp  = true for model based proposals (false for standard). The proportion of parameter proposals ( ppp ) can be changed from the default value of 30%.  source  #  Discuit.run_custom_mcmc     Function .  run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)  Run a custom MCMC analysis. Similar to  run_met_hastings_mcmc  except that the proposal_function  (of type Function) and initial state  x0  (of type MarkovState) are user defined.  source", 
+            "title": "Core functionality"
+        }, 
+        {
+            "location": "/manual/#utilities", 
+            "text": "", 
+            "title": "Utilities"
         }
     ]
 }

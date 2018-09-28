@@ -116,36 +116,52 @@
 <h1 id="discuitjl-manual">Discuit.jl manual</h1>
 <p><a id='Custom-structs-1'></a></p>
 <h2 id="custom-structs">Custom structs</h2>
+<p><a id='Discuit.DiscuitModel' href='#Discuit.DiscuitModel'>#</a>
+<strong><code>Discuit.DiscuitModel</code></strong> &mdash; <em>Type</em>.</p>
+<pre class="codehilite"><code>DiscuitModel</code></pre>
+
+
+<p>A DSSCT model for use in Discuit. NEED TO EXPAND...</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/discuit_structs.jl#L14-L18' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
+<p>This section is organised in three parts:</p>
+<ul>
+<li>the main package functionality for working with standard Discuit models</li>
+<li>utilities, mainly for printing, etc</li>
+</ul>
+<p><a id='Core-functionality-1'></a></p>
+<h3 id="core-functionality">Core functionality</h3>
 <p><a id='Discuit.set_random_seed-Tuple{Int64}' href='#Discuit.set_random_seed-Tuple{Int64}'>#</a>
 <strong><code>Discuit.set_random_seed</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>set_random_seed(seed)</code></pre>
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/93e1d07eb5e00a5a303b32b2f9c9508e84598104/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
 
 
 <p>Run a DGA simulation on <code>model</code>. Returns a SimResults containing the trajectory and observations data.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/93e1d07eb5e00a5a303b32b2f9c9508e84598104/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
 
 
 <p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type ObsData. The number of samples obtained will be <code>steps</code> - <code>adapt_period</code>. Set <code>mbp</code> = true for model based proposals (false for standard). The proportion of parameter proposals (<code>ppp</code>) can be changed from the default value of 30%.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/93e1d07eb5e00a5a303b32b2f9c9508e84598104/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
 <strong><code>Discuit.run_custom_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)</code></pre>
 
 
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/93e1d07eb5e00a5a303b32b2f9c9508e84598104/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
+<p><a id='Utilities-1'></a></p>
+<h3 id="utilities">Utilities</h3>
               
             </div>
           </div>
