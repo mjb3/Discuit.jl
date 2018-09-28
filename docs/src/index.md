@@ -15,7 +15,17 @@ Discuit: simulation and parameter inference for discrete state space continuous 
 - Generates tables of contents and docstring indexes.
 - Use `git push` to automatically build and deploy docs from Travis to GitHub Pages.
 
-The [Discuit.jl documentation](@ref) provides a tutorial explaining how to get started using Documenter.
+## Installation
+
+The package can be installed by typing `]` in the REPL to enter the Pkg mode and running:
+
+```
+pkg> add https://github.com/mjb3/Discuit.jl
+```
+
+## Usage
+
+The [Discuit.jl examples](@ref) section provides enough code to get up and running with further information available in the [Discuit.jl manual](@ref).
 
 ```@contents
 ```

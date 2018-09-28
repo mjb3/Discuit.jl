@@ -11,6 +11,11 @@ struct ObsData
     val::Array{Int32, 2}
 end
 ## Discuit model
+"""
+    DiscuitModel
+
+A DSSCT model for use in Discuit. NEED TO EXPAND...
+"""
 mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
     # model name
     model_name::String
