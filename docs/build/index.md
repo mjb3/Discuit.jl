@@ -4,7 +4,7 @@
 # Discuit.jl documentation
 
 
-*Fast parameter inference for discrete state space continuous time models In Julia.*
+*Fast parameter inference for discrete state space continuous time models in Julia.*
 
 
 Discuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.
@@ -52,7 +52,7 @@ set_random_seed(seed)
 Does what it says on the tin but only if you give it an integer.
 
 
-<a target='_blank' href='https://github.com/mjb3/discuit-pkg-julia/blob/84f72e4d21c552391a9d3fff1f7871a22a6b6187/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br>
+<a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/357661efc507ffc8a88667d55ae66d192b3ab374/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br>
 
 
   * link to [Discuit.jl documentation](index.md#Discuit.jl-documentation-1)
