@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Discuit.jl documentation\n\n\nFast parameter inference for discrete state space continuous time models in Julia.\n\n\nDiscuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.\n\n\n!!! note\n    Please note that this package is still in development.\n\n\n\n\nPackage Features\n\n\n- Minimal configuration.\n- Supports Julia `0.6` and `0.7-dev`.\n- Generates tables of contents and docstring indexes.\n- Use `git push` to automatically build and deploy docs from Travis to GitHub Pages.\n\nThe [Discuit.jl documentation](@ref) provides a tutorial explaining how to get started using Documenter.\n\n\n\n\n\n\nExamples\n\n\nSIS model\n\n\nCustom MCMC\n\n\n\n\n\n\nDiscuit.jl manual\n\n\nCustom structs\n\n\nFunctions\n\n\n\n\n\n\n\n\nDiscuit.jl documentation\n\n\n\n\nPackage Features\n\n\nIndex\n\n\n\n\n\n\n\n\nlink to \nDiscuit.jl documentation\n\n\n\n\nlink to \nset_random_seed(seed::Int64)\n\n\n\n\n\n\nIndex\n\n\n\n\nDiscuit.gillespie_sim\n\n\nDiscuit.run_custom_mcmc\n\n\nDiscuit.run_met_hastings_mcmc\n\n\nDiscuit.set_random_seed", 
+            "text": "Discuit.jl documentation\n\n\nFast parameter inference for discrete state space continuous time models in Julia.\n\n\nDiscuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.\n\n\n!!! note\n    Please note that this package is still in development.\n\n\n\n\nPackage Features\n\n\n\n\nMinimal configuration.\n\n\nSupports Julia \n0.6\n and \n0.7-dev\n.\n\n\nGenerates tables of contents and docstring indexes.\n\n\nUse \ngit push\n to automatically build and deploy docs from Travis to GitHub Pages.\n\n\n\n\nThe \nDiscuit.jl documentation\n provides a tutorial explaining how to get started using Documenter.\n\n\n\n\nExamples\n\n\nSIS model\n\n\nCustom MCMC\n\n\n\n\n\n\nDiscuit.jl manual\n\n\nCustom structs\n\n\nFunctions\n\n\n\n\n\n\nDiscuit.jl documentation\n\n\nPackage Features\n\n\nIndex\n\n\n\n\n\n\n\n\n\n\nIndex\n\n\n\n\nDiscuit.gillespie_sim\n\n\nDiscuit.run_custom_mcmc\n\n\nDiscuit.run_met_hastings_mcmc\n\n\nDiscuit.set_random_seed", 
             "title": "Introduction"
         }, 
         {
@@ -12,7 +12,7 @@
         }, 
         {
             "location": "/#package-features", 
-            "text": "- Minimal configuration.\n- Supports Julia `0.6` and `0.7-dev`.\n- Generates tables of contents and docstring indexes.\n- Use `git push` to automatically build and deploy docs from Travis to GitHub Pages.\n\nThe [Discuit.jl documentation](@ref) provides a tutorial explaining how to get started using Documenter.   Examples  SIS model  Custom MCMC    Discuit.jl manual  Custom structs  Functions     Discuit.jl documentation   Package Features  Index     link to  Discuit.jl documentation   link to  set_random_seed(seed::Int64)", 
+            "text": "Minimal configuration.  Supports Julia  0.6  and  0.7-dev .  Generates tables of contents and docstring indexes.  Use  git push  to automatically build and deploy docs from Travis to GitHub Pages.   The  Discuit.jl documentation  provides a tutorial explaining how to get started using Documenter.   Examples  SIS model  Custom MCMC    Discuit.jl manual  Custom structs  Functions    Discuit.jl documentation  Package Features  Index", 
             "title": "Package Features"
         }, 
         {
@@ -22,7 +22,7 @@
         }, 
         {
             "location": "/examples/", 
-            "text": "Examples\n\n\nThe following examples provide a flavour of Discuit's core functionality. See the \nDiscuit.jl manual\n for more detailed instructions.\n\n\n\n\nSIS model\n\n\nThe following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,\n\n\n\n\nSimulation\n\n\n\n\nMCMC\n\n\nRunning an MCMC analysis based on a set of observations data is simple. TBC...\n\n\n\n\nCustom MCMC\n\n\nSome situations...", 
+            "text": "Examples\n\n\nThe following examples provide a flavour of Discuit's core functionality. See the \nDiscuit.jl manual\n for more detailed instructions.\n\n\n\n\nSIS model\n\n\nThe following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,\n\n\n\n\nSimulation\n\n\n\n\nMCMC\n\n\nRunning an MCMC analysis based on a set of observations data is simple. TBC...\n\n\n\n\nCustom MCMC\n\n\nSome situations...\n\n\n\n\nlink to \nDiscuit.jl documentation\n\n\nlink to \nset_random_seed(seed::Int64)", 
             "title": "Examples"
         }, 
         {
@@ -47,7 +47,7 @@
         }, 
         {
             "location": "/examples/#custom-mcmc", 
-            "text": "Some situations...", 
+            "text": "Some situations...   link to  Discuit.jl documentation  link to  set_random_seed(seed::Int64)", 
             "title": "Custom MCMC"
         }, 
         {
