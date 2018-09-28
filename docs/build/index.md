@@ -52,7 +52,7 @@ set_random_seed(seed)
 Does what it says on the tin but only if you give it an integer.
 
 
-<a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c8b40855ace2006d3c5ef83e90a2019ae7ffe30d/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br>
+<a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f37107357000ede1c5c3acce556178a71723cb4e/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br>
 
 
   * link to [Discuit.jl documentation](index.md#Discuit.jl-documentation-1)
