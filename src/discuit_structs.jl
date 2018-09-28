@@ -109,12 +109,12 @@ end
 """
     GelmanResults
 
-Results of a Gelman Rubin convergence diagnostic including n `McMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`)..
+Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`)..
 """
 struct GelmanResults
     mu::Array{Float64, 1}
     sre::Array{Float64, 1}
     sre_ll::Array{Float64, 1}
     sre_ul::Array{Float64, 1}
-    mcmc::Array{McMCResults,1}
+    mcmc::Array{MCMCResults,1}
 end

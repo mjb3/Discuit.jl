@@ -1,4 +1,4 @@
-# Discuit.jl manual
+# Discuit.jl examples
 
 The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
 

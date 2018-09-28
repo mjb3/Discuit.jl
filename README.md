@@ -18,7 +18,7 @@ pkg> add https://github.com/mjb3/Discuit.jl
 
 ## Usage
 
-See the [package documentation][discuit_docs] for instructions and examples.
+See the [package documentation][discuit_docs] for further information and examples.
 
 [discuit_repo]: https://github.com/mjb3/Discuit.jl
 [discuit_docs]: https://mjb3.github.io/Discuit.jl/latest/
