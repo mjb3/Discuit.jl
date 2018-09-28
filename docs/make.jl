@@ -6,7 +6,7 @@ using Documenter
 # deploydocs(repo = "github.com/mjb3/Discuit.jl.git", target = "docs/build/")
 
 # create docs
-makedocs(modules=[Discuit.jl], doctest=true)
+makedocs(modules=[Discuit], doctest=true)
 
 deploydocs(deps = Deps.pip("mkdocs", "python-markdown-math")
     , repo = "github.com/mjb3/Discuit.jl.git"
