@@ -23,6 +23,15 @@ end
     DiscuitModel
 
 A DSSCT model for use in Discuit. NEED TO EXPAND...
+**Fields**
+- `model_name`          -- string, e,g, "SIR".
+- `rate_function`       -- event rate function.
+- `m_transition`        -- transition matrix.
+- `t0_index`            -- index of the parameter that represents the initial time. 0 if fixed at 0.0.
+- `initial_condition`   -- initial condition
+- `obs_function`        -- observation function.
+- `prior`               -- prior density function.
+- `obs_model`           -- observation likelihood model.
 """
 mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
     # model name
@@ -90,6 +99,11 @@ end
     MCMCResults
 
 The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
+**Fields**
+- `samples`     -- two dimensional array of samples.
+- `mc_accepted` -- proposal accepted
+- `mean`        -- sample mean.
+- `covar`       -- parameter covariance matrix.
 """
 struct MCMCResults
     samples::Array{Float64, 2}
