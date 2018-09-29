@@ -28,7 +28,7 @@ run_gelman_diagnostic(m_model::DiscuitModel, obs_data::ObsData, initial_paramete
 print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
 print_observations(obs_data::ObsData, fpath::String)
 read_obs_data_from_file(fpath::String)
-print_mcmc_results(mcmc::McMCResults, dpath::String)
+print_mcmc_results(mcmc::MCMCResults, dpath::String)
 print_gelman_results(results::GelmanResults, dpath::String)
 ```
 
