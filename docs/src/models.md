@@ -46,26 +46,32 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="80"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/>
 ```
 
 ### SIR
 
 The classic Kermack-McKendrick susceptible-infectious-recovered ([SIR](@ref)) model.
 
-![SIR model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png)
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/>
+```
 
 ### SIS
 
 The susceptible-infectious-susceptible ([SIS](@ref)) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
 
-![SIS model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png)
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/>
+```
 
 ### SIRS
 
 The susceptible-infectious-recovered-susceptible ([SIRS](@ref)) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
 
-![SIRS model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png)
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="140"/>
+```
 
 ## Latent Kermack-McKendrick models
 
@@ -75,11 +81,17 @@ The next class of models extend the classic Kermack-McKendrick by accounting for
 
 The susceptible-exposed-infectious ([SEI](@ref)) model.
 
-![SEI model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png)
-
-### SEIS
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="120"/>
+```
 
 ### SEIR
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="120"/>
+```
+
+### SEIS
 
 ### SEIRS
 

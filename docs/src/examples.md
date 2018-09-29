@@ -68,6 +68,10 @@ We can also visualise the results using the corresponding R package: rDiscuit. A
 
 Running an MCMC analysis based on a set of observations data is simple. TBC...
 
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
+```
+
 ## Custom MCMC
 
 Some situations...
