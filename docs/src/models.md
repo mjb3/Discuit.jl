@@ -16,7 +16,7 @@ The default `model.obs_function` is YET TO BE DETERMINED...
 
 #### Observation likelihood model
 
-The default `model.obs_model` is YET TO BE DETERMINED... 
+The default `model.obs_model` is YET TO BE DETERMINED...
 
 #### Prior density function
 
@@ -41,6 +41,26 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 ### SI
 
 The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
+
+Latex test:
+
+```latex {cmd=true hide=true}
+\documentclass{standalone}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\begin{document}
+\begin{tikzpicture}
+  \matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em]
+  {
+     F & B \\
+      & A \\};
+  \path[-stealth]
+    (m-1-1) edge node [above] {$\beta$} (m-1-2)
+    (m-1-2) edge node [right] {$\rho$} (m-2-2)
+    (m-1-1) edge node [left] {$\alpha$} (m-2-2);
+\end{tikzpicture}
+\end{document}
+```
 
 ### SIS
 
