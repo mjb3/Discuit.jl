@@ -90,8 +90,6 @@
         <li class="main active"><a href="#discuitjl-models">Discuit.jl models</a></li>
             <li><a href="#model-builder">Model builder</a></li>
             <li><a href="#classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</a></li>
-            <li><a href="#latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</a></li>
-            <li><a href="#miscellaneous">Miscellaneous</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -137,7 +135,7 @@ end</code></pre>
 <h3 id="si">SI</h3>
 <p>The susceptible-infectious (<a href="./#SI-1">SI</a>) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.</p>
 <p>Latex test:</p>
-<p><code>latex {cmd=true hide=true}
+<p>```latex {cmd=true hide=true}
 \documentclass{standalone}
 \usepackage{tikz}
 \usetikzlibrary{matrix}
@@ -145,35 +143,78 @@ end</code></pre>
 \begin{tikzpicture}
   \matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em]
   {
-     F &amp; B \\
-      &amp; A \\};
+     F &amp; B \
+      &amp; A \};
   \path[-stealth]
     (m-1-1) edge node [above] {$\beta$} (m-1-2)
     (m-1-2) edge node [right] {$\rho$} (m-2-2)
     (m-1-1) edge node [left] {$\alpha$} (m-2-2);
 \end{tikzpicture}
-\end{document}</code></p>
-<p><a id='SIS-1'></a></p>
-<h3 id="sis">SIS</h3>
-<p><a id='SIR-1'></a></p>
-<h3 id="sir">SIR</h3>
-<p><a id='SIRS-1'></a></p>
-<h3 id="sirs">SIRS</h3>
-<p><a id='Latent-Kermack-McKendrick-models-1'></a></p>
-<h2 id="latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</h2>
-<p><a id='SEI-1'></a></p>
-<h3 id="sei">SEI</h3>
-<p><a id='SEIS-1'></a></p>
-<h3 id="seis">SEIS</h3>
-<p><a id='SEIR-1'></a></p>
-<h3 id="seir">SEIR</h3>
-<p><a id='SEIRS-1'></a></p>
-<h3 id="seirs">SEIRS</h3>
-<p><a id='Miscellaneous-1'></a></p>
-<h2 id="miscellaneous">Miscellaneous</h2>
-<p><a id='Lotka-Volterra-predator-prey-model-1'></a></p>
-<h3 id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h3>
-<p>The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The <code>model.rate_function</code> for prey reproduction, predator reproduction and predator death is defined as:     function lotka*rf(output, parameters::Array{Float64, 1}, population::Array{Int32, 1})       # prey; predator reproduction; predator death       output[1] = parameters[1] * population[2]       output[2] = parameters[2] * population[1] * population[2]       output[3] = parameters[3] * population[1]     end The transition matrix <code>m*transition</code> is defined as     [ 0  1;       1 -1;      -1  0 ]</p>
+\end{document}</p>
+<pre class="codehilite"><code>&lt;a id='SIS-1'&gt;&lt;/a&gt;
+
+### SIS
+
+
+&lt;a id='SIR-1'&gt;&lt;/a&gt;
+
+### SIR
+
+
+&lt;a id='SIRS-1'&gt;&lt;/a&gt;
+
+### SIRS
+
+
+&lt;a id='Latent-Kermack-McKendrick-models-1'&gt;&lt;/a&gt;
+
+## Latent Kermack-McKendrick models
+
+
+&lt;a id='SEI-1'&gt;&lt;/a&gt;
+
+### SEI
+
+
+&lt;a id='SEIS-1'&gt;&lt;/a&gt;
+
+### SEIS
+
+
+&lt;a id='SEIR-1'&gt;&lt;/a&gt;
+
+### SEIR
+
+
+&lt;a id='SEIRS-1'&gt;&lt;/a&gt;
+
+### SEIRS
+
+
+&lt;a id='Miscellaneous-1'&gt;&lt;/a&gt;
+
+## Miscellaneous
+
+
+&lt;a id='Lotka-Volterra-predator-prey-model-1'&gt;&lt;/a&gt;
+
+### Lotka-Volterra predator-prey model
+
+
+The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The `model.rate_function` for prey reproduction, predator reproduction and predator death is defined as:</code></pre>
+
+
+<p>function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int32, 1})
+  # prey; predator reproduction; predator death
+  output[1] = parameters[1] * population[2]
+  output[2] = parameters[2] * population[1] * population[2]
+  output[3] = parameters[3] * population[1]
+end</p>
+<pre class="codehilite"><code>with the transition matrix given as:</code></pre>
+
+
+<p>m_transition = [ 0 1; 1 -1; -1  0 ]
+```</p>
 <p><a id='Ross-MacDonald-predator-prey-model-1'></a></p>
 <h3 id="ross-macdonald-predator-prey-model">Ross-MacDonald predator-prey model</h3>
 <p><a id='SETIR-model-for-bTB-1'></a></p>
