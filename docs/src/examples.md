@@ -8,7 +8,7 @@ The following example is based on that published by Poolet et al. in 2015 in the
 
 ### Simulation
 
-![Screenshot](img/sis-sim.png)
+![SIS simulation](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png)
 
 ### MCMC
 
