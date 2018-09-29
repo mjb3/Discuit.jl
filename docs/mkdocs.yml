@@ -2,7 +2,7 @@ site_name:           Discuit.jl
 repo_url:            https://github.com/mjb3/Discuit.jl
 site_description:    Description
 site_author:         Martin
-theme:               readthedocs
+theme:               mkdocs-bootstrap386
 
 markdown_extensions:
   - codehilite
