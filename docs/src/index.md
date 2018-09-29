@@ -6,7 +6,7 @@
 !!! note
     Please note that this package is still in development.
 
-The seminal work [@pizza2000identification]
+The seminal work [see @pizza2000identification]
 
 ## Package Features
 
