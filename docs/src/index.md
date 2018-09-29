@@ -12,13 +12,6 @@
 Discuit
 ```
 
-- User defined DSSCT models.
-- Pre programmed with many well known epidemiological models.
-- Exact simulation using Gillespie's algorithm.
-- Data augmented Markov chain Monte Carlo (MCMC).
-- Automated autocorrelation; Geweke and Gelman-Rubin diagnostics.
-- Developed for Julia `1.0`.
-
 ## Contents
 
 ```@contents
