@@ -45,6 +45,23 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 
 The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
+Drafts
+======
+
+[.5]{}
+
+\(s) \[compartment\] [S]{}; (i) \[compartment, right of=s, xshift=1cm\]
+[I]{}; (s) – node\[anchor=south\] [$\theta_1$SI]{} (i);
+
+[.5]{}
+
+\(s) \[compartment\] [S]{}; (i) \[compartment, right of=s, xshift=1cm\]
+[I]{}; (s.10) – node\[anchor=south\] [$\theta_1$SI]{} (i.170); (i.190) –
+node\[anchor=north\] [$\theta_2$I]{} (s.350);
+
+Model specifications
+====================
+
 Latex test:
 
 ```@raw latex
