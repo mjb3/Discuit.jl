@@ -10,6 +10,7 @@ end
     ObsData
 
 Stores one column vector of observation times and one or more column vectors of observation integer values.
+
 **Fields**
 - `time`    -- observation times.
 - `val`     -- observation values.
@@ -23,6 +24,7 @@ end
     DiscuitModel
 
 A DSSCT model for use in Discuit. NEED TO EXPAND...
+
 **Fields**
 - `model_name`          -- string, e,g, "SIR".
 - `rate_function`       -- event rate function.
@@ -79,6 +81,7 @@ end
     SimResults
 
 The results of a simulation.
+
 **Fields**
 - `trajectory`      -- array of type `Event`.
 - `observations`    -- variable of type `ObsData`.
@@ -107,6 +110,7 @@ end
     MCMCResults
 
 The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
+
 **Fields**
 - `samples`     -- two dimensional array of samples.
 - `mc_accepted` -- proposal accepted
@@ -134,13 +138,14 @@ end
 """
     GelmanResults
 
+Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`)..
+
 **Fields**
 - `mu`      -- between chain sample mean.
 - `sre`     -- scale reduction factor estimate.
 - `sre_ll`  -- scale reduction factor lower confidence interval.
 - `sre_ul`  -- scale reduction factor upper confidence interval.
 - `mcmc`    -- array of `MCMCResults`
-Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`)..
 """
 struct GelmanResults
     mu::Array{Float64, 1}

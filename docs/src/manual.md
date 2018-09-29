@@ -7,6 +7,7 @@ DiscuitModel
 SimResults
 ObsData
 MCMCResults
+GelmanResults
 ```
 
 ## Functions

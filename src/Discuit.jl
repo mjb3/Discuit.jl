@@ -95,6 +95,12 @@ end
     gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)
 
 Run a DGA simulation on `model`. Returns a SimResults containing the trajectory and observations data.
+
+**Parameters**
+- `model`       -- `DiscuitModel`
+- `parameters`  -- model parameters.
+- `tmax`        -- maximum time.
+- `num_obs`     -- number of observations to draw,
 """
 function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::Float64 = 100.0, num_obs::Int64 = 5)
     # initialise some things
