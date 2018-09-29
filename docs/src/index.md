@@ -8,6 +8,10 @@
 
 ## Package Features
 
+```@docs
+Discuit
+```
+
 - User defined DSSCT models.
 - Pre programmed with many well known epidemiological models.
 - Exact simulation using Gillespie's algorithm.

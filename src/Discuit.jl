@@ -1,8 +1,10 @@
 """
 # module Discuit
 
-- Julia version:
-- Author: martin
+Discuit is a package for stuff.
+
+- Julia version: 1.0
+- Author: Martin Burke
 - Date: 2018-08-22
 
 # Examples
