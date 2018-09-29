@@ -45,7 +45,9 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 
 The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
-![SI model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png =250x)
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="80"/>
+```
 
 ### SIR
 
