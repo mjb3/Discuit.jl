@@ -121,47 +121,138 @@
 <pre class="codehilite"><code>DiscuitModel</code></pre>
 
 
-<p>A DSSCT model for use in Discuit. NEED TO EXPAND...</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/discuit_structs.jl#L14-L18' class='documenter-source'>source</a><br></p>
+<p>A DSSCT model for use in Discuit. NEED TO EXPAND... <strong>Fields</strong></p>
+<ul>
+<li><code>model_name</code>          – string, e,g, "SIR".</li>
+<li><code>rate_function</code>       – event rate function.</li>
+<li><code>m_transition</code>        – transition matrix.</li>
+<li><code>t0_index</code>            – index of the parameter that represents the initial time. 0 if fixed at 0.0.</li>
+<li><code>initial_condition</code>   – initial condition</li>
+<li><code>obs_function</code>        – observation function.</li>
+<li><code>prior</code>               – prior density function.</li>
+<li><code>obs_model</code>           – observation likelihood model.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L22-L35' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.SimResults' href='#Discuit.SimResults'>#</a>
+<strong><code>Discuit.SimResults</code></strong> &mdash; <em>Type</em>.</p>
+<pre class="codehilite"><code>SimResults</code></pre>
+
+
+<p>The results of a simulation. <strong>Fields</strong></p>
+<ul>
+<li><code>trajectory</code>      – array of type <code>Event</code>.</li>
+<li><code>observations</code>    – variable of type <code>ObsData</code>.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L78-L85' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.ObsData' href='#Discuit.ObsData'>#</a>
+<strong><code>Discuit.ObsData</code></strong> &mdash; <em>Type</em>.</p>
+<pre class="codehilite"><code>ObsData</code></pre>
+
+
+<p>Stores one column vector of observation times and one or more column vectors of observation integer values. <strong>Fields</strong></p>
+<ul>
+<li><code>time</code>    – observation times.</li>
+<li><code>val</code>     – observation values.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L9-L16' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.MCMCResults' href='#Discuit.MCMCResults'>#</a>
+<strong><code>Discuit.MCMCResults</code></strong> &mdash; <em>Type</em>.</p>
+<pre class="codehilite"><code>MCMCResults</code></pre>
+
+
+<p>The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity. <strong>Fields</strong></p>
+<ul>
+<li><code>samples</code>     – two dimensional array of samples.</li>
+<li><code>mc_accepted</code> – proposal accepted</li>
+<li><code>mean</code>        – sample mean.</li>
+<li><code>covar</code>       – parameter covariance matrix.</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L106-L115' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
 <p>This section is organised in three parts:</p>
 <ul>
-<li>the main package functionality for working with standard Discuit models</li>
-<li>utilities, mainly for printing, etc</li>
+<li>the main package <a href="./#core-functionality-1">core functionality</a> for working with standard Discuit models</li>
+<li><a href="./#utilities-1">utilities</a>, for loading to and from file</li>
+<li><a href="./#custom-MCMC-1">custom MCMC</a>, for running custom algorithms</li>
 </ul>
-<p><a id='Core-functionality-1'></a></p>
-<h3 id="core-functionality">Core functionality</h3>
+<p><a id='core-functionality-1'></a></p>
+<h3 id="core-functionality">core functionality</h3>
 <p><a id='Discuit.set_random_seed-Tuple{Int64}' href='#Discuit.set_random_seed-Tuple{Int64}'>#</a>
 <strong><code>Discuit.set_random_seed</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>set_random_seed(seed)</code></pre>
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
 
 
 <p>Run a DGA simulation on <code>model</code>. Returns a SimResults containing the trajectory and observations data.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
 
 
-<p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type ObsData. The number of samples obtained will be <code>steps</code> - <code>adapt_period</code>. Set <code>mbp</code> = true for model based proposals (false for standard). The proportion of parameter proposals (<code>ppp</code>) can be changed from the default value of 30%.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
+<p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type <code>ObsData</code>. The number of samples obtained will be <code>steps</code> - <code>adapt_period</code>. Set <code>mbp = true</code> for model based proposals (<code>false</code> for standard). The proportion of parameter proposals (<code>ppp</code>) can be changed from the default value of 30%.</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
 <strong><code>Discuit.run_custom_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)</code></pre>
 
 
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/76564c9c4332c43bad73cf142336be114ce9da1d/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
-<p><a id='Utilities-1'></a></p>
-<h3 id="utilities">Utilities</h3>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.run_gelman_diagnostic' href='#Discuit.run_gelman_diagnostic'>#</a>
+<strong><code>Discuit.run_gelman_diagnostic</code></strong> &mdash; <em>Function</em>.</p>
+<pre class="codehilite"><code>run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
+
+
+<p>Run n (equal to the number of rows in <code>initial_parameters</code>)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L605-L609' class='documenter-source'>source</a><br></p>
+<p><a id='utilities-1'></a></p>
+<h3 id="utilities">utilities</h3>
+<p><a id='Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}' href='#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}'>#</a>
+<strong><code>Discuit.print_trajectory</code></strong> &mdash; <em>Method</em>.</p>
+<pre class="codehilite"><code>print_trajectory(model, sim_results, fpath)</code></pre>
+
+
+<p>Save an augmented trajectory from a variable of type <code>SimResults</code> to the file <code>fpath</code>, e.g. "./out/sim.csv".</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L826-L830' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.print_observations-Tuple{ObsData,String}' href='#Discuit.print_observations-Tuple{ObsData,String}'>#</a>
+<strong><code>Discuit.print_observations</code></strong> &mdash; <em>Method</em>.</p>
+<pre class="codehilite"><code>print_observations(obs_data, fpath)</code></pre>
+
+
+<p>Save a set of observations (e.g. from a <code>SimResults</code> variable) to the file <code>fpath</code>, e.g. "./out/obs.csv".</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L864-L868' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.read_obs_data_from_file-Tuple{String}' href='#Discuit.read_obs_data_from_file-Tuple{String}'>#</a>
+<strong><code>Discuit.read_obs_data_from_file</code></strong> &mdash; <em>Method</em>.</p>
+<pre class="codehilite"><code>read_obs_data_from_file(fpath)</code></pre>
+
+
+<p>Read a set of observations from the location <code>fpath</code> and return the results as a variable of type <code>ObsData</code>.</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L885-L889' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.print_mcmc_results-Tuple{MCMCResults,String}' href='#Discuit.print_mcmc_results-Tuple{MCMCResults,String}'>#</a>
+<strong><code>Discuit.print_mcmc_results</code></strong> &mdash; <em>Method</em>.</p>
+<pre class="codehilite"><code>print_mcmc_results(mcmc::MCMCResults, dpath::String)</code></pre>
+
+
+<p>Save the results from a call to run<em>met</em>hastings<em>mcmc or run</em>custom_mcmc to the directory <code>dpath</code>, e.g. "./out/mcmc/".</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L766-L770' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.print_gelman_results-Tuple{GelmanResults,String}' href='#Discuit.print_gelman_results-Tuple{GelmanResults,String}'>#</a>
+<strong><code>Discuit.print_gelman_results</code></strong> &mdash; <em>Method</em>.</p>
+<pre class="codehilite"><code>print_gelman_results(results::GelmanResults, dpath::String)</code></pre>
+
+
+<p>Save the results from a call to run<em>gelman</em>diagnostic to the directory <code>dpath</code>, e.g. "./out/gelman/".</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L743-L747' class='documenter-source'>source</a><br></p>
+<p><a id='custom-MCMC-1'></a></p>
+<h3 id="custom-mcmc">custom MCMC</h3>
+<p>TBC...</p>
               
             </div>
           </div>

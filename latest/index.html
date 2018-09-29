@@ -63,6 +63,8 @@
         
             <li><a class="toctree-l3" href="#usage">Usage</a></li>
         
+            <li><a class="toctree-l3" href="#contents">Contents</a></li>
+        
             <li><a class="toctree-l3" href="#index">Index</a></li>
         
         </ul>
@@ -125,10 +127,12 @@
 <p><a id='Package-Features-1'></a></p>
 <h2 id="package-features">Package Features</h2>
 <ul>
-<li>Minimal configuration.</li>
-<li>Supports Julia <code>0.6</code> and <code>0.7-dev</code>.</li>
-<li>Generates tables of contents and docstring indexes.</li>
-<li>Use <code>git push</code> to automatically build and deploy docs from Travis to GitHub Pages.</li>
+<li>User defined DSSCT models.</li>
+<li>Pre programmed with many well known epidemiological models.</li>
+<li>Exact simulation using Gillespie's algorithm</li>
+<li>Data augmented Markov chain Monte Carlo (MCMC)</li>
+<li>Automated autocorrelation; Geweke and Gelman-Rubin diagnostics</li>
+<li>Developed for Julia <code>1.0</code>.</li>
 </ul>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
@@ -138,9 +142,11 @@
 
 <p><a id='Usage-1'></a></p>
 <h2 id="usage">Usage</h2>
-<p>The <a href="./@ref">Discuit.jl examples</a> section provides enough code to get up and running with further information available in the <a href="./@ref">Discuit.jl manual</a>.</p>
+<p>The <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> section provides enough code to get up and running with further information available in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
+<p><a id='Contents-1'></a></p>
+<h2 id="contents">Contents</h2>
 <ul>
-<li><a href="examples/#Discuit.jl-manual-1">Discuit.jl manual</a><ul>
+<li><a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a><ul>
 <li><a href="examples/#SIS-model-1">SIS model</a></li>
 <li><a href="examples/#Custom-MCMC-1">Custom MCMC</a></li>
 </ul>
@@ -154,6 +160,7 @@
 <li><a href=".#Package-Features-1">Package Features</a></li>
 <li><a href=".#Installation-1">Installation</a></li>
 <li><a href=".#Usage-1">Usage</a></li>
+<li><a href=".#Contents-1">Contents</a></li>
 <li><a href=".#Index-1">Index</a></li>
 </ul>
 </li>
@@ -162,8 +169,17 @@
 <h2 id="index">Index</h2>
 <ul>
 <li><a href="manual/#Discuit.DiscuitModel"><code>Discuit.DiscuitModel</code></a></li>
+<li><a href="manual/#Discuit.MCMCResults"><code>Discuit.MCMCResults</code></a></li>
+<li><a href="manual/#Discuit.ObsData"><code>Discuit.ObsData</code></a></li>
+<li><a href="manual/#Discuit.SimResults"><code>Discuit.SimResults</code></a></li>
 <li><a href="manual/#Discuit.gillespie_sim"><code>Discuit.gillespie_sim</code></a></li>
+<li><a href="manual/#Discuit.print_gelman_results-Tuple{GelmanResults,String}"><code>Discuit.print_gelman_results</code></a></li>
+<li><a href="manual/#Discuit.print_mcmc_results-Tuple{MCMCResults,String}"><code>Discuit.print_mcmc_results</code></a></li>
+<li><a href="manual/#Discuit.print_observations-Tuple{ObsData,String}"><code>Discuit.print_observations</code></a></li>
+<li><a href="manual/#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}"><code>Discuit.print_trajectory</code></a></li>
+<li><a href="manual/#Discuit.read_obs_data_from_file-Tuple{String}"><code>Discuit.read_obs_data_from_file</code></a></li>
 <li><a href="manual/#Discuit.run_custom_mcmc"><code>Discuit.run_custom_mcmc</code></a></li>
+<li><a href="manual/#Discuit.run_gelman_diagnostic"><code>Discuit.run_gelman_diagnostic</code></a></li>
 <li><a href="manual/#Discuit.run_met_hastings_mcmc"><code>Discuit.run_met_hastings_mcmc</code></a></li>
 <li><a href="manual/#Discuit.set_random_seed-Tuple{Int64}"><code>Discuit.set_random_seed</code></a></li>
 </ul>
@@ -220,5 +236,5 @@
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-09-28 22:28:53
+Build Date UTC : 2018-09-29 01:09:16
 -->
