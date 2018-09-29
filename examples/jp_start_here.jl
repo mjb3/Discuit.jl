@@ -12,16 +12,16 @@ using Discuit
 ## define a model
 function pooley_sis_model()
     ## initial_condition
-    ic::Array{Int32, 1} = [100, 1]
+    ic::Array{Int64, 1} = [100, 1]
     ## rate function
-    function sis_rf(output, parameters::Array{Float64, 1}, population::Array{Int32, 1})
+    function sis_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
         output[1] = parameters[1] * population[1] * population[2]
         output[2] = parameters[2] * population[2]
     end
     ## transition matrix
-    m_t::Array{Int32, 2} = [-1 1; 1 -1]
+    m_t::Array{Int64, 2} = [-1 1; 1 -1]
     ## define obs function (no error)
-    function obs_fn(population::Array{Int32, 1})
+    function obs_fn(population::Array{Int64, 1})
         return population
     end
     ## prior
@@ -37,7 +37,7 @@ function pooley_sis_model()
     tmp1 = log(1 / (sqrt(2 * pi) * obs_err))
     tmp2 = 2 * obs_err * obs_err
     # define log likelihood function
-    function si_gaussian(y::Array{Int32, 1}, population::Array{Int32, 1})
+    function si_gaussian(y::Array{Int64, 1}, population::Array{Int64, 1})
         obs_diff = y[2] - population[2]
         return tmp1 - ((obs_diff * obs_diff) / tmp2)
     end

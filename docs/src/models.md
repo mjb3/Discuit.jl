@@ -87,7 +87,7 @@ Latex test:
 
 The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The `model.rate_function` for prey reproduction, predator reproduction and predator death is defined as:
 
-    function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int32, 1})
+    function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
       # prey; predator reproduction; predator death
       output[1] = parameters[1] * population[2]
       output[2] = parameters[2] * population[1] * population[2]

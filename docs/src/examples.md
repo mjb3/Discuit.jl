@@ -4,7 +4,19 @@ The following examples provide a flavour of Discuit's core functionality. See th
 
 ## SIS model
 
-The following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To recreate Pooley's analysis we must first define the a [DiscuitModel](@ref):
+
+```@repl
+a = 1
+b = 2
+a + b
+```
+
+```@repl
+a = 1
+b = 2
+a + b
+```
 
 ### Simulation
 

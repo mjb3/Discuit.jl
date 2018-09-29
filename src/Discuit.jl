@@ -64,7 +64,7 @@ function choose_event(cum_rates::Array{Float64,1})
     return length(cum_rates)
 end
 # iterate particle
-function iterate_sim!(model::PrivateDiscuitModel, trajectory::Array{Event, 1}, population::Array{Int32,1}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
+function iterate_sim!(model::PrivateDiscuitModel, trajectory::Array{Event, 1}, population::Array{Int64,1}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
     # declare array for use by loop
     cum_rates = Array{Float64, 1}(undef, size(model.m_transition, 1))
     while true
@@ -108,7 +108,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     # initialise some things
     p_model = get_private_model(model, Observations([0.0], [0 0]) ) # NOTE TO JAMIE: can this be made nullable? or is it better to use delegates?
     obs_times = collect(tmax / num_obs : tmax / num_obs : tmax)
-    obs_vals = Array{Int32, 2}(undef, length(obs_times), length(p_model.initial_condition))
+    obs_vals = Array{Int64, 2}(undef, length(obs_times), length(p_model.initial_condition))
     # time = 0.0
     population = copy(p_model.initial_condition)
     trajectory = Event[]
@@ -274,7 +274,7 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
 end # end of std proposal function
 ## model based proposal
 # single mbp iteration
-function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int32, 1}, xf_trajectory::Array{Event, 1}, theta_f::Array{Float64, 1}, pop_f::Array{Int32, 1})
+function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Array{Event, 1}, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
     # workspace
     lambda_i = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_f = Array{Float64, 1}(undef, size(model.m_transition, 1))

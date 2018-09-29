@@ -17,7 +17,7 @@ Stores one column vector of observation times and one or more column vectors of 
 """
 struct Observations
     time::Array{Float64, 1}
-    val::Array{Int32, 2}
+    val::Array{Int64, 2}
 end
 ## Discuit model
 """
@@ -41,11 +41,11 @@ mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fu
     # event rate function
     rate_function::RFT
     # transition matrix
-    m_transition::Array{Int32, 2}
+    m_transition::Array{Int64, 2}
     # t0 index (0 ~ fixed at 0.0)
     t0_index::Int64
     # initial condition
-    initial_condition::Array{Int32, 1}
+    initial_condition::Array{Int64, 1}
     # observation function (for sim TBA)
     obs_function::OFT
     # prior density function
@@ -62,9 +62,9 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # event rate function
     rate_function::RFT
     # transition matrix
-    m_transition::Array{Int32, 2}
+    m_transition::Array{Int64, 2}
     # initial condition
-    initial_condition::Array{Int32, 1}
+    initial_condition::Array{Int64, 1}
     # t0 index (0 ~ fixed at 0.0)
     t0_index::Int64
     # observation function (for sim TBA)
