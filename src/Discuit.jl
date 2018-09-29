@@ -371,7 +371,14 @@ end
 """
     run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
-Run an MCMC analysis based on `model` and `obs_data` of type `ObsData`. The number of samples obtained will be `steps` - `adapt_period`. Set `mbp = true` for model based proposals (`false` for standard). The proportion of parameter proposals (`ppp`) can be changed from the default value of 30%.
+    **Fields**
+    - `model`      -- [DiscuitModel](@ref).
+    - `obs_data`     -- scale reduction factor estimate.
+    - `initial_parameters`  -- initial model parameters (i.e. sample).
+    - `steps`               -- number of iterations.
+    - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
+    - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
+Run an MCMC analysis based on `model` and `obs_data` of type `ObsData`. The number of samples obtained will be `steps` - `adapt_period`.
 """
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
