@@ -3,8 +3,10 @@
 ## Custom structs
 
 ```@docs
-ObsData
 DiscuitModel
+SimResults
+ObsData
+MCMCResults
 ```
 
 ## Functions

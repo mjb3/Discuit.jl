@@ -75,6 +75,14 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     obs_data::ObsData
 end
 # results of gillespie sim
+"""
+    SimResults
+
+The results of a simulation.
+**Fields**
+- `trajectory`      -- array of type `Event`.
+- `observations`    -- variable of type `ObsData`.
+"""
 struct SimResults
     trajectory::Array{Event}
     observations::ObsData

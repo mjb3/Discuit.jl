@@ -20,7 +20,7 @@ using CSV
 
 ## exports
 # public structs
-export DiscuitModel, ObsData, SimResults
+export DiscuitModel, ObsData, SimResults, MCMCResults
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # utilities (e.g. saving results to file0
