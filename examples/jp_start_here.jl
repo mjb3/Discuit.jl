@@ -42,7 +42,6 @@ function pooley_sis_model()
         return tmp1 - ((obs_diff * obs_diff) / tmp2)
     end
     ## define model
-    # this is a bit of a mess atm, apologies!
     return DiscuitModel("SIS", sis_rf, m_t, 0, ic, obs_fn, weak_prior, si_gaussian)
 end
 
