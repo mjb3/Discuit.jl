@@ -8,7 +8,7 @@
         <meta name="author" content="Martin">
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - Discuit.jl</title>
+        <title>Models - Discuit.jl</title>
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.5.0.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -49,11 +49,11 @@
                     <li >
                         <a href="..">Introduction</a>
                     </li>
-                    <li class="active">
-                        <a href="./">Examples</a>
-                    </li>
                     <li >
-                        <a href="../models/">Models</a>
+                        <a href="../examples/">Examples</a>
+                    </li>
+                    <li class="active">
+                        <a href="./">Models</a>
                     </li>
                     <li >
                         <a href="../manual/">Manual</a>
@@ -67,17 +67,17 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="..">
+                        <a rel="next" href="../examples/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../models/">
+                        <a rel="prev" href="../manual/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="https://github.com/mjb3/Discuit.jl/edit/master/docs/examples.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                        <a href="https://github.com/mjb3/Discuit.jl/edit/master/docs/models.md"><i class="fa fa-github"></i> Edit on GitHub</a>
                     </li>
             </ul>
         </div>
@@ -87,31 +87,64 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
-            <li><a href="#sis-model">SIS model</a></li>
-            <li><a href="#custom-mcmc">Custom MCMC</a></li>
+        <li class="main active"><a href="#discuitjl-models">Discuit.jl models</a></li>
+            <li><a href="#model-builder">Model builder</a></li>
+            <li><a href="#classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</a></li>
+            <li><a href="#latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</a></li>
+            <li><a href="#miscellaneous">Miscellaneous</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<p><a id='Discuit.jl-examples-1'></a></p>
-<h1 id="discuitjl-examples">Discuit.jl examples</h1>
-<p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
-<p><a id='SIS-model-1'></a></p>
-<h2 id="sis-model">SIS model</h2>
-<p>The following example is based on that published by Poolet et al. in 2015 in the paper that introduces the model based proposal method,</p>
-<p><a id='Simulation-1'></a></p>
-<h3 id="simulation">Simulation</h3>
-<p><a id='MCMC-1'></a></p>
-<h3 id="mcmc">MCMC</h3>
-<p>Running an MCMC analysis based on a set of observations data is simple. TBC...</p>
-<p><a id='Custom-MCMC-1'></a></p>
-<h2 id="custom-mcmc">Custom MCMC</h2>
-<p>Some situations...</p>
-<ul>
-<li>link to <a href="..#Discuit.jl-documentation-1">Discuit.jl documentation</a></li>
-<li>link to <a href="../manual/#Discuit.set_random_seed-Tuple{Int64}"><code>set_random_seed(seed::Int64)</code></a></li>
-</ul></div>
+<p><a id='Discuit.jl-models-1'></a></p>
+<h1 id="discuitjl-models">Discuit.jl models</h1>
+<p>The following pre defined models can be invoked by ADD FUNCTION...</p>
+<p><a id='Model-builder-1'></a></p>
+<h2 id="model-builder">Model builder</h2>
+<p>Add details of model generating function here.</p>
+<p><a id='Defaults-1'></a></p>
+<h3 id="defaults">Defaults</h3>
+<p><a href="./#Discuit.jl-models-1">Discuit.jl models</a> are <code>mutable struct</code>s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the model name and <code>initial_condition</code> are required to call ADD XREF. The following gives an overview of important defaults that the user should note before proceeding with their analysis.</p>
+<p><a id='Observation-function-1'></a></p>
+<h4 id="observation-function">Observation function</h4>
+<p>The default <code>model.obs_function</code> is YET TO BE DETERMINED...</p>
+<p><a id='Observation-likelihood-model-1'></a></p>
+<h4 id="observation-likelihood-model">Observation likelihood model</h4>
+<p>The default <code>model.obs_model</code> is YET TO BE DETERMINED... </p>
+<p><a id='Prior-density-function-1'></a></p>
+<h4 id="prior-density-function">Prior density function</h4>
+<p>The default <code>model.prior</code> density function is weak, e.g. in a simple two parameter model it is equivalent to:     function weak_prior(parameters::Array{Float64, 1})         parameters[1] &gt; 0.0 || return 0.0         parameters[2] &gt; 0.0 || return 0.0         return 1.0     end</p>
+<p>Note that all models generated by the ADD XREF have <code>t0_index = 0</code> by default and that changing this parameter will likely require replacing the the density with something like:     function weak_prior(parameters::Array{Float64, 1})         parameters[1] &gt; 0.0 || return 0.0         parameters[2] &gt; 0.0 || return 0.0         parameters[3] &lt; 0.0 || return 0.0         return 1.0     end where <code>parameters[3]</code> is designated as the, e.g. initial infection, which is assumed to have taken place prior to e.g. the initial observation at t = 0.0. ADD LATEX...</p>
+<p><a id='Classic-Kermack-McKendrick-models-1'></a></p>
+<h2 id="classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</h2>
+<p><a id='SI-1'></a></p>
+<h3 id="si">SI</h3>
+<p>The susceptible-infectious (<a href="./#SI-1">SI</a>) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.</p>
+<p><a id='SIS-1'></a></p>
+<h3 id="sis">SIS</h3>
+<p><a id='SIR-1'></a></p>
+<h3 id="sir">SIR</h3>
+<p><a id='SIRS-1'></a></p>
+<h3 id="sirs">SIRS</h3>
+<p><a id='Latent-Kermack-McKendrick-models-1'></a></p>
+<h2 id="latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</h2>
+<p><a id='SEI-1'></a></p>
+<h3 id="sei">SEI</h3>
+<p><a id='SEIS-1'></a></p>
+<h3 id="seis">SEIS</h3>
+<p><a id='SEIR-1'></a></p>
+<h3 id="seir">SEIR</h3>
+<p><a id='SEIRS-1'></a></p>
+<h3 id="seirs">SEIRS</h3>
+<p><a id='Miscellaneous-1'></a></p>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<p><a id='Lotka-Volterra-predator-prey-model-1'></a></p>
+<h3 id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h3>
+<p>The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The <code>model.rate_function</code> for prey reproduction, predator reproduction and predator death is defined as:     function lotka*rf(output, parameters::Array{Float64, 1}, population::Array{Int32, 1})       # prey; predator reproduction; predator death       output[1] = parameters[1] * population[2]       output[2] = parameters[2] * population[1] * population[2]       output[3] = parameters[3] * population[1]     end The transition matrix <code>m*transition</code> is defined as     [ 0  1;       1 -1;      -1  0 ]</p>
+<p><a id='Ross-MacDonald-predator-prey-model-1'></a></p>
+<h3 id="ross-macdonald-predator-prey-model">Ross-MacDonald predator-prey model</h3>
+<p><a id='SETIR-model-for-bTB-1'></a></p>
+<h3 id="setir-model-for-btb">SETIR model for bTB</h3></div>
         </div>
 
         <footer class="col-md-12">
