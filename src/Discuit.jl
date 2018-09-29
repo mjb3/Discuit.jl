@@ -7,11 +7,6 @@ Discuit is a package for stuff.
 - Author: Martin Burke
 - Date: 2018-08-22
 
-# Examples
-
-```jldoctest
-julia>
-```
 """
 module Discuit
 
@@ -47,6 +42,13 @@ const NULL_LOG_LIKE = -Inf
 ## FOR DEBUG
 """
     set_random_seed(seed)
+
+# Examples
+
+```@repl
+using Discuit # hide
+set_random_seed(1234)
+```
 
 Does what it says on the tin but only if you give it an integer.
 """

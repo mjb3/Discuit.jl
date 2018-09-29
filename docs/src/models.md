@@ -47,7 +47,7 @@ The susceptible-infectious ([SI](@ref)) is a very basic model with only one type
 
 Latex test:
 
-```@raw latex {cmd=true hide=true}
+```@raw latex
 \documentclass{standalone}
 \usepackage{tikz}
 \usetikzlibrary{matrix}
