@@ -117,7 +117,7 @@
 <li><code>prior</code>               – prior density function.</li>
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/039005822673fbae94aa2c10108614aba66b29c9/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/8abffa843e1d67dd9d77b37f6c3cf734ac6fdb48/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p>We begin by defining a rate function. Note that the correct signature must be used for use in Discuit.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
@@ -162,7 +162,7 @@ DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1])
-SimResults(Event[Event(2.87865, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [101 0; 101 0; … ; 101 0; 101 0]))</code></pre>
+SimResults(Event[Event(0.288218, 1), Event(1.44038, 1), Event(2.63616, 1), Event(2.85593, 2), Event(3.00949, 1), Event(3.33125, 1), Event(3.59456, 2), Event(4.39488, 1), Event(5.4941, 1), Event(5.89211, 2)  …  Event(99.0556, 1), Event(99.0746, 2), Event(99.3048, 1), Event(99.3872, 2), Event(99.4052, 1), Event(99.438, 2), Event(99.5861, 1), Event(99.7695, 1), Event(99.8868, 2), Event(99.9764, 1)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [81 20; 42 59; … ; 40 61; 34 67]))</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
