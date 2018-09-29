@@ -1,118 +1,117 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <meta name="author" content="Martin">
-  <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Manual - Discuit.jl</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Description">
+        <meta name="author" content="Martin">
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Manual - Discuit.jl</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+        <link href="../assets/Documenter.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../css/highlight.css">
-  <link href="../assets/Documenter.css" rel="stylesheet">
-  
-  <script>
-    // Current page data
-    var mkdocs_page_name = "Manual";
-    var mkdocs_page_input_path = "manual.md";
-    var mkdocs_page_url = "/manual/";
-  </script>
-  
-  <script src="../js/jquery-2.1.1.min.js"></script>
-  <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
-  
-</head>
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+         
+    </head>
 
-<body class="wy-body-for-nav" role="document">
+    <body>
 
-  <div class="wy-grid-for-nav">
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
 
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
-      <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> Discuit.jl</a>
-        <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-  </form>
-</div>
-      </div>
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="..">Discuit.jl</a>
+        </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Introduction</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="../examples/">Examples</a>
-	    </li>
-          
-            <li class="toctree-l1 current">
-		
-    <a class="current" href="./">Manual</a>
-    <ul class="subnav">
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+            <!-- Main navigation -->
+            <ul class="nav navbar-nav">
             
-    <li class="toctree-l2"><a href="#discuitjl-manual">Discuit.jl manual</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l3" href="#custom-structs">Custom structs</a></li>
-        
-            <li><a class="toctree-l3" href="#functions">Functions</a></li>
-        
-        </ul>
-    
+            
+                <li >
+                    <a href="..">Introduction</a>
+                </li>
+            
+            
+            
+                <li >
+                    <a href="../examples/">Examples</a>
+                </li>
+            
+            
+            
+                <li class="active">
+                    <a href="./">Manual</a>
+                </li>
+            
+            
+            </ul>
 
-    </ul>
-	    </li>
-          
-        </ul>
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">Discuit.jl</a>
-      </nav>
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="..">Docs</a> &raquo;</li>
-    
-      
-    
-    <li>Manual</li>
-    <li class="wy-breadcrumbs-aside">
-      
-        <a href="https://github.com/mjb3/Discuit.jl/edit/master/docs/manual.md"
-          class="icon icon-github"> Edit on GitHub</a>
-      
-    </li>
-  </ul>
-  <hr/>
+            <!-- Search, Navigation and Repo links -->
+            <ul class="nav navbar-nav navbar-right">
+                    <li >
+                        <a rel="next" href="../examples/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li class="disabled">
+                        <a rel="prev" >
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                
+                <li>
+                    <a href="https://github.com/mjb3/Discuit.jl/">
+                        
+                            <i class="fa fa-github"></i>
+                        
+                        GitHub
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
 </div>
-          <div role="main">
-            <div class="section">
-              
-                <p><a id='Discuit.jl-manual-1'></a></p>
+
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+      
+    
+        <li class="main active"><a href="#discuitjl-manual">Discuit.jl manual</a></li>
+        
+            <li><a href="#custom-structs">Custom structs</a></li>
+        
+            <li><a href="#functions">Functions</a></li>
+        
+    
+    
+    </ul>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p><a id='Discuit.jl-manual-1'></a></p>
 <h1 id="discuitjl-manual">Discuit.jl manual</h1>
 <p><a id='Custom-structs-1'></a></p>
 <h2 id="custom-structs">Custom structs</h2>
@@ -121,7 +120,8 @@
 <pre class="codehilite"><code>DiscuitModel</code></pre>
 
 
-<p>A DSSCT model for use in Discuit. NEED TO EXPAND... <strong>Fields</strong></p>
+<p>A DSSCT model for use in Discuit. NEED TO EXPAND...</p>
+<p><strong>Fields</strong></p>
 <ul>
 <li><code>model_name</code>          – string, e,g, "SIR".</li>
 <li><code>rate_function</code>       – event rate function.</li>
@@ -132,42 +132,60 @@
 <li><code>prior</code>               – prior density function.</li>
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L22-L35' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.SimResults' href='#Discuit.SimResults'>#</a>
 <strong><code>Discuit.SimResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>SimResults</code></pre>
 
 
-<p>The results of a simulation. <strong>Fields</strong></p>
+<p>The results of a simulation.</p>
+<p><strong>Fields</strong></p>
 <ul>
 <li><code>trajectory</code>      – array of type <code>Event</code>.</li>
 <li><code>observations</code>    – variable of type <code>ObsData</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L78-L85' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/discuit_structs.jl#L80-L88' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.ObsData' href='#Discuit.ObsData'>#</a>
 <strong><code>Discuit.ObsData</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>ObsData</code></pre>
 
 
-<p>Stores one column vector of observation times and one or more column vectors of observation integer values. <strong>Fields</strong></p>
+<p>Stores one column vector of observation times and one or more column vectors of observation integer values.</p>
+<p><strong>Fields</strong></p>
 <ul>
 <li><code>time</code>    – observation times.</li>
 <li><code>val</code>     – observation values.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L9-L16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/discuit_structs.jl#L9-L17' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.MCMCResults' href='#Discuit.MCMCResults'>#</a>
 <strong><code>Discuit.MCMCResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>MCMCResults</code></pre>
 
 
-<p>The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity. <strong>Fields</strong></p>
+<p>The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.</p>
+<p><strong>Fields</strong></p>
 <ul>
 <li><code>samples</code>     – two dimensional array of samples.</li>
 <li><code>mc_accepted</code> – proposal accepted</li>
 <li><code>mean</code>        – sample mean.</li>
 <li><code>covar</code>       – parameter covariance matrix.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/discuit_structs.jl#L106-L115' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/discuit_structs.jl#L109-L119' class='documenter-source'>source</a><br></p>
+<p><a id='Discuit.GelmanResults' href='#Discuit.GelmanResults'>#</a>
+<strong><code>Discuit.GelmanResults</code></strong> &mdash; <em>Type</em>.</p>
+<pre class="codehilite"><code>GelmanResults</code></pre>
+
+
+<p>Results of a Gelman Rubin convergence diagnostic including n <code>MCMCResults</code> variables; <code>mu</code>; and the scale reduction factor estimates (<code>sre</code>)..</p>
+<p><strong>Fields</strong></p>
+<ul>
+<li><code>mu</code>      – between chain sample mean.</li>
+<li><code>sre</code>     – scale reduction factor estimate.</li>
+<li><code>sre_ll</code>  – scale reduction factor lower confidence interval.</li>
+<li><code>sre_ul</code>  – scale reduction factor upper confidence interval.</li>
+<li><code>mcmc</code>    – array of <code>MCMCResults</code></li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/discuit_structs.jl#L138-L149' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
 <p>This section is organised in three parts:</p>
@@ -184,35 +202,42 @@
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
 
 
 <p>Run a DGA simulation on <code>model</code>. Returns a SimResults containing the trajectory and observations data.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L94-L98' class='documenter-source'>source</a><br></p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li><code>model</code>       – <code>DiscuitModel</code></li>
+<li><code>parameters</code>  – model parameters.</li>
+<li><code>tmax</code>        – maximum time.</li>
+<li><code>num_obs</code>     – number of observations to draw,</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L94-L104' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
 
 
 <p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type <code>ObsData</code>. The number of samples obtained will be <code>steps</code> - <code>adapt_period</code>. Set <code>mbp = true</code> for model based proposals (<code>false</code> for standard). The proportion of parameter proposals (<code>ppp</code>) can be changed from the default value of 30%.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L365-L369' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L371-L375' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
 <strong><code>Discuit.run_custom_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)</code></pre>
 
 
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L379-L383' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L385-L389' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_gelman_diagnostic' href='#Discuit.run_gelman_diagnostic'>#</a>
 <strong><code>Discuit.run_gelman_diagnostic</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
 
 
 <p>Run n (equal to the number of rows in <code>initial_parameters</code>)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L605-L609' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L611-L615' class='documenter-source'>source</a><br></p>
 <p><a id='utilities-1'></a></p>
 <h3 id="utilities">utilities</h3>
 <p><a id='Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}' href='#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}'>#</a>
@@ -221,85 +246,49 @@
 
 
 <p>Save an augmented trajectory from a variable of type <code>SimResults</code> to the file <code>fpath</code>, e.g. "./out/sim.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L826-L830' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L832-L836' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_observations-Tuple{ObsData,String}' href='#Discuit.print_observations-Tuple{ObsData,String}'>#</a>
 <strong><code>Discuit.print_observations</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_observations(obs_data, fpath)</code></pre>
 
 
 <p>Save a set of observations (e.g. from a <code>SimResults</code> variable) to the file <code>fpath</code>, e.g. "./out/obs.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L864-L868' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L870-L874' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.read_obs_data_from_file-Tuple{String}' href='#Discuit.read_obs_data_from_file-Tuple{String}'>#</a>
 <strong><code>Discuit.read_obs_data_from_file</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>read_obs_data_from_file(fpath)</code></pre>
 
 
 <p>Read a set of observations from the location <code>fpath</code> and return the results as a variable of type <code>ObsData</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L885-L889' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L891-L895' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_mcmc_results-Tuple{MCMCResults,String}' href='#Discuit.print_mcmc_results-Tuple{MCMCResults,String}'>#</a>
 <strong><code>Discuit.print_mcmc_results</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_mcmc_results(mcmc::MCMCResults, dpath::String)</code></pre>
 
 
 <p>Save the results from a call to run<em>met</em>hastings<em>mcmc or run</em>custom_mcmc to the directory <code>dpath</code>, e.g. "./out/mcmc/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L766-L770' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L772-L776' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_gelman_results-Tuple{GelmanResults,String}' href='#Discuit.print_gelman_results-Tuple{GelmanResults,String}'>#</a>
 <strong><code>Discuit.print_gelman_results</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_gelman_results(results::GelmanResults, dpath::String)</code></pre>
 
 
 <p>Save the results from a call to run<em>gelman</em>diagnostic to the directory <code>dpath</code>, e.g. "./out/gelman/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/d6ec8a3a9b27ccaa9530e92546d1d35a939db9fd/src/Discuit.jl#L743-L747' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f2539698f8478caa6c5abf4f561806971e7bd9e1/src/Discuit.jl#L749-L753' class='documenter-source'>source</a><br></p>
 <p><a id='custom-MCMC-1'></a></p>
 <h3 id="custom-mcmc">custom MCMC</h3>
-<p>TBC...</p>
-              
-            </div>
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="../examples/" class="btn btn-neutral" title="Examples"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <!-- Copyright etc -->
-    
-  </div>
-
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-</footer>
-      
+<p>TBC...</p></div>
+                </div>
         </div>
-      </div>
 
-    </section>
-
-  </div>
-
-  <div class="rst-versions" role="note" style="cursor: pointer">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-          <a href="https://github.com/mjb3/Discuit.jl/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
-      
-      
-        <span><a href="../examples/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-    </span>
-</div>
-    <script>var base_url = '..';</script>
-    <script src="../js/theme.js"></script>
-      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-      <script src="../assets/mathjaxhelper.js"></script>
-      <script src="../search/require.js"></script>
-      <script src="../search/search.js"></script>
-
-</body>
+    <hr>
+    <footer class="container">
+        
+        <center>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> and <a href="http://kristopolous.github.io/BOOTSTRA.386/">BOOTSTRA.386</a>.</center>
+    </footer>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script src="../assets/mathjaxhelper.js"></script>
+        <script src="../search/require.js"></script>
+        <script src="../search/search.js"></script>
+    </body>
 </html>
