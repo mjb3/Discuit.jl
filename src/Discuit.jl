@@ -371,14 +371,15 @@ end
 """
     run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
-    **Fields**
-    - `model`               -- [DiscuitModel](@ref).
-    - `obs_data`            -- [Observations](@ref) data.
-    - `initial_parameters`  -- initial model parameters (i.e. sample).
-    - `steps`               -- number of iterations.
-    - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
-    - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
-Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained will be `steps` - `adapt_period`.
+**Parameters**
+- `model`               -- [DiscuitModel](@ref).
+- `obs_data`            -- [Observations](@ref) data.
+- `initial_parameters`  -- initial model parameters (i.e. sample).
+- `steps`               -- number of iterations.
+- `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
+- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
+
+Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained is equal to `steps` - `adapt_period`.
 """
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
@@ -391,6 +392,15 @@ end
 # - custom MH MCMC
 """
     run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)
+
+**Parameters**
+- `model`               -- [DiscuitModel](@ref).
+- `obs_data`            -- [Observations](@ref) data.
+- `proposal_function`   -- `Function` for proposing changes to the trajectory. NEED TO EXPAND AND XREF...
+- `x0`                  -- [MarkovState](@ref) representing the initial sample and trajectory.
+- `steps`               -- number of iterations.
+- `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
+- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
 
 Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
@@ -522,6 +532,15 @@ end
 ## convergence diagnostics
 const LAG_INT = 10
 # autocorrelation R
+"""
+    compute_autocorrelation(mcmc, lags = 200)
+
+**Parameters**
+- `mcmc`    -- [MCMCResults](@ref).
+- `lags`    -- the number of lags to compute. Default: 200.
+
+Compute autocorrelation R for a single Markov chain.
+"""
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     output = zeros(lags + 1, length(mcmc.mean))
     # tmp = zeros(lags, length(mcmc.mean))
@@ -545,7 +564,15 @@ function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     return output
 end
 # autocorrelation R'
-# - ADD OPTION FOR STANDARD FORM..? *
+"""
+    compute_autocorrelation(mcmc, lags = 200)
+
+**Parameters**
+- `mcmc`    -- an array of [MCMCResults](@ref).
+- `lags`    -- the number of lags to compute. Default: 200.
+
+Compute autocorrelation R' for a two or more Markov chains.
+"""
 function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     mce = Array{Float64, 2}(undef, length(mcmc), length(mcmc[1].mean))
     for mc in eachindex(mcmc)
@@ -618,18 +645,26 @@ end
 """
     run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
+**Parameters**
+- `model`               -- [DiscuitModel](@ref).
+- `obs_data`            -- [Observations](@ref) data.
+- `initial_parameters`  -- matrix of initial model parameters. Each column vector correspondes to a single model parameter.
+- `steps`               -- number of iterations.
+- `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
+- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
+
 Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 """
 function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
-    model = get_private_model(m_model, obs_data)
+    p_model = get_private_model(m_model, obs_data)
     print("\nrunning gelman diagnostic...")
     ## initialise Markov chains
     # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     for i in eachindex(mcmc)
-        x0 = gillespie_sim_x0(model, initial_parameters[i,:], !mbp)
+        x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
         # print(string("\nx0 length: ", length(x0.trajectory)))
-        mcmc[i] = met_hastings_alg(model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
+        mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
         print("\n chain ", i, " complete")
     end
     # REJOIN THREADS HERE **********************
@@ -732,9 +767,13 @@ end
 
 # print autocorrelation
 """
-    print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String)
+    print_autocorrelation(autocorrelation, fpath)
 
-Save the results from a call to compute_autocorrelation to the file `fpath`, e.g. "./out/ac.csv".
+**Parameters**
+- `autocorrelation` -- the results of a call to [compute_autocorrelation](@ref).
+- `fpath`           -- the file path of the destination file.
+
+Save the results from a call to `compute_autocorrelation` to the file `fpath`, e.g. "./out/ac.csv".
 """
 function print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String)
     open(fpath, "w") do f
@@ -756,7 +795,11 @@ end
 """
     print_gelman_results(results::GelmanResults, dpath::String)
 
-Save the results from a call to run_gelman_diagnostic to the directory `dpath`, e.g. "./out/gelman/".
+    **Parameters**
+    - `results` -- [GelmanResults](@ref).
+    - `dpath`   -- the path of the directory where the results will be saved.
+
+Save the results from a call to [run_gelman_diagnostic](@ref) to the directory `dpath`, e.g. "./out/gelman/".
 """
 function print_gelman_results(results::GelmanResults, dpath::String)
     # create directory
@@ -777,9 +820,13 @@ function print_gelman_results(results::GelmanResults, dpath::String)
 end
 ## print MCMC results to file
 """
-    print_mcmc_results(mcmc::MCMCResults, dpath::String)
+    print_mcmc_results(mcmc, dpath)
 
-Save the results from a call to run_met_hastings_mcmc or run_custom_mcmc to the directory `dpath`, e.g. "./out/mcmc/".
+**Parameters**
+- `results` -- [MCMCResults](@ref).
+- `dpath`   -- the path of the directory where the results will be saved.
+
+Save the results from a call to [run_met_hastings_mcmc](@ref) or [run_custom_mcmc](@ref) to the directory `dpath`, e.g. "./out/mcmc/".
 """
 function print_mcmc_results(mcmc::MCMCResults, dpath::String)
     # NEED TO ADD / IF NOT THERE ALREADY *******
@@ -839,7 +886,12 @@ end
 """
     print_trajectory(model, sim_results, fpath)
 
-Save an augmented trajectory from a variable of type `SimResults` to the file `fpath`, e.g. "./out/sim.csv".
+**Parameters**
+- `model`       -- [DiscuitModel](@ref).
+- `sim_results` -- [SimResults](@ref).
+- `fpath`       -- the destination file path.
+
+Save an augmented trajectory from a variable of type `SimResults` (i.e. from a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. "./out/sim.csv".
 """
 function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
     open(fpath, "w") do f
@@ -877,7 +929,11 @@ end # end of function
 """
     print_observations(obs_data, fpath)
 
-Save a set of observations (e.g. from a `SimResults` variable) to the file `fpath`, e.g. "./out/obs.csv".
+**Parameters**
+- `obs_data`    -- [Observations](@ref) data.
+- `fpath`       -- the destination file path.
+
+Save a set of observations (e.g. from a `SimResults` obtained by a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. "./out/obs.csv".
 """
 function print_observations(obs_data::Observations, fpath::String)
     open(fpath, "w") do f
@@ -898,7 +954,10 @@ end
 """
     read_obs_data_from_file(fpath)
 
-Read a set of observations from the location `fpath` and return the results as a variable of type `Observations`.
+**Parameters**
+- `fpath`       -- the destination file path.
+
+Read a set of observations from the location `fpath` and return the results as a variable of type [Observations](@ref).
 """
 function read_obs_data_from_file(fpath::String)
     # NEED TO FIX WARNING ***
