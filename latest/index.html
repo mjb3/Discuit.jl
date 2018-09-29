@@ -86,9 +86,9 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-documentation">Discuit.jl documentation</a></li>
             <li><a href="#package-features">Package Features</a></li>
+            <li><a href="#contents">Contents</a></li>
             <li><a href="#installation">Installation</a></li>
             <li><a href="#usage">Usage</a></li>
-            <li><a href="#contents">Contents</a></li>
             <li><a href="#index">Index</a></li>
     </ul>
 </div></div>
@@ -96,8 +96,7 @@
 
 <p><a id='Discuit.jl-documentation-1'></a></p>
 <h1 id="discuitjl-documentation">Discuit.jl documentation</h1>
-<p><em>Fast parameter inference for discrete state space continuous time models in Julia.</em></p>
-<p>Discuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models.</p>
+<p><em>Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.</em> &lt;!– Discuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models. –&gt;</p>
 <p>!!! note
     Please note that this package is still in development.</p>
 <p><a id='Package-Features-1'></a></p>
@@ -105,23 +104,21 @@
 <ul>
 <li>User defined DSSCT models.</li>
 <li>Pre programmed with many well known epidemiological models.</li>
-<li>Exact simulation using Gillespie's algorithm</li>
-<li>Data augmented Markov chain Monte Carlo (MCMC)</li>
-<li>Automated autocorrelation; Geweke and Gelman-Rubin diagnostics</li>
+<li>Exact simulation using Gillespie's algorithm.</li>
+<li>Data augmented Markov chain Monte Carlo (MCMC).</li>
+<li>Automated autocorrelation; Geweke and Gelman-Rubin diagnostics.</li>
 <li>Developed for Julia <code>1.0</code>.</li>
 </ul>
-<p><a id='Installation-1'></a></p>
-<h2 id="installation">Installation</h2>
-<p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
-<pre class="codehilite"><code>pkg&gt; add https://github.com/mjb3/Discuit.jl</code></pre>
-
-
-<p><a id='Usage-1'></a></p>
-<h2 id="usage">Usage</h2>
-<p>The <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> section provides enough code to get up and running with further information available in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
 <p><a id='Contents-1'></a></p>
 <h2 id="contents">Contents</h2>
 <ul>
+<li><a href="models.md#Discuit.jl-models-1">Discuit.jl models</a><ul>
+<li><a href="models.md#Model-builder-1">Model builder</a></li>
+<li><a href="models.md#Classic-Kermack-McKendrick-models-1">Classic Kermack-McKendrick models</a></li>
+<li><a href="models.md#Latent-Kermack-McKendrick-models-1">Latent Kermack-McKendrick models</a></li>
+<li><a href="models.md#Miscellaneous-1">Miscellaneous</a></li>
+</ul>
+</li>
 <li><a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a><ul>
 <li><a href="examples/#SIS-model-1">SIS model</a></li>
 <li><a href="examples/#Custom-MCMC-1">Custom MCMC</a></li>
@@ -136,13 +133,22 @@
 </li>
 <li><a href=".#Discuit.jl-documentation-1">Discuit.jl documentation</a><ul>
 <li><a href=".#Package-Features-1">Package Features</a></li>
+<li><a href=".#Contents-1">Contents</a></li>
 <li><a href=".#Installation-1">Installation</a></li>
 <li><a href=".#Usage-1">Usage</a></li>
-<li><a href=".#Contents-1">Contents</a></li>
 <li><a href=".#Index-1">Index</a></li>
 </ul>
 </li>
 </ul>
+<p><a id='Installation-1'></a></p>
+<h2 id="installation">Installation</h2>
+<p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
+<pre class="codehilite"><code>pkg&gt; add https://github.com/mjb3/Discuit.jl</code></pre>
+
+
+<p><a id='Usage-1'></a></p>
+<h2 id="usage">Usage</h2>
+<p>The <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> section provides enough code to get up and running with further information available in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
 <p><a id='Index-1'></a></p>
 <h2 id="index">Index</h2>
 <ul>
@@ -245,5 +251,5 @@
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-09-29 14:26:05
+Build Date UTC : 2018-09-29 15:32:59
 -->
