@@ -909,7 +909,7 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
             while evt_i <= length(sim_results.trajectory)
                 sim_results.trajectory[evt_i].time > sim_results.observations.time[obs_i] && break
                 tp = sim_results.trajectory[evt_i].event_type
-                write(f, "\n $(sim.trajectory[evt_i].time), $tp")
+                write(f, "\n $(sim_results.trajectory[evt_i].time), $tp")
                 population .+= model.m_transition[tp,:]
                 for p in 1:length(population)
                     write(f, ", $(population[p])")
@@ -918,7 +918,7 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
             end
             # handle observation
             model.obs_function(population)
-            write(f, "\n $(sim.observations.time[obs_i]), -1")
+            write(f, "\n $(sim_results.observations.time[obs_i]), -1")
             for p in 1:length(population)
                 write(f, ", $(population[p])")
             end

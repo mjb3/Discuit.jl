@@ -46,13 +46,33 @@ function pooley_sis_model()
     return DiscuitModel("SIS", sis_rf, m_t, 0, ic, obs_fn, weak_prior, si_gaussian)
 end
 
+### do some stuff ###
+## gillespie example
+function sim_example()
+    model = pooley_sis_model()
+    xi = gillespie_sim(model, [0.003,0.1])
+    print_trajectory(model, xi, "./out/sis_sim.csv")
+    print_observations(xi.observations, "./out/sis_obs.csv")
+end
 ## run an mcmc analysis and print the results
-function sis_example()
+function mcmc_example()
     # obs data
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
     model = pooley_sis_model()
     rs = run_met_hastings_mcmc(model, obs, [0.003,0.1])
     print_mcmc_results(rs, "./out/mcmc_example/")
 end
+## convergence diagnostic
+function run_conv_diag()
+    obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
+    model = pooley_sis_model()
+    rs = run_gelman_diagnostic(model, obs, [0.0025 0.15; 0.004 0.08; 0.0033 0.1])
+    ac = compute_autocorrelation(rs.mcmc)
+    print_gelman_results(rs, "./out/gelman_example/")
+    print_autocorrelation(ac, "./out/gelman_example/acp.csv")
+end
 
-sis_example()
+## run the examples
+sim_example()
+mcmc_example()
+run_conv_diag()
