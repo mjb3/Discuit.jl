@@ -7,7 +7,7 @@ struct Event
 end
 ## observations data
 """
-    ObsData
+    Observations
 
 Stores one column vector of observation times and one or more column vectors of observation integer values.
 
@@ -15,7 +15,7 @@ Stores one column vector of observation times and one or more column vectors of 
 - `time`    -- observation times.
 - `val`     -- observation values.
 """
-struct ObsData
+struct Observations
     time::Array{Float64, 1}
     val::Array{Int32, 2}
 end
@@ -54,7 +54,7 @@ mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fu
     obs_model::OMT
 end
 ## JIT private models
-function get_private_model(model::DiscuitModel, obs_data::ObsData)
+function get_private_model(model::DiscuitModel, obs_data::Observations)
     return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.obs_function, model.prior, model.obs_model, obs_data)
 end
 # latent observation model
@@ -74,7 +74,7 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # observation model (log likelihood)
     obs_model::OMT
     # obs data
-    obs_data::ObsData
+    obs_data::Observations
 end
 # results of gillespie sim
 """
@@ -84,11 +84,11 @@ The results of a simulation.
 
 **Fields**
 - `trajectory`      -- array of type `Event`.
-- `observations`    -- variable of type `ObsData`.
+- `observations`    -- variable of type `Observations`.
 """
 struct SimResults
     trajectory::Array{Event}
-    observations::ObsData
+    observations::Observations
 end
 ## generic proposal data structures
 # parameter

@@ -20,7 +20,7 @@ using CSV
 
 ## exports
 # public structs
-export DiscuitModel, ObsData, SimResults, MCMCResults, GelmanResults
+export DiscuitModel, Observations, SimResults, MCMCResults, GelmanResults
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # utilities (e.g. saving results to file0
@@ -104,7 +104,7 @@ Run a DGA simulation on `model`. Returns a SimResults containing the trajectory 
 """
 function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::Float64 = 100.0, num_obs::Int64 = 5)
     # initialise some things
-    p_model = get_private_model(model, ObsData([0.0], [0 0]) ) # NOTE TO JAMIE: can this be made nullable? or is it better to use delegates?
+    p_model = get_private_model(model, Observations([0.0], [0 0]) ) # NOTE TO JAMIE: can this be made nullable? or is it better to use delegates?
     obs_times = collect(tmax / num_obs : tmax / num_obs : tmax)
     obs_vals = Array{Int32, 2}(undef, length(obs_times), length(p_model.initial_condition))
     # time = 0.0
@@ -118,7 +118,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
         t_prev = obs_times[i]
     end
     # return trajectory
-    return SimResults(trajectory, ObsData(obs_times, obs_vals))
+    return SimResults(trajectory, Observations(obs_times, obs_vals))
 end
 # sim to initialise Markov chain
 function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,1}, full_like::Bool)
@@ -372,15 +372,15 @@ end
     run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
     **Fields**
-    - `model`      -- [DiscuitModel](@ref).
-    - `obs_data`     -- scale reduction factor estimate.
+    - `model`               -- [DiscuitModel](@ref).
+    - `obs_data`            -- [Observations](@ref) data.
     - `initial_parameters`  -- initial model parameters (i.e. sample).
     - `steps`               -- number of iterations.
     - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
     - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
-Run an MCMC analysis based on `model` and `obs_data` of type `ObsData`. The number of samples obtained will be `steps` - `adapt_period`.
+Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained will be `steps` - `adapt_period`.
 """
-function run_met_hastings_mcmc(model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
     print("\nrunning MCMC.")
@@ -394,7 +394,7 @@ end
 
 Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
-function run_custom_mcmc(model::DiscuitModel, obs_data::ObsData, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
+function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
     print("\nrunning custom MCMC.")
@@ -620,7 +620,7 @@ end
 
 Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 """
-function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::ObsData, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     model = get_private_model(m_model, obs_data)
     print("\nrunning gelman diagnostic...")
     ## initialise Markov chains
@@ -639,7 +639,7 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::ObsData, initial
 end
 # for custom MCMC
 # - TO BE REMOVED? ************
-function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::ObsData, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
+function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)
     print("\nrunning gelman diagnostic...")
@@ -879,7 +879,7 @@ end # end of function
 
 Save a set of observations (e.g. from a `SimResults` variable) to the file `fpath`, e.g. "./out/obs.csv".
 """
-function print_observations(obs_data::ObsData, fpath::String)
+function print_observations(obs_data::Observations, fpath::String)
     open(fpath, "w") do f
         # print headers
         write(f, "time")
@@ -898,12 +898,12 @@ end
 """
     read_obs_data_from_file(fpath)
 
-Read a set of observations from the location `fpath` and return the results as a variable of type `ObsData`.
+Read a set of observations from the location `fpath` and return the results as a variable of type `Observations`.
 """
 function read_obs_data_from_file(fpath::String)
     # NEED TO FIX WARNING ***
     df = CSV.read(fpath)
-    return ObsData(df[1], df[:,2:size(df, 2)])
+    return Observations(df[1], df[:,2:size(df, 2)])
 end
 
 end # end of module
