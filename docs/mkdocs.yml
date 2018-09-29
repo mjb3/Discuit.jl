@@ -10,6 +10,9 @@ markdown_extensions:
   - extra
   - tables
   - fenced_code
+  - mdx_bib:
+    - bibtex_file: discuit.bib
+    - order: 'unsorted'
   # - mdx_math # For LaTeX
 
 extra_css:

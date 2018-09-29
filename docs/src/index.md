@@ -6,6 +6,8 @@
 !!! note
     Please note that this package is still in development.
 
+The seminal work [@pizza2000identification]
+
 ## Package Features
 
 ```@docs
