@@ -1,5 +1,12 @@
 # Discuit.jl manual
 
+This section contains a directory of `struct`s and `Function`s in the package. See [Discuit.jl examples](@ref) for a broad overview of the package's core functionality.
+
+## Contents
+
+```@contents
+```
+
 ## Custom structs
 
 ```@docs
@@ -37,3 +44,8 @@ print_gelman_results(results::GelmanResults, dpath::String)
 
 ### custom MCMC
 TBC...
+
+## Index
+
+```@index
+```
