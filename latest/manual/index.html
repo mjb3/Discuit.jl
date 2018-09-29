@@ -105,6 +105,10 @@
 <li><a href="../models/#Discuit.jl-models-1">Discuit.jl models</a><ul>
 <li><a href="../models/#Model-builder-1">Model builder</a></li>
 <li><a href="../models/#Classic-Kermack-McKendrick-models-1">Classic Kermack-McKendrick models</a></li>
+</ul>
+</li>
+<li><a href="../models/#Drafts-1">Drafts</a></li>
+<li><a href="../models/#Model-specifications-1">Model specifications</a><ul>
 <li><a href="../models/#Latent-Kermack-McKendrick-models-1">Latent Kermack-McKendrick models</a></li>
 <li><a href="../models/#Miscellaneous-1">Miscellaneous</a></li>
 </ul>
@@ -161,7 +165,7 @@ set_random_seed(1234)</p>
 <pre class="codehilite"><code>Does what it says on the tin but only if you give it an integer.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L43-L54' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L43-L54' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'&gt;#&lt;/a&gt;
 **`Discuit.gillespie_sim`** &amp;mdash; *Function*.</code></pre>
@@ -178,7 +182,7 @@ set_random_seed(1234)</p>
   * `num_obs`     – number of observations to draw,
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L98-L108' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L98-L108' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'&gt;#&lt;/a&gt;
 **`Discuit.run_met_hastings_mcmc`** &amp;mdash; *Function*.</code></pre>
@@ -197,7 +201,7 @@ set_random_seed(1234)</p>
 Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained is equal to `steps` - `adapt_period`.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L375-L387' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L375-L387' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'&gt;#&lt;/a&gt;
 **`Discuit.run_custom_mcmc`** &amp;mdash; *Function*.</code></pre>
@@ -217,7 +221,7 @@ Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The
 Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L397-L410' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L397-L410' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.run_gelman_diagnostic' href='#Discuit.run_gelman_diagnostic'&gt;#&lt;/a&gt;
 **`Discuit.run_gelman_diagnostic`** &amp;mdash; *Function*.</code></pre>
@@ -236,7 +240,7 @@ Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`p
 Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L649-L661' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L649-L661' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 
 &lt;a id='utilities-1'&gt;&lt;/a&gt;
@@ -257,7 +261,7 @@ Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and p
 Save an augmented trajectory from a variable of type `SimResults` (i.e. from a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. &quot;./out/sim.csv&quot;.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L890-L899' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L890-L899' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.print_observations-Tuple{Observations,String}' href='#Discuit.print_observations-Tuple{Observations,String}'&gt;#&lt;/a&gt;
 **`Discuit.print_observations`** &amp;mdash; *Method*.</code></pre>
@@ -272,7 +276,7 @@ Save an augmented trajectory from a variable of type `SimResults` (i.e. from a c
 Save a set of observations (e.g. from a `SimResults` obtained by a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. &quot;./out/obs.csv&quot;.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L933-L941' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L933-L941' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.read_obs_data_from_file-Tuple{String}' href='#Discuit.read_obs_data_from_file-Tuple{String}'&gt;#&lt;/a&gt;
 **`Discuit.read_obs_data_from_file`** &amp;mdash; *Method*.</code></pre>
@@ -286,7 +290,7 @@ Save a set of observations (e.g. from a `SimResults` obtained by a call to [gill
 Read a set of observations from the location `fpath` and return the results as a variable of type [Observations](@ref).
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L958-L965' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L958-L965' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.print_mcmc_results-Tuple{MCMCResults,String}' href='#Discuit.print_mcmc_results-Tuple{MCMCResults,String}'&gt;#&lt;/a&gt;
 **`Discuit.print_mcmc_results`** &amp;mdash; *Method*.</code></pre>
@@ -301,7 +305,7 @@ Read a set of observations from the location `fpath` and return the results as a
 Save the results from a call to [run*met*hastings_mcmc](@ref) or [run*custom*mcmc](@ref) to the directory `dpath`, e.g. &quot;./out/mcmc/&quot;.
 
 
-&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L826-L834' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
+&lt;a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L826-L834' class='documenter-source'&gt;source&lt;/a&gt;&lt;br&gt;
 
 &lt;a id='Discuit.print_gelman_results-Tuple{GelmanResults,String}' href='#Discuit.print_gelman_results-Tuple{GelmanResults,String}'&gt;#&lt;/a&gt;
 **`Discuit.print_gelman_results`** &amp;mdash; *Method*.</code></pre>
@@ -313,7 +317,7 @@ Save the results from a call to [run*met*hastings_mcmc](@ref) or [run*custom*mcm
 - <code>dpath</code>   -- the path of the directory where the results will be saved.
 ```</p>
 <p>Save the results from a call to <a href="../@ref">run<em>gelman</em>diagnostic</a> to the directory <code>dpath</code>, e.g. "./out/gelman/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/291e0e6448e45654a0c4874ca4ff895c0dd6902e/src/Discuit.jl#L799-L807' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ae54afaba22a3ec174c211062ae6d7d95218b146/src/Discuit.jl#L799-L807' class='documenter-source'>source</a><br></p>
 <p><a id='custom-MCMC-1'></a></p>
 <h3 id="custom-mcmc">custom MCMC</h3>
 <p>TBC...</p>
