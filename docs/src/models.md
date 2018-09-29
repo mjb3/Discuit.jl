@@ -45,52 +45,35 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 
 The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
-Drafts
-======
-
-[.5]{}
-
-\(s) \[compartment\] [S]{}; (i) \[compartment, right of=s, xshift=1cm\]
-[I]{}; (s) – node\[anchor=south\] [$\theta_1$SI]{} (i);
-
-[.5]{}
-
-\(s) \[compartment\] [S]{}; (i) \[compartment, right of=s, xshift=1cm\]
-[I]{}; (s.10) – node\[anchor=south\] [$\theta_1$SI]{} (i.170); (i.190) –
-node\[anchor=north\] [$\theta_2$I]{} (s.350);
-
-Model specifications
-====================
-
-Latex test:
-
-```@raw latex
-\documentclass{standalone}
-\usepackage{tikz}
-\usetikzlibrary{matrix}
-\begin{document}
-\begin{tikzpicture}
-  \matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em]
-  {
-     F & B \\
-      & A \\};
-  \path[-stealth]
-    (m-1-1) edge node [above] {$\beta$} (m-1-2)
-    (m-1-2) edge node [right] {$\rho$} (m-2-2)
-    (m-1-1) edge node [left] {$\alpha$} (m-2-2);
-\end{tikzpicture}
-\end{document}
-```
-
-### SIS
+![SI model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png)
 
 ### SIR
 
+The classic Kermack-McKendrick susceptible-infectious-recovered ([SIR](@ref)) model.
+
+![SIR model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png)
+
+### SIS
+
+The susceptible-infectious-susceptible ([SIS](@ref)) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
+
+![SIS model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png)
+
 ### SIRS
+
+The susceptible-infectious-recovered-susceptible ([SIRS](@ref)) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
+
+![SIRS model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png)
 
 ## Latent Kermack-McKendrick models
 
+The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state `E` between infection and the onset of infectiousness.
+
 ### SEI
+
+The susceptible-exposed-infectious ([SEI](@ref)) model.
+
+![SEI model](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png)
 
 ### SEIS
 
