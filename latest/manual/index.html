@@ -85,14 +85,41 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-manual">Discuit.jl manual</a></li>
+            <li><a href="#contents">Contents</a></li>
             <li><a href="#custom-structs">Custom structs</a></li>
             <li><a href="#functions">Functions</a></li>
+            <li><a href="#index">Index</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <p><a id='Discuit.jl-manual-1'></a></p>
 <h1 id="discuitjl-manual">Discuit.jl manual</h1>
+<p>This section contains a directory of <code>struct</code>s and <code>Function</code>s in the package. See <a href="../examples/#Discuit.jl-examples-1">Discuit.jl examples</a> for a broad overview of the package's core functionality.</p>
+<p><a id='Contents-1'></a></p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="../examples/#Discuit.jl-examples-1">Discuit.jl examples</a><ul>
+<li><a href="../examples/#SIS-model-1">SIS model</a></li>
+<li><a href="../examples/#Custom-MCMC-1">Custom MCMC</a></li>
+</ul>
+</li>
+<li><a href="./#Discuit.jl-manual-1">Discuit.jl manual</a><ul>
+<li><a href="./#Contents-1">Contents</a></li>
+<li><a href="./#Custom-structs-1">Custom structs</a></li>
+<li><a href="./#Functions-1">Functions</a></li>
+<li><a href="./#Index-1">Index</a></li>
+</ul>
+</li>
+<li><a href="..#Discuit.jl-documentation-1">Discuit.jl documentation</a><ul>
+<li><a href="..#Package-Features-1">Package Features</a></li>
+<li><a href="..#Installation-1">Installation</a></li>
+<li><a href="..#Usage-1">Usage</a></li>
+<li><a href="..#Contents-1">Contents</a></li>
+<li><a href="..#Index-1">Index</a></li>
+</ul>
+</li>
+</ul>
 <p><a id='Custom-structs-1'></a></p>
 <h2 id="custom-structs">Custom structs</h2>
 <p><a id='Discuit.DiscuitModel' href='#Discuit.DiscuitModel'>#</a>
@@ -112,7 +139,7 @@
 <li><code>prior</code>               – prior density function.</li>
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.SimResults' href='#Discuit.SimResults'>#</a>
 <strong><code>Discuit.SimResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>SimResults</code></pre>
@@ -124,7 +151,7 @@
 <li><code>trajectory</code>      – array of type <code>Event</code>.</li>
 <li><code>observations</code>    – variable of type <code>Observations</code>.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/discuit_structs.jl#L80-L88' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/discuit_structs.jl#L80-L88' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.Observations' href='#Discuit.Observations'>#</a>
 <strong><code>Discuit.Observations</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>Observations</code></pre>
@@ -136,7 +163,7 @@
 <li><code>time</code>    – observation times.</li>
 <li><code>val</code>     – observation values.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/discuit_structs.jl#L9-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/discuit_structs.jl#L9-L17' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.MCMCResults' href='#Discuit.MCMCResults'>#</a>
 <strong><code>Discuit.MCMCResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>MCMCResults</code></pre>
@@ -150,7 +177,7 @@
 <li><code>mean</code>        – sample mean.</li>
 <li><code>covar</code>       – parameter covariance matrix.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/discuit_structs.jl#L109-L119' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/discuit_structs.jl#L109-L119' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.GelmanResults' href='#Discuit.GelmanResults'>#</a>
 <strong><code>Discuit.GelmanResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>GelmanResults</code></pre>
@@ -165,7 +192,7 @@
 <li><code>sre_ul</code>  – scale reduction factor upper confidence interval.</li>
 <li><code>mcmc</code>    – array of <code>MCMCResults</code></li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/discuit_structs.jl#L138-L149' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/discuit_structs.jl#L138-L149' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
 <p>This section is organised in three parts:</p>
@@ -182,7 +209,7 @@
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L46-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
@@ -196,7 +223,7 @@
 <li><code>tmax</code>        – maximum time.</li>
 <li><code>num_obs</code>     – number of observations to draw,</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L94-L104' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L94-L104' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
@@ -212,7 +239,7 @@
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.</li>
 </ul>
 <p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type <code>Observations</code>. The number of samples obtained is equal to <code>steps</code> - <code>adapt_period</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L371-L383' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L371-L383' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
 <strong><code>Discuit.run_custom_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)</code></pre>
@@ -229,7 +256,7 @@
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if <code>prop_param = true</code>.</li>
 </ul>
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L393-L406' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L393-L406' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_gelman_diagnostic' href='#Discuit.run_gelman_diagnostic'>#</a>
 <strong><code>Discuit.run_gelman_diagnostic</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
@@ -245,7 +272,7 @@
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.</li>
 </ul>
 <p>Run n (equal to the number of rows in <code>initial_parameters</code>)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L645-L657' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L645-L657' class='documenter-source'>source</a><br></p>
 <p><a id='utilities-1'></a></p>
 <h3 id="utilities">utilities</h3>
 <p><a id='Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}' href='#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}'>#</a>
@@ -260,7 +287,7 @@
 <li><code>fpath</code>       – the destination file path.</li>
 </ul>
 <p>Save an augmented trajectory from a variable of type <code>SimResults</code> (i.e. from a call to <a href="../@ref">gillespie_sim</a>) to the file <code>fpath</code>, e.g. "./out/sim.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L886-L895' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L886-L895' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_observations-Tuple{Observations,String}' href='#Discuit.print_observations-Tuple{Observations,String}'>#</a>
 <strong><code>Discuit.print_observations</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_observations(obs_data, fpath)</code></pre>
@@ -272,7 +299,7 @@
 <li><code>fpath</code>       – the destination file path.</li>
 </ul>
 <p>Save a set of observations (e.g. from a <code>SimResults</code> obtained by a call to <a href="../@ref">gillespie_sim</a>) to the file <code>fpath</code>, e.g. "./out/obs.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L929-L937' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L929-L937' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.read_obs_data_from_file-Tuple{String}' href='#Discuit.read_obs_data_from_file-Tuple{String}'>#</a>
 <strong><code>Discuit.read_obs_data_from_file</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>read_obs_data_from_file(fpath)</code></pre>
@@ -283,7 +310,7 @@
 <li><code>fpath</code>       – the destination file path.</li>
 </ul>
 <p>Read a set of observations from the location <code>fpath</code> and return the results as a variable of type <a href="../@ref">Observations</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L954-L961' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L954-L961' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_mcmc_results-Tuple{MCMCResults,String}' href='#Discuit.print_mcmc_results-Tuple{MCMCResults,String}'>#</a>
 <strong><code>Discuit.print_mcmc_results</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_mcmc_results(mcmc, dpath)</code></pre>
@@ -295,7 +322,7 @@
 <li><code>dpath</code>   – the path of the directory where the results will be saved.</li>
 </ul>
 <p>Save the results from a call to <a href="../@ref">run<em>met</em>hastings_mcmc</a> or <a href="../@ref">run<em>custom</em>mcmc</a> to the directory <code>dpath</code>, e.g. "./out/mcmc/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L822-L830' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L822-L830' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_gelman_results-Tuple{GelmanResults,String}' href='#Discuit.print_gelman_results-Tuple{GelmanResults,String}'>#</a>
 <strong><code>Discuit.print_gelman_results</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>print_gelman_results(results::GelmanResults, dpath::String)
@@ -306,10 +333,29 @@
 
 
 <p>Save the results from a call to <a href="../@ref">run<em>gelman</em>diagnostic</a> to the directory <code>dpath</code>, e.g. "./out/gelman/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/1b6138efaf220f1537aa463c753213920e3a4423/src/Discuit.jl#L795-L803' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/255620ab8256b42498691ad1bf580d32ca6b0ff7/src/Discuit.jl#L795-L803' class='documenter-source'>source</a><br></p>
 <p><a id='custom-MCMC-1'></a></p>
 <h3 id="custom-mcmc">custom MCMC</h3>
-<p>TBC...</p></div>
+<p>TBC...</p>
+<p><a id='Index-1'></a></p>
+<h2 id="index">Index</h2>
+<ul>
+<li><a href="./#Discuit.DiscuitModel"><code>Discuit.DiscuitModel</code></a></li>
+<li><a href="./#Discuit.GelmanResults"><code>Discuit.GelmanResults</code></a></li>
+<li><a href="./#Discuit.MCMCResults"><code>Discuit.MCMCResults</code></a></li>
+<li><a href="./#Discuit.Observations"><code>Discuit.Observations</code></a></li>
+<li><a href="./#Discuit.SimResults"><code>Discuit.SimResults</code></a></li>
+<li><a href="./#Discuit.gillespie_sim"><code>Discuit.gillespie_sim</code></a></li>
+<li><a href="./#Discuit.print_gelman_results-Tuple{GelmanResults,String}"><code>Discuit.print_gelman_results</code></a></li>
+<li><a href="./#Discuit.print_mcmc_results-Tuple{MCMCResults,String}"><code>Discuit.print_mcmc_results</code></a></li>
+<li><a href="./#Discuit.print_observations-Tuple{Observations,String}"><code>Discuit.print_observations</code></a></li>
+<li><a href="./#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}"><code>Discuit.print_trajectory</code></a></li>
+<li><a href="./#Discuit.read_obs_data_from_file-Tuple{String}"><code>Discuit.read_obs_data_from_file</code></a></li>
+<li><a href="./#Discuit.run_custom_mcmc"><code>Discuit.run_custom_mcmc</code></a></li>
+<li><a href="./#Discuit.run_gelman_diagnostic"><code>Discuit.run_gelman_diagnostic</code></a></li>
+<li><a href="./#Discuit.run_met_hastings_mcmc"><code>Discuit.run_met_hastings_mcmc</code></a></li>
+<li><a href="./#Discuit.set_random_seed-Tuple{Int64}"><code>Discuit.set_random_seed</code></a></li>
+</ul></div>
         </div>
 
         <footer class="col-md-12">
