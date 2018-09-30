@@ -14,6 +14,7 @@
 </head>
 <body>
 <bibtex src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/discuit.bib"></bibtex>
+<div id="bibtex_display"></div>
 </body>
 </html>
 ```
