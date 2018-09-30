@@ -117,7 +117,7 @@
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
 <p>A <code>mutable struct</code> which represents a DSSCT model for use with <a href="../@ref">Discuit.jl</a> functions.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f9757123dccf762507c3c246ac1306c0035ca051/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/17e91b7118dcdee43bd1005eb7a0c22dbaab35e3/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p>Now that we know the necessary parameters for defining a model we can start by defining a rate function. Note that the correct signature must be used in order for it to be used with a <a href="../@ref">DiscuitModel</a>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
@@ -162,7 +162,7 @@ DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1])
-SimResults(Event[Event(0.0372621, 1), Event(0.492447, 2), Event(0.810182, 1), Event(3.39945, 1), Event(3.40341, 2), Event(3.551, 1), Event(3.94079, 2), Event(4.28074, 2), Event(4.53174, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [101 0; 101 0; … ; 101 0; 101 0]))</code></pre>
+SimResults(Event[Event(1.63755, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [101 0; 101 0; … ; 101 0; 101 0]))</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
