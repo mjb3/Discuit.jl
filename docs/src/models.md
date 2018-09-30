@@ -123,3 +123,30 @@ with the transition matrix given as:
 ### Ross-MacDonald predator-prey model
 
 ### SETIR model for bTB
+
+```@raw html
+<html>
+<head>
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
+</head>
+<body>
+<textarea id="bibtex_input" style="display:none;">
+@article{pizza2000identification,
+  title={Identification of vaccine candidates against serogroup B meningococcus by whole-genome sequencing},
+  author={Pizza, Mariagrazia and Scarlato, Vincenzo and Masignani, Vega and Giuliani, Marzia Monica and Arico, Beatrice and Comanducci, Maurizio and Jennings, Gary T and Baldi, Lucia and Bartolini, Erika and Capecchi, Barbara and others},
+  journal={Science},
+  volume={287},
+  number={5459},
+  pages={1816--1820},
+  year={2000},
+  publisher={American Association for the Advancement of Science}
+}
+@book{book1,
+  author = "Donald Knuth",
+  title = "Concrete Mathematics"
+}
+</textarea>
+<div id="bibtex_display"></div>
+</body>
+</html>
+```
