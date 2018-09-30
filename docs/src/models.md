@@ -127,6 +127,7 @@ with the transition matrix given as:
 ```@raw html
 <html>
 <head>
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
 </head>
 <body>
 <textarea id="bibtex_input" style="display:none;">
