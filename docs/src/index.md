@@ -1,5 +1,5 @@
 ```@raw html
-<bibtex src="discuit.bib"></bibtex>
+<bibtex src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/discuit.bib"></bibtex>
 ```
 
 # Discuit.jl documentation
