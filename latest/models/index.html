@@ -91,6 +91,7 @@
             <li><a href="#model-builder">Model builder</a></li>
             <li><a href="#classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</a></li>
             <li><a href="#latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</a></li>
+            <li><a href="#miscellaneous">Miscellaneous</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -161,47 +162,30 @@ end</code></pre>
 
 
 <h3 id="seir">SEIR</h3>
-<pre class="codehilite"><code>@raw html &lt;img src=&quot;https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png&quot; alt=&quot;SEIR model&quot; height=&quot;100&quot;/&gt; ```
+<pre class="codehilite"><code>@raw html &lt;img src=&quot;https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png&quot; alt=&quot;SEIR model&quot; height=&quot;100&quot;/&gt;</code></pre>
 
 
-&lt;a id='SEIS-1'&gt;&lt;/a&gt;
-
-### SEIS
-
-
-&lt;a id='SEIRS-1'&gt;&lt;/a&gt;
-
-### SEIRS
-
-
-&lt;a id='Miscellaneous-1'&gt;&lt;/a&gt;
-
-## Miscellaneous
-
-
-&lt;a id='Lotka-Volterra-predator-prey-model-1'&gt;&lt;/a&gt;
-
-### Lotka-Volterra predator-prey model
-
-
-The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The `model.rate_function` for prey reproduction, predator reproduction and predator death is defined as:</code></pre>
-
-
-<p>function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
+<h3 id="seis">SEIS</h3>
+<h3 id="seirs">SEIRS</h3>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<h3 id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h3>
+<p>The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The <code>model.rate_function</code> for prey reproduction, predator reproduction and predator death is defined as:</p>
+<pre class="codehilite"><code>function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
   # prey; predator reproduction; predator death
   output[1] = parameters[1] * population[2]
   output[2] = parameters[2] * population[1] * population[2]
   output[3] = parameters[3] * population[1]
-end</p>
-<pre class="codehilite"><code>with the transition matrix given as:</code></pre>
+end</code></pre>
 
 
-<p>m_transition = [ 0 1; 1 -1; -1  0 ]
-```</p>
-<p><a id='Ross-MacDonald-predator-prey-model-1'></a></p>
+<p>with the transition matrix given as:</p>
+<pre class="codehilite"><code>m_transition = [ 0 1; 1 -1; -1  0 ]</code></pre>
+
+
 <h3 id="ross-macdonald-predator-prey-model">Ross-MacDonald predator-prey model</h3>
-<p><a id='SETIR-model-for-bTB-1'></a></p>
-<h3 id="setir-model-for-btb">SETIR model for bTB</h3></div>
+<h3 id="setir-model-for-btb">SETIR model for bTB</h3>
+<p>```</p>
+<p>@raw html <html> <head> <script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex*js.js"></script> </head> <body> <textarea id="bibtex*input" style="display:none;"> @article{pizza2000identification,   title={Identification of vaccine candidates against serogroup B meningococcus by whole-genome sequencing},   author={Pizza, Mariagrazia and Scarlato, Vincenzo and Masignani, Vega and Giuliani, Marzia Monica and Arico, Beatrice and Comanducci, Maurizio and Jennings, Gary T and Baldi, Lucia and Bartolini, Erika and Capecchi, Barbara and others},   journal={Science},   volume={287},   number={5459},   pages={1816–1820},   year={2000},   publisher={American Association for the Advancement of Science} } @book{book1,   author = "Donald Knuth",   title = "Concrete Mathematics" } </textarea> <div id="bibtex_display"></div> </body> </html> ```</p></div>
         </div>
 
         <footer class="col-md-12">
