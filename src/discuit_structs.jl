@@ -9,11 +9,11 @@ end
 """
     Observations
 
-Stores one column vector of observation times and one or more column vectors of observation integer values.
-
 **Fields**
 - `time`    -- observation times.
 - `val`     -- observation values.
+
+Stores one column vector of observation times and one or more column vectors of observation integer values.
 """
 struct Observations
     time::Array{Float64, 1}

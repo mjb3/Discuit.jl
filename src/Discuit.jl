@@ -52,10 +52,7 @@ const NULL_LOG_LIKE = -Inf
 
 # Examples
 
-```@repl
-using Discuit # hide
-set_random_seed(1234)
-```
+    set_random_seed(1234)
 
 Does what it says on the tin but only if you give it an integer.
 """
@@ -806,9 +803,9 @@ end
 """
     print_gelman_results(results::GelmanResults, dpath::String)
 
-    **Parameters**
-    - `results` -- [GelmanResults](@ref).
-    - `dpath`   -- the path of the directory where the results will be saved.
+**Parameters**
+- `results` -- [GelmanResults](@ref).
+- `dpath`   -- the path of the directory where the results will be saved.
 
 Save the results from a call to [run_gelman_diagnostic](@ref) to the directory `dpath`, e.g. "./out/gelman/".
 """

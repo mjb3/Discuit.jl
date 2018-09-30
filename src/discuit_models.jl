@@ -33,14 +33,15 @@ end
 - `n`   -- the number of discrete states in the model.
 - `σ`   -- observation error.
 
-NEED TO ADD latex eqn...
+test latex eqn:
+
+```math
+\frac{n!}{k!(n - k)!} = \binom{n}{k}
+```
 
 # Examples
 
-```@repl 1
-using Discuit # hide
-p = generate_weak_prior(1)
-```
+    p = generate_weak_prior(1)
 
 Generate a Gaussian observation model for a model with `n` states. Optionally specify observation error `σ`.
 """
@@ -94,9 +95,7 @@ end
 
 # Examples
 
-```@repl 1
-generate_generic_obs_function()
-```
+    generate_generic_obs_function()
 
 Generates a simple observation function for use in a [DiscuitModel](@ref). Not very realistic...
 """
@@ -125,9 +124,7 @@ end
 
 # Examples
 
-```@repl 1
-generate_model("SIS", [100,1])
-```
+    generate_model("SIS", [100,1])
 
 Generates a [DiscuitModel](@ref). Optionally specify observation error `σ`.
 """
