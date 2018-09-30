@@ -117,7 +117,7 @@
 <li><code>prior</code>               – prior density function.</li>
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9c499dcc1ce56dbdc0511d9c727c0c7b6e263c92/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/bc60977136869b4bf718a6ae1c9924575338a937/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p>We begin by defining a rate function. Note that the correct signature must be used for use in Discuit.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
@@ -162,7 +162,7 @@ DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1])
-SimResults(Event[Event(2.58165, 1), Event(3.56136, 1), Event(4.28315, 1), Event(4.85353, 1), Event(5.2381, 1), Event(5.44351, 1), Event(5.54445, 2), Event(5.89287, 2), Event(5.9682, 1), Event(6.17746, 1)  …  Event(99.6009, 2), Event(99.6283, 2), Event(99.7162, 2), Event(99.7336, 1), Event(99.7928, 1), Event(99.8869, 2), Event(99.9014, 1), Event(99.9076, 1), Event(99.9213, 1), Event(99.9821, 1)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [72 29; 32 69; … ; 35 66; 33 68]))</code></pre>
+SimResults(Event[Event(2.68365, 1), Event(4.9149, 2), Event(4.9944, 1), Event(5.37863, 1), Event(6.56551, 1), Event(6.92359, 2), Event(7.39943, 1), Event(7.42543, 1), Event(7.8799, 1), Event(8.18925, 1)  …  Event(99.5651, 1), Event(99.6685, 1), Event(99.6815, 2), Event(99.7668, 1), Event(99.8262, 1), Event(99.8712, 2), Event(99.881, 1), Event(99.8812, 1), Event(99.9049, 2), Event(99.9464, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [73 28; 35 66; … ; 32 69; 36 65]))</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
