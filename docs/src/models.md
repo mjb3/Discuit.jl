@@ -4,7 +4,11 @@ The following pre defined models can be invoked by ADD FUNCTION...
 
 ## Model builder
 
-Add details of model generating function here.
+Pre defined models:
+
+```@docs
+generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
+```
 
 ### Defaults
 
@@ -43,7 +47,7 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 
 ### SI
 
-The susceptible-infectious ([SI](@ref)) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
+The susceptible-infectious (`"SI"`) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/>
@@ -51,7 +55,7 @@ The susceptible-infectious ([SI](@ref)) is a very basic model with only one type
 
 ### SIR
 
-The classic Kermack-McKendrick susceptible-infectious-recovered ([SIR](@ref)) model.
+The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/>
@@ -59,15 +63,19 @@ The classic Kermack-McKendrick susceptible-infectious-recovered ([SIR](@ref)) mo
 
 ### SIS
 
-The susceptible-infectious-susceptible ([SIS](@ref)) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
-
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/>
 ```
 
+The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/>
+```
+
 ### SIRS
 
-The susceptible-infectious-recovered-susceptible ([SIRS](@ref)) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
+The susceptible-infectious-recovered-susceptible (`"SIRS"`) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="140"/>
@@ -79,16 +87,16 @@ The next class of models extend the classic Kermack-McKendrick by accounting for
 
 ### SEI
 
-The susceptible-exposed-infectious ([SEI](@ref)) model.
+The susceptible-exposed-infectious (`"SEI"` model.
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="120"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="100"/>
 ```
 
 ### SEIR
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="120"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="100"/>
 ```
 
 ### SEIS
