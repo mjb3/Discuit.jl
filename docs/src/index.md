@@ -20,7 +20,7 @@
 
 This is a ref to pizza
 ```@raw html
-<!-- <div class="bibtex_display" bibtexkeys="pizza2000identification"></div> -->
+<div class="bibtex_display" bibtexkeys="pizza2000identification"></div>
 ```
 
 ## Package Features

@@ -4,13 +4,13 @@ The following examples provide a flavour of Discuit's core functionality. See th
 
 ## SIS model
 
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use `generate_model("SIS", [100,1])` to generate the model but constructing it manually is a helpful exercise for getting to know the package. We therefore behin by examining [DiscuitModel](@ref)s in the package documentation.
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use `generate_model("SIS", [100,1])` to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining [DiscuitModel](@ref) in the package documentation:
 
 ```@docs
 DiscuitModel
 ```
 
-Now that we know the necessary parameters for defining a model we can start by defining a rate function. Note that the correct signature must be used in order for it to be used with a [DiscuitModel](@ref):
+Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be used with a [DiscuitModel](@ref):
 
 ```@repl 1
 function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -57,7 +57,7 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the [gillespie_sim](@ref) function.
 
 ```@repl 1
-xi = gillespie_sim(model, [0.003,0.1])
+xi = gillespie_sim(model, [0.003,0.1]);
 ```
 
 We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK
