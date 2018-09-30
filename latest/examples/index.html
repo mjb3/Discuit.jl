@@ -99,7 +99,7 @@
 <p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
 <p><a id='SIS-model-1'></a></p>
 <h2 id="sis-model">SIS model</h2>
-<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To recreate Pooley's analysis we must first define the a <a href="../@ref">DiscuitModel</a>;</p>
+<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use <code>generate_model("SIS", [100,1])</code> to generate the model but constructing it manually is a helpful exercise for getting to know the package. We therefore behin by examining <a href="../@ref">DiscuitModel</a>s in the package documentation.</p>
 <p><a id='Discuit.DiscuitModel' href='#Discuit.DiscuitModel'>#</a>
 <strong><code>Discuit.DiscuitModel</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>DiscuitModel</code></pre>
@@ -117,8 +117,8 @@
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
 <p>A <code>mutable struct</code> which represents a DSSCT model for use with <a href="../@ref">Discuit.jl</a> functions.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/6169c21d9f98f8a23512f7a2acd0245efbc245be/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
-<p>We begin by defining a rate function. Note that the correct signature must be used for use in Discuit.</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/f9757123dccf762507c3c246ac1306c0035ca051/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p>Now that we know the necessary parameters for defining a model we can start by defining a rate function. Note that the correct signature must be used in order for it to be used with a <a href="../@ref">DiscuitModel</a>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
            output[2] = parameters[2] * population[2]
@@ -162,7 +162,7 @@ DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1])
-SimResults(Event[Event(1.4798, 1), Event(1.94033, 2), Event(2.13608, 1), Event(2.7242, 1), Event(2.75714, 1), Event(3.403, 1), Event(3.77959, 1), Event(3.83865, 1), Event(3.87335, 2), Event(4.31522, 2)  …  Event(99.3654, 1), Event(99.3738, 2), Event(99.496, 2), Event(99.5812, 1), Event(99.6221, 2), Event(99.636, 1), Event(99.6647, 1), Event(99.7306, 2), Event(99.8094, 1), Event(99.8273, 1)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [59 42; 41 60; … ; 35 66; 29 72]))</code></pre>
+SimResults(Event[Event(0.0372621, 1), Event(0.492447, 2), Event(0.810182, 1), Event(3.39945, 1), Event(3.40341, 2), Event(3.551, 1), Event(3.94079, 2), Event(4.28074, 2), Event(4.53174, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [101 0; 101 0; … ; 101 0; 101 0]))</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
