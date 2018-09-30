@@ -5,6 +5,8 @@ This section contains a directory of `struct`s and `Function`s in the package. S
 ## Contents
 
 ```@contents
+Pages = ["manual.md"]
+Depth = 2
 ```
 
 ## Custom structs

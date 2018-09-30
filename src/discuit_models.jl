@@ -5,14 +5,12 @@
     generate_weak_prior(n)
 
 **Parameters**
+
 - `n`   -- the number of parameters in the model.
 
 # Examples
 
-```@repl 1
-using Discuit # hide
-generate_weak_prior(1)
-```
+    generate_weak_prior(1)
 
 Generate a "weak" prior density function, where `n` is the number of parameters in the model.
 """
