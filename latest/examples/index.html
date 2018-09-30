@@ -105,19 +105,19 @@
 <pre class="codehilite"><code>DiscuitModel</code></pre>
 
 
-<p>A DSSCT model for use in Discuit. NEED TO EXPAND...</p>
 <p><strong>Fields</strong></p>
 <ul>
-<li><code>model_name</code>          – string, e,g, "SIR".</li>
+<li><code>model_name</code>          – string, e,g, <code>"SIR"</code>.</li>
 <li><code>rate_function</code>       – event rate function.</li>
 <li><code>m_transition</code>        – transition matrix.</li>
-<li><code>t0_index</code>            – index of the parameter that represents the initial time. 0 if fixed at 0.0.</li>
+<li><code>t0_index</code>            – index of the parameter that represents the initial time. <code>0</code> if fixed at <code>0.0</code>.</li>
 <li><code>initial_condition</code>   – initial condition</li>
 <li><code>obs_function</code>        – observation function.</li>
 <li><code>prior</code>               – prior density function.</li>
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/7c658fb18e00e103da5e3b010f10114710e56c93/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p>A <code>mutable struct</code> which represents a DSSCT model for use with <a href="../@ref">Discuit.jl</a> functions.</p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fd1b16265e85fa5496a274696e301a846089d05c/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p>We begin by defining a rate function. Note that the correct signature must be used for use in Discuit.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
@@ -162,7 +162,7 @@ DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1])
-SimResults(Event[Event(6.51731, 1), Event(6.55425, 2), Event(6.85163, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [101 0; 101 0; … ; 101 0; 101 0]))</code></pre>
+SimResults(Event[Event(1.38837, 1), Event(2.48275, 1), Event(3.16805, 1), Event(3.39959, 1), Event(3.76261, 2), Event(4.18384, 1), Event(5.44838, 1), Event(5.81737, 1), Event(6.30642, 1), Event(6.45062, 1)  …  Event(99.3202, 2), Event(99.3601, 2), Event(99.3607, 2), Event(99.5272, 2), Event(99.6322, 2), Event(99.6766, 2), Event(99.7134, 2), Event(99.7958, 1), Event(99.8989, 2), Event(99.9309, 2)], Observations([20.0, 40.0, 60.0, 80.0, 100.0], [47 54; 27 74; … ; 34 67; 34 67]))</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
