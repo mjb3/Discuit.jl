@@ -92,7 +92,6 @@
             <li><a href="#contents">Contents</a></li>
             <li><a href="#installation">Installation</a></li>
             <li><a href="#usage">Usage</a></li>
-            <li><a href="#index">Index</a></li>
             <li><a href="#test">test</a></li>
     </ul>
 </div></div>
@@ -118,7 +117,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/8caedc3e1cf329a54bffefffe1e29b1c8077fd1e/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/2e2fd55ade24b8442c57e989dbe3fee77578d6c1/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
 <p><a id='Contents-1'></a></p>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -144,7 +143,6 @@
 <li><a href=".#Contents-1">Contents</a></li>
 <li><a href=".#Installation-1">Installation</a></li>
 <li><a href=".#Usage-1">Usage</a></li>
-<li><a href=".#Index-1">Index</a></li>
 <li><a href=".#test-1">test</a></li>
 </ul>
 </li>
@@ -157,36 +155,19 @@
 
 <p><a id='Usage-1'></a></p>
 <h2 id="usage">Usage</h2>
-<p>The <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> section provides enough code to get up and running with further information available in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
-<p><a id='Index-1'></a></p>
-<h2 id="index">Index</h2>
-<ul>
-<li><a href=".#Discuit"><code>Discuit</code></a></li>
-<li><a href="manual/#Discuit.DiscuitModel"><code>Discuit.DiscuitModel</code></a></li>
-<li><a href="manual/#Discuit.GelmanResults"><code>Discuit.GelmanResults</code></a></li>
-<li><a href="manual/#Discuit.MCMCResults"><code>Discuit.MCMCResults</code></a></li>
-<li><a href="manual/#Discuit.Observations"><code>Discuit.Observations</code></a></li>
-<li><a href="manual/#Discuit.SimResults"><code>Discuit.SimResults</code></a></li>
-<li><a href="manual/#Discuit.compute_autocorrelation"><code>Discuit.compute_autocorrelation</code></a></li>
-<li><a href="manual/#Discuit.generate_gaussian_obs_model"><code>Discuit.generate_gaussian_obs_model</code></a></li>
-<li><a href="manual/#Discuit.generate_generic_obs_function-Tuple{}"><code>Discuit.generate_generic_obs_function</code></a></li>
-<li><a href="manual/#Discuit.generate_model"><code>Discuit.generate_model</code></a></li>
-<li><a href="manual/#Discuit.generate_weak_prior-Tuple{Int64}"><code>Discuit.generate_weak_prior</code></a></li>
-<li><a href="manual/#Discuit.gillespie_sim"><code>Discuit.gillespie_sim</code></a></li>
-<li><a href="manual/#Discuit.print_gelman_results-Tuple{GelmanResults,String}"><code>Discuit.print_gelman_results</code></a></li>
-<li><a href="manual/#Discuit.print_mcmc_results-Tuple{MCMCResults,String}"><code>Discuit.print_mcmc_results</code></a></li>
-<li><a href="manual/#Discuit.print_observations-Tuple{Observations,String}"><code>Discuit.print_observations</code></a></li>
-<li><a href="manual/#Discuit.print_trajectory-Tuple{DiscuitModel,SimResults,String}"><code>Discuit.print_trajectory</code></a></li>
-<li><a href="manual/#Discuit.read_obs_data_from_file-Tuple{String}"><code>Discuit.read_obs_data_from_file</code></a></li>
-<li><a href="manual/#Discuit.run_custom_mcmc"><code>Discuit.run_custom_mcmc</code></a></li>
-<li><a href="manual/#Discuit.run_gelman_diagnostic"><code>Discuit.run_gelman_diagnostic</code></a></li>
-<li><a href="manual/#Discuit.run_met_hastings_mcmc"><code>Discuit.run_met_hastings_mcmc</code></a></li>
-<li><a href="manual/#Discuit.set_random_seed-Tuple{Int64}"><code>Discuit.set_random_seed</code></a></li>
-</ul>
+<p>The <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> section provides enough code to get up and running. A more detailed guide to the pre defined models is available in the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section. Further information regarding the packages other functionality can be found in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
 <p><a id='test-1'></a></p>
 <h2 id="test">test</h2>
+<p>The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
 <p>$$
-\frac{n!}{k!(n - k)!} = \binom{n}{k}
+R_l  = \frac{\ev[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+$$</p>
+<p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
+<p>$$
+R^{\prime}<em i_l="i+l">l  = \frac{\ev[(X_i - \bar{X}_b)(X</em> - \bar{X}_b)]}{\sigma^2_b}\
+$$</p>
+<p>$$
+\sigma^2_b = \ev[(X_i - \bar{X}_b)^2]
 $$</p></div>
         </div>
 
@@ -272,5 +253,5 @@ $$</p></div>
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-09-30 22:58:18
+Build Date UTC : 2018-09-30 23:11:44
 -->
