@@ -1,5 +1,4 @@
 """
-# module Discuit
 
 Discuit is a package for:
 

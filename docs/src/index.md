@@ -1,3 +1,7 @@
+```@raw html
+<bibtex src="discuit.bib"></bibtex>
+```
+
 # Discuit.jl documentation
 
 *Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.*
@@ -7,6 +11,10 @@
     Please note that this package is still in development.
 
 The seminal work [see @pizza2000identification]
+
+```@raw html
+<div id="bibtex_display"></div>
+```
 
 ## Package Features
 
