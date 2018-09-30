@@ -117,7 +117,7 @@
 <li><code>obs_model</code>           – observation likelihood model.</li>
 </ul>
 <p>A <code>mutable struct</code> which represents a DSSCT model for use with <a href="../@ref">Discuit.jl</a> functions.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ca454701a2f44cc04fcbc95880289d93c2ff4162/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/7f73508e78e78dc68fc976479388f3cbd8e41d93/src/discuit_structs.jl#L23-L37' class='documenter-source'>source</a><br></p>
 <p>Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be used with a <a href="../@ref">DiscuitModel</a>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
