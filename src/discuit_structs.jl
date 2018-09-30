@@ -23,17 +23,17 @@ end
 """
     DiscuitModel
 
-A DSSCT model for use in Discuit. NEED TO EXPAND...
-
 **Fields**
-- `model_name`          -- string, e,g, "SIR".
+- `model_name`          -- string, e,g, `"SIR"`.
 - `rate_function`       -- event rate function.
 - `m_transition`        -- transition matrix.
-- `t0_index`            -- index of the parameter that represents the initial time. 0 if fixed at 0.0.
+- `t0_index`            -- index of the parameter that represents the initial time. `0` if fixed at `0.0`.
 - `initial_condition`   -- initial condition
 - `obs_function`        -- observation function.
 - `prior`               -- prior density function.
 - `obs_model`           -- observation likelihood model.
+
+A `mutable struct` which represents a DSSCT model for use with [Discuit.jl](@ref) functions.
 """
 mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
     # model name
@@ -80,11 +80,11 @@ end
 """
     SimResults
 
-The results of a simulation.
-
 **Fields**
 - `trajectory`      -- array of type `Event`.
 - `observations`    -- variable of type `Observations`.
+
+The results of a simulation.
 """
 struct SimResults
     trajectory::Array{Event}
@@ -109,13 +109,13 @@ end
 """
     MCMCResults
 
-The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
-
 **Fields**
 - `samples`     -- two dimensional array of samples.
 - `mc_accepted` -- proposal accepted
 - `mean`        -- sample mean.
 - `covar`       -- parameter covariance matrix.
+
+The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
 """
 struct MCMCResults
     samples::Array{Float64, 2}
@@ -138,14 +138,14 @@ end
 """
     GelmanResults
 
-Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`)..
-
 **Fields**
 - `mu`      -- between chain sample mean.
 - `sre`     -- scale reduction factor estimate.
 - `sre_ll`  -- scale reduction factor lower confidence interval.
 - `sre_ul`  -- scale reduction factor upper confidence interval.
 - `mcmc`    -- array of `MCMCResults`
+
+Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`).
 """
 struct GelmanResults
     mu::Array{Float64, 1}

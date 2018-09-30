@@ -49,3 +49,22 @@ The [Discuit.jl examples](@ref) section provides enough code to get up and runni
 
 ```@index
 ```
+
+## test
+
+```@raw html
+<html>
+<head>
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
+</head>
+<body>
+<textarea id="bibtex_input" style="display:none;">
+@book{book1,
+  author = "Donald Knuth",
+  title = "Concrete Mathematics"
+}
+</textarea>
+<div id="bibtex_display"></div>
+</body>
+</html>
+```
