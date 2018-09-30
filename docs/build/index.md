@@ -38,7 +38,7 @@ Discuit is a package for:
   * Date: 2018-08-22
 
 
-<a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/05edd537241a52c08fc338fccfabed0c6ba0302f/src/Discuit.jl#L1-L15' class='documenter-source'>source</a><br>
+<a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/9e3bedd33e8b1a43c693ddebaa9dfc05f48e878d/src/Discuit.jl#L1-L15' class='documenter-source'>source</a><br>
 
 
 <a id='Contents-1'></a>
