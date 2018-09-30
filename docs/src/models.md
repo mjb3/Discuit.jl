@@ -6,9 +6,7 @@ The following pre defined models can be invoked by ADD FUNCTION...
 
 Pre defined models:
 
-<!-- ```@docs
-generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
-``` -->
+    generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
 
 ### Defaults
 
