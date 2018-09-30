@@ -100,40 +100,59 @@
 <p><a id='SIS-model-1'></a></p>
 <h2 id="sis-model">SIS model</h2>
 <p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use <code>generate_model("SIS", [100,1])</code> to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining <a href="../@ref">DiscuitModel</a> in the package documentation:</p>
-<!– ```@docs DiscuitModel
-
-<p>```--&gt;</p>
-<p>Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be used with a <a href="../@ref">DiscuitModel</a>:</p>
-<pre class="codehilite"><code>@repl 1 function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})     output[1] = parameters[1] * population[1] * population[2]     output[2] = parameters[2] * population[2] end</code></pre>
+<p>ADD CODE BLOCK TO SEARCH?</p>
+<p>Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be compatible with the package:</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
+           output[1] = parameters[1] * population[1] * population[2]
+           output[2] = parameters[2] * population[2]
+       end
+sis_rf (generic function with 1 method)</code></pre>
 
 
 <p>Next we define a simple observation function, again with the correct signature:</p>
-<pre class="codehilite"><code>@repl 1 obs_fn(population::Array{Int64, 1}) = population</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; obs_fn(population::Array{Int64, 1}) = population
+obs_fn (generic function with 1 method)</code></pre>
 
 
 <p>Naturally we choose the same prior distribution as Pooley so that we can compare results. The return type must be Float.</p>
-<pre class="codehilite"><code>@repl 1 function weak_prior(parameters::Array{Float64, 1})     parameters[1] &gt; 0.0 || return 0.0     parameters[2] &gt; 0.0 || return 0.0     return 1.0 end</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; function weak_prior(parameters::Array{Float64, 1})
+           parameters[1] &gt; 0.0 || return 0.0
+           parameters[2] &gt; 0.0 || return 0.0
+           return 1.0
+       end
+weak_prior (generic function with 1 method)</code></pre>
 
 
 <p>Finally, we define an observation likelihood model. Again, we use the same as Pooley, with observation errors normally distributed around the true value with standard deviation <code>2</code>:</p>
-<pre class="codehilite"><code>@repl 1 function si*gaussian(y::Array{Int64, 1}, population::Array{Int64, 1})     obs*err = 2     tmp1 = log(1 / (sqrt(2 * pi) * obs*err))     tmp2 = 2 * obs*err * obs*err     obs*diff = y[2] - population[2]     return tmp1 - ((obs*diff * obs*diff) / tmp2) end</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; function si_gaussian(y::Array{Int64, 1}, population::Array{Int64, 1})
+           obs_err = 2
+           tmp1 = log(1 / (sqrt(2 * pi) * obs_err))
+           tmp2 = 2 * obs_err * obs_err
+           obs_diff = y[2] - population[2]
+           return tmp1 - ((obs_diff * obs_diff) / tmp2)
+       end
+si_gaussian (generic function with 1 method)</code></pre>
 
 
 <p>We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:</p>
-<pre class="codehilite"><code>@repl 1 using Discuit model = DiscuitModel(&quot;SIS&quot;, sis*rf, [-1 1; 1 -1], 0, [100, 1], obs*fn, weak*prior, si*gaussian)</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; using Discuit
+
+julia&gt; model = DiscuitModel(&quot;SIS&quot;, sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian)
+DiscuitModel{typeof(Main.ex-1.sis_rf),typeof(Main.ex-1.obs_fn),typeof(Main.ex-1.weak_prior),typeof(Main.ex-1.si_gaussian)}(&quot;SIS&quot;, Main.ex-1.sis_rf, [-1 1; 1 -1], 0, [100, 1], Main.ex-1.obs_fn, Main.ex-1.weak_prior, Main.ex-1.si_gaussian)</code></pre>
 
 
+<p><a id='Simulation-1'></a></p>
 <h3 id="simulation">Simulation</h3>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <a href="../@ref">gillespie_sim</a> function.</p>
-<pre class="codehilite"><code>@repl 1 xi = gillespie_sim(model, [0.003,0.1]);</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003,0.1]);</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
 <p><img alt="SIS simulation" src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" /></p>
+<p><a id='MCMC-1'></a></p>
 <h3 id="mcmc">MCMC</h3>
 <p>Running an MCMC analysis based on a set of observations data is simple. TBC...</p>
-<p>```</p>
-<p>@raw html <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/> ```</p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
 <p>Some situations...</p>
