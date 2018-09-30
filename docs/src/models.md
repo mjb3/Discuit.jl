@@ -124,6 +124,8 @@ with the transition matrix given as:
 
 ### SETIR model for bTB
 
+## References
+
 ```@raw html
 <html>
 <head>
