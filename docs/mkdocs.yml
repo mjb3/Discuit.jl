@@ -11,8 +11,8 @@ markdown_extensions:
   - tables
   - fenced_code
   - mdx_bib:
-    - bibtex_file: 'docs/discuit.bib'
-    # - order: 'unsorted'
+    bibtex_file: 'discuit.bib'
+    order: 'unsorted'
   # - mdx_math # For LaTeX
 
 extra_css:
