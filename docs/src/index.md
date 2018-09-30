@@ -14,7 +14,6 @@
 </head>
 <body>
 <bibtex src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/discuit.bib"></bibtex>
-<div id="bibtex_display"></div>
 This is a ref to pizza
 <div class="bibtex_display" bibtexkeys="pizza2000identification"></div>
 </body>
