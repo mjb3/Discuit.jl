@@ -10,6 +10,12 @@
 !!! note
     Please note that this package is still in development.
 
+This is a ref to pizza
+```@raw html
+<div class="bibtex_display" bibtexkeys="pizza2000identification"></div>
+```
+.
+
 The seminal work [see @pizza2000identification]
 
 ```@raw html
