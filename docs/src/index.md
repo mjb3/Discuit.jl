@@ -5,9 +5,7 @@
 
 !!! note
     Please note that this package is still in development.
-.
 
-The seminal work [see @pizza2000identification]
 
 ```@raw html
 <html>
@@ -17,6 +15,8 @@ The seminal work [see @pizza2000identification]
 <body>
 <bibtex src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/discuit.bib"></bibtex>
 <div id="bibtex_display"></div>
+This is a ref to pizza
+<div class="bibtex_display" bibtexkeys="pizza2000identification"></div>
 </body>
 </html>
 ```
