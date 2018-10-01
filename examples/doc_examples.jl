@@ -77,7 +77,7 @@ function custom_bobs()
     t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
     y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
     # initial sequence
-    n::Int64 = (2 * length(t)) - 1;
+    # n::Int64 = (2 * length(t)) - 1;
     evt_tm = Float64[];
     evt_tp = Int64[];
     # infections ar arbitrary t (must be > t0)

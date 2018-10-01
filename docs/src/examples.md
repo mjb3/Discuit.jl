@@ -107,7 +107,7 @@ model = generate_model("SIR", [119, 1, 0]);
 model.t0_index = 3;
 ```
 
-Next we define the "medium" prior used by O'Neill and Roberts, with some help from the Distributions package ADD LINK:
+Next we define the "medium" prior used by O'Neill and Roberts, with some help from the [Distributions.jl](https://github.com/JuliaStats/Distributions.jl) package:
 
 ```@repl 1
 using Distributions;
@@ -126,23 +126,24 @@ observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
 model.observation_model = observation_model
 ```
 
-Next we define an initial state using the `generate_custom_x0` function using some parameter values and a vector of event times and corresponding event types, consistent with the removal times `t` reported by O'Neill and Roberts.
+Next we define an array `t` to contain the recovery times reported by O'Neill and Roberts and a simple `Observations` variable which consists of the maximum event time and an empty two dimensional array:
 
 ```@repl 1
 # removal times
 t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
-# initial sequence
-n::Int64 = (2 * length(t)) - 1;
+```
+
+We also need to define an initial state using the `generate_custom_x0` function using some parameter values and a vector of event times and corresponding event types, consistent with `t`:
+
+```@repl 1
 evt_tm = Float64[];
 evt_tp = Int64[];
-# infections ar arbitrary t (must be > t0)
-for i in 1:(length(t) - 1)
+for i in 1:(length(t) - 1)# infections at arbitrary t > t0
     push!(evt_tm, -4.0)
     push!(evt_tp, 1)
 end
-# recoveries
-for i in eachindex(t)
+for i in eachindex(t)     # recoveries
     push!(evt_tm, t[i])
     push!(evt_tp, 2)
 end

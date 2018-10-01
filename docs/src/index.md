@@ -4,6 +4,8 @@
 
 *** Please note that this package is still in development. ***
 
+> Another note
+
 ## Package Features
 
 ```@docs
@@ -38,11 +40,11 @@ R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 for any given lag `l`. The modified formula for multiple chains is given by:
 
 ```math
-R^{\prime}_l
+R^{\prime}_l = \ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
 ```
 
 ```math
-\frac{\ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]}{\sigma^2_b}
+\frac{x}{\sigma^2_b}
 ```
 
 ```math
