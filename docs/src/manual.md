@@ -56,6 +56,7 @@ print_observations
 read_obs_data_from_file
 print_mcmc_results
 print_gelman_results
+print_autocorrelation
 ```
 
 ### custom MCMC
