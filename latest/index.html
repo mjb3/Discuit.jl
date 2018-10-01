@@ -99,9 +99,8 @@
 
 <p><a id='Discuit.jl-documentation-1'></a></p>
 <h1 id="discuitjl-documentation">Discuit.jl documentation</h1>
-<p><em>Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.</em> &lt;!– Discuit: simulation and parameter inference for discrete state space continuous time (DSSCT) models. –&gt;</p>
-<p>!!! note
-    Please note that this package is still in development.</p>
+<p><em>Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.</em></p>
+<p><strong><em> Please note that this package is still in development. </em></strong></p>
 <p><a id='Package-Features-1'></a></p>
 <h2 id="package-features">Package Features</h2>
 <p><a id='Discuit' href='#Discuit'>#</a>
@@ -117,7 +116,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/30c82230093d6e0a9ea80063c610a83f146da744/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/85eb1484f0ae18fe5b65ae1158379d0cd7b6c2d0/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
 <p><a id='Contents-1'></a></p>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -168,7 +167,10 @@ R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 $$</p>
 <p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
 <p>$$
-R^{\prime}<em i_l="i+l">l  = \frac{\ev[(X_i - \bar{X}_b)(X</em> - \bar{X}_b)]}{\sigma^2_b}
+R^{\prime}_l
+$$</p>
+<p>$$
+\frac{\ev[(X_i - \bar{X}<em i_l="i+l">b)(X</em> - \bar{X}_b)]}{\sigma^2_b}
 $$</p>
 <p>$$
 \sigma^2_b = \ev[(X_i - \bar{X}_b)^2]
@@ -257,5 +259,5 @@ $$</p></div>
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-10-01 19:51:08
+Build Date UTC : 2018-10-01 20:05:58
 -->
