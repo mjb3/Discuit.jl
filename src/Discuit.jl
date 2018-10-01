@@ -29,9 +29,9 @@ export generate_model, generate_gaussian_obs_model, generate_generic_obs_functio
 # utilities (e.g. saving results to file0
 export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, read_obs_data_from_file
 # custom functionality (in development)
-export MarkovState, ParameterProposal, Event, PrivateDiscuitModel, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
+export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
-export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like
+export PrivateDiscuitModel, Event, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like
 
 
 include("./discuit_structs.jl")
@@ -91,13 +91,8 @@ function iterate_sim!(model::PrivateDiscuitModel, trajectory::Array{Event, 1}, p
         # print("\n t: ", time, ". R: ", cum_rates[end])
     end
 end
-## NEED TO TEMPLATE FOR OPTIONAL EVENTS
-# gillespie_sim
-# gillespie_sim_x0
-# MBP
-# Std proposal
 
-# run sim and return trajectory
+## run sim and return trajectory
 # - ADD option for >1 sim?
 """
     gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)
@@ -143,22 +138,48 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
             # print("\n period: ", i, ". time: ", t_prev)
             iterate_sim!(model, trajectory, population, parameters, t_prev, model.obs_data.time[i])
             # evaluate log likelihood
-            output += model.obs_model(model.obs_data.val[i,:], population)
+            output += model.observation_model(model.obs_data.val[i,:], population)
             output == NULL_LOG_LIKE && break
             t_prev = model.obs_data.time[i]
         end
         ## REPLACE WITH CONST OR PARAMETER? *****
         if output != NULL_LOG_LIKE && length(trajectory) > 5
-            return MarkovState(ParameterProposal(parameters, model.prior(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
+            return MarkovState(ParameterProposal(parameters, model.prior_density(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
         end
     end
 end
+"""
+    generate_custom_x0(parameters, t_r)
+
+**Parameters**
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
+- `proposal_function`   -- `Function` for proposing changes to the trajectory. NEED TO EXPAND AND XREF...
+- `x0`                  -- `MarkovState` representing the initial sample and trajectory.
+- `steps`               -- number of iterations.
+- `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
+- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
+
+Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
+"""
+## generate MarkovState based on custom trajectory (helper)
+function generate_custom_x0(model::DiscuitModel, obs_data::Observations, parameters::Array{Float64, 1}, event_times::Array{Float64, 1}, event_types::Array{Int, 1})
+    prop = ParameterProposal(parameters, model.prior_density(parameters))
+    trajectory = Array{Event, 1}(undef, length(event_times))
+    ## generate sequence
+    for i in eachindex(event_times)
+        trajectory[i] = Event(event_times[i], event_types[i])
+    end
+    ## return as Proposal result
+    return MarkovState(prop, trajectory, compute_full_log_like(get_private_model(model, obs_data), parameters, trajectory), DF_PROP_LIKE, 0)
+end
+
 ## mv parameter proposal
 function get_mv_param(model::PrivateDiscuitModel, g::MvNormal, sclr::Float64, theta_i::Array{Float64, 1})
     output = rand(g)
     output .*= sclr
     output .+= theta_i
-    return ParameterProposal(output, model.prior(output))
+    return ParameterProposal(output, model.prior_density(output))
 end
 ## standard trajectory proposal
 # likelihood function
@@ -192,7 +213,7 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
         # model.pop_index > 0 && (ll_traj += log(lambda[model.pop_index]))
         ll_traj -= sum(lambda) * (model.obs_data.time[obs_i] - t)
         # obs model
-        ll_obs += model.obs_model(model.obs_data.val[obs_i,:], population)
+        ll_obs += model.observation_model(model.obs_data.val[obs_i,:], population)
         ll_traj == NULL_LOG_LIKE && return log(0.0)
         t = model.obs_data.time[obs_i]
     end
@@ -367,7 +388,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
             length(xf_trajectory) > MAX_TRAJ && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE))
             # else handle observation
             time = model.obs_data.time[obs_i]
-            output += model.obs_model(model.obs_data.val[obs_i,:], pop_f)
+            output += model.observation_model(model.obs_data.val[obs_i,:], pop_f)
         end
         return MarkovState(xf_parameters, xf_trajectory, output, DF_PROP_LIKE, MBP_PROP_TYPE)
     end

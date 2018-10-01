@@ -57,7 +57,7 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the `gillespie_sim` function.
 
 ```@repl 1
-xi = gillespie_sim(model, [0.003,0.1]);
+xi = gillespie_sim(model, [0.003, 0.1]);
 ```
 
 We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK
@@ -70,12 +70,27 @@ Running an MCMC analysis based on a set of observations data is simple. TBC...
 
 ```@repl 1
 obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-rs = run_met_hastings_mcmc(model, obs, [0.003,0.1]);
+rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 print(rs.mean)
 ```
 
 Placeholder for MCMC output.
 
+### Diagnostic
+
+#### Geweke
+
+```@repl 1
+rs.geweke
+```
+
+#### Gelman-Rubin diagnostic
+
+```@repl 1
+rs.geweke
+```
+
+#### Autocorrelation
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
@@ -85,5 +100,92 @@ Placeholder for MCMC output.
 
 Some situations...
 
+First we generate a standard [SIR](@ref) model and set the `t0_index = 3`.
+
+```@repl 1
+model = generate_model("SIR", [119, 1, 0]);
+model.t0_index = 3;
+```
+
+Next we define the "medium" prior used by O'Neill and Roberts, with some help from the Distributions package ADD LINK:
+
+```@repl 1
+using Distributions;
+p1 = Gamma(10, 0.0001);
+p2 = Gamma(10, 0.01);
+function prior_density(parameters::Array{Float64, 1})
+    return parameters[3] < 0.0 ? pdf(p1, parameters[1]) * pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+end
+model.prior_density = prior_density
+```
+
+The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and ``\pi(\xi | \theta)`` is evaluated automatically by Discuit):
+
+```@repl 1
+observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
+model.observation_model = observation_model
+```
+
+Next we define an initial state using the `generate_custom_x0` function using some parameter values and a vector of event times and corresponding event types, consistent with the removal times `t` reported by O'Neill and Roberts.
+
+```@repl 1
+# removal times
+t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
+y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
+# initial sequence
+n::Int64 = (2 * length(t)) - 1;
+evt_tm = Float64[];
+evt_tp = Int64[];
+# infections ar arbitrary t (must be > t0)
+for i in 1:(length(t) - 1)
+    push!(evt_tm, -4.0)
+    push!(evt_tp, 1)
+end
+# recoveries
+for i in eachindex(t)
+    push!(evt_tm, t[i])
+    push!(evt_tp, 2)
+end
+x0 = generate_custom_x0(model, y, [0.001, 0.1, -4.0], evt_tm, evt_tp);
+```
+
+The final step before we run our analysis is to define the algorithm which will propose changes to augmented data (parameter proposals are automatically configured by Discuit).
+
+```@repl 1
+function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+    t0 = xf_parameters.value[model.t0_index]
+    ## move
+    seq_f = copy(xi.trajectory)
+    # choose event and define new one
+    evt_i = rand(1:length(xi.trajectory))
+    evt_tm = xi.trajectory[evt_i].event_type == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory[evt_i].time) + rand()
+    evt = Event(evt_tm, xi.trajectory[evt_i].event_type)
+    # remove old one
+    splice!(seq_f, evt_i)
+    # add new one
+    if evt.time > seq_f[end].time
+        push!(seq_f, evt)
+    else
+        for i in eachindex(seq_f)
+            if seq_f[i].time > evt.time
+                insert!(seq_f, i, evt)
+                break
+            end
+        end
+    end
+    # compute ln g(x)
+    prop_lk = 1.0
+    ## evaluate full likelihood for trajectory proposal and return
+    return MarkovState(xi.parameters, seq_f, compute_full_log_like(model, xi.parameters.value, seq_f), prop_lk, 3)
+end # end of std proposal function
+```
+
+We can now run the MCMC analysis:
+
+```@repl 1
+rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+```
+
+PLACEHOLDER FOR CUSTOM MCMC VISUAL OUTPUT
 
 - link to [`set_random_seed(seed::Int64)`](@ref)

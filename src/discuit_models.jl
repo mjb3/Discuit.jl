@@ -15,13 +15,13 @@
 Generate a "weak" prior density function, where `n` is the number of parameters in the model.
 """
 function generate_weak_prior(n::Int)
-    function weak_prior(parameters::Array{Float64, 1})
+    function prior_density(parameters::Array{Float64, 1})
         for i in eachindex(parameters)
             parameters[i] < 0.0 && (return 0.0)
         end
         return 1.0
     end
-    return weak_prior
+    return prior_density
 end
 # gaussian observation likelihood model
 """

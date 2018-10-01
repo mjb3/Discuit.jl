@@ -1,15 +1,15 @@
 # Discuit.jl manual
 
-This section contains a directory of `struct`s and `Function`s in the package. See [Discuit.jl examples](@ref) for a broad overview of the package's core functionality.
+See [Discuit.jl examples](@ref) for a brief introduction to the package's core functionality.
 
 ## Contents
 
 ```@contents
 Pages = ["manual.md"]
-Depth = 2
+Depth = 3
 ```
 
-## Custom structs
+## Types
 
 ```@docs
 DiscuitModel
@@ -61,7 +61,9 @@ print_autocorrelation
 
 ### custom MCMC
 
-TBC...
+```@docs
+generate_custom_x0
+```
 
 ## Index
 

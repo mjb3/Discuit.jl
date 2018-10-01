@@ -25,7 +25,7 @@ The default `model.obs_function` is YET TO BE DETERMINED...
 
 #### Observation likelihood model
 
-The default `model.obs_model` is Gaussian with observation error `σ = 2.0` by default, which can be changed by providing an optional third parameter to `generate_model` per the example above,
+The default `model.observation_model` is Gaussian with observation error `σ = 2.0` by default, which can be changed by providing an optional third parameter to `generate_model` per the example above,
 
 ADD EQNS
 

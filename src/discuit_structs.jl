@@ -30,16 +30,16 @@ end
 - `t0_index`            -- index of the parameter that represents the initial time. `0` if fixed at `0.0`.
 - `initial_condition`   -- initial condition
 - `obs_function`        -- observation function.
-- `prior`               -- prior density function.
-- `obs_model`           -- observation likelihood model.
+- `prior_density`       -- prior density function.
+- `observation_model`   -- observation likelihood model.
 
 A `mutable struct` which represents a DSSCT model (see [Discuit.jl models](@ref) for further details).
 """
-mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
+mutable struct DiscuitModel # RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function
     # model name
     model_name::String
     # event rate function
-    rate_function::RFT
+    rate_function::Function
     # transition matrix
     m_transition::Array{Int64, 2}
     # t0 index (0 ~ fixed at 0.0)
@@ -47,15 +47,15 @@ mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fu
     # initial condition
     initial_condition::Array{Int64, 1}
     # observation function (for sim TBA)
-    obs_function::OFT
+    obs_function::Function
     # prior density function
-    prior::PDT
+    prior_density::Function
     # observation model (log likelihood)
-    obs_model::OMT
+    observation_model::Function
 end
 ## JIT private models
 function get_private_model(model::DiscuitModel, obs_data::Observations)
-    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.obs_function, model.prior, model.obs_model, obs_data)
+    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.obs_function, model.prior_density, model.observation_model, obs_data)
 end
 # latent observation model
 struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
@@ -70,9 +70,9 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # observation function (for sim TBA)
     obs_function::OFT
     # prior density function
-    prior::PDT
+    prior_density::PDT
     # observation model (log likelihood)
-    obs_model::OMT
+    observation_model::OMT
     # obs data
     obs_data::Observations
 end
