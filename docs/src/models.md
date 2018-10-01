@@ -12,7 +12,7 @@ Pre defined models can be invoked by calling:
 
 ```@repl
 model = generate_model("SIS", [100, 1]]);
-model = generate_model("SEIR", [100, 0, 1, 0]], 1.0);
+model = generate_model("SEIR", [100, 0, 1, 0]], 1.0)
 ```
 
 ### Defaults

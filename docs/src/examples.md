@@ -76,21 +76,33 @@ print(rs.mean)
 
 Placeholder for MCMC output.
 
+![MCMC traceplots](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png)
+
 ### Diagnostic
 
 #### Geweke
 
+NEED TO ADD geweke definition...
+
 ```@repl 1
 rs.geweke
 ```
+
+![MCMC analysis](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png)
 
 #### Gelman-Rubin diagnostic
 
+NEED TO ADD gelman definition...
+
 ```@repl 1
-rs.geweke
+rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+rs.mu
+ac = compute_autocorrelation(rs.mcmc);
 ```
 
 #### Autocorrelation
+
+NEED TO ADD autocorr definition...
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
@@ -110,27 +122,27 @@ model.t0_index = 3;
 Next we define the "medium" prior used by O'Neill and Roberts, with some help from the [Distributions.jl](https://github.com/JuliaStats/Distributions.jl) package:
 
 ```@repl 1
+import Pkg; Pkg.add("Distributions"); # hide
 using Distributions;
 p1 = Gamma(10, 0.0001);
 p2 = Gamma(10, 0.01);
 function prior_density(parameters::Array{Float64, 1})
     return parameters[3] < 0.0 ? pdf(p1, parameters[1]) * pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
 end
-model.prior_density = prior_density
+model.prior_density = prior_density;
 ```
 
 The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and ``\pi(\xi | \theta)`` is evaluated automatically by Discuit):
 
 ```@repl 1
 observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
-model.observation_model = observation_model
+model.observation_model = observation_model;
 ```
 
 Next we define an array `t` to contain the recovery times reported by O'Neill and Roberts and a simple `Observations` variable which consists of the maximum event time and an empty two dimensional array:
 
 ```@repl 1
-# removal times
-t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
+t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0]
 y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
 ```
 

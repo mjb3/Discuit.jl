@@ -58,7 +58,7 @@ function mcmc_example()
     # obs data
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
     model = pooley_sis_model()
-    rs = run_met_hastings_mcmc(model, obs, [0.003,0.1])
+    rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1])
     print_mcmc_results(rs, "./out/mcmc_example/")
 end
 ## convergence diagnostic

@@ -679,6 +679,7 @@ end
 - `obs_data`            -- `Observations` data.
 - `initial_parameters`  -- matrix of initial model parameters. Each column vector correspondes to a single model parameter.
 - `steps`               -- number of iterations.
+- `adapt_period`        -- number of discarded samples.
 - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
 
