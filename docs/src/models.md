@@ -1,16 +1,23 @@
 # Discuit.jl models
 
-The following pre defined models can be invoked by ADD FUNCTION...
+Discuit comes with a number of well known, mostly epidemiological models pre defined. This section describes the models and how to use them.
 
 ## Model builder
 
-Pre defined models:
+Pre defined models can be invoked by calling:
 
-    generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
+    generate_model(model_name, initial_condition, σ = 2.0)
+
+** Examples **
+
+```@repl
+model = generate_model("SIS", [100, 1]]);
+model = generate_model("SEIR", [100, 0, 1, 0]], 1.0);
+```
 
 ### Defaults
 
-[Discuit.jl models](@ref) are `mutable struct`s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the model name and `initial_condition` are required to call ADD XREF. The following gives an overview of important defaults that the user should note before proceeding with their analysis.
+[Discuit.jl models](@ref) are `mutable struct`s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the 'model_name' and `initial_condition` are required to call `generate_model`. The following gives an overview of important defaults that the user should note before proceeding with their analysis.
 
 #### Observation function
 
@@ -18,7 +25,9 @@ The default `model.obs_function` is YET TO BE DETERMINED...
 
 #### Observation likelihood model
 
-The default `model.obs_model` is YET TO BE DETERMINED...
+The default `model.obs_model` is Gaussian with observation error `σ = 2.0` by default, which can be changed by providing an optional third parameter to `generate_model` per the example above,
+
+ADD EQNS
 
 #### Prior density function
 
