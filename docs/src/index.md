@@ -41,7 +41,7 @@ R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 for any given lag `l`. The modified formula for multiple chains is given by:
 
 ```math
-R^{'''}_l  = \frac{\ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]}{\sigma^2_b}\\
+R^{\prime}_l  = \frac{\ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]}{\sigma^2_b}
 ```
 
 ```math

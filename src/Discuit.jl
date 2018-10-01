@@ -103,7 +103,7 @@ end
     gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)
 
 **Parameters**
-- `model`       -- `DiscuitModel`
+- `model`       -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `parameters`  -- model parameters.
 - `tmax`        -- maximum time.
 - `num_obs`     -- number of observations to draw,
@@ -380,8 +380,8 @@ end
     run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
-- `model`               -- [DiscuitModel](@ref).
-- `obs_data`            -- [Observations](@ref) data.
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
 - `initial_parameters`  -- initial model parameters (i.e. sample).
 - `steps`               -- number of iterations.
 - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
@@ -402,10 +402,10 @@ end
     run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)
 
 **Parameters**
-- `model`               -- [DiscuitModel](@ref).
-- `obs_data`            -- [Observations](@ref) data.
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
 - `proposal_function`   -- `Function` for proposing changes to the trajectory. NEED TO EXPAND AND XREF...
-- `x0`                  -- [MarkovState](@ref) representing the initial sample and trajectory.
+- `x0`                  -- `MarkovState` representing the initial sample and trajectory.
 - `steps`               -- number of iterations.
 - `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
@@ -544,7 +544,7 @@ const LAG_INT = 10
     compute_autocorrelation(mcmc, lags = 200)
 
 **Parameters**
-- `mcmc`    -- [MCMCResults](@ref).
+- `mcmc`    -- `MCMCResults` variable.
 - `lags`    -- the number of lags to compute. Default: 200.
 
 Compute autocorrelation R for a single Markov chain.
@@ -576,7 +576,7 @@ end
     compute_autocorrelation(mcmc, lags = 200)
 
 **Parameters**
-- `mcmc`    -- an array of [MCMCResults](@ref).
+- `mcmc`    -- an array of `MCMCResults` variables.
 - `lags`    -- the number of lags to compute. Default: 200.
 
 Compute autocorrelation R' for a two or more Markov chains.
@@ -654,8 +654,8 @@ end
     run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
-- `model`               -- [DiscuitModel](@ref).
-- `obs_data`            -- [Observations](@ref) data.
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
 - `initial_parameters`  -- matrix of initial model parameters. Each column vector correspondes to a single model parameter.
 - `steps`               -- number of iterations.
 - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
@@ -804,7 +804,7 @@ end
     print_gelman_results(results::GelmanResults, dpath::String)
 
 **Parameters**
-- `results` -- [GelmanResults](@ref).
+- `results` -- `GelmanResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
 Save the results from a call to [run_gelman_diagnostic](@ref) to the directory `dpath`, e.g. "./out/gelman/".
@@ -831,7 +831,7 @@ end
     print_mcmc_results(mcmc, dpath)
 
 **Parameters**
-- `results` -- [MCMCResults](@ref).
+- `results` -- `MCMCResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
 Save the results from a call to [run_met_hastings_mcmc](@ref) or [run_custom_mcmc](@ref) to the directory `dpath`, e.g. "./out/mcmc/".
@@ -895,11 +895,11 @@ end
     print_trajectory(model, sim_results, fpath)
 
 **Parameters**
-- `model`       -- [DiscuitModel](@ref).
-- `sim_results` -- [SimResults](@ref).
+- `model`       -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `sim_results` -- `SimResults` variable.
 - `fpath`       -- the destination file path.
 
-Save an augmented trajectory from a variable of type `SimResults` (i.e. from a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. "./out/sim.csv".
+Save an augmented trajectory from a variable of type `SimResults` (i.e. from a call to `gillespie_sim`, see [Simulation](@ref)) to the file `fpath`, e.g. "./out/sim.csv".
 """
 function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
     open(fpath, "w") do f
@@ -938,7 +938,7 @@ end # end of function
     print_observations(obs_data, fpath)
 
 **Parameters**
-- `obs_data`    -- [Observations](@ref) data.
+- `obs_data`    -- `Observations` data.
 - `fpath`       -- the destination file path.
 
 Save a set of observations (e.g. from a `SimResults` obtained by a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. "./out/obs.csv".
@@ -965,7 +965,7 @@ end
 **Parameters**
 - `fpath`       -- the destination file path.
 
-Read a set of observations from the location `fpath` and return the results as a variable of type [Observations](@ref).
+Read a set of observations from the location `fpath` and return the results as a variable of type `Observations`.
 """
 function read_obs_data_from_file(fpath::String)
     # NEED TO FIX WARNING ***

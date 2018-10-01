@@ -33,7 +33,7 @@ end
 - `prior`               -- prior density function.
 - `obs_model`           -- observation likelihood model.
 
-A `mutable struct` which represents a DSSCT model for use with [Discuit.jl](@ref) functions.
+A `mutable struct` which represents a DSSCT model (see [Discuit.jl models](@ref) for further details).
 """
 mutable struct DiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
     # model name
