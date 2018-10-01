@@ -4,9 +4,12 @@ The following examples provide a flavour of Discuit's core functionality. See th
 
 ## SIS model
 
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use `generate_model("SIS", [100,1])` to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining [DiscuitModel](@ref) in the package documentation:
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use `generate_model("SIS", [100,1])` to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining `DiscuitModel` in the package documentation:
 
-ADD CODE BLOCK TO SEARCH?
+```@repl 1
+using Discuit;
+?DiscuitModel
+```
 
 Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be compatible with the package:
 
@@ -46,13 +49,12 @@ end
 We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:
 
 ```@repl 1
-using Discuit
-model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian)
+model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
 ```
 
 ### Simulation
 
-Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the [gillespie_sim](@ref) function.
+Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the `gillespie_sim` function.
 
 ```@repl 1
 xi = gillespie_sim(model, [0.003,0.1]);
@@ -66,6 +68,15 @@ We can also visualise the results using the corresponding R package: rDiscuit. A
 
 Running an MCMC analysis based on a set of observations data is simple. TBC...
 
+```@repl 1
+obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
+rs = run_met_hastings_mcmc(model, obs, [0.003,0.1]);
+print(rs.mean)
+```
+
+Placeholder for MCMC output.
+
+
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
 ```
@@ -75,5 +86,4 @@ Running an MCMC analysis based on a set of observations data is simple. TBC...
 Some situations...
 
 
-- link to [Discuit.jl documentation](@ref)
 - link to [`set_random_seed(seed::Int64)`](@ref)

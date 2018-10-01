@@ -39,6 +39,10 @@ function pooley_prebaked()
     ## run sim
     xi = gillespie_sim(model, [0.003,0.1])
     print("\n", length(xi.trajectory))
+
+
+    obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
+    rs = run_met_hastings_mcmc(model, obs, [0.003,0.1])
 end
 
 pooley()
