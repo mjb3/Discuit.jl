@@ -27,7 +27,7 @@ export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrel
 # model helpers
 export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
-export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, read_obsservations_from_file, get_observations_from_array
+export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, read_observations_from_file, get_observations_from_array
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
