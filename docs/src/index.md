@@ -32,7 +32,7 @@ The [Discuit.jl examples](@ref) section provides enough code to get up and runni
 The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
 ```math
-R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 ```
 
 for any given lag `l`. The modified formula for multiple chains is given by:
@@ -42,7 +42,7 @@ R^{\prime}_l = y
 ```
 
 ```math
-x = \ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
+x = \textrm{E} [(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
 ```
 
 ```math
