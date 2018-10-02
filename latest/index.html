@@ -118,7 +118,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/2f6d6334e34d7c3a52d482f08290a248bf8d6f6e/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/cc78c7aa16d200088d87e78d495df88e4eaa0d84/src/Discuit.jl#L1-L14' class='documenter-source'>source</a><br></p>
 <p><a id='Contents-1'></a></p>
 <h2 id="contents">Contents</h2>
 <ul>
@@ -165,14 +165,14 @@
 <h2 id="test">test</h2>
 <p>The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
 <p>$$
-R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 $$</p>
 <p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
 <p>$$
 R^{\prime}_l = y
 $$</p>
 <p>$$
-x = \ev[(X_i - \bar{X}<em i_l="i+l">b)(X</em> - \bar{X}_b)]
+x = \textrm{E} [(X_i - \bar{X}<em i_l="i+l">b)(X</em> - \bar{X}_b)]
 $$</p>
 <p>$$
 \frac{x}{\sigma^2_b}
@@ -264,5 +264,5 @@ $$</p></div>
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-10-02 15:48:40
+Build Date UTC : 2018-10-02 17:56:53
 -->
