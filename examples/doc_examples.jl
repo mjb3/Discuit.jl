@@ -75,6 +75,10 @@ function custom_bobs()
     function prior_density(parameters::Array{Float64, 1})
         return parameters[3] < 0.0 ? pdf(p1, parameters[1]) * pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
     end
+    # 'weak' prior
+    function prior_density(parameters::Array{Float64, 1})
+        return parameters[3] < 0.0 ? pdf(p1, parameters[1]) * pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+    end
     model.prior_density = prior_density
     # dummy observation model
     observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
@@ -135,10 +139,9 @@ function custom_bobs()
 
     ## run MCMC
     rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+    print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
-
-
-pooley()
-pooley_prebaked()
+# pooley()
+# pooley_prebaked()
 custom_bobs()

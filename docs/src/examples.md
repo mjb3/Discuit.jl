@@ -174,20 +174,23 @@ The final step before we run our analysis is to define the algorithm which will 
 function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     t0 = xf_parameters.value[model.t0_index]
     ## move
-    seq_f = copy(xi.trajectory)
+    seq_f = deepcopy(xi.trajectory)
     # choose event and define new one
-    evt_i = rand(1:length(xi.trajectory))
-    evt_tm = xi.trajectory[evt_i].event_type == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory[evt_i].time) + rand()
-    evt = Event(evt_tm, xi.trajectory[evt_i].event_type)
+    evt_i = rand(1:length(xi.trajectory.time))
+    evt_tm = xi.trajectory.event_type[evt_i] == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory.time[evt_i]) + rand()
+    evt_tp = xi.trajectory.event_type[evt_i]
     # remove old one
-    splice!(seq_f, evt_i)
+    splice!(seq_f.time, evt_i)
+    splice!(seq_f.event_type, evt_i)
     # add new one
-    if evt.time > seq_f[end].time
-        push!(seq_f, evt)
+    if evt_tm > seq_f.time[end]
+        push!(seq_f.time, evt_tm)
+        push!(seq_f.event_type, evt_tp)
     else
-        for i in eachindex(seq_f)
-            if seq_f[i].time > evt.time
-                insert!(seq_f, i, evt)
+        for i in eachindex(seq_f.time)
+            if seq_f.time[i] > evt_tm
+                insert!(seq_f.time, i, evt_tm)
+                insert!(seq_f.event_type, i, evt_tp)
                 break
             end
         end
@@ -205,6 +208,15 @@ We can now run the MCMC analysis:
 rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
 ```
 
-PLACEHOLDER FOR CUSTOM MCMC VISUAL OUTPUT
+Need to add commentary:
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="180"/>
+```
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="180"/>
+```
+
 
 - link to [`set_random_seed(seed::Int64)`](@ref)
