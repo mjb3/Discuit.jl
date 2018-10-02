@@ -424,7 +424,7 @@ function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, init
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     # print(string("\nx0 length: ", length(x0.trajectory)))
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-    print(" finished (μ = ", output.mean, ").\n")
+    print(" finished (sample μ = ", output.mean, ").\n")
     return output
 end
 # - custom MH MCMC
@@ -447,7 +447,7 @@ function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_f
     pm = get_private_model(model, obs_data)
     print("running custom MCMC...\n")
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
-    print(" finished (μ = ", output.mean, ").\n")
+    print(" finished (sample μ = ", output.mean, ").\n")
     return output
 end
 
@@ -711,7 +711,9 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
     # REJOIN THREADS HERE **********************
     ## ADD results check
     ## process results and return
-    return gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
+    output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
+    print(" finished (sample μ = ", output.mu, ").\n")
+    return output
 end
 # for custom MCMC
 # - TO BE REMOVED? ************
@@ -727,7 +729,9 @@ function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observ
         print(" chain ", i, " complete.\n")
     end
     ## process results and return
-    return gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
+    output = gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
+    print(" finished (sample μ = ", output.mu, ").\n")
+    return output
 end
 # internal function
 function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_iter::Int64)
