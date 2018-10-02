@@ -1016,7 +1016,7 @@ Create and return a variable of type `Observations` based on a two dimensional a
 function get_observations_from_array(array::Array{Float64, 2})
     # NEED TO FIX WARNING ***
     y = Array{Int64, 2}(undef, size(array, 1), size(array, 2) - 1)
-    y .= array[:,2:(size(array, 2) - 1)]
+    y .= array[:,2:size(array, 2)]
     return Observations(array[:,1], y)
 end
 
