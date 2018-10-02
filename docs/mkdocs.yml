@@ -10,7 +10,7 @@ markdown_extensions:
   - extra
   - tables
   - fenced_code
-  # - mdx_math # For LaTeX
+  - mdx_math # For LaTeX
 
 extra_css:
   - assets/Documenter.css
