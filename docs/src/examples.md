@@ -104,7 +104,7 @@ The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more M
 
 NEED TO ADD CITATIONS: gelman_inference_1992,gelman_bayesian_2014
 
-Let $\bar{\theta}$, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:
+Let ``\bar{\theta}``, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:
 
 $W = \frac{1}{M} \sum_{i = 1}^M \sigma^2_i$
 
