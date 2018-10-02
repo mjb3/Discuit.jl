@@ -434,9 +434,10 @@ end
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `obs_data`            -- `Observations` data.
-- `proposal_function`   -- `Function` for proposing changes to the trajectory. NEED TO EXPAND AND XREF...
+- `proposal_function`   -- `Function` for proposing changes to the trajectory. Must have the signature: `custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal) = MarkovState(...)`
 - `x0`                  -- `MarkovState` representing the initial sample and trajectory.
 - `steps`               -- number of iterations.
+- `adapt_period`        -- burn in period.
 - `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
 
@@ -716,7 +717,22 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
     return output
 end
 # for custom MCMC
-# - TO BE REMOVED? ************
+"""
+    run_custom_mcmc_gelman_diagnostic(m_model, obs_data, proposal_function, x0, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
+
+**Parameters**
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
+- `proposal_function`   -- `Function` for proposing changes to the trajectory. Must have the signature: `custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal) = MarkovState(...)`
+- `x0`                  -- vector of `MarkovState`s representing the initial samples.
+- `initial_parameters`  -- matrix of initial model parameters. Each column vector correspondes to a single model parameter.
+- `steps`               -- number of iterations.
+- `adapt_period`        -- number of discarded samples.
+- `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
+- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
+
+Run n (equal to the number of rows in `initial_parameters`) custom MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
+"""
 function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)

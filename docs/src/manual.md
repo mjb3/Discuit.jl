@@ -64,6 +64,8 @@ print_autocorrelation
 
 ```@docs
 generate_custom_x0
+run_custom_mcmc
+run_custom_mcmc_gelman_diagnostic
 ```
 
 ## Index
