@@ -903,7 +903,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         end
     end
     # print samples
-    open(string(dpath, "chain.csv"), "w") do f
+    open(string(dpath, "samples.csv"), "w") do f
         # print headers
         write(f, "iter, accepted")
         for p in 1:size(mcmc.samples, 2)
