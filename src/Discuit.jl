@@ -424,7 +424,7 @@ function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, init
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     # print(string("\nx0 length: ", length(x0.trajectory)))
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-    print(" finished.\n")
+    print(" finished (μ = ", output.mean, ").\n")
     return output
 end
 # - custom MH MCMC
@@ -447,7 +447,7 @@ function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_f
     pm = get_private_model(model, obs_data)
     print("running custom MCMC...\n")
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
-    print(" finished.\n")
+    print(" finished (μ = ", output.mean, ").\n")
     return output
 end
 
