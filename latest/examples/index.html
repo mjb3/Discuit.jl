@@ -157,22 +157,21 @@ julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 
 running MCMC.
 julia&gt; print(rs.mean)
-[0.00312919, 0.105038]</code></pre>
+[0.00319801, 0.10578]</code></pre>
 
 
 <p>Placeholder for MCMC output.</p>
-<p><img alt="MCMC traceplots" src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" /></p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="180"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="280"/></p>
 <p><a id='Diagnostic-1'></a></p>
 <h3 id="diagnostic">Diagnostic</h3>
 <p><a id='Geweke-1'></a></p>
 <h4 id="geweke">Geweke</h4>
 <p>NEED TO ADD geweke definition...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
-([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0593269 0.0762652; -0.207333 -0.227765; … ; -0.0936278 -0.147329; -0.414237 -0.403234])</code></pre>
+([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [1.00648 1.12557; -0.0409634 0.0260328; … ; 0.350846 0.373233; -0.357204 -0.327319])</code></pre>
 
 
-<p><img alt="MCMC analysis" src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" /></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="280"/></p>
 <p><a id='Gelman-Rubin-diagnostic-1'></a></p>
 <h4 id="gelman-rubin-diagnostic">Gelman-Rubin diagnostic</h4>
 <p>NEED TO ADD gelman definition...</p>
@@ -184,8 +183,8 @@ running gelman diagnostic...
  chain 3 complete
 julia&gt; rs.mu
 2-element Array{Float64,1}:
- 0.003217194906792425
- 0.10844858844830059
+ 0.0032272564803888237
+ 0.1072317568396316
 
 julia&gt; ac = compute_autocorrelation(rs.mcmc);</code></pre>
 
@@ -234,30 +233,10 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 
 
 <p>Next we define an array <code>t</code> to contain the recovery times reported by O'Neill and Roberts and a simple <code>Observations</code> variable which consists of the maximum event time and an empty two dimensional array:</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0]
-27-element Array{Float64,1}:
-  0.0
- 13.0
- 20.0
- 22.0
- 25.0
- 25.0
- 25.0
- 26.0
- 30.0
- 35.0
-  ⋮
- 55.0
- 55.0
- 56.0
- 57.0
- 58.0
- 60.0
- 60.0
- 61.0
- 66.0
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
-julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));</code></pre>
+julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
+Observations([67.0], [140451359134080])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
