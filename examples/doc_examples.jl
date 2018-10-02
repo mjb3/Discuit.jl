@@ -30,7 +30,7 @@ function pooley()
 
     ## run sim
     xi = gillespie_sim(model, [0.003, 0.1])
-    print(length(xi.trajectory))
+    print(length(xi.trajectory.time))
 end
 
 function pooley_prebaked()
@@ -38,7 +38,7 @@ function pooley_prebaked()
 
     ## run sim
     xi = gillespie_sim(model, [0.003,0.1]);
-    print("\n", length(xi.trajectory))
+    print("\n", length(xi.trajectory.time))
 
     ## MCMC
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
@@ -106,7 +106,7 @@ function custom_bobs()
         ## move
         seq_f = copy(xi.trajectory)
         # choose event and define new one
-        evt_i = rand(1:length(xi.trajectory))
+        evt_i = rand(1:length(xi.trajectory.time))
         evt_tm = xi.trajectory[evt_i].event_type == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory[evt_i].time) + rand()
         evt = Event(evt_tm, xi.trajectory[evt_i].event_type)
         # remove old one

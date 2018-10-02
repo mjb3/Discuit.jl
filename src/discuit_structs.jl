@@ -1,11 +1,25 @@
 ### Discuit custom data structures ###
 
 ## event instance
-struct Event
-    time::Float64
-    event_type::Int16
+# struct Event
+#     time::Float64
+#     event_type::Int16
+# end
+# trajectory
+"""
+    Trajectory
+
+**Fields**
+- `time`        -- event times.
+- `event_type`  -- event type, index of `model.rate_function`.
+
+A single realisation of the model.
+"""
+struct Trajectory
+    time::Array{Float64, 1}
+    event_type::Array{Int64, 1}
 end
-## observations data
+# observations data
 """
     Observations
 
@@ -19,6 +33,21 @@ struct Observations
     time::Array{Float64, 1}
     val::Array{Int64, 2}
 end
+## results of gillespie sim
+"""
+    SimResults
+
+**Fields**
+- `trajectory`      -- array of type `Event`.
+- `observations`    -- variable of type `Observations`.
+
+The results of a simulation.
+"""
+struct SimResults
+    trajectory::Trajectory
+    observations::Observations
+end
+
 ## Discuit model
 """
     DiscuitModel
@@ -76,20 +105,6 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # obs data
     obs_data::Observations
 end
-# results of gillespie sim
-"""
-    SimResults
-
-**Fields**
-- `trajectory`      -- array of type `Event`.
-- `observations`    -- variable of type `Observations`.
-
-The results of a simulation.
-"""
-struct SimResults
-    trajectory::Array{Event}
-    observations::Observations
-end
 ## generic proposal data structures
 # parameter
 struct ParameterProposal
@@ -99,7 +114,7 @@ end
 # state
 struct MarkovState
     parameters::ParameterProposal
-    trajectory::Array{Event, 1}
+    trajectory::Trajectory
     log_like::Float64
     prop_like::Float64
     # TO BE REMOVED?

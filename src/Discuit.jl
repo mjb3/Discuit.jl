@@ -21,7 +21,7 @@ using CSV
 
 ## exports
 # public structs
-export DiscuitModel, Observations, SimResults, MCMCResults, GelmanResults
+export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanResults
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # model helpers
@@ -31,7 +31,7 @@ export print_trajectory, print_observations, print_mcmc_results, print_autocorre
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
-export PrivateDiscuitModel, Event, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like
+export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like # Event
 
 
 include("./discuit_structs.jl")
@@ -70,7 +70,7 @@ function choose_event(cum_rates::Array{Float64,1})
     return length(cum_rates)
 end
 # iterate particle
-function iterate_sim!(model::PrivateDiscuitModel, trajectory::Array{Event, 1}, population::Array{Int64,1}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
+function iterate_sim!(model::PrivateDiscuitModel, trajectory::Trajectory, population::Array{Int64,1}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
     # declare array for use by loop
     cum_rates = Array{Float64, 1}(undef, size(model.m_transition, 1))
     while true
@@ -85,7 +85,8 @@ function iterate_sim!(model::PrivateDiscuitModel, trajectory::Array{Event, 1}, p
         # else choose event type (init as final event)
         et = choose_event(cum_rates)
         # add event to trajectory
-        push!(trajectory, Event(time, et))
+        push!(trajectory.time, time)
+        push!(trajectory.event_type, et)
         # update population
         population .+= model.m_transition[et,:] # event_types[et].v_transition
         # print("\n t: ", time, ". R: ", cum_rates[end])
@@ -112,7 +113,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     obs_vals = Array{Int64, 2}(undef, length(obs_times), length(p_model.initial_condition))
     # time = 0.0
     population = copy(p_model.initial_condition)
-    trajectory = Event[]
+    trajectory = Trajectory(Float64[], Int64[])
     # run
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
@@ -129,7 +130,7 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
     while generate
         # initialise some things
         population = copy(model.initial_condition)
-        trajectory = Event[]
+        trajectory = Trajectory(Float64[], Int64[])
         output = 0.0    # obs model
         # run
         t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
@@ -143,7 +144,7 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
             t_prev = model.obs_data.time[i]
         end
         ## REPLACE WITH CONST OR PARAMETER? *****
-        if output != NULL_LOG_LIKE && length(trajectory) > 5
+        if output != NULL_LOG_LIKE && length(trajectory.time) > 5
             return MarkovState(ParameterProposal(parameters, model.prior_density(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
         end
     end
@@ -165,11 +166,7 @@ Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`p
 ## generate MarkovState based on custom trajectory (helper)
 function generate_custom_x0(model::DiscuitModel, obs_data::Observations, parameters::Array{Float64, 1}, event_times::Array{Float64, 1}, event_types::Array{Int, 1})
     prop = ParameterProposal(parameters, model.prior_density(parameters))
-    trajectory = Array{Event, 1}(undef, length(event_times))
-    ## generate sequence
-    for i in eachindex(event_times)
-        trajectory[i] = Event(event_times[i], event_types[i])
-    end
+    trajectory = Trajectory(event_times, event_types)
     ## return as Proposal result
     return MarkovState(prop, trajectory, compute_full_log_like(get_private_model(model, obs_data), parameters, trajectory), DF_PROP_LIKE, 0)
 end
@@ -183,7 +180,7 @@ function get_mv_param(model::PrivateDiscuitModel, g::MvNormal, sclr::Float64, th
 end
 ## standard trajectory proposal
 # likelihood function
-function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Float64,1}, trajectory::Array{Event, 1})
+function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Float64,1}, trajectory::Trajectory)
     population = copy(model.initial_condition)
     # log_like = 0.0
     ll_traj = 0.0
@@ -194,17 +191,17 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
     lambda = Array{Float64, 1}(undef, size(model.m_transition, 1))
     # for each observation period:
     for obs_i in eachindex(model.obs_data.time)
-        while evt_i <= length(trajectory)
-            trajectory[evt_i].time > model.obs_data.time[obs_i] && break
+        while evt_i <= length(trajectory.time)
+            trajectory.time[evt_i] > model.obs_data.time[obs_i] && break
             model.rate_function(lambda, parameters, population)
             ## deal with event
             # event log likelihood
-            ll_traj += log(lambda[trajectory[evt_i].event_type]) - (sum(lambda) * (trajectory[evt_i].time - t))
-            # evt_i < 4 && print("\n i: ", evt_i, ". ll = ln ", lambda[trajectory[evt_i].event_type], " - ", sum(lambda), "*", trajectory[evt_i].time - t ,"=", ll_traj)
+            ll_traj += log(lambda[trajectory.event_type[evt_i]]) - (sum(lambda) * (trajectory.time[evt_i] - t))
+            # evt_i < 4 && print("\n i: ", evt_i, ". ll = ln ", lambda[trajectory.event_type[evt_i]], " - ", sum(lambda), "*", trajectory.time[evt_i] - t ,"=", ll_traj)
             # update population and handle -ve (NB. template? check not req'd for MBP)
-            population .+= model.m_transition[trajectory[evt_i].event_type,:]
+            population .+= model.m_transition[trajectory.event_type[evt_i],:]
             any(x->x<0, population) && return -Inf
-            t = trajectory[evt_i].time
+            t = trajectory.time[evt_i]
             evt_i += 1
         end
         ## handle observation
@@ -222,10 +219,10 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
     return ll_traj + ll_obs
 end
 # event type count
-function get_event_type_count(trajectory::Array{Event,1}, et::Int64)
+function get_event_type_count(trajectory::Trajectory, et::Int64)
     output = 0
-    for i in eachindex(trajectory)
-        trajectory[i].event_type == et && (output += 1)
+    for i in eachindex(trajectory.event_type)
+        trajectory.event_type[i] == et && (output += 1)
     end
     return output
 end
@@ -235,24 +232,28 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
     prop_type = rand(1:3)
     # trajectory proposal
     # - NEED TO MAKE THIS MORE EFFICIENT ****
-    xf_trajectory = copy(xi.trajectory)
+    xf_trajectory = deepcopy(xi.trajectory)
     t0 = (model.t0_index == 0) ? 0.0 : theta_f.value[model.t0_index]
     if prop_type == 3
         ## move
-        length(xi.trajectory) == 0 && (return MarkovState(theta_f, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
+        length(xi.trajectory.time) == 0 && (return MarkovState(theta_f, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
         # - IS THERE A MORE EFFICIENT WAY TO DO THIS? I.E. ROTATE using circshift or something?
         # choose event and define new one
-        evt_i = rand(1:length(xi.trajectory))
-        evt = Event((rand() * (model.obs_data.time[end] - t0)) + t0, xi.trajectory[evt_i].event_type)
+        evt_i = rand(1:length(xi.trajectory.time))
+        evt_tm = (rand() * (model.obs_data.time[end] - t0)) + t0 #, xi.trajectory.event_type[evt_i])
+        evt_tp = xi.trajectory.event_type[evt_i]
         # remove old one
-        splice!(xf_trajectory, evt_i)
+        splice!(xf_trajectory.time, evt_i)
+        splice!(xf_trajectory.event_type, evt_i)
         # add new one
-        if evt.time > xf_trajectory[end].time
-            push!(xf_trajectory, evt)
+        if evt_tm > xf_trajectory.time[end]
+            push!(xf_trajectory.time, evt_tm)
+            push!(xf_trajectory.event_type, evt_tp)
         else
-            for i in eachindex(xf_trajectory)
-                if xf_trajectory[i].time > evt.time
-                    insert!(xf_trajectory, i, evt)
+            for i in eachindex(xf_trajectory.time)
+                if xf_trajectory.time[i] > evt_tm
+                    insert!(xf_trajectory.time, i, evt_tm)
+                    insert!(xf_trajectory.event_type, i, evt_tp)
                     break
                 end
             end
@@ -269,12 +270,14 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             # choose time
             tm = (rand() * (model.obs_data.time[end] - t0)) + t0
             # insert at new index
-            if (length(xf_trajectory) == 0 || tm > xf_trajectory[end].time)
-                push!(xf_trajectory, Event(tm, tp))
+            if (length(xf_trajectory.time) == 0 || tm > xf_trajectory.time[end])
+                push!(xf_trajectory.time, tm)
+                push!(xf_trajectory.event_type, tp)
             else
-                for i in eachindex(xf_trajectory)
-                    if xf_trajectory[i].time > tm
-                        insert!(xf_trajectory, i, Event(tm, tp))
+                for i in eachindex(xf_trajectory.time)
+                    if xf_trajectory.time[i] > tm
+                        insert!(xf_trajectory.time, i, tm)
+                        insert!(xf_trajectory.event_type, i, tp)
                         break
                     end
                 end
@@ -286,12 +289,13 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             # print("\n deleting... tp:", tp, " - ec: ", ec)
             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
             # choose event index (repeat if != tp)
-            evt_i = rand(1:length(xi.trajectory))
-            while xi.trajectory[evt_i].event_type != tp
-                evt_i = rand(1:length(xi.trajectory))
+            evt_i = rand(1:length(xi.trajectory.time))
+            while xi.trajectory.event_type[evt_i] != tp
+                evt_i = rand(1:length(xi.trajectory.time))
             end
             # remove
-            splice!(xf_trajectory, evt_i)
+            splice!(xf_trajectory.time, evt_i)
+            splice!(xf_trajectory.event_type, evt_i)
             # compute ln g(x)
             prop_lk = ec / (model.obs_data.time[end] - t0)
         end # end of insert/delete
@@ -301,17 +305,17 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
 end # end of std proposal function
 ## model based proposal
 # single mbp iteration
-function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Array{Event, 1}, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
+function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
     # workspace
     lambda_i = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_f = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_d = Array{Float64, 1}(undef, size(model.m_transition, 1))
     # iterate until next observation
     while true
-        if evt_i > length(xi.trajectory)
+        if evt_i > length(xi.trajectory.time)
             tmax = model.obs_data.time[obs_i]
         else
-            tmax = min(model.obs_data.time[obs_i], xi.trajectory[evt_i].time)
+            tmax = min(model.obs_data.time[obs_i], xi.trajectory.time[evt_i])
         end
         model.rate_function(lambda_i, xi.parameters.value, pop_i)
         while true
@@ -329,19 +333,20 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
             # else choose event type (init as final event)
             et = choose_event(lambda_d)
             # add event to trajectory
-            push!(xf_trajectory, Event(time[1], et))
-            length(xf_trajectory) > MAX_TRAJ && (return evt_i)
+            push!(xf_trajectory.time, time)
+            push!(xf_trajectory.event_type,  et)
+            length(xf_trajectory.time) > MAX_TRAJ && (return evt_i)
             # update population
             pop_f .+= model.m_transition[et,:]
             # t_max check
         end
         ## handle event
         # checks
-        evt_i > length(xi.trajectory) && break
-        xi.trajectory[evt_i].time > model.obs_data.time[obs_i] && break
+        evt_i > length(xi.trajectory.time) && break
+        xi.trajectory.time[evt_i] > model.obs_data.time[obs_i] && break
         # else
-        et = xi.trajectory[evt_i].event_type
-        time = xi.trajectory[evt_i].time
+        et = xi.trajectory.event_type[evt_i]
+        time = xi.trajectory.time[evt_i]
         # prob_keep::Float64 = get_p_keep(et
         prob_keep = lambda_f[et] / lambda_i[et]
         keep = false
@@ -352,7 +357,8 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
         end
         if keep
             # add to trajectory and update population
-            push!(xf_trajectory, Event(time, et))
+            push!(xf_trajectory.time, time)
+            push!(xf_trajectory.event_type, et)
             pop_f .+= model.m_transition[et,:]
         end
         # update for i regardless
@@ -372,7 +378,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE)
     else
         # initialise
-        xf_trajectory = Event[]
+        xf_trajectory = Trajectory(Float64[], Int64[])
         pop_i = copy(model.initial_condition)
         pop_f = copy(model.initial_condition)
         # - time / event counter
@@ -385,7 +391,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
             # iterate until next observation
             evt_i[1] = iterate_mbp(model, obs_i, evt_i[1], time, xi, pop_i, xf_trajectory, xf_parameters.value, pop_f)
             # check trajectory length
-            length(xf_trajectory) > MAX_TRAJ && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE))
+            length(xf_trajectory.time) > MAX_TRAJ && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE))
             # else handle observation
             time = model.obs_data.time[obs_i]
             output += model.observation_model(model.obs_data.val[obs_i,:], pop_f)
@@ -936,10 +942,10 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
         evt_i = 1
         for obs_i in eachindex(sim_results.observations.time)
             # handle events
-            while evt_i <= length(sim_results.trajectory)
-                sim_results.trajectory[evt_i].time > sim_results.observations.time[obs_i] && break
-                tp = sim_results.trajectory[evt_i].event_type
-                write(f, "\n $(sim_results.trajectory[evt_i].time), $tp")
+            while evt_i <= length(sim_results.trajectory.time)
+                sim_results.trajectory.time[evt_i] > sim_results.observations.time[obs_i] && break
+                tp = sim_results.trajectory.event_type[evt_i]
+                write(f, "\n $(sim_results.trajectory.time[evt_i]), $tp")
                 population .+= model.m_transition[tp,:]
                 for p in 1:length(population)
                     write(f, ", $(population[p])")
