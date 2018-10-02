@@ -53,7 +53,8 @@ generate_model
 ```@docs
 print_trajectory
 print_observations
-read_obs_data_from_file
+read_observations_data_from_file
+get_observations_from_array
 print_mcmc_results
 print_gelman_results
 print_autocorrelation
