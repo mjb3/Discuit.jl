@@ -1,9 +1,9 @@
 # Discuit.jl
 Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia
 
-| **Build Status**                                                                                |
-|:-----------------------------------------------------------------------------------------------:|
-| [![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url] [![][codecov-img]][codecov-url] |
+| **Build Status**              |
+|:-----------------------------:|
+| [![][travis-img]][travis-url] |
 
 The [Discuit.jl][discuit_repo] package contains tools for simulation and data augmented MCMC analysis of discrete state space continuous time (DSSCT) models in Julia.
 
