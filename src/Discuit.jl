@@ -115,7 +115,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
     # run
-    print("\nrunning simulation...")
+    print("running simulation...")
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
         iterate_sim!(p_model, trajectory, population, parameters, t_prev, obs_times[i])
@@ -420,7 +420,7 @@ Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("\nrunning MCMC...")
+    print("running MCMC...")
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     # print(string("\nx0 length: ", length(x0.trajectory)))
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
@@ -445,8 +445,10 @@ Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`p
 function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("\nrunning custom MCMC.")
-    return met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
+    print("running custom MCMC.")
+    output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
+    print("\n finished.")
+    return output
 end
 
 # metropolis hastings algorithm
@@ -696,7 +698,7 @@ Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and p
 """
 function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     p_model = get_private_model(m_model, obs_data)
-    print("\nrunning gelman diagnostic...")
+    print("running gelman diagnostic...")
     ## initialise Markov chains
     # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
@@ -716,7 +718,7 @@ end
 function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)
-    print("\nrunning gelman diagnostic...")
+    print("running custom MCMC gelman diagnostic...")
     ## initialise Markov chains
     mcmc = Array{MCMCResults,1}(undef, length(x0))
     ## CHANGE XO.PARAMS
