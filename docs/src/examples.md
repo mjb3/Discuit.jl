@@ -78,6 +78,10 @@ Placeholder for MCMC output.
 
 ![MCMC traceplots](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png)
 
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="180"/>
+```
+
 ### Diagnostic
 
 #### Geweke
