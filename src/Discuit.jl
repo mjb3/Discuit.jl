@@ -235,10 +235,10 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
     # trajectory proposal
     # - NEED TO MAKE THIS MORE EFFICIENT ****
     xf_trajectory = deepcopy(xi.trajectory)
-    t0 = (model.t0_index == 0) ? 0.0 : theta_f.value[model.t0_index]
+    t0 = (model.t0_index == 0) ? 0.0 : xf_parameters.value[model.t0_index]
     if prop_type == 3
         ## move
-        length(xi.trajectory.time) == 0 && (return MarkovState(theta_f, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
+        length(xi.trajectory.time) == 0 && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
         # - IS THERE A MORE EFFICIENT WAY TO DO THIS? I.E. ROTATE using circshift or something?
         # choose event and define new one
         evt_i = rand(1:length(xi.trajectory.time))
@@ -374,7 +374,6 @@ end
 function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     MBP_PROP_TYPE = 10
     # make theta proposal (RENAME TO T F)
-    # prop = get_mv_param(model, g, sclr, theta_i.value)
     if xf_parameters.prior == 0.0
         # no need to evaluate
         return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE)
@@ -753,7 +752,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         mu[j] = mean(mce[:,j])
         co[j] = cov(mcv[:,j])
         # compute pooled variance
-        v = Array{Float64, 1}(undef, theta_size)
+        # v = Array{Float64, 1}(undef, theta_size)
     end
     # compute pooled variance
     # v = Array{Float64, 1}(undef, size(theta_init, 2))
@@ -848,7 +847,7 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     # print summary by theta row
     open(string(dpath, "gelman.csv"), "w") do f
         # print headers
-        write(f, "theta, mu, sre, sre_ll, sre_ul")
+        write(f, "parameter, mu, sre, sre_ll, sre_ul")
         for p in eachindex(results.mu)
             write(f, "\n$p, $(results.mu[p]), $(results.sre[p]), $(results.sre_ll[p]), $(results.sre_ul[p])")
         end
@@ -879,10 +878,10 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         # print md
         write(f, "\n$(mcmc.proposal_alg), $(mcmc.num_obs), $(mcmc.adapt_period)")
     end
-    # print theta summary
-    open(string(dpath, "theta.csv"), "w") do f
+    # print parameter summary
+    open(string(dpath, "parameters.csv"), "w") do f
         # print headers
-        write(f, "theta, mean, sd")
+        write(f, "parameter, mean, sd")
         for p in eachindex(mcmc.mean)
             sd = sqrt(mcmc.covar[p,p])
             write(f, "\n$p, $(mcmc.mean[p]), $sd")
