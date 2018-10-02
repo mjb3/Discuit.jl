@@ -161,7 +161,7 @@ running MCMC...
 
 
 <p>Placeholder for MCMC output.</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="280"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
 <p><a id='Diagnostic-1'></a></p>
 <h3 id="diagnostic">Diagnostic</h3>
 <p><a id='Geweke-1'></a></p>
@@ -171,7 +171,7 @@ running MCMC...
 ([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0591316 0.244598; 0.126286 0.351017; … ; 0.197914 0.330827; -0.768425 -0.723813])</code></pre>
 
 
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="280"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/></p>
 <p><a id='Gelman-Rubin-diagnostic-1'></a></p>
 <h4 id="gelman-rubin-diagnostic">Gelman-Rubin diagnostic</h4>
 <p>NEED TO ADD gelman definition...</p>
@@ -232,7 +232,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [139715798827584])</code></pre>
+Observations([67.0], [139880726597312])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -293,8 +293,8 @@ running custom MCMC...
 
 
 <p>Need to add commentary:</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="180"/></p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="180"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="220"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="220"/></p>
 <ul>
 <li>link to <a href="../manual/#Discuit.set_random_seed"><code>set_random_seed(seed::Int64)</code></a></li>
 </ul></div>
