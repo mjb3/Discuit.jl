@@ -104,20 +104,23 @@ function custom_bobs()
     function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
         t0 = xf_parameters.value[model.t0_index]
         ## move
-        seq_f = copy(xi.trajectory)
+        seq_f = deepcopy(xi.trajectory)
         # choose event and define new one
         evt_i = rand(1:length(xi.trajectory.time))
-        evt_tm = xi.trajectory[evt_i].event_type == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory[evt_i].time) + rand()
-        evt = Event(evt_tm, xi.trajectory[evt_i].event_type)
+        evt_tm = xi.trajectory.event_type[evt_i] == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory.time[evt_i]) + rand()
+        evt_tp = xi.trajectory.event_type[evt_i]
         # remove old one
-        splice!(seq_f, evt_i)
+        splice!(seq_f.time, evt_i)
+        splice!(seq_f.event_type, evt_i)
         # add new one
-        if evt.time > seq_f[end].time
-            push!(seq_f, evt)
+        if evt_tm > seq_f.time[end]
+            push!(seq_f.time, evt_tm)
+            push!(seq_f.event_type, evt_tp)
         else
-            for i in eachindex(seq_f)
-                if seq_f[i].time > evt.time
-                    insert!(seq_f, i, evt)
+            for i in eachindex(seq_f.time)
+                if seq_f.time[i] > evt_tm
+                    insert!(seq_f.time, i, evt_tm)
+                    insert!(seq_f.event_type, i, evt_tp)
                     break
                 end
             end
@@ -133,5 +136,5 @@ function custom_bobs()
 end
 
 # pooley()
-pooley_prebaked()
-# custom_bobs()
+# pooley_prebaked()
+custom_bobs()

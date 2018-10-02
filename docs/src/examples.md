@@ -76,10 +76,8 @@ print(rs.mean)
 
 Placeholder for MCMC output.
 
-![MCMC traceplots](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png)
-
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="180"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="280"/>
 ```
 
 ### Diagnostic
@@ -92,7 +90,9 @@ NEED TO ADD geweke definition...
 rs.geweke
 ```
 
-![MCMC analysis](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png)
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="280"/>
+```
 
 #### Gelman-Rubin diagnostic
 
@@ -146,8 +146,8 @@ model.observation_model = observation_model;
 Next we define an array `t` to contain the recovery times reported by O'Neill and Roberts and a simple `Observations` variable which consists of the maximum event time and an empty two dimensional array:
 
 ```@repl 1
-t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0]
-y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
+t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
+y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
 ```
 
 We also need to define an initial state using the `generate_custom_x0` function using some parameter values and a vector of event times and corresponding event types, consistent with `t`:
