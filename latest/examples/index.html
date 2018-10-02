@@ -157,7 +157,7 @@ julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 
 running MCMC.
 julia&gt; print(rs.mean)
-[0.00319801, 0.10578]</code></pre>
+[0.00298409, 0.0982018]</code></pre>
 
 
 <p>Placeholder for MCMC output.</p>
@@ -168,7 +168,7 @@ julia&gt; print(rs.mean)
 <h4 id="geweke">Geweke</h4>
 <p>NEED TO ADD geweke definition...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
-([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [1.00648 1.12557; -0.0409634 0.0260328; … ; 0.350846 0.373233; -0.357204 -0.327319])</code></pre>
+([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0632714 0.203226; -0.469261 -0.439001; … ; 0.17262 0.147355; 0.0194671 0.128911])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="280"/></p>
@@ -183,8 +183,8 @@ running gelman diagnostic...
  chain 3 complete
 julia&gt; rs.mu
 2-element Array{Float64,1}:
- 0.0032272564803888237
- 0.1072317568396316
+ 0.0032888128249347957
+ 0.10918127071080896
 
 julia&gt; ac = compute_autocorrelation(rs.mcmc);</code></pre>
 
@@ -236,7 +236,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140451359134080])</code></pre>
+Observations([67.0], [140078580159296])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
