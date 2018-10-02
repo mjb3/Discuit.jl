@@ -157,7 +157,7 @@ julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 
 running MCMC.
 julia&gt; print(rs.mean)
-[0.00360612, 0.121062]</code></pre>
+[0.00312919, 0.105038]</code></pre>
 
 
 <p>Placeholder for MCMC output.</p>
@@ -169,7 +169,7 @@ julia&gt; print(rs.mean)
 <h4 id="geweke">Geweke</h4>
 <p>NEED TO ADD geweke definition...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
-([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [-0.819152 -0.65546; -0.412312 -0.330968; … ; -0.414193 -0.464925; 1.06848 1.06733])</code></pre>
+([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0593269 0.0762652; -0.207333 -0.227765; … ; -0.0936278 -0.147329; -0.414237 -0.403234])</code></pre>
 
 
 <p><img alt="MCMC analysis" src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" /></p>
@@ -184,8 +184,8 @@ running gelman diagnostic...
  chain 3 complete
 julia&gt; rs.mu
 2-element Array{Float64,1}:
- 0.003163500879181092
- 0.10614138420012027
+ 0.003217194906792425
+ 0.10844858844830059
 
 julia&gt; ac = compute_autocorrelation(rs.mcmc);</code></pre>
 
@@ -311,7 +311,12 @@ custom_proposal (generic function with 1 method)</code></pre>
 <p>We can now run the MCMC analysis:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
 
-running custom MCMC.MCMCResults([0.001 0.1 -4.0; 0.001 0.1 -4.0; … ; 0.00097707 0.0882783 -0.0633074; 0.00097707 0.0882783 -0.0633074], [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 1.0  …  0.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0], [0.000990879, 0.105572, -3.15746], [4.35415e-8 1.55563e-6 6.13689e-5; 1.55563e-6 0.000477286 0.00427862; 6.13689e-5 0.00427862 9.88863], &quot;Standard&quot;, 1, 20000, ([5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000], [0.172987 0.0456552 0.111562; 0.0417603 -0.321361 -0.227248; … ; 0.0717435 -0.0380835 0.00529734; -0.140783 -0.128091 0.0468936]), [0.001 0.1 -4.0; 0.001 0.1 -4.0; … ; 0.00110961 0.0749529 -3.83551; 0.00097707 0.0882783 -0.0633074], [-227.596, -227.686, -227.741, -229.53, -225.713, -217.979, -218.121, -210.995, -211.028, -210.667  …  -101.328, -100.627, -100.535, -107.216, -100.628, -100.66, -102.703, -100.773, -102.826, -101.185], MarkovState(ParameterProposal([0.00097707, 0.0882783, -0.0633074], 1669.1763021931695), Event[Event(-0.117871, 1), Event(0.515023, 2), Event(4.30795, 1), Event(9.56625, 1), Event(11.006, 1), Event(13.8171, 2), Event(13.9134, 1), Event(15.6609, 1), Event(17.4644, 1), Event(18.28, 1)  …  Event(55.0965, 2), Event(55.134, 2), Event(56.531, 2), Event(57.0325, 2), Event(58.2929, 2), Event(60.0781, 1), Event(60.2562, 2), Event(60.9399, 2), Event(61.196, 2), Event(66.5389, 2)], -101.18475485992059, 1.0, 3), [0, 3, 3, 4, 4, 4, 3, 3, 3, 4  …  4, 3, 3, 4, 3, 3, 3, 3, 4, 3], [0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0], [1.0, 0.913911, 0.94707, 0.161923, 7.65415, 2410.77, 0.867692, 1080.12, 0.967643, 1.45012  …  0.309396, 0.98582, 1.09537, 0.00029979, 0.911708, 0.96864, 0.129566, 0.892564, 0.0639269, 0.662788])</code></pre>
+running custom MCMC.ERROR: MethodError: no method matching copy(::Trajectory)
+Closest candidates are:
+  copy(!Matched::Expr) at expr.jl:36
+  copy(!Matched::BitSet) at bitset.jl:46
+  copy(!Matched::Markdown.MD) at /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.1/Markdown/src/parse/parse.jl:30
+  ...</code></pre>
 
 
 <p>PLACEHOLDER FOR CUSTOM MCMC VISUAL OUTPUT</p>
