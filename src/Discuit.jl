@@ -115,14 +115,14 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
     # run
-    print("running simulation...")
+    print("running simulation...\n")
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
         iterate_sim!(p_model, trajectory, population, parameters, t_prev, obs_times[i])
         obs_vals[i,:] .= p_model.obs_function(population)
         t_prev = obs_times[i]
     end
-    print("\n finished (", length(trajectory.time), " events).")
+    print(" finished (", length(trajectory.time), " events).\n")
     # return trajectory
     return SimResults(trajectory, Observations(obs_times, obs_vals))
 end
@@ -420,11 +420,11 @@ Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("running MCMC...")
+    print("running MCMC...\n")
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     # print(string("\nx0 length: ", length(x0.trajectory)))
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-    print("\n finished.")
+    print(" finished.\n")
     return output
 end
 # - custom MH MCMC
@@ -445,9 +445,9 @@ Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`p
 function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("running custom MCMC.")
+    print("running custom MCMC...\n")
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
-    print("\n finished.")
+    print(" finished.\n")
     return output
 end
 
@@ -698,7 +698,7 @@ Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and p
 """
 function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     p_model = get_private_model(m_model, obs_data)
-    print("running gelman diagnostic...")
+    print("running gelman diagnostic...\n")
     ## initialise Markov chains
     # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
@@ -706,7 +706,7 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
         x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
         # print(string("\nx0 length: ", length(x0.trajectory)))
         mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-        print("\n chain ", i, " complete")
+        print(" chain ", i, " complete.\n")
     end
     # REJOIN THREADS HERE **********************
     ## ADD results check
@@ -718,13 +718,13 @@ end
 function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)
-    print("running custom MCMC gelman diagnostic...")
+    print("running custom MCMC gelman diagnostic...\n")
     ## initialise Markov chains
     mcmc = Array{MCMCResults,1}(undef, length(x0))
     ## CHANGE XO.PARAMS
     for i in eachindex(mcmc)
         mcmc[i] = met_hastings_alg(model, steps, adapt_period, proposal_function, x0[i], prop_param, ppp)
-        print("\n chain ", i, " complete")
+        print(" chain ", i, " complete.\n")
     end
     ## process results and return
     return gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
