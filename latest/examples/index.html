@@ -200,7 +200,8 @@ julia&gt; model.t0_index = 3;</code></pre>
 <p>Next we define the "medium" prior used by O'Neill and Roberts, with some help from the <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> package:</p>
 <pre class="codehilite"><code class="language-julia-repl">  Updating registry at `~/.julia/registries/General`
   Updating git-repo `https://github.com/JuliaRegistries/General.git`
-[?25l[2K[?25h Resolving package versions...
+[?25l    Fetching: [&gt;                                        ]  0.0 %
+[2K[?25h Resolving package versions...
   Updating `~/build/mjb3/Discuit.jl/docs/Project.toml`
   [31c24e10] + Distributions v0.16.4
   Updating `~/build/mjb3/Discuit.jl/docs/Manifest.toml`
@@ -231,7 +232,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [139747881468480])</code></pre>
+Observations([67.0], [139715798827584])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -256,20 +257,23 @@ julia&gt; x0 = generate_custom_x0(model, y, [0.001, 0.1, -4.0], evt_tm, evt_tp);
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
            t0 = xf_parameters.value[model.t0_index]
            ## move
-           seq_f = copy(xi.trajectory)
+           seq_f = deepcopy(xi.trajectory)
            # choose event and define new one
-           evt_i = rand(1:length(xi.trajectory))
-           evt_tm = xi.trajectory[evt_i].event_type == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory[evt_i].time) + rand()
-           evt = Event(evt_tm, xi.trajectory[evt_i].event_type)
+           evt_i = rand(1:length(xi.trajectory.time))
+           evt_tm = xi.trajectory.event_type[evt_i] == 1 ? (rand() * (model.obs_data.time[end] - t0)) + t0 : floor(xi.trajectory.time[evt_i]) + rand()
+           evt_tp = xi.trajectory.event_type[evt_i]
            # remove old one
-           splice!(seq_f, evt_i)
+           splice!(seq_f.time, evt_i)
+           splice!(seq_f.event_type, evt_i)
            # add new one
-           if evt.time &gt; seq_f[end].time
-               push!(seq_f, evt)
+           if evt_tm &gt; seq_f.time[end]
+               push!(seq_f.time, evt_tm)
+               push!(seq_f.event_type, evt_tp)
            else
-               for i in eachindex(seq_f)
-                   if seq_f[i].time &gt; evt.time
-                       insert!(seq_f, i, evt)
+               for i in eachindex(seq_f.time)
+                   if seq_f.time[i] &gt; evt_tm
+                       insert!(seq_f.time, i, evt_tm)
+                       insert!(seq_f.event_type, i, evt_tp)
                        break
                    end
                end
@@ -285,15 +289,12 @@ custom_proposal (generic function with 1 method)</code></pre>
 <p>We can now run the MCMC analysis:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
 running custom MCMC...
-ERROR: MethodError: no method matching copy(::Trajectory)
-Closest candidates are:
-  copy(!Matched::Expr) at expr.jl:36
-  copy(!Matched::BitSet) at bitset.jl:46
-  copy(!Matched::Markdown.MD) at /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.1/Markdown/src/parse/parse.jl:30
-  ...</code></pre>
+ finished (sample μ = [0.000993775, 0.104761, -3.18788]).</code></pre>
 
 
-<p>PLACEHOLDER FOR CUSTOM MCMC VISUAL OUTPUT</p>
+<p>Need to add commentary:</p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="180"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="180"/></p>
 <ul>
 <li>link to <a href="../manual/#Discuit.set_random_seed"><code>set_random_seed(seed::Int64)</code></a></li>
 </ul></div>
