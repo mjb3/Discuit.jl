@@ -164,17 +164,34 @@ running MCMC...
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
 <p><a id='Diagnostic-1'></a></p>
 <h3 id="diagnostic">Diagnostic</h3>
-<p><a id='Geweke-1'></a></p>
-<h4 id="geweke">Geweke</h4>
-<p>NEED TO ADD geweke definition...</p>
+<p><a id='Geweke-test-of-stationarity-1'></a></p>
+<h4 id="geweke-test-of-stationarity">Geweke test of stationarity</h4>
+<p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain. It is given by:</p>
+<p>NEED TO ADD CITATIONS: geweke<em>evaluating</em>1992,cowles<em>markov</em>1996</p>
+<p>$$
+z = \frac{\bar{\theta}<em _beta="\beta" i_="i,">{i, \alpha} - \bar{\theta}</em>}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}
+$$</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
 ([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0591316 0.244598; 0.126286 0.351017; … ; 0.197914 0.330827; -0.768425 -0.723813])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/></p>
-<p><a id='Gelman-Rubin-diagnostic-1'></a></p>
-<h4 id="gelman-rubin-diagnostic">Gelman-Rubin diagnostic</h4>
-<p>NEED TO ADD gelman definition...</p>
+<p><a id='Gelman-Rubin-convergence-diagnostic-1'></a></p>
+<h4 id="gelman-rubin-convergence-diagnostic">Gelman-Rubin convergence diagnostic</h4>
+<p>The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance. The <em>estimated scale reduction</em> statistic (sometimes referred to as <em>potential scale reduction factor</em>) is calculated for each parameter in the model.</p>
+<p>NEED TO ADD CITATIONS: gelman<em>inference</em>1992,gelman<em>bayesian</em>2014</p>
+<p>Let $\bar{\theta}$, $W$ and $B$ be vectors of length $$P$$ representing the mean of model parameters $$\theta$$, within chain variance between chain variance respectively for $$M$$ Markov chains:</p>
+<p>$$
+W = \frac{1}{M} \sum_{i = 1}^M \sigma^2_i
+$$</p>
+<p>$$
+B = \frac{N}{M - 1} \sum_{i = 1}^M (\hat{\theta}_i - \hat{\theta})^2
+$$</p>
+<p>The estimated scale reduction statistic is given by:</p>
+<p>$$
+R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}
+$$</p>
+<p>where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $$i^{th}$$ row vector used to initialise the $$i^{th}$$ Markov chain.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
 running gelman diagnostic...
  chain 1 complete.
@@ -200,8 +217,7 @@ julia&gt; model.t0_index = 3;</code></pre>
 <p>Next we define the "medium" prior used by O'Neill and Roberts, with some help from the <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> package:</p>
 <pre class="codehilite"><code class="language-julia-repl">  Updating registry at `~/.julia/registries/General`
   Updating git-repo `https://github.com/JuliaRegistries/General.git`
-[?25l    Fetching: [&gt;                                        ]  0.0 %
-[2K[?25h Resolving package versions...
+[?25l[2K[?25h Resolving package versions...
   Updating `~/build/mjb3/Discuit.jl/docs/Project.toml`
   [31c24e10] + Distributions v0.16.4
   Updating `~/build/mjb3/Discuit.jl/docs/Manifest.toml`
@@ -232,7 +248,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [139880726597312])</code></pre>
+Observations([67.0], [4242])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
