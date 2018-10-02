@@ -145,7 +145,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <code>gillespie_sim</code> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003, 0.1]);
 running simulation...
- finished (951 events).</code></pre>
+ finished (1037 events).</code></pre>
 
 
 <p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
@@ -157,10 +157,7 @@ running simulation...
 
 julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 running MCMC...
- finished (sample μ = [0.00338379, 0.109361]).
-
-julia&gt; print(rs.mean)
-[0.00338379, 0.109361]</code></pre>
+ finished (sample μ = [0.0033639, 0.115281]).</code></pre>
 
 
 <p>Placeholder for MCMC output.</p>
@@ -171,7 +168,7 @@ julia&gt; print(rs.mean)
 <h4 id="geweke">Geweke</h4>
 <p>NEED TO ADD geweke definition...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
-([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [-0.579914 -0.561172; -0.141313 0.0286738; … ; -0.112982 -0.0345123; -0.619394 -0.647706])</code></pre>
+([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0591316 0.244598; 0.126286 0.351017; … ; 0.197914 0.330827; -0.768425 -0.723813])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="280"/></p>
@@ -183,19 +180,13 @@ running gelman diagnostic...
  chain 1 complete.
  chain 2 complete.
  chain 3 complete.
- finished (sample μ = [0.00316881, 0.106634]).
-
-julia&gt; rs.mu
-2-element Array{Float64,1}:
- 0.003168808996366459
- 0.10663353574717478
-
-julia&gt; ac = compute_autocorrelation(rs.mcmc);</code></pre>
+ finished (sample μ = [0.00313563, 0.104747]).</code></pre>
 
 
 <p><a id='Autocorrelation-1'></a></p>
 <h4 id="autocorrelation">Autocorrelation</h4>
-<p>NEED TO ADD autocorr definition...</p>
+<p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>.</p>
+<p>NEED TO ADD autocorr definition and image ...</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
@@ -240,7 +231,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [139764857341376])</code></pre>
+Observations([67.0], [139629386792960])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -292,7 +283,7 @@ custom_proposal (generic function with 1 method)</code></pre>
 
 
 <p>We can now run the MCMC analysis:</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
 running custom MCMC...
 ERROR: MethodError: no method matching copy(::Trajectory)
 Closest candidates are:
