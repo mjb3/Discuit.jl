@@ -3,6 +3,7 @@ using Discuit
 
 ### pooley ###
 function pooley()
+    set_random_seed(1)
     ## define model
     # rate function
     function sis_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -34,11 +35,11 @@ function pooley()
 end
 
 function pooley_prebaked()
+    set_random_seed(1)
     model = generate_model("SIS", [100, 1]);
 
     ## run sim
     xi = gillespie_sim(model, [0.003,0.1]);
-    print("\n", length(xi.trajectory.time))
 
     ## MCMC
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
@@ -64,6 +65,7 @@ end
 ## custom roberts
 using Distributions
 function custom_bobs()
+    set_random_seed(1)
     ## define model
     model = generate_model("SIR", [119, 1, 0]);
     model.t0_index = 3
@@ -135,6 +137,8 @@ function custom_bobs()
     rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
 end
 
-# pooley()
-# pooley_prebaked()
+
+
+pooley()
+pooley_prebaked()
 custom_bobs()

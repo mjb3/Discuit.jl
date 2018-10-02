@@ -8,6 +8,7 @@ The following example is based on that published by Pooley et al. in 2015 in the
 
 ```@repl 1
 using Discuit;
+set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
@@ -71,7 +72,6 @@ Running an MCMC analysis based on a set of observations data is simple. TBC...
 ```@repl 1
 obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
 rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
-print(rs.mean)
 ```
 
 Placeholder for MCMC output.
@@ -100,13 +100,14 @@ NEED TO ADD gelman definition...
 
 ```@repl 1
 rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
-rs.mu
-ac = compute_autocorrelation(rs.mcmc);
+ac = compute_autocorrelation(rs.mcmc); # hide
 ```
 
 #### Autocorrelation
 
-NEED TO ADD autocorr definition...
+Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`.
+
+NEED TO ADD autocorr definition and image ...
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
@@ -119,6 +120,7 @@ Some situations...
 First we generate a standard [SIR](@ref) model and set the `t0_index = 3`.
 
 ```@repl 1
+set_random_seed(1) # hide
 model = generate_model("SIR", [119, 1, 0]);
 model.t0_index = 3;
 ```
@@ -200,7 +202,7 @@ end # end of std proposal function
 We can now run the MCMC analysis:
 
 ```@repl 1
-rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
 ```
 
 PLACEHOLDER FOR CUSTOM MCMC VISUAL OUTPUT

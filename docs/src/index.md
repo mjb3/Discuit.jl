@@ -1,10 +1,8 @@
 # Discuit.jl documentation
 
-*Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.*
+***Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.***
 
-*** Please note that this package is still in development. ***
-
-> Another note
+> Please note that this package is still in development.
 
 ## Package Features
 
@@ -40,7 +38,11 @@ R_l  = \frac{E[(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 for any given lag `l`. The modified formula for multiple chains is given by:
 
 ```math
-R^{\prime}_l = \ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
+R^{\prime}_l = y
+```
+
+```math
+x = \ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
 ```
 
 ```math
@@ -48,5 +50,5 @@ R^{\prime}_l = \ev[(X_i - \bar{X}_b)(X_{i+l} - \bar{X}_b)]
 ```
 
 ```math
-\sigma^2_b = \ev[(X_i - \bar{X}_b)^2]
+\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
 ```
