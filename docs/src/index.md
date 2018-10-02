@@ -46,5 +46,9 @@ R^{\prime}_l = \frac{x}{\sigma^2_b}
 ```
 
 ```math
-x = \textrm{E} [(X_i - \bar{X}_b) (X_{i+l} - \bar{X}_b)]
+x = \textrm{E} [(X_i - \bar{X}_b) y]
+```
+
+```math
+y = (X_{i+l} - \bar{X}_b)
 ```

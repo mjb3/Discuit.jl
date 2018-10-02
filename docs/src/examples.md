@@ -82,9 +82,15 @@ Placeholder for MCMC output.
 
 ### Diagnostic
 
-#### Geweke
+#### Geweke test of stationarity
 
-NEED TO ADD geweke definition...
+The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain. It is given by:
+
+NEED TO ADD CITATIONS: geweke_evaluating_1992,cowles_markov_1996
+
+```math
+z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}
+```
 
 ```@repl 1
 rs.geweke
@@ -94,9 +100,29 @@ rs.geweke
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/>
 ```
 
-#### Gelman-Rubin diagnostic
+#### Gelman-Rubin convergence diagnostic
 
-NEED TO ADD gelman definition...
+The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance. The *estimated scale reduction* statistic (sometimes referred to as *potential scale reduction factor*) is calculated for each parameter in the model.
+
+NEED TO ADD CITATIONS: gelman_inference_1992,gelman_bayesian_2014
+
+Let ``\bar{\theta}``, ``W`` and ``B`` be vectors of length ``$P$`` representing the mean of model parameters ``$\theta$``, within chain variance between chain variance respectively for ``$M$`` Markov chains:
+
+```math
+W = \frac{1}{M} \sum_{i = 1}^M \sigma^2_i
+```
+
+```math
+B = \frac{N}{M - 1} \sum_{i = 1}^M (\hat{\theta}_i - \hat{\theta})^2
+```
+
+The estimated scale reduction statistic is given by:
+
+```math
+R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}
+```
+
+where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the ``$i^{th}$`` row vector used to initialise the ``$i^{th}$`` Markov chain.
 
 ```@repl 1
 rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
