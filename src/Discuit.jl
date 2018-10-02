@@ -4,8 +4,8 @@ Discuit is a package for:
 
 - User defined DSSCT models.
 - Pre programmed with many well known epidemiological models.
-- Exact simulation using Gillespie's algorithm.
 - Data augmented Markov chain Monte Carlo (MCMC).
+- Exact simulation using Gillespie's algorithm.
 - Automated autocorrelation; Geweke and Gelman-Rubin diagnostics.
 - Developed for Julia `1.0`.
 - Author: Martin Burke (martin.burke@bioss.ac.uk)
@@ -115,12 +115,14 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
     # run
+    print("\nrunning simulation...")
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
         iterate_sim!(p_model, trajectory, population, parameters, t_prev, obs_times[i])
         obs_vals[i,:] .= p_model.obs_function(population)
         t_prev = obs_times[i]
     end
+    print("\n finished (", length(trajectory.time), " events).")
     # return trajectory
     return SimResults(trajectory, Observations(obs_times, obs_vals))
 end
@@ -419,10 +421,12 @@ Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("\nrunning MCMC.")
+    print("\nrunning MCMC...")
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     # print(string("\nx0 length: ", length(x0.trajectory)))
-    return met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
+    output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
+    print("\n finished.")
+    return output
 end
 # - custom MH MCMC
 """
