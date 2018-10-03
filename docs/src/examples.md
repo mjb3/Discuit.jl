@@ -238,3 +238,36 @@ Need to add commentary:
 
 
 - link to [`set_random_seed(seed::Int64)`](@ref)
+
+## References
+
+```@raw html
+<html>
+<head>
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
+</head>
+<body>
+<textarea id="bibtex_input" style="display:none;">
+@article{gelman_inference_1992,
+	title = {Inference from iterative simulation using multiple sequences},
+	journal = {Statistical science},
+	author = {Gelman, Andrew and Rubin, Donald B.},
+	year = {1992},
+	pages = {457--472}
+}
+@book{gelman_bayesian_2014,
+	title = {Bayesian data analysis},
+	isbn = {978-1-4398-9820-8 978-1-4398-4096-2},
+	url = {http://public.eblib.com/choice/publicfullrecord.aspx?p=1438153},
+	abstract = {"Preface This book is intended to have three roles and to serve three associated audiences: an introductory text on Bayesian inference starting from first principles, a graduate text on effective current approaches to Bayesian modeling and computation in statistics and related fields, and a handbook of Bayesian methods in applied statistics for general users of and researchers in applied statistics. Although introductory in its early sections, the book is definitely not elementary in the sense of a first text in statistics. The mathematics used in our book is basic probability and statistics, elementary calculus, and linear algebra. A review of probability notation is given in Chapter 1 along with a more detailed list of topics assumed to have been studied. The practical orientation of the book means that the reader's previous experience in probability, statistics, and linear algebra should ideally have included strong computational components. To write an introductory text alone would leave many readers with only a taste of the conceptual elements but no guidance for venturing into genuine practical applications, beyond those where Bayesian methods agree essentially with standard non-Bayesian analyses. On the other hand, we feel it would be a mistake to present the advanced methods without first introducing the basic concepts from our data-analytic perspective. Furthermore, due to the nature of applied statistics, a text on current Bayesian methodology would be incomplete without a variety of worked examples drawn from real applications. To avoid cluttering the main narrative, there are bibliographic notes at the end of each chapter and references at the end of the book"--},
+	language = {English},
+	urldate = {2018-03-18},
+	author = {Gelman, Andrew and Carlin, John B and Stern, Hal Steven and Dunson, David B and Vehtari, Aki and Rubin, Donald B},
+	year = {2014},
+	note = {OCLC: 909477393}
+}
+</textarea>
+<div id="bibtex_display"></div>
+</body>
+</html>
+```

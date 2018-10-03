@@ -95,7 +95,7 @@ end
 
     generate_generic_obs_function()
 
-Generates a simple observation function for use in a [DiscuitModel](@ref). Not very realistic...
+Generates a simple observation function for use in a `DiscuitModel`. Not very realistic...
 """
 function generate_generic_obs_function()
     obs_fn(population::Array{Int64, 1}) = population
@@ -124,7 +124,7 @@ end
 
     generate_model("SIS", [100,1])
 
-Generates a [DiscuitModel](@ref). Optionally specify observation error `σ`.
+Generates a `DiscuitModel`. Optionally specify observation error `σ`.
 """
 function generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
     # force to upper case here? ***

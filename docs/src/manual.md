@@ -2,6 +2,10 @@
 
 See [Discuit.jl examples](@ref) for a brief introduction to the package's core functionality.
 
+```@docs
+Discuit
+```
+
 ## Contents
 
 ```@contents
@@ -14,6 +18,7 @@ Depth = 3
 ```@docs
 DiscuitModel
 SimResults
+Trajectory
 Observations
 MCMCResults
 GelmanResults
@@ -39,7 +44,7 @@ compute_autocorrelation
 
 ### model helpers
 
-[Discuit.jl](@ref) includes tools for generating components which can help minimise the amount of work required to generate customised [DiscuitModel](@ref)s, including `generate_model(...)` which is used to access a library of pre defined [Discuit.jl models](@ref).
+[Discuit.jl](@ref) includes tools for generating components which can help minimise the amount of work required to generate customised `DiscuitModel`s, including `generate_model(...)` which is used to access a library of pre defined [Discuit.jl models](@ref).
 
 ```@docs
 generate_generic_obs_function
@@ -53,7 +58,7 @@ generate_model
 ```@docs
 print_trajectory
 print_observations
-read_observations_data_from_file
+read_observations_from_file
 get_observations_from_array
 print_mcmc_results
 print_gelman_results
