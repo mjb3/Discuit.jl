@@ -90,6 +90,7 @@
         <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
             <li><a href="#sis-model">SIS model</a></li>
             <li><a href="#custom-mcmc">Custom MCMC</a></li>
+            <li><a href="#references">References</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -256,7 +257,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140200647749888])</code></pre>
+Observations([67.0], [140452816759280])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -321,7 +322,37 @@ running custom MCMC...
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="220"/></p>
 <ul>
 <li>link to <a href="../manual/#Discuit.set_random_seed"><code>set_random_seed(seed::Int64)</code></a></li>
-</ul></div>
+</ul>
+<p><a id='References-1'></a></p>
+<h2 id="references">References</h2>
+<p><html>
+<head>
+<script type="text/javascript" src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
+</head>
+<body>
+<textarea id="bibtex_input" style="display:none;">
+@article{gelman_inference_1992,
+    title = {Inference from iterative simulation using multiple sequences},
+    journal = {Statistical science},
+    author = {Gelman, Andrew and Rubin, Donald B.},
+    year = {1992},
+    pages = {457--472}
+}
+@book{gelman_bayesian_2014,
+    title = {Bayesian data analysis},
+    isbn = {978-1-4398-9820-8 978-1-4398-4096-2},
+    url = {http://public.eblib.com/choice/publicfullrecord.aspx?p=1438153},
+    abstract = {"Preface This book is intended to have three roles and to serve three associated audiences: an introductory text on Bayesian inference starting from first principles, a graduate text on effective current approaches to Bayesian modeling and computation in statistics and related fields, and a handbook of Bayesian methods in applied statistics for general users of and researchers in applied statistics. Although introductory in its early sections, the book is definitely not elementary in the sense of a first text in statistics. The mathematics used in our book is basic probability and statistics, elementary calculus, and linear algebra. A review of probability notation is given in Chapter 1 along with a more detailed list of topics assumed to have been studied. The practical orientation of the book means that the reader's previous experience in probability, statistics, and linear algebra should ideally have included strong computational components. To write an introductory text alone would leave many readers with only a taste of the conceptual elements but no guidance for venturing into genuine practical applications, beyond those where Bayesian methods agree essentially with standard non-Bayesian analyses. On the other hand, we feel it would be a mistake to present the advanced methods without first introducing the basic concepts from our data-analytic perspective. Furthermore, due to the nature of applied statistics, a text on current Bayesian methodology would be incomplete without a variety of worked examples drawn from real applications. To avoid cluttering the main narrative, there are bibliographic notes at the end of each chapter and references at the end of the book"--},
+    language = {English},
+    urldate = {2018-03-18},
+    author = {Gelman, Andrew and Carlin, John B and Stern, Hal Steven and Dunson, David B and Vehtari, Aki and Rubin, Donald B},
+    year = {2014},
+    note = {OCLC: 909477393}
+}
+</textarea>
+<div id="bibtex_display"></div>
+</body>
+</html></p></div>
         </div>
 
         <footer class="col-md-12">
