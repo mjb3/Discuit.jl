@@ -121,9 +121,7 @@ rs.geweke
 
 #### Gelman-Rubin convergence diagnostic
 
-The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance. The *estimated scale reduction* statistic (sometimes referred to as *potential scale reduction factor*) is calculated for each parameter in the model.
-
-NEED TO ADD CITATIONS: gelman_inference_1992,gelman_bayesian_2014
+The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance (Gelman et al, 1992, 2014). The *estimated scale reduction* statistic (sometimes referred to as *potential scale reduction factor*) is calculated for each parameter in the model.
 
 Let ``\bar{\theta}``, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:
 

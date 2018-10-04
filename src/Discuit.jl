@@ -592,7 +592,9 @@ for any given lag `l`. The modified formula for multiple chains is given by:
 R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
 ```
 
-$\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
+```math
+\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
+```
 
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)

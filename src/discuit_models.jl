@@ -91,10 +91,6 @@ end
 """
     generate_generic_obs_function()
 
-# Examples
-
-    generate_generic_obs_function()
-
 Generates a simple observation function for use in a `DiscuitModel`. Not very realistic...
 """
 function generate_generic_obs_function()
