@@ -596,6 +596,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 \sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
 ```
 
+Some more text.
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     output = zeros(lags + 1, length(mcmc.mean))
