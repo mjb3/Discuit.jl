@@ -12,7 +12,13 @@ set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
-Now that we know the necessary parameters for defining a model we can begin by defining a rate function. Note that the correct signature must be used in order for it to be compatible with the package:
+Now that we know the necessary parameters for defining a model we can begin by defining the rate function.
+
+$r_1 = \theta_1 SI$
+
+$r_2 = \theta_2 I$
+
+Note that the correct signature must be used in the implementation for it to be compatible with the package:
 
 ```@repl 1
 function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -55,6 +61,21 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 
 ### Simulation
 
+Discuit implements a direct method Gillespie algorithm for exact simulation\cite{gillespie_exact_1977}. Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:
+\begin{equation}
+\label{eqn:evttms}
+f(\Delta t) = R e^{-R \Delta t}
+\end{equation}
+\begin{eqnarray}
+r = f(\theta, P)\\
+R = \sum\limits_{\xi=1}^{N} r_\xi
+\end{eqnarray}
+The event type $\xi$ is determined randomly with probability:
+\begin{equation}
+pr(\xi) = r_\xi / R
+\end{equation}
+The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.
+
 Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the `gillespie_sim` function.
 
 ```@repl 1
@@ -86,9 +107,9 @@ Placeholder for MCMC output.
 
 The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain. It is given by:
 
-NEED TO ADD CITATIONS: geweke_evaluating_1992,cowles_markov_1996
-
 $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
+
+NEED TO ADD CITATIONS: geweke_evaluating_1992,cowles_markov_1996
 
 ```@repl 1
 rs.geweke
@@ -123,9 +144,21 @@ ac = compute_autocorrelation(rs.mcmc); # hide
 
 #### Autocorrelation
 
-Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`.
+Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
-NEED TO ADD autocorr definition and image ...
+```math
+R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+```
+
+for any given lag `l`. The modified formula for multiple chains is given by:
+
+```math
+R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
+```
+
+$\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
+
+NEED TO ADD image ...
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>

@@ -2,10 +2,6 @@
 
 See [Discuit.jl examples](@ref) for a brief introduction to the package's core functionality.
 
-```@docs
-Discuit
-```
-
 ## Contents
 
 ```@contents

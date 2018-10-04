@@ -1,4 +1,4 @@
-# Discuit.jl documentation
+# Discuit.jl
 
 ***Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.***
 
@@ -38,23 +38,10 @@ R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 for any given lag `l`. The modified formula for multiple chains is given by:
 
 ```math
-R^{\prime}_l = \frac{x}{\sigma^2_b}
+R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
 ```
 
-```math
-\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
-```
+$\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
+
 
 $x = \textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]$
-
-```math
-x = \textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]
-```
-
-```math
-x = \textrm{E} [(X_i - \bar{X}_b) y]
-```
-
-```math
-y = (X_{i+l} - \bar{X}_b)
-```

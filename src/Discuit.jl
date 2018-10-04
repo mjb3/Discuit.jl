@@ -580,7 +580,20 @@ const LAG_INT = 10
 - `mcmc`    -- `MCMCResults` variable.
 - `lags`    -- the number of lags to compute. Default: 200.
 
-Compute autocorrelation R for a single Markov chain.
+Compute autocorrelation R for a single Markov chain. Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
+
+```math
+R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+```
+
+for any given lag `l`. The modified formula for multiple chains is given by:
+
+```math
+R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
+```
+
+$\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
+
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     output = zeros(lags + 1, length(mcmc.mean))
@@ -831,7 +844,7 @@ end
     print_autocorrelation(autocorrelation, fpath)
 
 **Parameters**
-- `autocorrelation` -- the results of a call to [compute_autocorrelation](@ref).
+- `autocorrelation` -- the results of a call to `compute_autocorrelation`.
 - `fpath`           -- the file path of the destination file.
 
 Save the results from a call to `compute_autocorrelation` to the file `fpath`, e.g. "./out/ac.csv".
@@ -860,7 +873,7 @@ end
 - `results` -- `GelmanResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
-Save the results from a call to [run_gelman_diagnostic](@ref) to the directory `dpath`, e.g. "./out/gelman/".
+Save the results from a call to `run_gelman_diagnostic` to the directory `dpath`, e.g. "./out/gelman/".
 """
 function print_gelman_results(results::GelmanResults, dpath::String)
     # create directory
@@ -887,7 +900,7 @@ end
 - `results` -- `MCMCResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
-Save the results from a call to [run_met_hastings_mcmc](@ref) or [run_custom_mcmc](@ref) to the directory `dpath`, e.g. "./out/mcmc/".
+Save the results from a call to `run_met_hastings_mcmc` or `run_custom_mcmc` to the directory `dpath`, e.g. "./out/mcmc/".
 """
 function print_mcmc_results(mcmc::MCMCResults, dpath::String)
     # NEED TO ADD / IF NOT THERE ALREADY *******
@@ -994,7 +1007,7 @@ end # end of function
 - `obs_data`    -- `Observations` data.
 - `fpath`       -- the destination file path.
 
-Save a set of observations (e.g. from a `SimResults` obtained by a call to [gillespie_sim](@ref)) to the file `fpath`, e.g. "./out/obs.csv".
+Save a set of observations (e.g. from a `SimResults` obtained by a call to `gillespie_sim` to the file `fpath`, e.g. "./out/obs.csv".
 """
 function print_observations(obs_data::Observations, fpath::String)
     open(fpath, "w") do f
