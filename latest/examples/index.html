@@ -154,9 +154,29 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 <p><a id='Simulation-1'></a></p>
 <h3 id="simulation">Simulation</h3>
-<p>Discuit implements a direct method Gillespie algorithm for exact simulation\cite{gillespie<em>exact</em>1977}. Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types: <script type="math/tex; mode=display">\begin{equation} \label{eqn:evttms} f(\Delta t) = R e^{-R \Delta t} \end{equation}</script>
-<script type="math/tex; mode=display">\begin{eqnarray} r = f(\theta, P)\
-R = \sum\limits*{\xi=1}^{N} r*\xi \end{eqnarray}</script> The event type $\xi$ is determined randomly with probability: <script type="math/tex; mode=display">\begin{equation} pr(\xi) = r_\xi / R \end{equation}</script> The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.</p>
+<p>Discuit implements a direct method Gillespie algorithm for exact simulation (see Gillespie 1977). Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:</p>
+<p>
+<script type="math/tex; mode=display">
+f(\Delta t) = R e^{-R \Delta t}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+r = f(\theta, P)
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+R = \sum\limits_{\xi=1}^{N} r_\xi
+</script>
+</p>
+<p>The event type $\xi$ is determined randomly with probability:</p>
+<p>
+<script type="math/tex; mode=display">
+pr(\xi) = r_\xi / R
+</script>
+</p>
+<p>The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.</p>
 <p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <code>gillespie_sim</code> function.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003, 0.1]);
 running simulation...
@@ -181,13 +201,12 @@ running MCMC...
 <h3 id="diagnostic">Diagnostic</h3>
 <p><a id='Geweke-test-of-stationarity-1'></a></p>
 <h4 id="geweke-test-of-stationarity">Geweke test of stationarity</h4>
-<p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain. It is given by:</p>
+<p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:</p>
 <p>
 <script type="math/tex; mode=display">
 z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}
 </script>
 </p>
-<p>NEED TO ADD CITATIONS: geweke<em>evaluating</em>1992,cowles<em>markov</em>1996</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
 ([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0591316 0.244598; 0.126286 0.351017; … ; 0.197914 0.330827; -0.768425 -0.723813])</code></pre>
 
@@ -233,7 +252,7 @@ R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 <p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
 <p>
 <script type="math/tex; mode=display">
-R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
+R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
 </script>
 </p>
 <p>
@@ -286,7 +305,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140569038733120])</code></pre>
+Observations([67.0], [8589934594])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -374,8 +393,32 @@ running custom MCMC...
     month = dec,
     year = {1977},
     pages = {2340--2361}
-}
-@article{gelman_inference_1992,
+}</p>
+<p>@incollection{geweke_evaluating_1992,
+    title = {Evaluating the {Accuracy} of {Sampling}-{Based} {Approaches} to the {Calculation} of {Posterior} {Moments}},
+    abstract = {Data augmentation and Gibbs sampling are two closely related, sampling-based approaches to the calculation of posterior moments. The fact that each produces a sample whose constituents are neither independent nor identically distributed complicates the assessment of convergence and numerical accuracy of the approximations to the expected value of functions of interest under the posterior. In this paper methods from spectral analysis are used to evaluate numerical accuracy formally and construct diagnostics for convergence. These methods are illustrated in the normal linear model with informative priors, and in the Tobit-censored regression model.},
+    booktitle = {{IN} {BAYESIAN} {STATISTICS}},
+    publisher = {University Press},
+    author = {Geweke, John},
+    year = {1992},
+    pages = {169--193}
+}</p>
+<p>@article{cowles_markov_1996,
+    title = {Markov {Chain} {Monte} {Carlo} {Convergence} {Diagnostics}: {A} {Comparative} {Review}},
+    volume = {91},
+    issn = {01621459},
+    shorttitle = {Markov {Chain} {Monte} {Carlo} {Convergence} {Diagnostics}},
+    url = {http://www.jstor.org/stable/2291683?origin=crossref},
+    doi = {10.2307/2291683},
+    number = {434},
+    urldate = {2018-03-20},
+    journal = {Journal of the American Statistical Association},
+    author = {Cowles, Mary Kathryn and Carlin, Bradley P.},
+    month = jun,
+    year = {1996},
+    pages = {883}
+}</p>
+<p>@article{gelman_inference_1992,
     title = {Inference from iterative simulation using multiple sequences},
     journal = {Statistical science},
     author = {Gelman, Andrew and Rubin, Donald B.},

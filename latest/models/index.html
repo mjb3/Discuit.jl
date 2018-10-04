@@ -89,7 +89,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-models">Discuit.jl models</a></li>
             <li><a href="#model-builder">Model builder</a></li>
-            <li><a href="#classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</a></li>
+            <li><a href="#standard-kermack-mckendrick-models">Standard Kermack-McKendrick models</a></li>
             <li><a href="#latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</a></li>
             <li><a href="#miscellaneous">Miscellaneous</a></li>
             <li><a href="#references">References</a></li>
@@ -116,11 +116,14 @@ model = generate_model(&quot;SEIR&quot;, [100, 0, 1, 0]], 1.0)</code></pre>
 <p><a href="./#Discuit.jl-models-1">Discuit.jl models</a> are <code>mutable struct</code>s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the 'model*name' and <code>initial*condition</code>are required to call<code>generate_model</code>. The following gives an overview of important defaults that the user should note before proceeding with their analysis.</p>
 <p><a id='Observation-function-1'></a></p>
 <h4 id="observation-function">Observation function</h4>
-<p>The default <code>model.obs_function</code> is YET TO BE DETERMINED...</p>
+<p>The default <code>model.obs_function</code> returns a vector representing the state of the system at obsertion time $t_y$, i.e.:</p>
+<pre class="codehilite"><code>obs_fn(population::Array{Int64, 1}) = population</code></pre>
+
+
 <p><a id='Observation-likelihood-model-1'></a></p>
 <h4 id="observation-likelihood-model">Observation likelihood model</h4>
 <p>The default <code>model.observation_model</code> is Gaussian with observation error <code>σ = 2.0</code> by default, which can be changed by providing an optional third parameter to <code>generate_model</code> per the example above,</p>
-<p>ADD EQNS</p>
+<p>ADD latex.</p>
 <p><a id='Prior-density-function-1'></a></p>
 <h4 id="prior-density-function">Prior density function</h4>
 <p>The default <code>model.prior</code> density function is weak, e.g. in a simple two parameter model it is equivalent to:</p>
@@ -140,9 +143,10 @@ end</code></pre>
 end</code></pre>
 
 
-<p>where <code>parameters[3]</code> is designated as the, e.g. initial infection, which is assumed to have taken place prior to e.g. the initial observation at t = 0.0. ADD LATEX...</p>
-<p><a id='Classic-Kermack-McKendrick-models-1'></a></p>
-<h2 id="classic-kermack-mckendrick-models">Classic Kermack-McKendrick models</h2>
+<p>where <code>parameters[3]</code> is designated as the, e.g. initial infection, which is assumed to have taken place prior to e.g. the initial observation at t = 0.0.</p>
+<p><a id='Standard-Kermack-McKendrick-models-1'></a></p>
+<h2 id="standard-kermack-mckendrick-models">Standard Kermack-McKendrick models</h2>
+<p>BLURB AND CITATIONS TBA.</p>
 <p><a id='SI-1'></a></p>
 <h3 id="si">SI</h3>
 <p>The susceptible-infectious (<code>"SI"</code>) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.</p>
