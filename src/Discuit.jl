@@ -573,7 +573,7 @@ end
 ## convergence diagnostics
 const LAG_INT = 10
 # autocorrelation R
-doc"""
+"""
     compute_autocorrelation(mcmc, lags = 200)
 
 **Parameters**
@@ -582,13 +582,13 @@ doc"""
 
 Compute autocorrelation R for a single Markov chain. Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
-$R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}$
+\$R_l  = \\frac{\\textrm{E} [(X_i - \\bar{X})(X_{i+l} - \\bar{X})]}{\\sigma^2}\$
 
 for any given lag `l`. The modified formula for multiple chains is given by:
 
-$R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}$
+\$R^{\\prime}_l = \\frac{\\textrm{E} [ (X_i - \\bar{X}_b) ( X_{i + l} - \\bar{X}_b ) ]}{\\sigma^2_b}\$
 
-$\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
+\$\\sigma^2_b = \\textrm{E} [(X_i - \\bar{X}_b)^2]\$
 
 Some more text.
 """
