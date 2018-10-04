@@ -61,19 +61,18 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 
 ### Simulation
 
-Discuit implements a direct method Gillespie algorithm for exact simulation\cite{gillespie_exact_1977}. Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:
-\begin{equation}
-\label{eqn:evttms}
-f(\Delta t) = R e^{-R \Delta t}
-\end{equation}
-\begin{eqnarray}
-r = f(\theta, P)\\
-R = \sum\limits_{\xi=1}^{N} r_\xi
-\end{eqnarray}
+Discuit implements a direct method Gillespie algorithm for exact simulation (see Gillespie 1977). Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:
+
+$f(\Delta t) = R e^{-R \Delta t}$
+
+$r = f(\theta, P)$
+
+$R = \sum\limits_{\xi=1}^{N} r_\xi$
+
 The event type $\xi$ is determined randomly with probability:
-\begin{equation}
-pr(\xi) = r_\xi / R
-\end{equation}
+
+$pr(\xi) = r_\xi / R$
+
 The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.
 
 Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the `gillespie_sim` function.
@@ -105,11 +104,9 @@ Placeholder for MCMC output.
 
 #### Geweke test of stationarity
 
-The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain. It is given by:
+The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
 
 $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
-
-NEED TO ADD CITATIONS: geweke_evaluating_1992,cowles_markov_1996
 
 ```@repl 1
 rs.geweke
@@ -151,7 +148,7 @@ R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 for any given lag `l`. The modified formula for multiple chains is given by:
 
 ```math
-R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
+R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
 ```
 
 $\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
@@ -294,6 +291,33 @@ Need to add commentary:
 	year = {1977},
 	pages = {2340--2361}
 }
+
+@incollection{geweke_evaluating_1992,
+	title = {Evaluating the {Accuracy} of {Sampling}-{Based} {Approaches} to the {Calculation} of {Posterior} {Moments}},
+	abstract = {Data augmentation and Gibbs sampling are two closely related, sampling-based approaches to the calculation of posterior moments. The fact that each produces a sample whose constituents are neither independent nor identically distributed complicates the assessment of convergence and numerical accuracy of the approximations to the expected value of functions of interest under the posterior. In this paper methods from spectral analysis are used to evaluate numerical accuracy formally and construct diagnostics for convergence. These methods are illustrated in the normal linear model with informative priors, and in the Tobit-censored regression model.},
+	booktitle = {{IN} {BAYESIAN} {STATISTICS}},
+	publisher = {University Press},
+	author = {Geweke, John},
+	year = {1992},
+	pages = {169--193}
+}
+
+@article{cowles_markov_1996,
+	title = {Markov {Chain} {Monte} {Carlo} {Convergence} {Diagnostics}: {A} {Comparative} {Review}},
+	volume = {91},
+	issn = {01621459},
+	shorttitle = {Markov {Chain} {Monte} {Carlo} {Convergence} {Diagnostics}},
+	url = {http://www.jstor.org/stable/2291683?origin=crossref},
+	doi = {10.2307/2291683},
+	number = {434},
+	urldate = {2018-03-20},
+	journal = {Journal of the American Statistical Association},
+	author = {Cowles, Mary Kathryn and Carlin, Bradley P.},
+	month = jun,
+	year = {1996},
+	pages = {883}
+}
+
 @article{gelman_inference_1992,
 	title = {Inference from iterative simulation using multiple sequences},
 	journal = {Statistical science},
