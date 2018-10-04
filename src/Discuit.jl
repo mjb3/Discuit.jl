@@ -122,8 +122,15 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
         t_prev = obs_times[i]
     end
     print(" finished (", length(trajectory.time), " events).\n")
+    # print trajectory
+    population .= p_model.initial_condition
+    pop_long = Array{Int64, 2}(undef, length(trajectory.time), length(population))
+    for i in eachindex(trajectory.time)
+        population .+= p_model.m_transition[trajectory.event_type[i], :]
+        pop_long[i,:] .= population
+    end
     # return trajectory
-    return SimResults(trajectory, Observations(obs_times, obs_vals))
+    return SimResults(trajectory, pop_long, Observations(obs_times, obs_vals))
 end
 # sim to initialise Markov chain
 function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,1}, full_like::Bool)

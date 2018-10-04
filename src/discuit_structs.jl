@@ -38,13 +38,15 @@ end
     SimResults
 
 **Fields**
-- `trajectory`      -- array of type `Event`.
+- `trajectory`      -- a variable of type `Trajectory`.
+- `population`      -- gives the state of the system after each event.
 - `observations`    -- variable of type `Observations`.
 
 The results of a simulation.
 """
 struct SimResults
     trajectory::Trajectory
+    population::Array{Int64, 2}
     observations::Observations
 end
 
