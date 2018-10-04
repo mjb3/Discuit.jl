@@ -5,11 +5,12 @@ Fast parameter inference for discrete state space continuous time (DSSCT) models
 |:-----------------------------:|
 | [![][travis-img]][travis-url] |
 
-The [Discuit.jl][discuit_repo] package contains tools for parameter inference and simulation of discrete state space continuous time (DSSCT) models in Julia. 
+The [Discuit.jl][discuit_repo] package contains tools for parameter inference and simulation of discrete state space continuous time (DSSCT) models in Julia. See [Discuit in R][discuit_r_repo] for the corresponding R package.
 
 ## Features
 
 - Customisable finite adaptive MCMC algorithm for fast parameter inference.
+- Pooley model based proposal (MBP) method for improved mixing.
 - Simulation via the Gillespie direct method.
 - Automated tools for convergence diagnosis and analysis.
 
@@ -28,3 +29,4 @@ See the [package documentation][discuit_docs] for further information and exampl
 
 [discuit_repo]: https://github.com/mjb3/Discuit.jl
 [discuit_docs]: https://mjb3.github.io/Discuit.jl/latest/
+[discuit_r_repo]: https://github.com/mjb3/Discuit
