@@ -88,7 +88,9 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
-            <li><a href="#sis-model">SIS model</a></li>
+            <li><a href="#models">Models</a></li>
+            <li><a href="#mcmc">MCMC</a></li>
+            <li><a href="#diagnostics">Diagnostics</a></li>
             <li><a href="#custom-mcmc">Custom MCMC</a></li>
             <li><a href="#references">References</a></li>
     </ul>
@@ -98,9 +100,9 @@
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
 <p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
-<p><a id='SIS-model-1'></a></p>
-<h2 id="sis-model">SIS model</h2>
-<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use <code>generate_model("SIS", [100,1])</code> to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining <code>DiscuitModel</code> in the package documentation:</p>
+<p><a id='Models-1'></a></p>
+<h2 id="models">Models</h2>
+<p><code>DiscuitModel</code>s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using <code>generate_model("SIS", [100,1])</code> but constructing it manually is a helpful exercise for getting to know the package. See <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for further details. We start by examining <code>DiscuitModel</code> in the package documentation:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; using Discuit;</code></pre>
 
 
@@ -152,55 +154,23 @@ si_gaussian (generic function with 1 method)</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);</code></pre>
 
 
-<p><a id='Simulation-1'></a></p>
-<h3 id="simulation">Simulation</h3>
-<p>Discuit implements a direct method Gillespie algorithm for exact simulation (see Gillespie 1977). Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:</p>
-<p>
-<script type="math/tex; mode=display">
-f(\Delta t) = R e^{-R \Delta t}
-</script>
-</p>
-<p>
-<script type="math/tex; mode=display">
-r = f(\theta, P)
-</script>
-</p>
-<p>
-<script type="math/tex; mode=display">
-R = \sum\limits_{\xi=1}^{N} r_\xi
-</script>
-</p>
-<p>The event type $\xi$ is determined randomly with probability:</p>
-<p>
-<script type="math/tex; mode=display">
-pr(\xi) = r_\xi / R
-</script>
-</p>
-<p>The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.</p>
-<p>Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the <code>gillespie_sim</code> function.</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.003, 0.1]);
-running simulation...
- finished (1037 events).</code></pre>
-
-
-<p>We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK</p>
-<p><img alt="SIS simulation" src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" /></p>
 <p><a id='MCMC-1'></a></p>
-<h3 id="mcmc">MCMC</h3>
+<h2 id="mcmc">MCMC</h2>
+<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method.</p>
 <p>Running an MCMC analysis based on a set of observations data is simple. TBC...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
 
 julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 running MCMC...
- finished (sample μ = [0.0033639, 0.115281]).</code></pre>
+ finished (sample μ = [0.00343077, 0.114633]).</code></pre>
 
 
 <p>Placeholder for MCMC output.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
-<p><a id='Diagnostic-1'></a></p>
-<h3 id="diagnostic">Diagnostic</h3>
+<p><a id='Diagnostics-1'></a></p>
+<h2 id="diagnostics">Diagnostics</h2>
 <p><a id='Geweke-test-of-stationarity-1'></a></p>
-<h4 id="geweke-test-of-stationarity">Geweke test of stationarity</h4>
+<h3 id="geweke-test-of-stationarity">Geweke test of stationarity</h3>
 <p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:</p>
 <p>
 <script type="math/tex; mode=display">
@@ -208,7 +178,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
 </script>
 </p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs.geweke
-([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [0.0591316 0.244598; 0.126286 0.351017; … ; 0.197914 0.330827; -0.768425 -0.723813])</code></pre>
+([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [-0.153271 -0.166538; -0.535017 -0.604866; … ; -0.000442161 0.0797484; -0.095506 -0.0408087])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/></p>
@@ -238,7 +208,7 @@ running gelman diagnostic...
  chain 1 complete.
  chain 2 complete.
  chain 3 complete.
- finished (sample μ = [0.00313563, 0.104747]).</code></pre>
+ finished (sample μ = [0.00332175, 0.111514]).</code></pre>
 
 
 <p><a id='Autocorrelation-1'></a></p>
@@ -305,7 +275,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140049442259760])</code></pre>
+Observations([67.0], [4294967297])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
