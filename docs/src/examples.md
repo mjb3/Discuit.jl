@@ -2,9 +2,9 @@
 
 The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
 
-## SIS model
+## Models
 
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. We could use `generate_model("SIS", [100,1])` to generate the model but constructing it manually is a helpful exercise for getting to know the package. We start by examining `DiscuitModel` in the package documentation:
+`DiscuitModel`s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using `generate_model("SIS", [100,1])` but constructing it manually is a helpful exercise for getting to know the package. See [Discuit.jl models](@ref) for further details. We start by examining `DiscuitModel` in the package documentation:
 
 ```@repl 1
 using Discuit;
@@ -59,33 +59,9 @@ We can now define a model. The three parameters declared inline are the transiti
 model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
 ```
 
-### Simulation
+## MCMC
 
-Discuit implements a direct method Gillespie algorithm for exact simulation (see Gillespie 1977). Event times are drawn randomly from the corresponding distribution (equation~\ref{eqn:evttms}) parametrised by the total event rate $R$ where $r_\xi$ is the rate function for each of $N$ event types:
-
-$f(\Delta t) = R e^{-R \Delta t}$
-
-$r = f(\theta, P)$
-
-$R = \sum\limits_{\xi=1}^{N} r_\xi$
-
-The event type $\xi$ is determined randomly with probability:
-
-$pr(\xi) = r_\xi / R$
-
-The population is updated by adding the event transition vector to the current state and the process is repeated until a specified final time is reached. Observations are drawn at the specified interval.
-
-Although our main goal is to replicate the analysis of Pooley et al. we can also run a simulation using the `gillespie_sim` function.
-
-```@repl 1
-xi = gillespie_sim(model, [0.003, 0.1]);
-```
-
-We can also visualise the results using the corresponding R package: rDiscuit. ADD LINK
-
-![SIS simulation](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png)
-
-### MCMC
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method.
 
 Running an MCMC analysis based on a set of observations data is simple. TBC...
 
@@ -100,9 +76,9 @@ Placeholder for MCMC output.
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/>
 ```
 
-### Diagnostic
+## Diagnostics
 
-#### Geweke test of stationarity
+### Geweke test of stationarity
 
 The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
 
@@ -158,6 +134,7 @@ NEED TO ADD image ...
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
 ```
+
 
 ## Custom MCMC
 
