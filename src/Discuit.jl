@@ -928,7 +928,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
     # print Geweke results
     open(string(dpath, "geweke.csv"), "w") do f
         # print headers
-        write(f, "x")
+        write(f, "lag")
         for p in eachindex(mcmc.mean)
             write(f, ", $p")
         end
@@ -1039,7 +1039,7 @@ Read a set of observations from the location `fpath` and return the results as a
 function read_observations_from_file(fpath::String)
     # NEED TO FIX WARNING ***
     df = CSV.read(fpath)
-    return Observations(df[1], df[:,2:size(df, 2)])
+    return Observations(df[:,1], df[:,2:size(df, 2)])
 end
 ## MAKE THIS APPLICABLE TO ALL TYPES? *************
 """

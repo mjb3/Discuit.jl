@@ -12,13 +12,13 @@ set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
-Now that we know the necessary parameters for defining a model we can begin by defining the rate function.
+We begin by defining a rate function. The first example is a simple Kermack-McKendrick model and the event rates for infection and recovery respectively are given by:
 
 $r_1 = \theta_1 SI$
 
 $r_2 = \theta_2 I$
 
-Note that the correct signature must be used in the implementation for it to be compatible with the package:
+The code is correspondingly straightforward:
 
 ```@repl 1
 function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -27,12 +27,13 @@ function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, popula
 end
 ```
 
-Next we define a simple observation function, again with the correct signature:
+Note that the correct signature must be used in the implementation for it to be compatible with the package. Next we define a simple observation function, again with the correct signature:
+
 ```@repl 1
 obs_fn(population::Array{Int64, 1}) = population
 ```
 
-Naturally we choose the same prior distribution as Pooley so that we can compare results. The return type must be Float.
+The default prior distribution is flat and improper and is equivalent to:
 
 ```@repl 1
 function weak_prior(parameters::Array{Float64, 1})
