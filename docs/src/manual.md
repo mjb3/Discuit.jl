@@ -2,8 +2,6 @@
 
 See [Discuit.jl examples](@ref) for a brief introduction to the package's core functionality.
 
-## Contents
-
 ```@contents
 Pages = ["manual.md"]
 Depth = 3

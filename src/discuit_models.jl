@@ -69,7 +69,6 @@ end
 # SI
 function si_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
     output[1] = parameters[1] * population[1] * population[2]
-    output[2] = parameters[2] * population[2]
 end
 # SIR; SIS
 function sir_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -87,6 +86,14 @@ function seir_rf(output, parameters::Array{Float64, 1}, population::Array{Int64,
     output[2] = parameters[2] * population[2]
     output[3] = parameters[3] * population[3]
 end
+# Lotka-Volterra
+function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
+    # prey; predator reproduction; predator death
+    output[1] = parameters[1] * population[2]
+    output[2] = parameters[2] * population[1] * population[2]
+    output[3] = parameters[3] * population[1]
+end
+
 ## generic observation function (no error)
 """
     generate_generic_obs_function()
@@ -123,18 +130,27 @@ end
 Generates a `DiscuitModel`. Optionally specify observation error `σ`.
 """
 function generate_model(model_name::String, initial_condition::Array{Int64, 1}, obs_error::AbstractFloat = 2.0)
-    # force to upper case here? ***
+    # force to upper case here ***
     obs_model = generate_gaussian_obs_model(length(initial_condition), obs_error)
     if model_name == "SI"
+        rate_fn = si_rf
         m_transition = [-1 1;]
     elseif model_name == "SIR"
+        rate_fn = sir_rf
         m_transition = [-1 1 0; 0 -1 1]
     elseif model_name == "SIS"
+        rate_fn = sir_rf
         m_transition = [-1 1; 1 -1]
     elseif model_name == "SEI"
+        rate_fn = sei_rf
         m_transition = [-1 1 0; 0 -1 1]
     elseif model_name == "SEIR"
+        rate_fn = seir_rf
         m_transition = [-1 1 0 0; 0 -1 1 0; 0 0 -1 1]
+    elseif model_name == "LOTKA"
+        model_name = "PN"
+        rate_fn = lotka_rf
+        m_transition = [0 1; 1 -1; -1 0]
     else
         print("\nERROR: ", model_name, " not recognised.")
         # handle this better? ***
@@ -142,5 +158,5 @@ function generate_model(model_name::String, initial_condition::Array{Int64, 1}, 
     end
     # NEED TO ADD MORE MODELS ******************
     prior = generate_weak_prior(size(m_transition, 1))
-    return DiscuitModel(model_name, sir_rf, m_transition, 0, initial_condition, generate_generic_obs_function(), prior, obs_model)
+    return DiscuitModel(model_name, rate_fn, m_transition, 0, initial_condition, generate_generic_obs_function(), prior, obs_model)
 end

@@ -2,6 +2,11 @@
 
 The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
 
+```@contents
+Pages = ["examples.md"]
+Depth = 3
+```
+
 ## MCMC
 
 The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.
@@ -62,7 +67,7 @@ We can now define a model. The three parameters declared inline are the transiti
 model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
 ```
 
-Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al. 
+Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al.
 
 ```@repl 1
 obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
@@ -75,44 +80,7 @@ Placeholder for MCMC output.
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/>
 ```
 
-## Diagnostics
-
-### Geweke test of stationarity
-
-The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
-
-$z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
-
-```@repl 1
-rs.geweke
-```
-
-```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/>
-```
-
-#### Gelman-Rubin convergence diagnostic
-
-The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance (Gelman et al, 1992, 2014). The *estimated scale reduction* statistic (sometimes referred to as *potential scale reduction factor*) is calculated for each parameter in the model.
-
-Let ``\bar{\theta}``, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:
-
-$W = \frac{1}{M} \sum_{i = 1}^M \sigma^2_i$
-
-$B = \frac{N}{M - 1} \sum_{i = 1}^M (\hat{\theta}_i - \hat{\theta})^2$
-
-The estimated scale reduction statistic is given by:
-
-$R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}$
-
-where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.
-
-```@repl 1
-rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
-ac = compute_autocorrelation(rs.mcmc); # hide
-```
-
-#### Autocorrelation
+## Autocorrelation
 
 Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
@@ -133,6 +101,46 @@ NEED TO ADD image ...
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
 ```
+
+## Convergence diagnostics
+
+### Geweke test of stationarity
+
+The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
+
+$z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
+
+```@repl 1
+rs.geweke
+```
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/>
+```
+
+### Gelman-Rubin convergence diagnostic
+
+The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance (Gelman et al, 1992, 2014). The *estimated scale reduction* statistic (sometimes referred to as *potential scale reduction factor*) is calculated for each parameter in the model.
+
+Let ``\bar{\theta}``, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:
+
+$W = \frac{1}{M} \sum_{i = 1}^M \sigma^2_i$
+
+$B = \frac{N}{M - 1} \sum_{i = 1}^M (\hat{\theta}_i - \hat{\theta})^2$
+
+The estimated scale reduction statistic is given by:
+
+$R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}$
+
+where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.
+
+```@repl 1
+rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+ac = compute_autocorrelation(rs.mcmc); # hide
+```
+
+## Simulation
+
 
 
 ## Custom MCMC
