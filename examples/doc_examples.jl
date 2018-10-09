@@ -43,23 +43,24 @@ function pooley_prebaked()
 
     ## MCMC
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-    rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
-    # print
-    print_mcmc_results(rs, "./out/doc/mcmc_example/")
-
-    ## Diagnostics
-    # geweke
-    print(" geweke statistics: ", rs.geweke[2][1,:], "\n")
-    # gelman
-    rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
-    # # autocorrelation
-    ac = compute_autocorrelation(rs.mcmc)
-    print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
-
-    # standard proposals (for comparison)
-    rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
-    ac = compute_autocorrelation(rs.mcmc)
-    print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
+    print_observations(obs, "./out/pooley.dat")
+    # rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
+    # # print
+    # print_mcmc_results(rs, "./out/doc/mcmc_example/")
+    #
+    # ## Diagnostics
+    # # geweke
+    # print(" geweke statistics: ", rs.geweke[2][1,:], "\n")
+    # # gelman
+    # rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+    # # # autocorrelation
+    # ac = compute_autocorrelation(rs.mcmc)
+    # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
+    #
+    # # standard proposals (for comparison)
+    # rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
+    # ac = compute_autocorrelation(rs.mcmc)
+    # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
 end
 
 ## custom roberts
@@ -141,6 +142,7 @@ function custom_bobs()
     rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
     print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
 end
+
 
 # pooley()
 pooley_prebaked()

@@ -2,7 +2,9 @@
 
 The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
 
-## Models
+## MCMC
+
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.
 
 `DiscuitModel`s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using `generate_model("SIS", [100,1])` but constructing it manually is a helpful exercise for getting to know the package. See [Discuit.jl models](@ref) for further details. We start by examining `DiscuitModel` in the package documentation:
 
@@ -12,7 +14,7 @@ set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
-We begin by defining a rate function. The first example is a simple Kermack-McKendrick model and the event rates for infection and recovery respectively are given by:
+Next we define a rate function. The first example is a simple Kermack-McKendrick model and the event rates for infection and recovery respectively are given by:
 
 $r_1 = \theta_1 SI$
 
@@ -60,11 +62,7 @@ We can now define a model. The three parameters declared inline are the transiti
 model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
 ```
 
-## MCMC
-
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method.
-
-Running an MCMC analysis based on a set of observations data is simple. TBC...
+Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al. 
 
 ```@repl 1
 obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);

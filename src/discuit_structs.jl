@@ -66,7 +66,7 @@ end
 
 A `mutable struct` which represents a DSSCT model (see [Discuit.jl models](@ref) for further details).
 """
-mutable struct DiscuitModel # RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function
+mutable struct DiscuitModel
     # model name
     model_name::String
     # event rate function
