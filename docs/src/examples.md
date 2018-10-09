@@ -143,7 +143,8 @@ ac = compute_autocorrelation(rs.mcmc); # hide
 
 ADD SIM BLURB `generate_model("LOTKA", [79, 71])`.
 
-```@repl 1
+```@repl 2
+using Discuit; # hide
 set_random_seed(1) # hide
 model = generate_model("LOTKA", [79, 71]); # hide
 xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
@@ -151,7 +152,9 @@ xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 
 PyPlot test...
 
-```@repl 1
+```@repl 2
+import Pkg;
+Pkg.add("PyPlot");
 using PyPlot;
 plot(xi.trajectory.time, xi.population)
 ```
