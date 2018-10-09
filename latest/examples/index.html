@@ -88,7 +88,6 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
-            <li><a href="#models">Models</a></li>
             <li><a href="#mcmc">MCMC</a></li>
             <li><a href="#diagnostics">Diagnostics</a></li>
             <li><a href="#custom-mcmc">Custom MCMC</a></li>
@@ -100,13 +99,14 @@
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
 <p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
-<p><a id='Models-1'></a></p>
-<h2 id="models">Models</h2>
+<p><a id='MCMC-1'></a></p>
+<h2 id="mcmc">MCMC</h2>
+<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.</p>
 <p><code>DiscuitModel</code>s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using <code>generate_model("SIS", [100,1])</code> but constructing it manually is a helpful exercise for getting to know the package. See <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for further details. We start by examining <code>DiscuitModel</code> in the package documentation:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; using Discuit;</code></pre>
 
 
-<p>Now that we know the necessary parameters for defining a model we can begin by defining the rate function.</p>
+<p>Next we define a rate function. The first example is a simple Kermack-McKendrick model and the event rates for infection and recovery respectively are given by:</p>
 <p>
 <script type="math/tex; mode=display">
 r_1 = \theta_1 SI
@@ -117,7 +117,7 @@ r_1 = \theta_1 SI
 r_2 = \theta_2 I
 </script>
 </p>
-<p>Note that the correct signature must be used in the implementation for it to be compatible with the package:</p>
+<p>The code is correspondingly straightforward:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
            output[2] = parameters[2] * population[2]
@@ -125,12 +125,12 @@ r_2 = \theta_2 I
 sis_rf (generic function with 1 method)</code></pre>
 
 
-<p>Next we define a simple observation function, again with the correct signature:</p>
+<p>Note that the correct signature must be used in the implementation for it to be compatible with the package. Next we define a simple observation function, again with the correct signature:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs_fn(population::Array{Int64, 1}) = population
 obs_fn (generic function with 1 method)</code></pre>
 
 
-<p>Naturally we choose the same prior distribution as Pooley so that we can compare results. The return type must be Float.</p>
+<p>The default prior distribution is flat and improper and is equivalent to:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function weak_prior(parameters::Array{Float64, 1})
            parameters[1] &gt; 0.0 || return 0.0
            parameters[2] &gt; 0.0 || return 0.0
@@ -154,10 +154,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);</code></pre>
 
 
-<p><a id='MCMC-1'></a></p>
-<h2 id="mcmc">MCMC</h2>
-<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method.</p>
-<p>Running an MCMC analysis based on a set of observations data is simple. TBC...</p>
+<p>Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al. </p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
 
 julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
@@ -275,7 +272,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [4294967297])</code></pre>
+Observations([67.0], [140622277103632])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
