@@ -255,9 +255,75 @@ running simulation...
 
 
 <p>PyPlot test...</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; using PyPlot;
-ERROR: ArgumentError: Package PyPlot not found in current path:
-- Run `import Pkg; Pkg.add(&quot;PyPlot&quot;)` to install the PyPlot package.
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; import Pkg;
+
+julia&gt; Pkg.add(&quot;PyPlot&quot;);
+  Updating registry at `~/.julia/registries/General`
+  Updating git-repo `https://github.com/JuliaRegistries/General.git`
+[?25l[2K[?25h Resolving package versions...
+ Installed Conda ───────────── v1.0.2
+ Installed FixedPointNumbers ─ v0.5.3
+ Installed VersionParsing ──── v1.1.3
+ Installed MacroTools ──────── v0.4.4
+ Installed LaTeXStrings ────── v1.0.3
+ Installed PyPlot ──────────── v2.6.3
+ Installed ColorTypes ──────── v0.7.5
+ Installed Colors ──────────── v0.9.4
+ Installed PyCall ──────────── v1.18.4
+  Updating `~/build/mjb3/Discuit.jl/docs/Project.toml`
+  [d330b81b] + PyPlot v2.6.3
+  Updating `~/build/mjb3/Discuit.jl/docs/Manifest.toml`
+  [3da002f7] + ColorTypes v0.7.5
+  [5ae59095] + Colors v0.9.4
+  [8f4d0f93] + Conda v1.0.2
+  [53c48c17] + FixedPointNumbers v0.5.3
+  [b964fa9f] + LaTeXStrings v1.0.3
+  [1914dd2f] + MacroTools v0.4.4
+  [438e738f] + PyCall v1.18.4
+  [d330b81b] + PyPlot v2.6.3
+  [81def892] + VersionParsing v1.1.3
+  Building Conda ─→ `~/.julia/packages/Conda/hsaaN/deps/build.log`
+  Building PyCall → `~/.julia/packages/PyCall/rUul9/deps/build.log`
+
+julia&gt; using PyPlot;
+ERROR: InitError: Failed to import required Python module matplotlib.
+
+For automated matplotlib installation, try configuring PyCall to use the Conda.jl package's Python &quot;Miniconda&quot; distribution within Julia. Relaunch Julia and run:
+    ENV[&quot;PYTHON&quot;]=&quot;&quot;
+    Pkg.build(&quot;PyCall&quot;)
+before trying again.
+
+The pyimport exception was: PyError (PyImport_ImportModule
+
+The Python package matplotlib could not be found by pyimport. Usually this means
+that you did not install matplotlib in the Python version being used by PyCall.
+
+PyCall is currently configured to use the Python version at:
+
+python3
+
+and you should use whatever mechanism you usually use (apt-get, pip, conda,
+etcetera) to install the Python package containing the matplotlib module.
+
+One alternative is to re-configure PyCall to use a different Python
+version on your system: set ENV[&quot;PYTHON&quot;] to the path/name of the python
+executable you want to use, run Pkg.build(&quot;PyCall&quot;), and re-launch Julia.
+
+Another alternative is to configure PyCall to use a Julia-specific Python
+distribution via the Conda.jl package (which installs a private Anaconda
+Python distribution), which has the advantage that packages can be installed
+and kept up-to-date via Julia.  As explained in the PyCall documentation,
+set ENV[&quot;PYTHON&quot;]=&quot;&quot;, run Pkg.build(&quot;PyCall&quot;), and re-launch Julia. Then,
+To install the matplotlib module, you can use `pyimport_conda(&quot;matplotlib&quot;, PKG)`,
+where PKG is the Anaconda package the contains the module matplotlib,
+or alternatively you can use the Conda package directly (via
+`using Conda` followed by `Conda.add` etcetera).
+
+) &lt;class 'ImportError'&gt;
+ImportError(&quot;No module named 'matplotlib'&quot;,)
+
+
+during initialization of module PyPlot
 
 julia&gt; plot(xi.trajectory.time, xi.population)
 ERROR: UndefVarError: plot not defined</code></pre>
@@ -273,9 +339,7 @@ julia&gt; model.t0_index = 3;</code></pre>
 
 
 <p>Next we define the "medium" prior used by O'Neill and Roberts, with some help from the <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> package:</p>
-<pre class="codehilite"><code class="language-julia-repl">  Updating registry at `~/.julia/registries/General`
-  Updating git-repo `https://github.com/JuliaRegistries/General.git`
-[?25l[2K[?25h Resolving package versions...
+<pre class="codehilite"><code class="language-julia-repl"> Resolving package versions...
   Updating `~/build/mjb3/Discuit.jl/docs/Project.toml`
   [31c24e10] + Distributions v0.16.4
   Updating `~/build/mjb3/Discuit.jl/docs/Manifest.toml`
@@ -306,7 +370,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140107302197840])</code></pre>
+Observations([67.0], [140381511570608])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
