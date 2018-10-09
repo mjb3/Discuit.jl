@@ -89,7 +89,9 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
             <li><a href="#mcmc">MCMC</a></li>
-            <li><a href="#diagnostics">Diagnostics</a></li>
+            <li><a href="#autocorrelation">Autocorrelation</a></li>
+            <li><a href="#convergence-diagnostics">Convergence diagnostics</a></li>
+            <li><a href="#simulation">Simulation</a></li>
             <li><a href="#custom-mcmc">Custom MCMC</a></li>
             <li><a href="#references">References</a></li>
     </ul>
@@ -99,6 +101,21 @@
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
 <p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
+<ul>
+<li><a href="./#Discuit.jl-examples-1">Discuit.jl examples</a><ul>
+<li><a href="./#MCMC-1">MCMC</a></li>
+<li><a href="./#Autocorrelation-1">Autocorrelation</a></li>
+<li><a href="./#Convergence-diagnostics-1">Convergence diagnostics</a><ul>
+<li><a href="./#Geweke-test-of-stationarity-1">Geweke test of stationarity</a></li>
+<li><a href="./#Gelman-Rubin-convergence-diagnostic-1">Gelman-Rubin convergence diagnostic</a></li>
+</ul>
+</li>
+<li><a href="./#Simulation-1">Simulation</a></li>
+<li><a href="./#Custom-MCMC-1">Custom MCMC</a></li>
+<li><a href="./#References-1">References</a></li>
+</ul>
+</li>
+</ul>
 <p><a id='MCMC-1'></a></p>
 <h2 id="mcmc">MCMC</h2>
 <p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.</p>
@@ -154,7 +171,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);</code></pre>
 
 
-<p>Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al. </p>
+<p>Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
 
 julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
@@ -164,8 +181,29 @@ running MCMC...
 
 <p>Placeholder for MCMC output.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
-<p><a id='Diagnostics-1'></a></p>
-<h2 id="diagnostics">Diagnostics</h2>
+<p><a id='Autocorrelation-1'></a></p>
+<h2 id="autocorrelation">Autocorrelation</h2>
+<p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
+<p>
+<script type="math/tex; mode=display">
+R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
+</script>
+</p>
+<p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
+<p>
+<script type="math/tex; mode=display">
+R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
+</script>
+</p>
+<p>NEED TO ADD image ...</p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
+<p><a id='Convergence-diagnostics-1'></a></p>
+<h2 id="convergence-diagnostics">Convergence diagnostics</h2>
 <p><a id='Geweke-test-of-stationarity-1'></a></p>
 <h3 id="geweke-test-of-stationarity">Geweke test of stationarity</h3>
 <p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:</p>
@@ -180,7 +218,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/></p>
 <p><a id='Gelman-Rubin-convergence-diagnostic-1'></a></p>
-<h4 id="gelman-rubin-convergence-diagnostic">Gelman-Rubin convergence diagnostic</h4>
+<h3 id="gelman-rubin-convergence-diagnostic">Gelman-Rubin convergence diagnostic</h3>
 <p>The Gelman-Rubin diagnostic is designed to diagnose convergence of two or more Markov chains by comparing within chain variance to between chain variance (Gelman et al, 1992, 2014). The <em>estimated scale reduction</em> statistic (sometimes referred to as <em>potential scale reduction factor</em>) is calculated for each parameter in the model.</p>
 <p>Let $\bar{\theta}$, $W$ and $B$ be vectors of length $P$ representing the mean of model parameters $\theta$, within chain variance between chain variance respectively for $M$ Markov chains:</p>
 <p>
@@ -208,27 +246,23 @@ running gelman diagnostic...
  finished (sample μ = [0.00332175, 0.111514]).</code></pre>
 
 
-<p><a id='Autocorrelation-1'></a></p>
-<h4 id="autocorrelation">Autocorrelation</h4>
-<p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
-<p>
-<script type="math/tex; mode=display">
-R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
-</script>
-</p>
-<p>for any given lag <code>l</code>. The modified formula for multiple chains is given by:</p>
-<p>
-<script type="math/tex; mode=display">
-R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sigma^2_b}
-</script>
-</p>
-<p>
-<script type="math/tex; mode=display">
-\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
-</script>
-</p>
-<p>NEED TO ADD image ...</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
+<p><a id='Simulation-1'></a></p>
+<h2 id="simulation">Simulation</h2>
+<p>ADD SIM BLURB <code>generate_model("LOTKA", [79, 71])</code>.</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
+running simulation...
+ finished (17520 events).</code></pre>
+
+
+<p>PyPlot test...</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; using PyPlot;
+ERROR: ArgumentError: Package PyPlot not found in current path:
+- Run `import Pkg; Pkg.add(&quot;PyPlot&quot;)` to install the PyPlot package.
+
+julia&gt; plot(xi.trajectory.time, xi.population)
+ERROR: UndefVarError: plot not defined</code></pre>
+
+
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
 <p>Some situations...</p>
@@ -272,7 +306,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140622277103632])</code></pre>
+Observations([67.0], [139822909079552])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
