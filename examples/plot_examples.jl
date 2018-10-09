@@ -6,7 +6,7 @@ function traj_example()
     model = generate_model("LOTKA", [79, 71]);
 
     ## run sim
-    xi = gillespie_sim(model, [0.003,0.1]);
+    xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 
     #
     plot(xi.trajectory.time, xi.population)

@@ -43,7 +43,7 @@ function pooley_prebaked()
 
     ## MCMC
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-    print_observations(obs, "./out/pooley.dat")
+    print_observations(obs, "./data/pooley.csv")
     # rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
     # # print
     # print_mcmc_results(rs, "./out/doc/mcmc_example/")
