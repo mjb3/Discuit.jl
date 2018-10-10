@@ -10,4 +10,5 @@ jobs:
         - julia --project=docs/ docs/make.jl
       after_success: skip
       install:
-        - pip install matplotlib
+        - sudo pip install --upgrade pip
+        - sudo pip install matplotlib
