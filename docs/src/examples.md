@@ -143,21 +143,16 @@ ac = compute_autocorrelation(rs.mcmc); # hide
 
 ADD SIM BLURB `generate_model("LOTKA", [79, 71])`.
 
-```@repl 2
+```@example
 using Discuit; # hide
 set_random_seed(1); # hide
 model = generate_model("LOTKA", [79, 71]); # hide
 xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-```
-
-PyPlot test.
-
-```@repl 2
 plot_trajectory(xi);
-savefig("f-plot.svg"); # hide
+savefig("fplot.svg"); # hide
 ```
 
-![](f-plot.svg)
+![](fplot.svg)
 
 ## Custom MCMC
 

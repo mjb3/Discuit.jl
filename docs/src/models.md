@@ -2,7 +2,7 @@
 
 Discuit comes with a number of well known, mostly epidemiological models pre defined. This section describes the models and how to use them.
 
-## Model builder
+## Generating models
 
 Pre defined models can be invoked by calling:
 
