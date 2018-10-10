@@ -9,6 +9,5 @@ jobs:
                                     Pkg.develop(PackageSpec(path=pwd()))'
         - julia --project=docs/ docs/make.jl
       after_success: skip
-      install:
-        - sudo pip install --upgrade pip
-        - sudo pip install matplotlib
+      before_install:
+        - julia -e 'ENV["PYTHON"]=""; Pkg.add("Conda"); using Conda; Conda.update(); Conda.add("matplotlib");
