@@ -593,13 +593,7 @@ Compute autocorrelation R for a single Markov chain. Autocorrelation can be used
 
 \$R_l  = \\frac{\\textrm{E} [(X_i - \\bar{X})(X_{i+l} - \\bar{X})]}{\\sigma^2}\$
 
-for any given lag `l`. The modified formula for multiple chains is given by:
-
-\$R^{\\prime}_l = \\frac{\\textrm{E} [ (X_i - \\bar{X}_b) ( X_{i + l} - \\bar{X}_b ) ]}{\\sigma^2_b}\$
-
-\$\\sigma^2_b = \\textrm{E} [(X_i - \\bar{X}_b)^2]\$
-
-Some more text.
+for any given lag `l`.
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     output = zeros(lags + 1, length(mcmc.mean))
@@ -631,7 +625,13 @@ end
 - `mcmc`    -- an array of `MCMCResults` variables.
 - `lags`    -- the number of lags to compute. Default: 200.
 
-Compute autocorrelation R' for a two or more Markov chains.
+Compute autocorrelation R' for a two or more Markov chains. The formula for multiple chains is given by:
+
+\$R^{\\prime}_l = \\frac{\\textrm{E} [ (X_i - \\bar{X}_b) ( X_{i + l} - \\bar{X}_b ) ]}{\\sigma^2_b}\$
+
+\$\\sigma^2_b = \\textrm{E} [(X_i - \\bar{X}_b)^2]\$
+
+where .
 """
 function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     mce = Array{Float64, 2}(undef, length(mcmc), length(mcmc[1].mean))

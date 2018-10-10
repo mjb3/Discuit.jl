@@ -63,6 +63,9 @@ print_autocorrelation
 
 ```@docs
 plot_trajectory
+plot_parameter_trace
+plot_parameter_marginal
+plot_parameter_heatmap
 ```
 
 ### custom MCMC
