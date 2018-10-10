@@ -13,10 +13,10 @@ Discuit is a package for:
 """
 module Discuit
 
-## depends
+## depends CHANGE TO IMPORT
 using Random
 using Distributions
-using CSV
+import CSV
 
 ## exports
 # public structs
@@ -26,7 +26,7 @@ export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrel
 # model helpers
 export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
-export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, read_observations_from_file, get_observations_from_array
+export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations_from_file, get_observations_from_array
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
@@ -1028,18 +1028,21 @@ function print_observations(obs_data::Observations, fpath::String)
         end
     end # end of print
 end
+## NEED TO ADD DOCS
+function get_observations_from_dataframe(df)
+    return Observations(df[1], df[2:size(df, 2)])
+end
 """
-    read_observations_from_file(fpath)
+    get_observations_from_file(fpath)
 
 **Parameters**
 - `fpath`       -- the destination file path.
 
 Read a set of observations from the location `fpath` and return the results as a variable of type `Observations`.
 """
-function read_observations_from_file(fpath::String)
-    # NEED TO FIX WARNING ***
+function get_observations_from_file(fpath::String)
     df = CSV.read(fpath)
-    return Observations(df[1], df[2:size(df, 2)])
+    return get_observations_from_dataframe(df)
 end
 ## MAKE THIS APPLICABLE TO ALL TYPES? *************
 """

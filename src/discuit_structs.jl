@@ -27,6 +27,11 @@ end
 - `time`    -- observation times.
 - `val`     -- observation values.
 
+# Examples
+
+    # pooley dataset
+    pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
+
 Stores one column vector of observation times and one or more column vectors of observation integer values.
 """
 struct Observations
