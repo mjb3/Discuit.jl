@@ -31,7 +31,6 @@ This section is organised in three parts:
 set_random_seed
 gillespie_sim
 run_met_hastings_mcmc
-run_custom_mcmc
 run_gelman_diagnostic
 compute_autocorrelation
 ```
@@ -52,7 +51,7 @@ generate_model
 ```@docs
 print_trajectory
 print_observations
-read_observations_from_file
+get_observations_from_file
 get_observations_from_array
 print_mcmc_results
 print_gelman_results
