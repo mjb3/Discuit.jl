@@ -73,5 +73,5 @@ end
 
 ## run the examples
 sim_example()
-# mcmc_example()
-# run_conv_diag()
+mcmc_example()
+run_conv_diag()

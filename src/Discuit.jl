@@ -14,8 +14,8 @@ Discuit is a package for:
 module Discuit
 
 ## depends CHANGE TO IMPORT
-using Random
-using Distributions
+import Random
+import Distributions
 import CSV
 
 ## exports
@@ -44,6 +44,7 @@ include("./discuit_visualisation.jl")
 const MAX_TRAJ = 196000
 const DF_PROP_LIKE = 1.0
 const NULL_LOG_LIKE = -Inf
+const AC_LAG_INT = 10       # number of autocorrelation lag intervals
 
 ## model generating functions
 # TO BE ADDED *******
@@ -580,7 +581,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     return MCMCResults(mc, mc_accepted, mc_bar, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p)
 end
 ## convergence diagnostics
-const LAG_INT = 10
 # autocorrelation R
 """
     compute_autocorrelation(mcmc, lags = 200)
@@ -603,13 +603,13 @@ function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
         # for each parameter
         for j in 1:length(mcmc.mean)
             # compute SWAP AND VECTORISE
-            for i in (mcmc.adapt_period + 1):(size(mcmc.samples, 1) - (l*LAG_INT))
-                output[l + 1,j] += (mcmc.samples[i,j] - mcmc.mean[j]) * (mcmc.samples[i + (l*LAG_INT), j] - mcmc.mean[j])
+            for i in (mcmc.adapt_period + 1):(size(mcmc.samples, 1) - (l*AC_LAG_INT))
+                output[l + 1,j] += (mcmc.samples[i,j] - mcmc.mean[j]) * (mcmc.samples[i + (l*AC_LAG_INT), j] - mcmc.mean[j])
                 # tmp[l,j] += mcmc.samples[i,j]
             end
-            output[l + 1,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*LAG_INT)
+            output[l + 1,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
             output[l + 1,j] /= mcmc.covar[j,j]
-            # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*LAG_INT)
+            # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
         end
     end
     # print(tmp[1,:])
@@ -657,8 +657,8 @@ function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     for l in 0:lags
         for j in eachindex(mu)
             for mc in eachindex(mcmc)
-                for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].samples, 1) - (l*LAG_INT))
-                    output[l + 1,j] += (mcmc[mc].samples[i,j] - mu[j]) * (mcmc[mc].samples[i + (l*LAG_INT), j] - mu[j])
+                for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].samples, 1) - (l*AC_LAG_INT))
+                    output[l + 1,j] += (mcmc[mc].samples[i,j] - mu[j]) * (mcmc[mc].samples[i + (l*AC_LAG_INT), j] - mu[j])
                 end
             end
             output[l + 1,j] /= length(mcmc) * (size(mcmc[1].samples, 1) - mcmc[1].adapt_period)
@@ -864,7 +864,7 @@ function print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String
         end
         # print autocorr
         for i in 1:size(autocorrelation, 1)
-            write(f, "\n$((i - 1) * LAG_INT)")
+            write(f, "\n$((i - 1) * AC_LAG_INT)")
             for j in 1:size(autocorrelation, 2)
                 write(f, ", $(autocorrelation[i,j])")
             end

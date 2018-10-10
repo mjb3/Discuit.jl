@@ -29,7 +29,7 @@ The following code initialises a `DiscuitModel` and runs a simulation, storing t
 
 ```@repl 1
 using Discuit;
-set_random_seed(1) # hide
+set_random_seed(1); # hide
 model = generate_model("SIS", [100,1]);
 x = gillespie_sim(model, [0.003, 0.1]);
 ```
