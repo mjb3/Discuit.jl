@@ -14,8 +14,8 @@ Discuit is a package for:
 module Discuit
 
 ## depends CHANGE TO IMPORT
+using Distributions
 import Random
-import Distributions
 import CSV
 
 ## exports
