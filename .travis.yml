@@ -9,5 +9,5 @@ jobs:
                                     Pkg.develop(PackageSpec(path=pwd()))'
         - julia --project=docs/ docs/make.jl
       after_success: skip
-      before_install:
-      - sudo python3 -m pip install -U matplotlib
+      install:
+        - pip install matplotlib
