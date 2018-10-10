@@ -92,7 +92,6 @@
             <li><a href="#autocorrelation">Autocorrelation</a></li>
             <li><a href="#convergence-diagnostics">Convergence diagnostics</a></li>
             <li><a href="#simulation">Simulation</a></li>
-            <li><a href="#custom-mcmc">Custom MCMC</a></li>
             <li><a href="#references">References</a></li>
     </ul>
 </div></div>
@@ -249,21 +248,34 @@ running gelman diagnostic...
 <p><a id='Simulation-1'></a></p>
 <h2 id="simulation">Simulation</h2>
 <p>ADD SIM BLURB <code>generate_model("LOTKA", [79, 71])</code>.</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-running simulation...
+<pre class="codehilite"><code class="language-julia">xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);</code></pre>
+
+
+<pre class="codehilite"><code>running simulation...
  finished (17520 events).</code></pre>
 
 
 <p>PyPlot test...</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_trajectory(xi)
-PyObject Text(0, 0.5, 'population')</code></pre>
+<p>```@example 2
+plot_trajectory(xi)
+savefig("f-plot.svg"); nothing # hide</p>
+<pre class="codehilite"><code>![](f-plot.svg)
 
 
-<p><a id='Custom-MCMC-1'></a></p>
-<h2 id="custom-mcmc">Custom MCMC</h2>
-<p>Some situations...</p>
-<p>First we generate a standard <a href="../models/#SIR-1">SIR</a> model and set the <code>t0_index = 3</code>.</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
+&lt;a id='Custom-MCMC-1'&gt;&lt;/a&gt;
+
+## Custom MCMC
+
+
+Some situations...
+
+
+First we generate a standard [SIR](models.md#SIR-1) model and set the `t0_index = 3`.
+
+
+```julia-repl
+
+julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
 
 julia&gt; model.t0_index = 3;</code></pre>
 
@@ -302,7 +314,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [15])</code></pre>
+Observations([67.0], [4294967297])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
