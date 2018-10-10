@@ -148,16 +148,19 @@ set_random_seed(1)
 
 ADD SIM BLURB `generate_model("LOTKA", [79, 71])`.
 
-```@repl 2
+```@example 2
 model = generate_model("LOTKA", [79, 71]); # hide
 xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 ```
 
 PyPlot test...
 
-```@repl 2
+```@example 2
 plot_trajectory(xi)
+savefig("f-plot.svg"); nothing # hide
 ```
+
+![](f-plot.svg)
 
 ## Custom MCMC
 
