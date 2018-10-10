@@ -88,14 +88,14 @@ function plot_parameter_heatmap(mcmc::MCMCResults, x_parameter::Int64, y_paramet
 end
 ## autocorrelation R
 # single
-"""
-    plot_autocorrelation(mcmc)
-
-**Parameters**
-- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
-
-Plot autocorrelation R using ADD PYPLOT LINK.
-"""
-function plot_autocorrelation(mcmc::MCMCResults)
-
-end
+# """
+#     plot_autocorrelation(mcmc)
+#
+# **Parameters**
+# - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+#
+# Plot autocorrelation R using ADD PYPLOT LINK.
+# """
+# function plot_autocorrelation(mcmc::MCMCResults)
+#
+# end

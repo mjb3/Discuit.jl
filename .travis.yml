@@ -10,5 +10,4 @@ jobs:
         - julia --project=docs/ docs/make.jl
       after_success: skip
       before_install:
-      - sudo apt-get update -qq
-      - sudo apt-get install -qq sudo python3 -m pip install -U matplotlib
+      - sudo python3 -m pip install -U matplotlib
