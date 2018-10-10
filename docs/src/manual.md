@@ -59,6 +59,12 @@ print_gelman_results
 print_autocorrelation
 ```
 
+### visualisation
+
+```@docs
+plot_trajectory
+```
+
 ### custom MCMC
 
 ```@docs

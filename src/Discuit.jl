@@ -27,6 +27,8 @@ export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrel
 export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
 export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations_from_file, get_observations_from_array
+# visualisation
+export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_parameter_heatmap
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
@@ -35,6 +37,7 @@ export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_pr
 
 include("./discuit_structs.jl")
 include("./discuit_models.jl")
+include("./discuit_visualisation.jl")
 
 ## constants
 # max trajectory constant (make this optional?)

@@ -1,5 +1,5 @@
 using Discuit
-import PyPlot
+# import PyPlot
 
 function traj_example()
     set_random_seed(1)
@@ -7,9 +7,7 @@ function traj_example()
 
     ## run sim
     xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-
-    #
-    PyPlot.plot(xi.trajectory.time, xi.population)
+    plot_trajectory(xi)
 end
 
 import HTTP
@@ -25,11 +23,14 @@ function mcmc_example()
     ## mcmc
     rs = run_met_hastings_mcmc(model, y, [0.003, 0.1])
     ## traceplot
-    x = rs.adapt_period:size(rs.samples, 1)
-    y = rs.samples[rs.adapt_period:size(rs.samples, 1), 2]
-    PyPlot.plot(x, y)
+    plot_parameter_trace(rs, 1)
+    # plot_parameter_trace(rs, 2)
     ## marginal
+    # plot_parameter_marginal(rs, 1)
+    # plot_parameter_marginal(rs, 2)
+    ## heatmap
+    # plot_parameter_heatmap(rs, 1, 2)
 end
 
-# traj_example()
-mcmc_example()
+traj_example()
+# mcmc_example()

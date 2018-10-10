@@ -144,8 +144,6 @@ ac = compute_autocorrelation(rs.mcmc); # hide
 ```@setup 2
 using Discuit;
 set_random_seed(1)
-import Pkg;
-Pkg.add("PyPlot");
 ```
 
 ADD SIM BLURB `generate_model("LOTKA", [79, 71])`.
@@ -158,8 +156,7 @@ xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 PyPlot test...
 
 ```@repl 2
-using PyPlot;
-plot(xi.trajectory.time, xi.population)
+plot_trajectory(xi)
 ```
 
 ## Custom MCMC
