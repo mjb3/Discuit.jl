@@ -92,6 +92,7 @@
             <li><a href="#autocorrelation">Autocorrelation</a></li>
             <li><a href="#convergence-diagnostics">Convergence diagnostics</a></li>
             <li><a href="#simulation">Simulation</a></li>
+            <li><a href="#custom-mcmc">Custom MCMC</a></li>
             <li><a href="#references">References</a></li>
     </ul>
 </div></div>
@@ -100,21 +101,6 @@
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
 <p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
-<ul>
-<li><a href="./#Discuit.jl-examples-1">Discuit.jl examples</a><ul>
-<li><a href="./#MCMC-1">MCMC</a></li>
-<li><a href="./#Autocorrelation-1">Autocorrelation</a></li>
-<li><a href="./#Convergence-diagnostics-1">Convergence diagnostics</a><ul>
-<li><a href="./#Geweke-test-of-stationarity-1">Geweke test of stationarity</a></li>
-<li><a href="./#Gelman-Rubin-convergence-diagnostic-1">Gelman-Rubin convergence diagnostic</a></li>
-</ul>
-</li>
-<li><a href="./#Simulation-1">Simulation</a></li>
-<li><a href="./#Custom-MCMC-1">Custom MCMC</a></li>
-<li><a href="./#References-1">References</a></li>
-</ul>
-</li>
-</ul>
 <p><a id='MCMC-1'></a></p>
 <h2 id="mcmc">MCMC</h2>
 <p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.</p>
@@ -175,11 +161,21 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 julia&gt; rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
 running MCMC...
- finished (sample μ = [0.00343077, 0.114633]).</code></pre>
+ finished (sample μ = [0.00343077, 0.114633]).
+
+julia&gt; plot_parameter_trace(rs, 1);
+
+julia&gt; plot_parameter_trace(rs, 2);</code></pre>
 
 
-<p>Placeholder for MCMC output.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
+<p>Placeholder for MCMC output.</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_parameter_marginal(rs, 1);
+
+julia&gt; plot_parameter_marginal(rs, 2)
+PyObject Text(0, 0.5, 'density')</code></pre>
+
+
 <p><a id='Autocorrelation-1'></a></p>
 <h2 id="autocorrelation">Autocorrelation</h2>
 <p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
@@ -248,30 +244,19 @@ running gelman diagnostic...
 <p><a id='Simulation-1'></a></p>
 <h2 id="simulation">Simulation</h2>
 <p>ADD SIM BLURB <code>generate_model("LOTKA", [79, 71])</code>.</p>
-<p>```@example
-using Discuit; # hide
-set_random_seed(1); # hide
-model = generate_model("LOTKA", [79, 71]); # hide
-xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-plot_trajectory(xi);
-savefig("fplot.svg"); # hide</p>
-<pre class="codehilite"><code>![](fplot.svg)
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
+running simulation...
+ finished (17520 events).
+
+julia&gt; plot_trajectory(xi);</code></pre>
 
 
-&lt;a id='Custom-MCMC-1'&gt;&lt;/a&gt;
-
-## Custom MCMC
-
-
-Some situations...
-
-
-First we generate a standard [SIR](models.md#SIR-1) model and set the `t0_index = 3`.
-
-
-```julia-repl
-
-julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/></p>
+<p><a id='Custom-MCMC-1'></a></p>
+<h2 id="custom-mcmc">Custom MCMC</h2>
+<p>Some situations...</p>
+<p>First we generate a standard <a href="../models/#SIR-1">SIR</a> model and set the <code>t0_index = 3</code>.</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
 
 julia&gt; model.t0_index = 3;</code></pre>
 
@@ -310,7 +295,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140251399791456])</code></pre>
+Observations([67.0], [140423955739696])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
