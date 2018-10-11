@@ -1,5 +1,5 @@
 using Discuit
-# import PyPlot
+import PyPlot
 
 function traj_example()
     set_random_seed(1)
@@ -12,6 +12,7 @@ end
 
 import HTTP
 import DelimitedFiles
+
 function mcmc_example()
     set_random_seed(1)
     model = generate_model("SIS", [100, 1]);
@@ -22,15 +23,23 @@ function mcmc_example()
 
     ## mcmc
     rs = run_met_hastings_mcmc(model, y, [0.003, 0.1])
-    ## traceplot
-    plot_parameter_trace(rs, 1)
+    ## traceplots
+    # PyPlot.subplot(1, 2, 1)
+    # plot_parameter_trace(rs, 1)
+    # PyPlot.subplot(1, 2, 2)
     # plot_parameter_trace(rs, 2)
+    # PyPlot.show()
     ## marginal
     # plot_parameter_marginal(rs, 1)
     # plot_parameter_marginal(rs, 2)
     ## heatmap
     # plot_parameter_heatmap(rs, 1, 2)
+    ## geweke plot
+    x = rs.geweke[1]
+    y = rs.geweke[2][1]
+    PyPlot.scatter(x, y)
+
 end
 
-traj_example()
-# mcmc_example()
+# traj_example()
+mcmc_example()
