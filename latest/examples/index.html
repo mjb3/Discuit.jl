@@ -101,7 +101,7 @@
 
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
-<p>The following examples provide a flavour of Discuit's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for more detailed instructions.</p>
+<p>The following examples provide a flavour of package's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of the data types and functions in Discuit.</p>
 <p><a id='Defining-the-model-1'></a></p>
 <h2 id="defining-the-model">Defining the model</h2>
 <p><code>DiscuitModel</code>s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using <code>generate_model("SIS", [100,1])</code> but constructing it manually is a helpful exercise for getting to know the package. See <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for further details. We start by examining <code>DiscuitModel</code> in the package documentation:</p>
@@ -158,7 +158,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 <p><a id='MCMC-1'></a></p>
 <h2 id="mcmc">MCMC</h2>
-<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, [click here][https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv] to download the dataset simulated by Pooley et al. and load using:</p>
+<p>The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, <a href="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv">click here</a> to download the dataset simulated by Pooley et al. and load using:</p>
 <pre class="codehilite"><code>y = get_observations_from_file(&quot;path/to/data/pooley.csv&quot;)</code></pre>
 
 
@@ -215,7 +215,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
 ([2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000, 18000, 20000], [-0.153271 -0.166538; -0.535017 -0.604866; … ; -0.000442161 0.0797484; -0.095506 -0.0408087])</code></pre>
 
 
-<p>The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package][https://mjb3.github.io/Discuit/]  In Julia, run:</p>
+<p>The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion <a href="https://mjb3.github.io/Discuit/">R package</a>  In Julia, run:</p>
 <pre class="codehilite"><code>print_mcmc_results(rs, &quot;path/to/mcmc/data/&quot;)</code></pre>
 
 
@@ -305,7 +305,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140313628258320])</code></pre>
+Observations([67.0], [140386374586112])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
