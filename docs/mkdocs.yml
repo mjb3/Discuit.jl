@@ -27,3 +27,4 @@ pages:
 - Examples: examples.md
 - Models: models.md
 - Manual: manual.md
+- Monte Carlo: monte_carlo_intro/monte_carlo_intro.md

@@ -129,6 +129,8 @@ Now, in R, run:
     library(Discuit)
     library(gridExtra)
     rs = LoadMcmcResults("path/to/mcmc/data/")
+    tgt = c(0.003, 0.1)
+    grid.arrange(PlotGewekeSeries(rs), PlotParameterHeatmap(rs, 1, 2, tgt), nrow = 1)
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/>

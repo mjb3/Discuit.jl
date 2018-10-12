@@ -4,7 +4,7 @@
 
 > Please note that this package is still in development.
 
-Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit works by introducing a latent variable $\xi$ to the model which represents the sequence of events in a single realisation of the model:
+Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit works by introducing a latent variable ``\xi`` to the model which represents the sequence of events in a single realisation of the model:
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
