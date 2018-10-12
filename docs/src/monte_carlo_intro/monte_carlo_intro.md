@@ -71,7 +71,7 @@ print(p)
 ![png](output_7_0.png)
 
 
-    <ggplot: (-9223363283870519022)>
+    <ggplot: (-9223363295278400880)>
 
 
 Note that as the number of steps is increased the random noise in the distribution of samples obtained is reduced. That is, they converge upon the true target distribution: $X$.
@@ -128,7 +128,7 @@ print(p)
 ![png](output_14_0.png)
 
 
-    <ggplot: (8752984224113)>
+    <ggplot: (-9223363295278433683)>
 
 
 NEED TO ADD acceptance rate commentary.
@@ -172,7 +172,7 @@ print(p)
 ![png](output_19_0.png)
 
 
-    <ggplot: (8752982046626)>
+    <ggplot: (-9223363295280596108)>
 
 
 #### Payoff example
@@ -239,14 +239,14 @@ p = ggplot(s, aes(x = "x", y = "..density..", weight = "w")) + geom_histogram(bi
 print(p)
 ```
 
-    expected payoff: 1.0419187825326823
+    expected payoff: 0.9385784069518784
 
 
 
 ![png](output_27_1.png)
 
 
-    <ggplot: (8752982061881)>
+    <ggplot: (-9223363295280591030)>
 
 
 Running the algorithm we notice that samples obtained for proposals less than eight are essentially wasted since they do not contribute to the information we are able to recover about the expected payoff. We can therefore change the proposal density to only select from the desired range in order to improve the efficiency of the algorithm:
@@ -260,14 +260,14 @@ p = ggplot(s, aes(x = "x", y = "..density..", weight = "w")) + geom_histogram(bi
 print(p)
 ```
 
-    expected payoff: 0.9830387512508856
+    expected payoff: 0.9667801758779293
 
 
 
 ![png](output_29_1.png)
 
 
-    <ggplot: (-9223363283872703663)>
+    <ggplot: (8741574212367)>
 
 
 We can also test the performace gain by computing the average error overone hundred runs for a given number of samples from each proposal density:
@@ -287,12 +287,12 @@ print("First proposal average error: {}".format(results["err1"].mean()))
 print("Second proposal average error: {}".format(results["err2"].mean()))
 ```
 
-    First proposal average error: 0.03345472301903874
-    Second proposal average error: 0.015816462518894448
+    First proposal average error: 0.0302439686410776
+    Second proposal average error: 0.018523710824803533
 
 
 Unsurprisingly the average error is lower for the narrower proposal range. This demonstrates that importance sampling is a useful option for exploiring specific regions of the target distribution. This is a useful property with a range of applications from financial risk models to predicting the frequency of rare events in climate models.
 
-### Summary
+## Summary
 
 This document introduced three basic classes of Monte Carlo algorithm in the context of drawing (independent) samples from a discrete probability distribution and touched upon the related problem of solving integrals. The next notebook introduces a more advanced class of Monte Carlo methods which draw future samples based on the current sample (i.e. dependent) to form a Markov chain (MCMC).

@@ -8,7 +8,7 @@ Discrete state space continuous time (DSSCT) models are used to represent system
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
-The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
+The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See [Introduction to MCMC](@ref) for a basic overview of MCMC. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
 
 See the [Discuit.jl models](@ref) section for an introduction to the aforementioned functionality and the [Discuit.jl manual](@ref) for a description of data types and functions. See the [Discuit in R](https://mjb3.github.io/Discuit/) package documentation for a description of the equivalent functionality in that package.
 
@@ -46,3 +46,10 @@ s = run_met_hastings_mcmc(model, x.observations, [0.0025, 0.12]);
 ## Further usage
 
 More examples can be found in the section [Discuit.jl examples](@ref), including enough code to get up and running with convergence diagnostics and customised models. A more detailed guide to the pre defined models is available in the [Discuit.jl models](@ref) section. Further information regarding the packages other functionality can be found in the [Discuit.jl manual](@ref).
+
+## Tutorials
+
+* [Introduction to Monte Carlo methods](@ref): a beginner's guide.
+* A basic [Introduction to MCMC](@ref) methods in Python.
+* [Discuit.jl examples](@ref): simulation and MCMC using [Discuit.jl](@ref).
+* See the [Discuit for R](https://mjb3.github.io/Discuit/) package documentation for R tutorials.
