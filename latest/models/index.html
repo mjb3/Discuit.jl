@@ -39,16 +39,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="..">Discuit.jl</a>
+            <a class="navbar-brand" href="../examples/">Discuit.jl</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
-                    <li >
-                        <a href="..">Introduction</a>
-                    </li>
                     <li >
                         <a href="../examples/">Examples</a>
                     </li>
@@ -59,7 +56,7 @@
                         <a href="../manual/">Manual</a>
                     </li>
                     <li >
-                        <a href="../monte_carlo_intro/monte_carlo_intro/">Monte Carlo</a>
+                        <a href="../monte_carlo_intro/monte_carlo_intro/">Intro to Monte Carlo</a>
                     </li>
                     <li >
                         <a href="../mcmc_intro/mcmc_intro/">Intro to MCMC</a>
@@ -158,23 +155,23 @@ end</code></pre>
 
 
 <p>The susceptible-infectious (<code>"SI"</code>) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="100"/></p>
 <pre class="codehilite"><code>Discuit.generate_model(&quot;SIR&quot;, [100, 1, 0])</code></pre>
 
 
 <p>The classic Kermack-McKendrick susceptible-infectious-recovered (<code>"SIR"</code>) model.</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="100"/></p>
 <pre class="codehilite"><code>Discuit.generate_model(&quot;SIS&quot;, [100, 1])</code></pre>
 
 
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="100"/></p>
 <p>The susceptible-infectious-susceptible (<code>"SIS"</code>) model is an extension of the classic Kermack-McKendrick (<a href="../@ref">SIR</a>) model for diseases which do not confer lasting immunity.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/></p>
 <pre class="codehilite"><code>Discuit.generate_model(&quot;SIRS&quot;, [100, 1, 0])</code></pre>
 
 
 <p>The susceptible-infectious-recovered-susceptible (<code>"SIRS"</code>) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="140"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="120"/></p>
 <p><a id='Latent-Kermack-McKendrick-models-1'></a></p>
 <h2 id="latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</h2>
 <p>The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state <code>E</code> between infection and the onset of infectiousness. For example, the susceptible-exposed-infectious <code>SEI</code> model;</p>
@@ -219,7 +216,7 @@ end</code></pre>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/rossmac.png" alt="Ross-MacDonald malaria model" height="240"/></p>
 <p><a id='SETIR-model-for-bTB-1'></a></p>
 <h3 id="setir-model-for-btb">SETIR model for bTB</h3>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="120"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="100"/></p>
 <p><a id='More-information-1'></a></p>
 <h2 id="more-information">More information</h2>
 <p>ADD list...</p>
