@@ -61,6 +61,9 @@
                     <li class="active">
                         <a href="./">Monte Carlo</a>
                     </li>
+                    <li >
+                        <a href="../../mcmc_intro/mcmc_intro/">Intro to MCMC</a>
+                    </li>
                 </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -74,8 +77,8 @@
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
-                    <li class="disabled">
-                        <a rel="prev" >
+                    <li >
+                        <a rel="prev" href="../../mcmc_intro/mcmc_intro/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -92,6 +95,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#introduction-to-monte-carlo-methods">Introduction to Monte Carlo methods</a></li>
             <li><a href="#sampling-from-discrete-probability-distributions">Sampling from discrete probability distributions</a></li>
+            <li><a href="#summary">Summary</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
@@ -170,7 +174,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_7_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363283870519022)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363295278400880)&gt;</code></pre>
 
 
 <p>Note that as the number of steps is increased the random noise in the distribution of samples obtained is reduced. That is, they converge upon the true target distribution: $X$.</p>
@@ -214,7 +218,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_14_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8752984224113)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363295278433683)&gt;</code></pre>
 
 
 <p>NEED TO ADD acceptance rate commentary.</p>
@@ -247,7 +251,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_19_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8752982046626)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363295280596108)&gt;</code></pre>
 
 
 <p><a id='Payoff-example-1'></a></p>
@@ -300,11 +304,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 1.0419187825326823</code></pre>
+<pre class="codehilite"><code>expected payoff: 0.9385784069518784</code></pre>
 
 
 <p><img alt="png" src="../output_27_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8752982061881)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363295280591030)&gt;</code></pre>
 
 
 <p>Running the algorithm we notice that samples obtained for proposals less than eight are essentially wasted since they do not contribute to the information we are able to recover about the expected payoff. We can therefore change the proposal density to only select from the desired range in order to improve the efficiency of the algorithm:</p>
@@ -315,11 +319,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 0.9830387512508856</code></pre>
+<pre class="codehilite"><code>expected payoff: 0.9667801758779293</code></pre>
 
 
 <p><img alt="png" src="../output_29_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363283872703663)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8741574212367)&gt;</code></pre>
 
 
 <p>We can also test the performace gain by computing the average error overone hundred runs for a given number of samples from each proposal density:</p>
@@ -336,13 +340,13 @@ print(&quot;First proposal average error: {}&quot;.format(results[&quot;err1&quo
 print(&quot;Second proposal average error: {}&quot;.format(results[&quot;err2&quot;].mean()))</code></pre>
 
 
-<pre class="codehilite"><code>First proposal average error: 0.03345472301903874
-Second proposal average error: 0.015816462518894448</code></pre>
+<pre class="codehilite"><code>First proposal average error: 0.0302439686410776
+Second proposal average error: 0.018523710824803533</code></pre>
 
 
 <p>Unsurprisingly the average error is lower for the narrower proposal range. This demonstrates that importance sampling is a useful option for exploiring specific regions of the target distribution. This is a useful property with a range of applications from financial risk models to predicting the frequency of rare events in climate models.</p>
 <p><a id='Summary-1'></a></p>
-<h3 id="summary">Summary</h3>
+<h2 id="summary">Summary</h2>
 <p>This document introduced three basic classes of Monte Carlo algorithm in the context of drawing (independent) samples from a discrete probability distribution and touched upon the related problem of solving integrals. The next notebook introduces a more advanced class of Monte Carlo methods which draw future samples based on the current sample (i.e. dependent) to form a Markov chain (MCMC).</p></div>
         </div>
 
