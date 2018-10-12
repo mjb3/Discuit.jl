@@ -92,6 +92,7 @@
             <li><a href="#standard-kermack-mckendrick-models">Standard Kermack-McKendrick models</a></li>
             <li><a href="#latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</a></li>
             <li><a href="#miscellaneous">Miscellaneous</a></li>
+            <li><a href="#more-information">More information</a></li>
             <li><a href="#references">References</a></li>
     </ul>
 </div></div>
@@ -146,42 +147,53 @@ end</code></pre>
 <p>where <code>parameters[3]</code> is designated as the, e.g. initial infection, which is assumed to have taken place prior to e.g. the initial observation at t = 0.0.</p>
 <p><a id='Standard-Kermack-McKendrick-models-1'></a></p>
 <h2 id="standard-kermack-mckendrick-models">Standard Kermack-McKendrick models</h2>
-<p>BLURB AND CITATIONS TBA.</p>
-<p><a id='SI-1'></a></p>
-<h3 id="si">SI</h3>
+<p>The standard Kermack-McKendrick SIR model can be used to model diseases which confer lasting immunity or situations where infected individuals have been detected and quarantined for treatment (Kermack and McKendrick, 1991). ADD REF: kermack<em>contributions</em>1991</p>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SI&quot;, [100, 1])</code></pre>
+
+
 <p>The susceptible-infectious (<code>"SI"</code>) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/></p>
-<p><a id='SIR-1'></a></p>
-<h3 id="sir">SIR</h3>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SIR&quot;, [100, 1, 0])</code></pre>
+
+
 <p>The classic Kermack-McKendrick susceptible-infectious-recovered (<code>"SIR"</code>) model.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/></p>
-<p><a id='SIS-1'></a></p>
-<h3 id="sis">SIS</h3>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SIS&quot;, [100, 1])</code></pre>
+
+
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/></p>
-<p>The susceptible-infectious-susceptible (<code>"SIS"</code>) model is an extension of the classic Kermack-McKendrick (<a href="./#SIR-1">SIR</a>) model for diseases which do not confer lasting immunity.</p>
+<p>The susceptible-infectious-susceptible (<code>"SIS"</code>) model is an extension of the classic Kermack-McKendrick (<a href="../@ref">SIR</a>) model for diseases which do not confer lasting immunity.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/></p>
-<p><a id='SIRS-1'></a></p>
-<h3 id="sirs">SIRS</h3>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SIRS&quot;, [100, 1, 0])</code></pre>
+
+
 <p>The susceptible-infectious-recovered-susceptible (<code>"SIRS"</code>) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="140"/></p>
 <p><a id='Latent-Kermack-McKendrick-models-1'></a></p>
 <h2 id="latent-kermack-mckendrick-models">Latent Kermack-McKendrick models</h2>
-<p>The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state <code>E</code> between infection and the onset of infectiousness.</p>
-<p><a id='SEI-1'></a></p>
-<h3 id="sei">SEI</h3>
-<p>The susceptible-exposed-infectious (<code>"SEI"</code> model.</p>
+<p>The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state <code>E</code> between infection and the onset of infectiousness. For example, the susceptible-exposed-infectious <code>SEI</code> model;</p>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEI&quot;, [100, 1, 0])</code></pre>
+
+
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="100"/></p>
-<p><a id='SEIR-1'></a></p>
-<h3 id="seir">SEIR</h3>
+<p>A notable extension of the <code>SEI</code> model is the <code>SEIR</code>:</p>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIR&quot;, [100, 1, 0, 0])</code></pre>
+
+
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="100"/></p>
-<p><a id='SEIS-1'></a></p>
-<h3 id="seis">SEIS</h3>
-<p><a id='SEIRS-1'></a></p>
-<h3 id="seirs">SEIRS</h3>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIS&quot;, [100, 1, 0, 0])</code></pre>
+
+
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seis.png" alt="SEIR model" height="100"/></p>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIS&quot;, [100, 1, 0, 0])</code></pre>
+
+
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seirs.png" alt="SEIR model" height="100"/></p>
 <p><a id='Miscellaneous-1'></a></p>
 <h2 id="miscellaneous">Miscellaneous</h2>
 <p><a id='Lotka-Volterra-predator-prey-model-1'></a></p>
 <h3 id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h3>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka.png" alt="SEIR model" height="100"/></p>
 <p>The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The <code>model.rate_function</code> for prey reproduction, predator reproduction and predator death is defined as:</p>
 <pre class="codehilite"><code>function lotka_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
   # prey; predator reproduction; predator death
@@ -195,10 +207,17 @@ end</code></pre>
 <pre class="codehilite"><code>m_transition = [ 0 1; 1 -1; -1  0 ]</code></pre>
 
 
-<p><a id='Ross-MacDonald-predator-prey-model-1'></a></p>
-<h3 id="ross-macdonald-predator-prey-model">Ross-MacDonald predator-prey model</h3>
+<p><a id='Ross-MacDonald-malaria-model-1'></a></p>
+<h3 id="ross-macdonald-malaria-model">Ross-MacDonald malaria model</h3>
+<p>The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS model which accounts for two species, human and mosquito. ADD CITATION. This example is simplified in two ways... </p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/rossmac.png" alt="Ross-MacDonald malaria model" height="240"/></p>
 <p><a id='SETIR-model-for-bTB-1'></a></p>
 <h3 id="setir-model-for-btb">SETIR model for bTB</h3>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="240"/></p>
+<p><a id='More-information-1'></a></p>
+<h2 id="more-information">More information</h2>
+<p>ADD list...</p>
+<p>[Compartmental models in epidemiology]<a href="../Wiki">https://en.wikipedia.org/wiki/Compartmental<em>models</em>in_epidemiology</a>.</p>
 <p><a id='References-1'></a></p>
 <h2 id="references">References</h2>
 <p><html>
