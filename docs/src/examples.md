@@ -1,10 +1,10 @@
 # Discuit.jl examples
 
-The following examples provide a flavour of package's core functionality. See the [Discuit.jl manual](@ref) for a description of the data types and functions in Discuit.
+The following examples provide a flavour of package's core functionality. See the [Discuit.jl manual](@ref) for a description of the data types and functions in Discuit, and [Discuit.jl models](@ref) for a description of the predefined models available in the package.
 
-## Defining the model
+## Defining a model
 
-`DiscuitModel`s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using `generate_model("SIS", [100,1])` but constructing it manually is a helpful exercise for getting to know the package. See [Discuit.jl models](@ref) for further details. We start by examining `DiscuitModel` in the package documentation:
+`DiscuitModel`s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using `generate_model("SIS", [100,1])`. However constructing it manually is a helpful exercise for getting to know the package. See [Discuit.jl models](@ref) for further details of the `generate_model` function. We start by examining `DiscuitModel` in the package documentation:
 
 ```@repl 1
 using Discuit;
@@ -62,7 +62,7 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 
 ## MCMC
 
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, [click here](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv) to download the dataset simulated by Pooley et al. and load using:
+The following example is based on that published by Pooley et al. (2015) in the paper that introduces the model based proposal method. The observations data simulated by Pooley can be downloaded [here](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv) and saved, e.g. to `path/to/data/`. Next, load the observations data using:
 
     y = get_observations_from_file("path/to/data/pooley.csv")
 
@@ -70,7 +70,7 @@ Now we can run an MCMC analysis based on the simulated datset:
 
 ```@repl 1
 y = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]); # hide
-rs = run_met_hastings_mcmc(model, y, [0.003, 0.1]);
+rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
 plot_parameter_trace(rs, 1);
 plot_parameter_trace(rs, 2);
 ```
@@ -153,7 +153,7 @@ $R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}$
 where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.
 
 ```@repl 1
-rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+rs = run_gelman_diagnostic(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
 ac = compute_autocorrelation(rs.mcmc); # hide
 ```
 

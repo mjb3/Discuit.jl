@@ -59,7 +59,7 @@ The standard Kermack-McKendrick SIR model can be used to model diseases which co
 The susceptible-infectious (`"SI"`) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="100"/>
 ```
 
     Discuit.generate_model("SIR", [100, 1, 0])
@@ -67,13 +67,13 @@ The susceptible-infectious (`"SI"`) is a very basic model with only one type of 
 The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="100"/>
 ```
 
     Discuit.generate_model("SIS", [100, 1])
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="100"/>
 ```
 
 The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
@@ -87,7 +87,7 @@ The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the cl
 The susceptible-infectious-recovered-susceptible (`"SIRS"`) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="140"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sirs.png" alt="SIRS model" height="120"/>
 ```
 
 ## Latent Kermack-McKendrick models
@@ -152,7 +152,7 @@ The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS m
 ### SETIR model for bTB
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="120"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="100"/>
 ```
 
 ## More information
