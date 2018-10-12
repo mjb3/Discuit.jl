@@ -4,11 +4,11 @@
 
 > Please note that this package is still in development.
 
-Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit works by introducing a latent variable ``\xi`` to the model which represents the sequence of events in a single realisation of the model:
+Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit work by introducing a latent variable ``\xi`` which represents the sequence of events in a single realisation of the model:
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
-The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See [Introduction to MCMC](@ref) for a basic overview of MCMC. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
+The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See [Introduction to MCMC](@ref) for a basic introduction to MCMC and [Introduction to Monte Carlo methods](@ref) for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
 
 See the [Discuit.jl models](@ref) section for an introduction to the aforementioned functionality and the [Discuit.jl manual](@ref) for a description of data types and functions. See the [Discuit in R](https://mjb3.github.io/Discuit/) package documentation for a description of the equivalent functionality in that package.
 
@@ -49,7 +49,7 @@ More examples can be found in the section [Discuit.jl examples](@ref), including
 
 ## Tutorials
 
-* [Introduction to Monte Carlo methods](@ref): a beginner's guide.
+* [Introduction to Monte Carlo methods](@ref): a beginner's guide in Python.
 * A basic [Introduction to MCMC](@ref) methods in Python.
-* [Discuit.jl examples](@ref): simulation and MCMC using [Discuit.jl](@ref).
-* See the [Discuit for R](https://mjb3.github.io/Discuit/) package documentation for R tutorials.
+* [Discuit.jl examples](@ref): an introduction to MCMC and simulation in [Discuit.jl](@ref) for Julia.
+* See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/) for R tutorials.

@@ -23,8 +23,9 @@ extra_javascript:
 docs_dir: 'build'
 
 pages:
+- Introduction: index,md
 - Examples: examples.md
 - Models: models.md
 - Manual: manual.md
-- Intro to Monte Carlo: monte_carlo_intro/monte_carlo_intro.md
-- Intro to MCMC: mcmc_intro/mcmc_intro.md
+- Introduction to Monte Carlo: monte_carlo_intro/monte_carlo_intro.md
+- Introduction to MCMC: mcmc_intro/mcmc_intro.md
