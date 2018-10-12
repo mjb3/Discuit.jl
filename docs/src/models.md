@@ -159,7 +159,7 @@ The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS m
 
 ADD list...
 
-[Compartmental models in epidemiology][https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology] (Wiki).
+[Compartmental models in epidemiology](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology] (Wiki).
 
 ## References
 

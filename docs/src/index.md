@@ -4,6 +4,14 @@
 
 > Please note that this package is still in development.
 
+Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit works by introducing a latent variable $\xi$ to the model which represents the sequence of events in a single realisation of the model:
+
+$\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
+
+The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
+
+See the [Discuit.jl models](@ref) section for an introduction to the aforementioned functionality and the [Discuit.jl manual](@ref) for a description of data types and functions. See the [Discuit in R](https://mjb3.github.io/Discuit/) package documentation for a description of the equivalent functionality in that package.
+
 ## Package features
 
 ```@docs

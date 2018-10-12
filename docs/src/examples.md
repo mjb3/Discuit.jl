@@ -1,6 +1,6 @@
 # Discuit.jl examples
 
-The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
+The following examples provide a flavour of package's core functionality. See the [Discuit.jl manual](@ref) for a description of the data types and functions in Discuit.
 
 ## Defining the model
 
@@ -62,7 +62,7 @@ model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prio
 
 ## MCMC
 
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, [click here][https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv] to download the dataset simulated by Pooley et al. and load using:
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, [click here](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv) to download the dataset simulated by Pooley et al. and load using:
 
     y = get_observations_from_file("path/to/data/pooley.csv")
 
@@ -120,7 +120,7 @@ $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_
 rs.geweke
 ```
 
-The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package][https://mjb3.github.io/Discuit/]  In Julia, run:
+The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package](https://mjb3.github.io/Discuit/)  In Julia, run:
 
     print_mcmc_results(rs, "path/to/mcmc/data/")
 
