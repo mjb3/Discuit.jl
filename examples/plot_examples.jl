@@ -36,7 +36,9 @@ function mcmc_example()
     # plot_parameter_heatmap(rs, 1, 2)
     ## geweke plot
     x = rs.geweke[1]
-    y = rs.geweke[2][1]
+    y = rs.geweke[2]
+    print("x: ", x, "\n")
+    print("y: ", y, "\n")
     PyPlot.scatter(x, y)
 
 end

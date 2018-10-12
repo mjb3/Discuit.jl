@@ -52,9 +52,9 @@ where `parameters[3]` is designated as the, e.g. initial infection, which is ass
 
 ## Standard Kermack-McKendrick models
 
-BLURB AND CITATIONS TBA.
+The standard Kermack-McKendrick SIR model can be used to model diseases which confer lasting immunity or situations where infected individuals have been detected and quarantined for treatment (Kermack and McKendrick, 1991). ADD REF: kermack_contributions_1991
 
-### SI
+    Discuit.generate_model("SI", [100, 1])
 
 The susceptible-infectious (`"SI"`) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
 
@@ -62,7 +62,7 @@ The susceptible-infectious (`"SI"`) is a very basic model with only one type of 
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="120"/>
 ```
 
-### SIR
+    Discuit.generate_model("SIR", [100, 1, 0])
 
 The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 
@@ -70,7 +70,7 @@ The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="120"/>
 ```
 
-### SIS
+    Discuit.generate_model("SIS", [100, 1])
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="140"/>
@@ -82,7 +82,7 @@ The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the cl
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/>
 ```
 
-### SIRS
+    Discuit.generate_model("SIRS", [100, 1, 0])
 
 The susceptible-infectious-recovered-susceptible (`"SIRS"`) model incorporates all of the above, i.e. it is for diseases which do not confer long lasting immunity.
 
@@ -92,29 +92,41 @@ The susceptible-infectious-recovered-susceptible (`"SIRS"`) model incorporates a
 
 ## Latent Kermack-McKendrick models
 
-The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state `E` between infection and the onset of infectiousness.
+The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state `E` between infection and the onset of infectiousness. For example, the susceptible-exposed-infectious `SEI` model;
 
-### SEI
-
-The susceptible-exposed-infectious (`"SEI"` model.
+    Discuit.generate_model("SEI", [100, 1, 0])
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="100"/>
 ```
 
-### SEIR
+A notable extension of the `SEI` model is the `SEIR`:
+
+    Discuit.generate_model("SEIR", [100, 1, 0, 0])
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="100"/>
 ```
 
-### SEIS
+    Discuit.generate_model("SEIS", [100, 1, 0, 0])
 
-### SEIRS
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seis.png" alt="SEIR model" height="100"/>
+```
+
+    Discuit.generate_model("SEIS", [100, 1, 0, 0])
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seirs.png" alt="SEIR model" height="100"/>
+```
 
 ## Miscellaneous
 
 ### Lotka-Volterra predator-prey model
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka.png" alt="SEIR model" height="100"/>
+```
 
 The Lotka-Volterra model is well known for its application to predator-prey interactions but can also be used to model chemical, bio molecular and other auto regulating biological systems. Compartments are labelled Predator, pRey. The `model.rate_function` for prey reproduction, predator reproduction and predator death is defined as:
 
@@ -129,9 +141,25 @@ with the transition matrix given as:
 
     m_transition = [ 0 1; 1 -1; -1  0 ]
 
-### Ross-MacDonald predator-prey model
+### Ross-MacDonald malaria model
+
+The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS model which accounts for two species, human and mosquito. ADD CITATION. This example is simplified in two ways... 
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/rossmac.png" alt="Ross-MacDonald malaria model" height="240"/>
+```
 
 ### SETIR model for bTB
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="240"/>
+```
+
+## More information
+
+ADD list...
+
+[Compartmental models in epidemiology][https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology] (Wiki).
 
 ## References
 
