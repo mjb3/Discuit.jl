@@ -4,11 +4,6 @@
 
 > Please note that this package is still in development.
 
-```@contents
-Pages = ["index.md"]
-Depth = 3
-```
-
 ## Package features
 
 ```@docs

@@ -2,9 +2,7 @@
 
 The following examples provide a flavour of Discuit's core functionality. See the [Discuit.jl manual](@ref) for more detailed instructions.
 
-## MCMC
-
-The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. EXPAND.
+## Defining the model
 
 `DiscuitModel`s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using `generate_model("SIS", [100,1])` but constructing it manually is a helpful exercise for getting to know the package. See [Discuit.jl models](@ref) for further details. We start by examining `DiscuitModel` in the package documentation:
 
@@ -14,7 +12,7 @@ set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
-Next we define a rate function. The first example is a simple Kermack-McKendrick model and the event rates for infection and recovery respectively are given by:
+Next we define a rate function equivalent to that of the basic Kermack-McKendrick `SIS` (and `SIR`) model. The event rates for infection and recovery events respectively are given by:
 
 $r_1 = \theta_1 SI$
 
@@ -62,11 +60,17 @@ We can now define a model. The three parameters declared inline are the transiti
 model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
 ```
 
-Now we can perform an MCMC analysis based on the simulated observations data published by Pooley et al.
+## MCMC
+
+The following example is based on that published by Pooley et al. in 2015 in the paper that introduces the model based proposal method. To begin the analysis, [click here][https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv] to download the dataset simulated by Pooley et al. and load using:
+
+    y = get_observations_from_file("path/to/data/pooley.csv")
+
+Now we can run an MCMC analysis based on the simulated datset:
 
 ```@repl 1
-obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
+y = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]); # hide
+rs = run_met_hastings_mcmc(model, y, [0.003, 0.1]);
 plot_parameter_trace(rs, 1);
 plot_parameter_trace(rs, 2);
 ```
@@ -115,6 +119,16 @@ $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_
 ```@repl 1
 rs.geweke
 ```
+
+The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package][https://mjb3.github.io/Discuit/]  In Julia, run:
+
+    print_mcmc_results(rs, "path/to/mcmc/data/")
+
+Now, in R, run:
+
+    library(Discuit)
+    library(gridExtra)
+    rs = LoadMcmcResults("path/to/mcmc/data/")
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/geweke_heatmap.png" alt="MCMC analysis" height="240"/>

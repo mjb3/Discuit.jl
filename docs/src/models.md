@@ -1,6 +1,6 @@
 # Discuit.jl models
 
-Discuit comes with a number of well known, mostly epidemiological models pre defined. This section describes the models and how to use them.
+This section describes the library of predefined models in Discuit. Models can also be user defined, or generated and modified according to need. The models included are mostly epidemiological (see [Miscellaneous](@ref) for other types of model). The next section described the model generating function and an overview of default model components.
 
 ## Generating models
 
@@ -143,7 +143,7 @@ with the transition matrix given as:
 
 ### Ross-MacDonald malaria model
 
-The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS model which accounts for two species, human and mosquito. ADD CITATION. This example is simplified in two ways... 
+The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS model which accounts for two species, human and mosquito. ADD CITATION. This example is simplified in two ways...
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/rossmac.png" alt="Ross-MacDonald malaria model" height="240"/>
@@ -152,7 +152,7 @@ The Ross-MacDonald malaria model is an extension of the Kermack-McKendrick SIS m
 ### SETIR model for bTB
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="240"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/setir.png" alt="SETIR model" height="120"/>
 ```
 
 ## More information
@@ -170,19 +170,58 @@ ADD list...
 </head>
 <body>
 <textarea id="bibtex_input" style="display:none;">
-@article{pizza2000identification,
-  title={Identification of vaccine candidates against serogroup B meningococcus by whole-genome sequencing},
-  author={Pizza, Mariagrazia and Scarlato, Vincenzo and Masignani, Vega and Giuliani, Marzia Monica and Arico, Beatrice and Comanducci, Maurizio and Jennings, Gary T and Baldi, Lucia and Bartolini, Erika and Capecchi, Barbara and others},
-  journal={Science},
-  volume={287},
-  number={5459},
-  pages={1816--1820},
-  year={2000},
-  publisher={American Association for the Advancement of Science}
+@article{kermack_contributions_1991,
+	title = {Contributions to the mathematical theory of epidemics—{I}},
+	volume = {53},
+	number = {1-2},
+	journal = {Bulletin of mathematical biology},
+	author = {Kermack, William O. and McKendrick, Anderson G.},
+	year = {1991},
+	pages = {33--55}
 }
-@book{book1,
-  author = "Donald Knuth",
-  title = "Concrete Mathematics"
+@article{pooley_using_2015,
+	title = {Using model-based proposals for fast parameter inference on discrete state space, continuous-time {Markov} processes},
+	volume = {12},
+	issn = {1742-5689, 1742-5662},
+	url = {http://rsif.royalsocietypublishing.org/cgi/doi/10.1098/rsif.2015.0225},
+	doi = {10.1098/rsif.2015.0225},
+	language = {en},
+	number = {107},
+	urldate = {2017-02-20},
+	journal = {Journal of The Royal Society Interface},
+	author = {Pooley, C. M. and Bishop, S. C. and Marion, G.},
+	month = may,
+	year = {2015},
+	pages = {20150225--20150225}
+}
+@article{berryman_orgins_1992,
+	title = {The {Orgins} and {Evolution} of {Predator}-{Prey} {Theory}},
+	volume = {73},
+	issn = {00129658},
+	url = {http://doi.wiley.com/10.2307/1940005},
+	doi = {10.2307/1940005},
+	language = {en},
+	number = {5},
+	urldate = {2018-03-12},
+	journal = {Ecology},
+	author = {Berryman, Alan A.},
+	month = oct,
+	year = {1992},
+	pages = {1530--1535}
+}
+@article{macdonald_analysis_1952,
+	title = {The analysis of equilibrium in malaria},
+	volume = {49},
+	issn = {0041-3240},
+	language = {eng},
+	number = {9},
+	journal = {Tropical Diseases Bulletin},
+	author = {Macdonald, G.},
+	month = sep,
+	year = {1952},
+	pmid = {12995455},
+	keywords = {Humans, Malaria, MALARIA},
+	pages = {813--829}
 }
 </textarea>
 <div id="bibtex_display"></div>
