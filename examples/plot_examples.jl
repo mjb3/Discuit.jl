@@ -46,6 +46,11 @@ function mcmc_example()
     # UnicodePlots.lineplot!(p, -2.0, 0.0, color = :yellow)
     # UnicodePlots.lineplot!(p, 2.0, 0.0, color = :yellow)
     print(p)
+
+    ## autocorrelation
+    ac = compute_autocorrelation(mcmc)
+    print(ac)
+    # p = UnicodePlots.lineplot
 end
 
 # traj_example()

@@ -85,7 +85,10 @@ Trace plots are a common visualisation tool in MCMC:
 
 The marginal distribution of parameters can be plotted by
 
-    plot_parameter_marginal(rs, 1);
+```@repl 1
+plot_parameter_marginal(rs, 1)
+```
+
     plot_parameter_marginal(rs, 2)
 
 ```@raw html
@@ -125,7 +128,7 @@ The Geweke statistic tests for non-stationarity by comparing the mean and varian
 $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
 
 ```@repl 1
-rs.geweke
+plot_geweke_series(rs)
 ```
 
 The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package](https://mjb3.github.io/Discuit/)  In Julia, run:
