@@ -171,38 +171,15 @@ si_gaussian (generic function with 1 method)</code></pre>
 <p>Now we can run an MCMC analysis based on the simulated datset:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
 running MCMC...
- finished (sample μ = [0.00342388, 0.11487]).
-
-julia&gt; print(plot_parameter_trace(rs, 1))
-                         θ₁ traceplot.
-           ┌────────────────────────────────────────┐ 
-      0.02 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-   θ₁      │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⢿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⡇⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⢸⢸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
-           │⡇⠀⠀⣼⠀⠀⠀⠀⠀⣀⡇⠀⠀⣿⣿⠸⣷⠀⠀⠀⢰⠀⢠⡄⠀⠀⢠⠀⣇⠀⡀⠀⠀⠀⡀⢠⡀⠀⡀⠀│ 
-           │⡇⢠⡆⣿⡆⣸⢀⠀⣸⣿⡇⠀⡀⣿⣿⠀⣿⠀⣀⢸⢸⣇⣿⣧⡄⣆⣿⣴⣿⠀⣿⡀⠀⣄⣇⣼⣿⣾⣧⢠│ 
-           │⣿⣿⣷⣿⣷⣿⣿⣶⣿⣿⣇⣰⣇⣿⢿⠀⢻⠀⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣿⣷⣦⣿⣿⣿⣿⣿⣿⣸│ 
-           │⠹⠛⢻⠛⢹⠿⠻⠿⠏⠛⢿⣿⢻⡏⠀⠀⠸⣿⠿⠿⠻⠻⡏⠈⠿⠻⠈⠿⠋⠻⠛⠹⣿⠿⢿⡇⠙⠛⠙⡿│ 
-         0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀│ 
-           └────────────────────────────────────────┘ 
-           10000                                50000
-                            sample</code></pre>
+ finished (sample μ = [0.00342388, 0.11487]).</code></pre>
 
 
 <p>Trace plots are a common visualisation tool in MCMC:</p>
-<pre class="codehilite"><code>plot_parameter_trace(rs, 1);
-plot_parameter_trace(rs, 2);</code></pre>
+<pre class="codehilite"><code>plot_parameter_trace(rs, 1);</code></pre>
 
 
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
-<p>The marginal distribution of parameters can be plotted by</p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/></p>
+<p>The marginal distribution of parameters can be plotted by calling:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_parameter_marginal(rs, 1)
                      ┌────────────────────────────────────────┐
       (0.001,0.0015] │▇ 295                                   │
@@ -232,7 +209,12 @@ plot_parameter_trace(rs, 2);</code></pre>
                                       samples</code></pre>
 
 
-<pre class="codehilite"><code>plot_parameter_marginal(rs, 2)</code></pre>
+<p>Plotting the data with third party packages such as PyPlot is simple:</p>
+<pre class="codehilite"><code>using PyPlot
+x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
+plt[:hist](x, 30)
+xlabel(string(&quot;\$\\theta_&quot;, parameter, &quot;\$&quot;))
+ylabel(&quot;density&quot;)</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/marginals.png" alt="MCMC traceplots" height="240"/></p>
@@ -367,7 +349,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140660498325680])</code></pre>
+Observations([67.0], [140361579484208])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
