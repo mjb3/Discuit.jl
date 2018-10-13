@@ -38,18 +38,19 @@ function mcmc_example()
     # print(p)
 
     ## geweke plot
-    p = plot_geweke_series(mcmc)
+    # p = plot_geweke_series(mcmc)
+    # print(p)
+
     # x = mcmc.geweke[1]
     # # print("x: ", x, "\n")
     # p = UnicodePlots.scatterplot(x, mcmc.geweke[2][:,1])
     # UnicodePlots.scatterplot!(p, x, mcmc.geweke[2][:,2])
     # UnicodePlots.lineplot!(p, -2.0, 0.0, color = :yellow)
     # UnicodePlots.lineplot!(p, 2.0, 0.0, color = :yellow)
-    print(p)
 
     ## autocorrelation
     ac = compute_autocorrelation(mcmc)
-    print(ac)
+    print("ac: ", ac)
     # p = UnicodePlots.lineplot
 end
 
