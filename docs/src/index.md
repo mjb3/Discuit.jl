@@ -49,7 +49,7 @@ More examples can be found in the section [Discuit.jl examples](@ref), including
 
 ## Tutorials
 
-* [Introduction to Monte Carlo methods](@ref): a beginner's guide in Python.
-* A basic [Introduction to MCMC](@ref) methods in Python.
+* [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/monte_carlo_intro.html): a beginner's guide in Python.
+* A basic [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/mcmc_intro.html) methods in Python.
 * [Discuit.jl examples](@ref): an introduction to MCMC and simulation in [Discuit.jl](@ref) for Julia.
-* See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/) for R tutorials.
+* See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/articles/examples.html) for R examples.

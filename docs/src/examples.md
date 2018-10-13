@@ -99,7 +99,7 @@ Plotting the data with third party packages such as PyPlot is simple:
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/marginals.png" alt="MCMC traceplots" height="240"/>
 ```
 
-A pairwise representation can be produced by calling `plot_parameter_heatmap`.
+A pairwise representation can be produced by calling `plot_parameter_heatmap` (see below for an example).
 
 ## Autocorrelation
 
@@ -135,7 +135,7 @@ $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_
 plot_geweke_series(rs)
 ```
 
-The results of MCMC analyses can also be saved to file and analysed further at a later time, or in the companion [R package](https://mjb3.github.io/Discuit/)  In Julia, run:
+The results of MCMC analyses can also be saved to file for analysis in the companion [R package](https://mjb3.github.io/Discuit/). In Julia, run:
 
     print_mcmc_results(rs, "path/to/mcmc/data/")
 
