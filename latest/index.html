@@ -47,7 +47,7 @@
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href=".">Home</a>
+                        <a href=".">Introduction</a>
                     </li>
                     <li >
                         <a href="examples/">Examples</a>
@@ -57,12 +57,6 @@
                     </li>
                     <li >
                         <a href="manual/">Manual</a>
-                    </li>
-                    <li >
-                        <a href="monte_carlo_intro/monte_carlo_intro/">Monte Carlo introduction</a>
-                    </li>
-                    <li >
-                        <a href="mcmc_intro/mcmc_intro/">MCMC introduction</a>
                     </li>
                 </ul>
 
@@ -115,7 +109,7 @@
 \pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)
 </script>
 </p>
-<p>The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See <a href="mcmc_intro/mcmc_intro/#Introduction-to-MCMC-1">Introduction to MCMC</a> for a basic introduction to MCMC and <a href="monte_carlo_intro/monte_carlo_intro/#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a> for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative <a href="manual/#custom-MCMC-1">custom MCMC</a> framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). <a href="examples/#Simulation-1">Simulation</a> via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.</p>
+<p>The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See <a href="mcmc_intro/mcmc_intro.md#Introduction-to-MCMC-1">Introduction to MCMC</a> for a basic introduction to MCMC and <a href="monte_carlo_intro/monte_carlo_intro.md#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a> for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative <a href="manual/#custom-MCMC-1">custom MCMC</a> framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). <a href="examples/#Simulation-1">Simulation</a> via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.</p>
 <p>See the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section for an introduction to the aforementioned functionality and the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of data types and functions. See the <a href="https://mjb3.github.io/Discuit/">Discuit in R</a> package documentation for a description of the equivalent functionality in that package. Some inline maths: $\sqrt[n]{1 + x + x^2 + \ldots}$.</p>
 <p><a id='Package-features-1'></a></p>
 <h2 id="package-features">Package features</h2>
@@ -131,7 +125,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/0e02f1170db2be9d1285bffb0f9c4ea96835b89e/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/64882fb9358cd74024e7212e467a0f4465c68ead/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
 <p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
@@ -163,10 +157,10 @@ running MCMC...
 <p><a id='Tutorials-1'></a></p>
 <h2 id="tutorials">Tutorials</h2>
 <ul>
-<li><a href="monte_carlo_intro/monte_carlo_intro/#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a>: a beginner's guide in Python.</li>
-<li>A basic <a href="mcmc_intro/mcmc_intro/#Introduction-to-MCMC-1">Introduction to MCMC</a> methods in Python.</li>
+<li><a href="https://mjb3.github.io/Discuit/articles/monte_carlo_intro.html">Introduction to Monte Carlo methods</a>: a beginner's guide in Python.</li>
+<li>A basic <a href="https://mjb3.github.io/Discuit/articles/mcmc_intro.html">Introduction to MCMC</a> methods in Python.</li>
 <li><a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a>: an introduction to MCMC and simulation in <a href=".#Discuit.jl-1">Discuit.jl</a> for Julia.</li>
-<li>See the <a href="https://mjb3.github.io/Discuit/">Discuit for R package documentation</a> for R tutorials.</li>
+<li>See the <a href="https://mjb3.github.io/Discuit/articles/examples.html">Discuit for R package documentation</a> for R examples.</li>
 </ul></div>
         </div>
 
@@ -252,5 +246,5 @@ running MCMC...
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-10-13 19:56:14
+Build Date UTC : 2018-10-13 23:02:03
 -->
