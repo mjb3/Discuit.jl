@@ -17,6 +17,7 @@ function plot_trajectory(x::SimResults)
     end
     UnicodePlots.xlabel!(p, "time")
     UnicodePlots.ylabel!(p, "population")
+    return p
 end
 
 ## traceplot

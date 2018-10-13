@@ -8,13 +8,13 @@ function traj_example()
 
     ## run sim
     x = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-    # plot_trajectory(xi)
-    p = UnicodePlots.lineplot(x.trajectory.time, x.population[:,1], title = string(x.model_name, " simulation"), name = string(x.model_name[1]))
-    for i in 2:size(x.population, 2)
-        UnicodePlots.lineplot!(p, x.trajectory.time, x.population[:,i], name = string(x.model_name[i]))
-    end
-    UnicodePlots.xlabel!(p, "time")
-    UnicodePlots.ylabel!(p, "population")
+    p = plot_trajectory(xi)
+    # p = UnicodePlots.lineplot(x.trajectory.time, x.population[:,1], title = string(x.model_name, " simulation"), name = string(x.model_name[1]))
+    # for i in 2:size(x.population, 2)
+    #     UnicodePlots.lineplot!(p, x.trajectory.time, x.population[:,i], name = string(x.model_name[i]))
+    # end
+    # UnicodePlots.xlabel!(p, "time")
+    # UnicodePlots.ylabel!(p, "population")
     print(p)
 end
 
@@ -34,12 +34,11 @@ function mcmc_example()
     ## traceplots
     # PyPlot.subplot(1, 2, 1)
     # plot_parameter_trace(rs, 1)
-
-
     x = mcmc.adapt_period:size(mcmc.samples, 1)
-    PyPlot.plot(x, mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter])
-    PyPlot.xlabel("sample")
-    PyPlot.ylabel(string("\$\\theta_", parameter, "\$"))
+    p = UnicodePlots.lineplot(x, mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), title = string("F₁", " traceplot ", F₁), name = string(x.model_name[1]))
+    UnicodePlots.xlabel!(p, "sample")
+    UnicodePlots.ylabel!(p, string("\$\\theta_", parameter, "\$"))
+    print(p)
     # PyPlot.subplot(1, 2, 2)
     # plot_parameter_trace(rs, 2)
     # PyPlot.show()
@@ -59,4 +58,4 @@ function mcmc_example()
 end
 
 traj_example()
-# mcmc_example()
+mcmc_example()
