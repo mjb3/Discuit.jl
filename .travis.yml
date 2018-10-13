@@ -10,8 +10,8 @@ jobs:
         - julia --project=docs/ -e 'using Pkg; Pkg.instantiate(); Pkg.develop(PackageSpec(path=pwd()))'
         - julia --project=docs/ docs/make.jl
       after_success: skip
-      before_install:
-        - julia -e 'ENV["PYTHON"]=""; using Pkg; Pkg.add("Conda"); using Conda; Conda.update();'
+      # before_install:
+      #   - julia -e 'ENV["PYTHON"]=""; using Pkg; Pkg.add("Conda"); using Conda; Conda.update();'
 
-# Pkg.build("PyCall"); 
+# Pkg.build("PyCall");
 # Conda.add("matplotlib");
