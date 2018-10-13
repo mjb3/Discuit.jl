@@ -4,7 +4,7 @@
 
 > Please note that this package is still in development.
 
-Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit work by introducing a latent variable ``\xi`` which represents the sequence of events in a single realisation of the model:
+Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
@@ -49,7 +49,7 @@ More examples can be found in the section [Discuit.jl examples](@ref), including
 
 ## Tutorials
 
-* [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/monte_carlo_intro.html): a beginner's guide in Python.
-* A basic [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/mcmc_intro.html) methods in Python.
+* [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/monte_carlo_intro/monte_carlo_intro.html): a beginner's guide in Python.
+* A basic [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/mcmc_intro/mcmc_intro.html) methods in Python.
 * [Discuit.jl examples](@ref): an introduction to MCMC and simulation in [Discuit.jl](@ref) for Julia.
 * See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/articles/examples.html) for R examples.
