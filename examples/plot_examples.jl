@@ -30,17 +30,18 @@ function mcmc_example()
     # plot_parameter_trace(rs, 2)
     # PyPlot.show()
     ## marginal
+    # PyPlot.subplot(1, 2, 1)
     # plot_parameter_marginal(rs, 1)
+    # PyPlot.subplot(1, 2, 2)
     # plot_parameter_marginal(rs, 2)
+    # PyPlot.show()
     ## heatmap
     # plot_parameter_heatmap(rs, 1, 2)
     ## geweke plot
     x = rs.geweke[1]
-    y = rs.geweke[2]
     print("x: ", x, "\n")
-    print("y: ", y, "\n")
-    PyPlot.scatter(x, y)
-
+    PyPlot.scatter(x, rs.geweke[2][:,1])
+    PyPlot.scatter(x, rs.geweke[2][:,1])
 end
 
 # traj_example()
