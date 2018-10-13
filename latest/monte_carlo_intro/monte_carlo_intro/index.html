@@ -94,8 +94,9 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#introduction-to-monte-carlo-methods">Introduction to Monte Carlo methods</a></li>
-            <li><a href="#sampling-from-discrete-probability-distributions">Sampling from discrete probability distributions</a></li>
+            <li><a href="#introduction">Introduction</a></li>
             <li><a href="#plain-monte-carlo">Plain Monte Carlo</a></li>
+            <li><a href="#importance-sampling">Importance sampling</a></li>
             <li><a href="#summary">Summary</a></li>
     </ul>
 </div></div>
@@ -103,11 +104,13 @@
 
 <p><a id='Introduction-to-Monte-Carlo-methods-1'></a></p>
 <h1 id="introduction-to-monte-carlo-methods">Introduction to Monte Carlo methods</h1>
+<p><a id='Introduction-1'></a></p>
+<h2 id="introduction">Introduction</h2>
 <p><a id='Sampling-from-discrete-probability-distributions-1'></a></p>
-<h2 id="sampling-from-discrete-probability-distributions">Sampling from discrete probability distributions</h2>
+<h3 id="sampling-from-discrete-probability-distributions">Sampling from discrete probability distributions</h3>
 <p><a id='Martin-Burke,-August-2018-1'></a></p>
 <h4 id="martin-burke-august-2018">Martin Burke, August 2018</h4>
-<p>Monte Carlo methods are a way of drawing samples from probability distributions (they are also used for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is $X$: the outcome in a game of dice where the score $x = d_1 + d_2$ is the sum of two fair dice and the likelihood of any given score is denoted $f(x)$. TEST.</p>
+<p>Monte Carlo methods are a way of drawing samples from probability distributions, as well as being useful for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is $X$: the outcome in a game of dice where the score $x = d_1 + d_2$ is the sum of two fair dice and the likelihood of any given score is denoted $f(x)$. UPDATED.</p>
 <p>Different sampling algorithms can be understood in terms of the challenges and requirements they are designed to accomodate. In some situations we may know enough about the system to draw directly (i.e. simulate) from $X$. In others we may be restricted to computing the probability mass function (PMF) $f(x)$; an unbiased approximation $\hat{f}(x)$; or some quantity proportional to the likelihood $q \propto f(x)$. We may also be interested in specific regions or scenarios concerning the target distribution such as the likelihood rolling 10 or more. More formally, we might wish to evaluate $\int_{10}^{12} f(x) dx$.</p>
 <table>
 <thead>
@@ -175,7 +178,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_7_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363266560229737)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363272471025264)&gt;</code></pre>
 
 
 <p>Note that as the number of steps is increased the random noise in the distribution of samples obtained is reduced. That is, they converge upon the true target distribution: $X$.</p>
@@ -219,12 +222,12 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_14_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363266560262119)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8764383717959)&gt;</code></pre>
 
 
 <p>NEED TO ADD acceptance rate commentary.</p>
 <p><a id='Importance-sampling-1'></a></p>
-<h3 id="importance-sampling">Importance sampling</h3>
+<h2 id="importance-sampling">Importance sampling</h2>
 <p>The first two examples provided methods for drawing samples from $X$ in different situations. Importance sampling algorithms by contrast are designed to draw samples from the proposal density $G$ and weight them so as to recover information about $X$. First we consider the basic concept and then apply it to a slightly more difficult problem to understand why this might sometimes be useful.</p>
 <p><a id='Basic-example-1'></a></p>
 <h4 id="basic-example">Basic example</h4>
@@ -252,7 +255,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_19_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8770292352604)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363272473221032)&gt;</code></pre>
 
 
 <p><a id='Payoff-example-1'></a></p>
@@ -305,11 +308,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 0.952266074554924</code></pre>
+<pre class="codehilite"><code>expected payoff: 0.9973450094506978</code></pre>
 
 
 <p><img alt="png" src="../output_27_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8770292352590)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8764381554717)&gt;</code></pre>
 
 
 <p>Running the algorithm we notice that samples obtained for proposals less than eight are essentially wasted since they do not contribute to the information we are able to recover about the expected payoff. We can therefore change the proposal density to only select from the desired range in order to improve the efficiency of the algorithm:</p>
@@ -320,11 +323,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 1.0208390815997577</code></pre>
+<pre class="codehilite"><code>expected payoff: 0.9997709937321856</code></pre>
 
 
 <p><img alt="png" src="../output_29_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363266560253703)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8764381548990)&gt;</code></pre>
 
 
 <p>We can also test the performace gain by computing the average error overone hundred runs for a given number of samples from each proposal density:</p>
@@ -341,8 +344,8 @@ print(&quot;First proposal average error: {}&quot;.format(results[&quot;err1&quo
 print(&quot;Second proposal average error: {}&quot;.format(results[&quot;err2&quot;].mean()))</code></pre>
 
 
-<pre class="codehilite"><code>First proposal average error: 0.03659525816683872
-Second proposal average error: 0.015996746454680775</code></pre>
+<pre class="codehilite"><code>First proposal average error: 0.038710788275420495
+Second proposal average error: 0.016279646898299353</code></pre>
 
 
 <p>Unsurprisingly the average error is lower for the narrower proposal range. This demonstrates that importance sampling is a useful option for exploiring specific regions of the target distribution. This is a useful property with a range of applications from financial risk models to predicting the frequency of rare events in climate models.</p>
