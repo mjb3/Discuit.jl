@@ -39,13 +39,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="./">Discuit.jl</a>
+            <a class="navbar-brand" href="..">Discuit.jl</a>
         </div>
 
         <!-- Expanded navigation -->
         <div class="navbar-collapse collapse">
                 <!-- Main navigation -->
                 <ul class="nav navbar-nav">
+                    <li >
+                        <a href="..">Introduction</a>
+                    </li>
                     <li class="active">
                         <a href="./">Examples</a>
                     </li>
@@ -56,10 +59,10 @@
                         <a href="../manual/">Manual</a>
                     </li>
                     <li >
-                        <a href="../monte_carlo_intro/monte_carlo_intro/">Intro to Monte Carlo</a>
+                        <a href="../monte_carlo_intro/monte_carlo_intro/">Monte Carlo introduction</a>
                     </li>
                     <li >
-                        <a href="../mcmc_intro/mcmc_intro/">Intro to MCMC</a>
+                        <a href="../mcmc_intro/mcmc_intro/">MCMC introduction</a>
                     </li>
                 </ul>
 
@@ -69,8 +72,8 @@
                         <i class="fa fa-search"></i> Search
                     </a>
                 </li>
-                    <li class="disabled">
-                        <a rel="next" >
+                    <li >
+                        <a rel="next" href="..">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
@@ -170,19 +173,22 @@ si_gaussian (generic function with 1 method)</code></pre>
 running MCMC...
  finished (sample μ = [0.00342388, 0.11487]).
 
-julia&gt; plot_parameter_trace(rs, 1);
+julia&gt; plot_parameter_trace(rs, 1);</code></pre>
 
-julia&gt; plot_parameter_trace(rs, 2);</code></pre>
+
+<p>Trace plots are a common visualisation tool in MCMC:</p>
+<pre class="codehilite"><code>plot_parameter_trace(rs, 1);
+plot_parameter_trace(rs, 2);</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/></p>
-<p>Placeholder for MCMC output.</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_parameter_marginal(rs, 1);
-
-julia&gt; plot_parameter_marginal(rs, 2)
-PyObject Text(0, 0.5, 'density')</code></pre>
+<p>The marginal distribution of parameters can be plotted by</p>
+<pre class="codehilite"><code>plot_parameter_marginal(rs, 1);
+plot_parameter_marginal(rs, 2)</code></pre>
 
 
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/marginals.png" alt="MCMC traceplots" height="240"/></p>
+<p>A pairwise representation can be produced by calling <code>plot_parameter_heatmap</code>.</p>
 <p><a id='Autocorrelation-1'></a></p>
 <h2 id="autocorrelation">Autocorrelation</h2>
 <p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
@@ -265,11 +271,10 @@ running gelman diagnostic...
 <p>ADD SIM BLURB <code>generate_model("LOTKA", [79, 71])</code>.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 running simulation...
- finished (17520 events).
-
-julia&gt; plot_trajectory(xi);</code></pre>
+ finished (17520 events).</code></pre>
 
 
+<p>The simulation can be visualised using <code>plot_trajectory(xi)</code>:</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/></p>
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
@@ -283,7 +288,8 @@ julia&gt; model.t0_index = 3;</code></pre>
 <p>Next we define the "medium" prior used by O'Neill and Roberts, with some help from the <a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a> package:</p>
 <pre class="codehilite"><code class="language-julia-repl">  Updating registry at `~/.julia/registries/General`
   Updating git-repo `https://github.com/JuliaRegistries/General.git`
-[?25l[2K[?25h Resolving package versions...
+[?25l    Fetching: [&gt;                                        ]  0.0 %
+[2K[?25h Resolving package versions...
   Updating `~/build/mjb3/Discuit.jl/docs/Project.toml`
   [31c24e10] + Distributions v0.16.4
   Updating `~/build/mjb3/Discuit.jl/docs/Manifest.toml`
@@ -314,7 +320,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140513836456768])</code></pre>
+Observations([67.0], [0])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>

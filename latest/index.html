@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.">
+        <meta name="author" content="Martin Burke">
+        
+        <link rel="shortcut icon" href="./img/favicon.ico">
+        <title>Discuit.jl</title>
+        <link href="./css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="./css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="./css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="./css/highlight.css">
+        <link href="./assets/Documenter.css" rel="stylesheet">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="./js/jquery-1.10.2.min.js"></script>
+        <script src="./js/bootstrap-3.0.3.min.js"></script>
+        <script src="./js/highlight.pack.js"></script> 
+    </head>
+
+    <body class="homepage">
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href=".">Discuit.jl</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href=".">Introduction</a>
+                    </li>
+                    <li >
+                        <a href="examples/">Examples</a>
+                    </li>
+                    <li >
+                        <a href="models/">Models</a>
+                    </li>
+                    <li >
+                        <a href="manual/">Manual</a>
+                    </li>
+                    <li >
+                        <a href="monte_carlo_intro/monte_carlo_intro/">Monte Carlo introduction</a>
+                    </li>
+                    <li >
+                        <a href="mcmc_intro/mcmc_intro/">MCMC introduction</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li class="disabled">
+                        <a rel="next" >
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="examples/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/mjb3/Discuit.jl/edit/master/docs/index.md"><i class="fa fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#discuitjl">Discuit.jl</a></li>
+            <li><a href="#package-features">Package features</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#getting-started">Getting started</a></li>
+            <li><a href="#further-usage">Further usage</a></li>
+            <li><a href="#tutorials">Tutorials</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<p><a id='Discuit.jl-1'></a></p>
+<h1 id="discuitjl">Discuit.jl</h1>
+<p><strong><em>Fast parameter inference for discrete state space continuous time (DSSCT) models in Julia.</em></strong></p>
+<blockquote>
+<p>Please note that this package is still in development.</p>
+</blockquote>
+<p>Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:</p>
+<p>
+<script type="math/tex; mode=display">
+\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)
+</script>
+</p>
+<p>The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See <a href="mcmc_intro/mcmc_intro/#Introduction-to-MCMC-1">Introduction to MCMC</a> for a basic introduction to MCMC and <a href="monte_carlo_intro/monte_carlo_intro/#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a> for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative <a href="manual/#custom-MCMC-1">custom MCMC</a> framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). <a href="examples/#Simulation-1">Simulation</a> via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.</p>
+<p>See the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section for an introduction to the aforementioned functionality and the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of data types and functions. See the <a href="https://mjb3.github.io/Discuit/">Discuit in R</a> package documentation for a description of the equivalent functionality in that package.</p>
+<p><a id='Package-features-1'></a></p>
+<h2 id="package-features">Package features</h2>
+<p><a id='Discuit' href='#Discuit'>#</a>
+<strong><code>Discuit</code></strong> &mdash; <em>Module</em>.</p>
+<p>Discuit is a package for:</p>
+<ul>
+<li>Customisable finite adaptive MCMC algorithm for fast parameter inference.</li>
+<li>Pooley model based proposal (MBP) method for improved mixing.</li>
+<li>Simulation via the Gillespie direct method.</li>
+<li>Automated tools for convergence diagnosis and analysis.</li>
+<li>Developed for Julia <code>1.0</code>.</li>
+<li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
+<li>Date: 2018-08-22</li>
+</ul>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/3e66d74ebc409602d7d67b2a0b735097f5ce796e/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
+<p><a id='Installation-1'></a></p>
+<h2 id="installation">Installation</h2>
+<p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
+<pre class="codehilite"><code>pkg&gt; add https://github.com/mjb3/Discuit.jl</code></pre>
+
+
+<p><a id='Getting-started-1'></a></p>
+<h2 id="getting-started">Getting started</h2>
+<p>The following code initialises a <code>DiscuitModel</code> and runs a simulation, storing the results in <code>x</code>.</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; using Discuit;
+
+
+julia&gt; model = generate_model(&quot;SIS&quot;, [100,1]);
+
+julia&gt; x = gillespie_sim(model, [0.003, 0.1]);
+running simulation...
+ finished (1037 events).</code></pre>
+
+
+<p>We can now run an MCMC analysis using observations data from <code>x</code>:</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; s = run_met_hastings_mcmc(model, x.observations, [0.0025, 0.12]);
+running MCMC...
+ finished (sample μ = [0.00360464, 0.129626]).</code></pre>
+
+
+<p><a id='Further-usage-1'></a></p>
+<h2 id="further-usage">Further usage</h2>
+<p>More examples can be found in the section <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a>, including enough code to get up and running with convergence diagnostics and customised models. A more detailed guide to the pre defined models is available in the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section. Further information regarding the packages other functionality can be found in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
+<p><a id='Tutorials-1'></a></p>
+<h2 id="tutorials">Tutorials</h2>
+<ul>
+<li><a href="monte_carlo_intro/monte_carlo_intro/#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a>: a beginner's guide in Python.</li>
+<li>A basic <a href="mcmc_intro/mcmc_intro/#Introduction-to-MCMC-1">Introduction to MCMC</a> methods in Python.</li>
+<li><a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a>: an introduction to MCMC and simulation in <a href=".#Discuit.jl-1">Discuit.jl</a> for Julia.</li>
+<li>See the <a href="https://mjb3.github.io/Discuit/">Discuit for R package documentation</a> for R tutorials.</li>
+</ul></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '.';</script>
+        <script src="./js/base.js"></script>
+        <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+        <script src="./assets/mathjaxhelper.js"></script>
+        <script src="https://cdn.rawgit.com/pcooksey/bibtex-js/ef59e62c/src/bibtex_js.js"></script>
+        <script src="./search/require.js"></script>
+        <script src="./search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 0.17.5
+Build Date UTC : 2018-10-13 05:53:01
+-->

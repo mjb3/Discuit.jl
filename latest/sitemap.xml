@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
+     <loc>/</loc>
+     <lastmod>2018-10-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
      <loc>/examples/</loc>
-     <lastmod>2018-10-12</lastmod>
+     <lastmod>2018-10-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/models/</loc>
-     <lastmod>2018-10-12</lastmod>
+     <lastmod>2018-10-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/manual/</loc>
-     <lastmod>2018-10-12</lastmod>
+     <lastmod>2018-10-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/monte_carlo_intro/monte_carlo_intro/</loc>
-     <lastmod>2018-10-12</lastmod>
+     <lastmod>2018-10-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/mcmc_intro/mcmc_intro/</loc>
-     <lastmod>2018-10-12</lastmod>
+     <lastmod>2018-10-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
