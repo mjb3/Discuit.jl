@@ -37,7 +37,7 @@ export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_pr
 
 include("./discuit_structs.jl")
 include("./discuit_models.jl")
-include("./discuit_visualisation.jl")
+include("./discuit_visualisation_uc.jl")
 
 ## constants
 # max trajectory constant (make this optional?)
