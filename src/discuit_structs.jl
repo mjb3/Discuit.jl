@@ -50,6 +50,7 @@ end
 The results of a simulation.
 """
 struct SimResults
+    model_name::String
     trajectory::Trajectory
     population::Array{Int64, 2}
     observations::Observations

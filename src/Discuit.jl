@@ -134,7 +134,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
         pop_long[i,:] .= population
     end
     # return trajectory
-    return SimResults(trajectory, pop_long, Observations(obs_times, obs_vals))
+    return SimResults(model.model_name, trajectory, pop_long, Observations(obs_times, obs_vals))
 end
 # sim to initialise Markov chain
 function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,1}, full_like::Bool)

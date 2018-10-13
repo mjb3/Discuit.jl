@@ -1,13 +1,15 @@
 using Discuit
 import PyPlot
+using UnicodePlots
 
 function traj_example()
     set_random_seed(1)
     model = generate_model("LOTKA", [79, 71]);
 
     ## run sim
-    xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-    plot_trajectory(xi)
+    x = gillespie_sim(model, [0.5, 0.0025, 0.3]);
+    # plot_trajectory(xi)
+    p = lineplot(x.trajectory.time, x.population[:,1], title = string(x.model_name, " simulation"), name = x.model_name[1])
 end
 
 import HTTP
@@ -44,5 +46,5 @@ function mcmc_example()
     PyPlot.scatter(x, rs.geweke[2][:,1])
 end
 
-# traj_example()
-mcmc_example()
+traj_example()
+# mcmc_example()
