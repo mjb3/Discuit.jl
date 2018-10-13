@@ -92,7 +92,7 @@ Plotting the data with third party packages such as PyPlot is simple:
     using PyPlot
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
     plt[:hist](x, 30)
-    xlabel(string("\$\\theta_", parameter, "\$"))
+    xlabel(string("\$\\theta_", parameter, "\\$"))
     ylabel("density")
 
 ```@raw html

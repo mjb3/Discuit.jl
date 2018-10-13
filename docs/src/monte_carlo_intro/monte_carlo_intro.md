@@ -1,9 +1,10 @@
 
 # Introduction to Monte Carlo methods
-## Sampling from discrete probability distributions
+## Introduction
+### Sampling from discrete probability distributions
 #### Martin Burke, August 2018
 
-Monte Carlo methods are a way of drawing samples from probability distributions (they are also used for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is ``X``: the outcome in a game of dice where the score ``x = d_1 + d_2`` is the sum of two fair dice and the likelihood of any given score is denoted ``f(x)``. TEST.
+Monte Carlo methods are a way of drawing samples from probability distributions, as well as being useful for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is ``X``: the outcome in a game of dice where the score ``x = d_1 + d_2`` is the sum of two fair dice and the likelihood of any given score is denoted $f(x)$. UPDATED.
 
 Different sampling algorithms can be understood in terms of the challenges and requirements they are designed to accomodate. In some situations we may know enough about the system to draw directly (i.e. simulate) from $X$. In others we may be restricted to computing the probability mass function (PMF) $f(x)$; an unbiased approximation $\hat{f}(x)$; or some quantity proportional to the likelihood $q \propto f(x)$. We may also be interested in specific regions or scenarios concerning the target distribution such as the likelihood rolling 10 or more. More formally, we might wish to evaluate $\int_{10}^{12} f(x) dx$.
 
@@ -71,7 +72,7 @@ print(p)
 ![png](output_7_0.png)
 
 
-    <ggplot: (-9223363266560229737)>
+    <ggplot: (-9223363272471025264)>
 
 
 Note that as the number of steps is increased the random noise in the distribution of samples obtained is reduced. That is, they converge upon the true target distribution: $X$.
@@ -128,12 +129,12 @@ print(p)
 ![png](output_14_0.png)
 
 
-    <ggplot: (-9223363266560262119)>
+    <ggplot: (8764383717959)>
 
 
 NEED TO ADD acceptance rate commentary.
 
-### Importance sampling
+## Importance sampling
 
 The first two examples provided methods for drawing samples from $X$ in different situations. Importance sampling algorithms by contrast are designed to draw samples from the proposal density $G$ and weight them so as to recover information about $X$. First we consider the basic concept and then apply it to a slightly more difficult problem to understand why this might sometimes be useful.
 
@@ -172,7 +173,7 @@ print(p)
 ![png](output_19_0.png)
 
 
-    <ggplot: (8770292352604)>
+    <ggplot: (-9223363272473221032)>
 
 
 #### Payoff example
@@ -239,14 +240,14 @@ p = ggplot(s, aes(x = "x", y = "..density..", weight = "w")) + geom_histogram(bi
 print(p)
 ```
 
-    expected payoff: 0.952266074554924
+    expected payoff: 0.9973450094506978
 
 
 
 ![png](output_27_1.png)
 
 
-    <ggplot: (8770292352590)>
+    <ggplot: (8764381554717)>
 
 
 Running the algorithm we notice that samples obtained for proposals less than eight are essentially wasted since they do not contribute to the information we are able to recover about the expected payoff. We can therefore change the proposal density to only select from the desired range in order to improve the efficiency of the algorithm:
@@ -260,14 +261,14 @@ p = ggplot(s, aes(x = "x", y = "..density..", weight = "w")) + geom_histogram(bi
 print(p)
 ```
 
-    expected payoff: 1.0208390815997577
+    expected payoff: 0.9997709937321856
 
 
 
 ![png](output_29_1.png)
 
 
-    <ggplot: (-9223363266560253703)>
+    <ggplot: (8764381548990)>
 
 
 We can also test the performace gain by computing the average error overone hundred runs for a given number of samples from each proposal density:
@@ -287,8 +288,8 @@ print("First proposal average error: {}".format(results["err1"].mean()))
 print("Second proposal average error: {}".format(results["err2"].mean()))
 ```
 
-    First proposal average error: 0.03659525816683872
-    Second proposal average error: 0.015996746454680775
+    First proposal average error: 0.038710788275420495
+    Second proposal average error: 0.016279646898299353
 
 
 Unsurprisingly the average error is lower for the narrower proposal range. This demonstrates that importance sampling is a useful option for exploiring specific regions of the target distribution. This is a useful property with a range of applications from financial risk models to predicting the frequency of rare events in climate models.
