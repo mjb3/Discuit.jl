@@ -71,7 +71,7 @@ Now we can run an MCMC analysis based on the simulated datset:
 ```@repl 1
 y = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]); # hide
 rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
-plot_parameter_trace(rs, 1)
+print(plot_parameter_trace(rs, 1))
 ```
 
 Trace plots are a common visualisation tool in MCMC:
