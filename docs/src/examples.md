@@ -215,7 +215,7 @@ model.prior_density = prior_density;
 
 The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and ``\pi(\xi | \theta)`` is evaluated automatically by Discuit):
 
-The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and \$\\pi(\\xi | \\theta)\$ is evaluated automatically by Discuit):
+The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and $\pi(\xi | \theta)$ is evaluated automatically by Discuit):
 
 ```@repl 1
 observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
