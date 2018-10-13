@@ -11,7 +11,7 @@ jobs:
         - julia --project=docs/ docs/make.jl
       after_success: skip
       # before_install:
-      - julia -e 'ENV["PYTHON"]=""; using Pkg; Pkg.add("Conda"); using Conda; Conda.update();'
+      # - julia -e 'ENV["PYTHON"]=""; using Pkg; Pkg.add("Conda"); using Conda; Conda.update();'
 
 # Pkg.build("PyCall");
 # Conda.add("matplotlib");
