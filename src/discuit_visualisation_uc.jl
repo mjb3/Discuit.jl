@@ -51,7 +51,7 @@ Trace plot of samples from `n` MCMC analyses for a given model `parameter` using
 function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     x = mcmc.adapt_period:size(mcmc[1].samples, 1)
     p = UnicodePlots.lineplot(x, mcmc[1].samples[mcmc[1].adapt_period:size(mcmc[1].samples, parameter)], title = string("θ", Char(8320 + parameter), " traceplot."))
-    for i in 2:size(x.population, 2)
+    for i in 2:length(mcmc)
         UnicodePlots.lineplot!(p, mcmc[i].samples[mcmc[i].adapt_period:size(mcmc[i].samples, parameter)])
     end
     UnicodePlots.xlabel!(p, "sample")
@@ -72,7 +72,7 @@ function plot_parameter_marginal(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
     p = UnicodePlots.histogram(x, bins = 20)
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
-    UnicodePlots.xlabel!(p, "density")
+    UnicodePlots.xlabel!(p, "samples")
     return p
 end
 ## heatmap
@@ -94,6 +94,27 @@ function plot_parameter_heatmap(mcmc::MCMCResults, x_parameter::Int64, y_paramet
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + y_parameter)))
     return p
 end
+## geweke
+"""
+    plot_geweke_series(mcmc)
+
+**Parameters**
+- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+
+Plot the Geweke series...
+"""
+function plot_geweke_series(mcmc::MCMCResults)
+    x = mcmc.geweke[1]
+    p = UnicodePlots.scatterplot(x, mcmc.geweke[2][:,1])
+    for i in 2:size(mcmc.geweke[2], 1)
+        UnicodePlots.scatterplot!(p, x, mcmc.geweke[2][:,i])
+    end
+    UnicodePlots.lineplot!(p, -2.0, 0.0, color = :yellow)
+    UnicodePlots.lineplot!(p, 2.0, 0.0, color = :yellow)
+    UnicodePlots.ylabel!(p, "z")
+    return p
+end
+
 ## autocorrelation R
 # single
 # """

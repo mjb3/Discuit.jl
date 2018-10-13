@@ -27,5 +27,5 @@ pages:
 - Examples: examples.md
 - Models: models.md
 - Manual: manual.md
-- Monte Carlo introduction: monte_carlo_intro/monte_carlo_intro.md
-- MCMC introduction: mcmc_intro/mcmc_intro.md
+- Monte Carlo tutorial: monte_carlo_intro/monte_carlo_intro.md
+- MCMC tutorial: mcmc_intro/mcmc_intro.md
