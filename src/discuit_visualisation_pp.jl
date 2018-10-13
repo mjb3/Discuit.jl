@@ -64,7 +64,6 @@ Plot the marginal distribution of samples from an MCMC analysis for a given mode
 function plot_parameter_marginal(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
     PyPlot.plt[:hist](x, 30)
-    # PyPlot.title("TITLE")
     PyPlot.xlabel(string("\$\\theta_", parameter, "\$"))
     PyPlot.ylabel("density")
 end

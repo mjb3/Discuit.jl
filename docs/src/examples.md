@@ -71,25 +71,29 @@ Now we can run an MCMC analysis based on the simulated datset:
 ```@repl 1
 y = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]); # hide
 rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
-print(plot_parameter_trace(rs, 1))
 ```
 
 Trace plots are a common visualisation tool in MCMC:
 
     plot_parameter_trace(rs, 1);
-    plot_parameter_trace(rs, 2);
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/traceplots.png" alt="MCMC traceplots" height="240"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/>
 ```
 
-The marginal distribution of parameters can be plotted by
+The marginal distribution of parameters can be plotted by calling:
 
 ```@repl 1
 plot_parameter_marginal(rs, 1)
 ```
 
-    plot_parameter_marginal(rs, 2)
+Plotting the data with third party packages such as PyPlot is simple:
+
+    using PyPlot
+    x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
+    plt[:hist](x, 30)
+    xlabel(string("\$\\theta_", parameter, "\$"))
+    ylabel("density")
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/marginals.png" alt="MCMC traceplots" height="240"/>
