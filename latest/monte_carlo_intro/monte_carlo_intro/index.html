@@ -95,6 +95,7 @@
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#introduction-to-monte-carlo-methods">Introduction to Monte Carlo methods</a></li>
             <li><a href="#sampling-from-discrete-probability-distributions">Sampling from discrete probability distributions</a></li>
+            <li><a href="#plain-monte-carlo">Plain Monte Carlo</a></li>
             <li><a href="#summary">Summary</a></li>
     </ul>
 </div></div>
@@ -131,7 +132,7 @@
 </tbody>
 </table>
 <p><a id='Plain-Monte-Carlo-1'></a></p>
-<h3 id="plain-monte-carlo">Plain Monte Carlo</h3>
+<h2 id="plain-monte-carlo">Plain Monte Carlo</h2>
 <p>The first sampler is for situations where we know enough about the target distribution to draw samples directly. To do this we use our knowledge of the data generating process to define a function which draws two random numbers distributed uniformly from one to six and returns the sum:</p>
 <pre class="codehilite"><code class="language-python"># import some stuff for random number generation, analysis and plotting
 import numpy as np
@@ -174,7 +175,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_7_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363295278400880)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363266560229737)&gt;</code></pre>
 
 
 <p>Note that as the number of steps is increased the random noise in the distribution of samples obtained is reduced. That is, they converge upon the true target distribution: $X$.</p>
@@ -218,7 +219,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_14_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363295278433683)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363266560262119)&gt;</code></pre>
 
 
 <p>NEED TO ADD acceptance rate commentary.</p>
@@ -251,7 +252,7 @@ print(p)</code></pre>
 
 
 <p><img alt="png" src="../output_19_0.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363295280596108)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8770292352604)&gt;</code></pre>
 
 
 <p><a id='Payoff-example-1'></a></p>
@@ -304,11 +305,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 0.9385784069518784</code></pre>
+<pre class="codehilite"><code>expected payoff: 0.952266074554924</code></pre>
 
 
 <p><img alt="png" src="../output_27_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (-9223363295280591030)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (8770292352590)&gt;</code></pre>
 
 
 <p>Running the algorithm we notice that samples obtained for proposals less than eight are essentially wasted since they do not contribute to the information we are able to recover about the expected payoff. We can therefore change the proposal density to only select from the desired range in order to improve the efficiency of the algorithm:</p>
@@ -319,11 +320,11 @@ p = ggplot(s, aes(x = &quot;x&quot;, y = &quot;..density..&quot;, weight = &quot
 print(p)</code></pre>
 
 
-<pre class="codehilite"><code>expected payoff: 0.9667801758779293</code></pre>
+<pre class="codehilite"><code>expected payoff: 1.0208390815997577</code></pre>
 
 
 <p><img alt="png" src="../output_29_1.png" /></p>
-<pre class="codehilite"><code>&lt;ggplot: (8741574212367)&gt;</code></pre>
+<pre class="codehilite"><code>&lt;ggplot: (-9223363266560253703)&gt;</code></pre>
 
 
 <p>We can also test the performace gain by computing the average error overone hundred runs for a given number of samples from each proposal density:</p>
@@ -340,8 +341,8 @@ print(&quot;First proposal average error: {}&quot;.format(results[&quot;err1&quo
 print(&quot;Second proposal average error: {}&quot;.format(results[&quot;err2&quot;].mean()))</code></pre>
 
 
-<pre class="codehilite"><code>First proposal average error: 0.0302439686410776
-Second proposal average error: 0.018523710824803533</code></pre>
+<pre class="codehilite"><code>First proposal average error: 0.03659525816683872
+Second proposal average error: 0.015996746454680775</code></pre>
 
 
 <p>Unsurprisingly the average error is lower for the narrower proposal range. This demonstrates that importance sampling is a useful option for exploiring specific regions of the target distribution. This is a useful property with a range of applications from financial risk models to predicting the frequency of rare events in climate models.</p>
