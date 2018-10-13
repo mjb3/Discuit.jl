@@ -3,7 +3,7 @@
 ## Sampling from discrete probability distributions
 #### Martin Burke, August 2018
 
-Monte Carlo methods are a way of drawing samples from probability distributions (they are also used for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is ``X``: the outcome in a game of dice where the score ``x = d_1 + d_2`` is the sum of two fair dice and the likelihood of any given score is denoted $f(x)$.
+Monte Carlo methods are a way of drawing samples from probability distributions (they are also used for problems such as optimization and computing integrals). In the examples below the (not so) difficult to sample distribution of interest is ``X``: the outcome in a game of dice where the score ``x = d_1 + d_2`` is the sum of two fair dice and the likelihood of any given score is denoted ``f(x)``.
 
 Different sampling algorithms can be understood in terms of the challenges and requirements they are designed to accomodate. In some situations we may know enough about the system to draw directly (i.e. simulate) from $X$. In others we may be restricted to computing the probability mass function (PMF) $f(x)$; an unbiased approximation $\hat{f}(x)$; or some quantity proportional to the likelihood $q \propto f(x)$. We may also be interested in specific regions or scenarios concerning the target distribution such as the likelihood rolling 10 or more. More formally, we might wish to evaluate $\int_{10}^{12} f(x) dx$.
 
