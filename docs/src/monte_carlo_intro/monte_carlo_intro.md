@@ -1,4 +1,3 @@
-
 # Introduction to Monte Carlo methods
 ## Introduction
 ### Sampling from discrete probability distributions
