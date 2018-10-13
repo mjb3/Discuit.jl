@@ -29,7 +29,7 @@ end
 - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
-Trace plot of samples from an MCMC analysis for a given model `parameter` using ADD PYPLOT LINK.
+Trace plot of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_trace(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.adapt_period:size(mcmc.samples, 1)
@@ -46,7 +46,7 @@ end
 - `mcmc`        -- array of `MCMCResults`, e.g. from a call to `run_gelman_diagnostic`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
-Trace plot of samples from `n` MCMC analyses for a given model `parameter` using ADD PYPLOT LINK.
+Trace plot of samples from `n` MCMC analyses for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     x = mcmc.adapt_period:size(mcmc[1].samples, 1)
@@ -66,7 +66,7 @@ end
 - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
-Plot the marginal distribution of samples from an MCMC analysis for a given model `parameter` using ADD PYPLOT LINK.
+Plot the marginal distribution of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_marginal(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
@@ -84,7 +84,7 @@ end
 - `x_parameter`   -- the index of the model parameter to be plotted on the x axis.
 - `y_parameter`   -- the index of the model parameter to be plotted on the y axis.
 
-Plot the marginal distribution of samples from an MCMC analysis for two model parameters using ADD PYPLOT LINK.
+Plot the marginal distribution of samples from an MCMC analysis for two model parameters using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_heatmap(mcmc::MCMCResults, x_parameter::Int64, y_parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), x_parameter]
