@@ -33,9 +33,10 @@ Trace plot of samples from an MCMC analysis for a given model `parameter` using 
 """
 function plot_parameter_trace(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.adapt_period:size(mcmc.samples, 1)
-    PyPlot.plot(x, mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter])
-    PyPlot.xlabel("sample")
-    PyPlot.ylabel(string("\$\\theta_", parameter, "\$"))
+    p = UnicodePlots.lineplot(x, mcmc.samples[mcmc.adapt_period:size(mcmc.samples, parameter)], title = string("θ", Char(8320 + parameter), " traceplot."))
+    UnicodePlots.xlabel!(p, "sample")
+    UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
+    return p
 end
 # multiple
 """
@@ -48,12 +49,14 @@ end
 Trace plot of samples from `n` MCMC analyses for a given model `parameter` using ADD PYPLOT LINK.
 """
 function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
-    x = mcmc[1].adapt_period:size(mcmc[1].samples, 1)
-    for i in eachindex(mcmc)
-        PyPlot.plot(x, mcmc[i].samples[mcmc[i].adapt_period:size(mcmc[i].samples, 1), parameter])
+    x = mcmc.adapt_period:size(mcmc[1].samples, 1)
+    p = UnicodePlots.lineplot(x, mcmc[1].samples[mcmc[1].adapt_period:size(mcmc[1].samples, parameter)], title = string("θ", Char(8320 + parameter), " traceplot."))
+    for i in 2:size(x.population, 2)
+        UnicodePlots.lineplot!(p, mcmc[i].samples[mcmc[i].adapt_period:size(mcmc[i].samples, parameter)])
     end
-    PyPlot.xlabel("sample")
-    PyPlot.ylabel(string("\$\\theta_", parameter, "\$"))
+    UnicodePlots.xlabel!(p, "sample")
+    UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
+    return p
 end
 ## marginal
 """
@@ -67,10 +70,10 @@ Plot the marginal distribution of samples from an MCMC analysis for a given mode
 """
 function plot_parameter_marginal(mcmc::MCMCResults, parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), parameter]
-    PyPlot.plt[:hist](x, 30)
-    # PyPlot.title("TITLE")
-    PyPlot.xlabel(string("\$\\theta_", parameter, "\$"))
-    PyPlot.ylabel("density")
+    p = UnicodePlots.histogram(x, bins = 20)
+    UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
+    UnicodePlots.xlabel!(p, "density")
+    return p
 end
 ## heatmap
 """
@@ -86,9 +89,10 @@ Plot the marginal distribution of samples from an MCMC analysis for two model pa
 function plot_parameter_heatmap(mcmc::MCMCResults, x_parameter::Int64, y_parameter::Int64)
     x = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), x_parameter]
     y = mcmc.samples[mcmc.adapt_period:size(mcmc.samples, 1), y_parameter]
-    PyPlot.hexbin(x, y)
-    PyPlot.xlabel(string("\$\\theta_", x_parameter, "\$"))
-    PyPlot.ylabel(string("\$\\theta_", y_parameter, "\$"))
+    p = UnicodePlots.densityplot(x, y, color = :red)
+    UnicodePlots.xlabel!(p, string("θ", Char(8320 + x_parameter)))
+    UnicodePlots.ylabel!(p, string("θ", Char(8320 + y_parameter)))
+    return p
 end
 ## autocorrelation R
 # single
