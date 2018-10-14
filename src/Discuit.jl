@@ -794,7 +794,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         co[j] = cov(mcv[:,j])
         # compute pooled variance
         # - BENCHMARK THESE..?
-        v[j] = w[j] * ((num_iter - 1) / num_iter) + b[j] * ((size(theta_init, 1) + 1) / (size(theta_init, 1) * num_iter))
+        v[j] = w[j] * ((num_iter - 1) / num_iter) + b[j] * ((theta_size + 1) / (theta_size * num_iter))
         # v[j] = ((num_iter - 1) * (w[j] / num_iter)) + ((1 + (1 / size(theta_init, 1))) * (b[j] / num_iter))
         # v[j] = ((w[j] / num_iter) * (num_iter - 1)) + ((b[j] / num_iter) * (1 + (1 / size(theta_init, 1))))
     end
