@@ -153,7 +153,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 
 <p>We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, [100, 1], sis_rf, [-1 1; 1 -1], 0, obs_fn, weak_prior, si_gaussian);</code></pre>
 
 
 <p><a id='MCMC-1'></a></p>
@@ -289,7 +289,7 @@ running gelman diagnostic... (3 chains)
  chain 3 complete.
  vv w: [2.14888e-13, 4.18479e-7]
  vv b: [1.96555e-5, 30.3574]
- var.V: [NaN, 4.94066e-324]
+ var.V: [4.94066e-324, NaN]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
@@ -347,7 +347,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140380327786496])</code></pre>
+Observations([67.0], [140016647180144])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
