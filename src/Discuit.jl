@@ -785,7 +785,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     w = Array{Float64, 1}(undef, theta_size)
     mu = Array{Float64, 1}(undef, theta_size)
     co = Array{Float64, 1}(undef, theta_size)
-    # v = Array{Float64, 1}(undef, theta_size)
+    v = Array{Float64, 1}(undef, theta_size)
     for j in 1:theta_size
         b[j] = num_iter * cov(mce[:,j])
         w[j] = mean(mcv[:,j])
@@ -793,16 +793,11 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         mu[j] = mean(mce[:,j])
         co[j] = cov(mcv[:,j])
         # compute pooled variance
-        # v = Array{Float64, 1}(undef, theta_size)
+        # - BENCHMARK THESE..?
+        v[j] = w[j] * ((num_iter - 1) / num_iter) + b[j] * ((size(theta_init, 1) + 1) / (size(theta_init, 1) * num_iter))
+        # v[j] = ((num_iter - 1) * (w[j] / num_iter)) + ((1 + (1 / size(theta_init, 1))) * (b[j] / num_iter))
+        # v[j] = ((w[j] / num_iter) * (num_iter - 1)) + ((b[j] / num_iter) * (1 + (1 / size(theta_init, 1))))
     end
-    # compute pooled variance
-    # v = Array{Float64, 1}(undef, size(theta_init, 2))
-    # for j in 1:size(theta_init, 2)
-    #     # BENCHMARK THESE..?
-    #     v[j] = w[j] * ((num_iter - 1) / num_iter) + b[j] * ((size(theta_init, 1) + 1) / (size(theta_init, 1) * num_iter))
-    #     # v[j] = ((num_iter - 1) * (w[j] / num_iter)) + ((1 + (1 / size(theta_init, 1))) * (b[j] / num_iter))
-    #     # v[j] = ((w[j] / num_iter) * (num_iter - 1)) + ((b[j] / num_iter) * (1 + (1 / size(theta_init, 1))))
-    # end
     #
     vv_w = Array{Float64, 1}(undef, theta_size)   # var of vars (theta_ex, i.e. W)
     vv_b = Array{Float64, 1}(undef, theta_size)   # var of vars (B)
