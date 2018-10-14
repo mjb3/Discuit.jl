@@ -283,10 +283,13 @@ R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}
 </p>
 <p>where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_gelman_diagnostic(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
-running gelman diagnostic...
+running gelman diagnostic... (3 chains)
  chain 1 complete.
  chain 2 complete.
  chain 3 complete.
+ vv w: [2.14888e-13, 4.18479e-7]
+ vv b: [1.96555e-5, 30.3574]
+ var.V: [NaN, 4.94066e-324]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
@@ -344,7 +347,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140256323251744])</code></pre>
+Observations([67.0], [140380327786496])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
