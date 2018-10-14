@@ -725,7 +725,6 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
     for i in eachindex(mcmc)
         x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
         # print(string("\nx0 length: ", length(x0.trajectory)))
-        print(" chain ", i, " running...\n")
         mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
         print(" chain ", i, " complete.\n")
     end
@@ -786,7 +785,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     w = Array{Float64, 1}(undef, theta_size)
     mu = Array{Float64, 1}(undef, theta_size)
     co = Array{Float64, 1}(undef, theta_size)
-    v = Array{Float64, 1}(undef, theta_size)
+    # v = Array{Float64, 1}(undef, theta_size)
     for j in 1:theta_size
         b[j] = num_iter * cov(mce[:,j])
         w[j] = mean(mcv[:,j])
@@ -815,11 +814,13 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         vv_b[j] = (2 * b[j] * b[j]) / (length(mcmc) - 1)
         cv_wb[j] = (num_iter / length(mcmc)) * (cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * cov(mcv[:,j], mce[:,j])))
     end
+    print(" vv w: ", vv_w, "\n")
+    print(" vv b: ", vv_b, "\n")
     # compute d; d_adj (var.V)
     # - SHOULD BENCHMARK PRECOMP **********
     d = Array{Float64, 1}(undef, theta_size)
     dd = Array{Float64, 1}(undef, theta_size)
-    # print("\n var.v: ")
+    print(" var.V: ", dd, "\n")
     atmp = num_iter - 1
     btmp = 1 + (1 / length(mcmc))
     for j in 1:theta_size
