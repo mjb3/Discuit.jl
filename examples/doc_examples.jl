@@ -53,6 +53,7 @@ function pooley_prebaked()
     # print(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # # gelman
     rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+    print_gelman_results(rs, "./out/gelman_example/")
     # # # autocorrelation
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))

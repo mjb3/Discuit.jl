@@ -57,7 +57,7 @@ end
 We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:
 
 ```@repl 1
-model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, weak_prior, si_gaussian);
+model = DiscuitModel("SIS", [100, 1], sis_rf, [-1 1; 1 -1], 0, obs_fn, weak_prior, si_gaussian);
 ```
 
 ## MCMC

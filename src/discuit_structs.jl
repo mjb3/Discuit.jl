@@ -75,14 +75,14 @@ A `mutable struct` which represents a DSSCT model (see [Discuit.jl models](@ref)
 mutable struct DiscuitModel
     # model name
     model_name::String
+    # initial condition
+    initial_condition::Array{Int64, 1}
     # event rate function
     rate_function::Function
     # transition matrix
     m_transition::Array{Int64, 2}
     # t0 index (0 ~ fixed at 0.0)
     t0_index::Int64
-    # initial condition
-    initial_condition::Array{Int64, 1}
     # observation function (for sim TBA)
     obs_function::Function
     # prior density function

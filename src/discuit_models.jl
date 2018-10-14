@@ -158,5 +158,5 @@ function generate_model(model_name::String, initial_condition::Array{Int64, 1}, 
     end
     # NEED TO ADD MORE MODELS ******************
     prior = generate_weak_prior(size(m_transition, 1))
-    return DiscuitModel(model_name, rate_fn, m_transition, 0, initial_condition, generate_generic_obs_function(), prior, obs_model)
+    return DiscuitModel(model_name, initial_condition, rate_fn, m_transition, 0, generate_generic_obs_function(), prior, obs_model)
 end
