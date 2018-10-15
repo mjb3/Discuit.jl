@@ -462,8 +462,9 @@ function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_f
     return output
 end
 
-# metropolis hastings algorithm
+## metropolis hastings algorithm (internal)
 # - default proportion of parameter proposals (ppp): 0.3
+# - NEED TO TEMPLATE FOR SINGLE EVENT TYPE MODELS ***********
 function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period::Int64, proposal_alg::Function, x0::MarkovState, prop_param::Bool, ppp::Float64) # full_like::Bool
     ## constants
     PARAMETER_PROPOSAL::Int64 = 4
