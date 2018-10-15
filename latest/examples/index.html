@@ -153,7 +153,11 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 
 <p>We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, [100, 1], sis_rf, [-1 1; 1 -1], 0, obs_fn, weak_prior, si_gaussian);</code></pre>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, [100, 1], sis_rf, [-1 1; 1 -1], 0, obs_fn, weak_prior, si_gaussian);
+ERROR: MethodError: Cannot `convert` an object of type Int64 to an object of type Function
+Closest candidates are:
+  convert(::Type{S}, !Matched::T&lt;:(Union{CategoricalString{R}, CategoricalValue{T,R} where T} where R)) where {S, T&lt;:(Union{CategoricalString{R}, CategoricalValue{T,R} where T} where R)} at /home/travis/.julia/packages/CategoricalArrays/rQrLR/src/value.jl:86
+  convert(::Type{T}, !Matched::T) where T at essentials.jl:154</code></pre>
 
 
 <p><a id='MCMC-1'></a></p>
@@ -164,8 +168,7 @@ si_gaussian (generic function with 1 method)</code></pre>
 
 <p>Now we can run an MCMC analysis based on the simulated datset:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
-running MCMC...
- finished (sample μ = [0.00342388, 0.11487]).</code></pre>
+ERROR: UndefVarError: model not defined</code></pre>
 
 
 <p>Trace plots are a common visualisation tool in MCMC:</p>
@@ -175,32 +178,7 @@ running MCMC...
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/></p>
 <p>The marginal distribution of parameters can be plotted by calling:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_parameter_marginal(rs, 1)
-                     ┌────────────────────────────────────────┐
-      (0.001,0.0015] │▇ 295                                   │
-      (0.0015,0.002] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 3378                    │
-      (0.002,0.0025] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 6960    │
-      (0.0025,0.003] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 7700 │
-      (0.003,0.0035] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 7265   │
-      (0.0035,0.004] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 5425           │
-      (0.004,0.0045] │▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 3148                     │
-      (0.0045,0.005] │▇▇▇▇▇▇▇▇▇ 2092                          │
-      (0.005,0.0055] │▇▇▇▇▇ 1023                              │
-      (0.0055,0.006] │▇▇▇ 675                                 │
-      (0.006,0.0065] │▇▇ 494                                  │
-   θ₁ (0.0065,0.007] │▇ 271                                   │
-      (0.007,0.0075] │ 68                                     │
-      (0.0075,0.008] │▇ 138                                   │
-      (0.008,0.0085] │ 76                                     │
-      (0.0085,0.009] │ 80                                     │
-      (0.009,0.0095] │ 111                                    │
-       (0.0095,0.01] │▇ 273                                   │
-       (0.01,0.0105] │▇ 195                                   │
-      (0.0105,0.011] │▇ 133                                   │
-      (0.011,0.0115] │ 67                                     │
-      (0.0115,0.012] │ 77                                     │
-      (0.012,0.0125] │ 57                                     │
-                     └────────────────────────────────────────┘
-                                      samples</code></pre>
+ERROR: UndefVarError: rs not defined</code></pre>
 
 
 <p>Plotting the data with third party packages such as PyPlot is simple:</p>
@@ -245,7 +223,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
 </script>
 </p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_geweke_series(rs)
-ERROR: BoundsError: attempt to access 10×2 Array{Float64,2} at index [Base.Slice(Base.OneTo(10)), 3]</code></pre>
+ERROR: UndefVarError: rs not defined</code></pre>
 
 
 <p>The results of MCMC analyses can also be saved to file for analysis in the companion <a href="https://mjb3.github.io/Discuit/">R package</a>. In Julia, run:</p>
@@ -283,14 +261,7 @@ R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}
 </p>
 <p>where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_gelman_diagnostic(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
-running gelman diagnostic... (3 chains)
- chain 1 complete.
- chain 2 complete.
- chain 3 complete.
- vv w: [2.14888e-13, 4.18479e-7]
- vv b: [1.96555e-5, 30.3574]
- var.V: [4.94066e-324, NaN]
- finished (sample μ = [0.00330828, 0.109512]).</code></pre>
+ERROR: UndefVarError: model not defined</code></pre>
 
 
 <p><a id='Simulation-1'></a></p>
@@ -347,7 +318,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140016647180144])</code></pre>
+Observations([67.0], [139677042944176])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
