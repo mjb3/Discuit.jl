@@ -62,13 +62,13 @@ end
 
 **Fields**
 - `model_name`          -- string, e,g, `"SIR"`.
+- `initial_condition`   -- initial condition
 - `rate_function`       -- event rate function.
 - `m_transition`        -- transition matrix.
-- `t0_index`            -- index of the parameter that represents the initial time. `0` if fixed at `0.0`.
-- `initial_condition`   -- initial condition
 - `obs_function`        -- observation function.
 - `prior_density`       -- prior density function.
-- `observation_model`   -- observation likelihood model.
+- `observation_model`   -- observation model likelihood function.
+- `t0_index`            -- index of the parameter that represents the initial time. `0` if fixed at `0.0`.
 
 A `mutable struct` which represents a DSSCT model (see [Discuit.jl models](@ref) for further details).
 """
@@ -81,14 +81,14 @@ mutable struct DiscuitModel
     rate_function::Function
     # transition matrix
     m_transition::Array{Int64, 2}
-    # t0 index (0 ~ fixed at 0.0)
-    t0_index::Int64
     # observation function (for sim TBA)
     obs_function::Function
     # prior density function
     prior_density::Function
     # observation model (log likelihood)
     observation_model::Function
+    # t0 index (0 ~ fixed at 0.0)
+    t0_index::Int64
 end
 ## JIT private models
 function get_private_model(model::DiscuitModel, obs_data::Observations)

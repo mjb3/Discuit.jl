@@ -71,7 +71,7 @@ function si_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1
     output[1] = parameters[1] * population[1] * population[2]
 end
 # SIR; SIS
-function sir_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
+function sir_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
     output[1] = parameters[1] * population[1] * population[2]
     output[2] = parameters[2] * population[2]
 end
@@ -158,5 +158,5 @@ function generate_model(model_name::String, initial_condition::Array{Int64, 1}, 
     end
     # NEED TO ADD MORE MODELS ******************
     prior = generate_weak_prior(size(m_transition, 1))
-    return DiscuitModel(model_name, initial_condition, rate_fn, m_transition, 0, generate_generic_obs_function(), prior, obs_model)
+    return DiscuitModel(model_name, initial_condition, rate_fn, m_transition, generate_generic_obs_function(), prior, obs_model, 0)
 end

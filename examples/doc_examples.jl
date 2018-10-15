@@ -27,7 +27,7 @@ function pooley()
         return tmp1 - ((obs_diff * obs_diff) / tmp2)
     end
     # define model
-    model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], 0, [100, 1], obs_fn, prior_density, si_gaussian)
+    model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], [100, 1], obs_fn, prior_density, si_gaussian, 0)
 
     ## run sim
     xi = gillespie_sim(model, [0.003, 0.1])
