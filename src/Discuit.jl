@@ -161,17 +161,16 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
         end
     end
 end
+
 """
-    generate_custom_x0(parameters, t_r)
+    generate_custom_x0(model, obs_data, parameters, event_times, event_types)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `obs_data`            -- `Observations` data.
-- `proposal_function`   -- `Function` for proposing changes to the trajectory. NEED TO EXPAND AND XREF...
-- `x0`                  -- `MarkovState` representing the initial sample and trajectory.
-- `steps`               -- number of iterations.
-- `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
-- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
+- `parameters`          -- `Array` of initial model parameters.
+- `event_times`         -- `Array` of floats representing the event times.
+- `event_types`         -- `Array` of integer event types.
 
 Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
