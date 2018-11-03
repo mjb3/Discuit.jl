@@ -120,6 +120,14 @@ end
 
 ## autocorrelation R
 # const AC_LAG_INT = 10       # number of autocorrelation lag intervals
+"""
+    plot_autocorrelation(autocorrelation)
+
+**Parameters**
+- `autocorrelation`     -- The results from a call to `compute_autocorrelation`.
+
+Plot autocorrelation for an MCMC analysis.
+"""
 function plot_autocorrelation(autocorrelation::Array{Float64, 2})
     # build x
     x = zeros(size(autocorrelation, 1))
