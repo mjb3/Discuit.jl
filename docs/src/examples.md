@@ -119,6 +119,12 @@ $\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
 
 NEED TO ADD image ...
 
+```@repl 1
+ac = compute_autocorrelation(rs.mcmc)
+p = plot_autocorrelation(ac)
+print(p)
+```
+
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
 ```
