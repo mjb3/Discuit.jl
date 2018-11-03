@@ -24,7 +24,7 @@ export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanRe
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # model helpers
-export generate_model, generate_gaussian_obs_model, generate_generic_observation_function, generate_weak_prior
+export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
 export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations_from_file, get_observations_from_array
 # visualisation
