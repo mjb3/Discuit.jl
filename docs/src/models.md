@@ -108,13 +108,13 @@ A notable extension of the `SEI` model is the `SEIR`:
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="100"/>
 ```
 
-    Discuit.generate_model("SEIS", [100, 1, 0, 0])
+    Discuit.generate_model("SEIS", [100, 1, 0])
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seis.png" alt="SEIR model" height="100"/>
 ```
 
-    Discuit.generate_model("SEIS", [100, 1, 0, 0])
+    Discuit.generate_model("SEIRS", [100, 1, 0, 0])
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seirs.png" alt="SEIR model" height="100"/>
