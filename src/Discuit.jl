@@ -162,6 +162,7 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
     end
 end
 
+## generate MarkovState based on custom trajectory (helper)
 """
     generate_custom_x0(model, obs_data, parameters, event_times, event_types)
 
@@ -174,7 +175,6 @@ end
 
 Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
-## generate MarkovState based on custom trajectory (helper)
 function generate_custom_x0(model::DiscuitModel, obs_data::Observations, parameters::Array{Float64, 1}, event_times::Array{Float64, 1}, event_types::Array{Int, 1})
     prop = ParameterProposal(parameters, model.prior_density(parameters))
     trajectory = Trajectory(event_times, event_types)
@@ -189,6 +189,7 @@ function get_mv_param(model::PrivateDiscuitModel, g::MvNormal, sclr::Float64, th
     output .+= theta_i
     return ParameterProposal(output, model.prior_density(output))
 end
+
 ## standard trajectory proposal
 # likelihood function
 function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Float64,1}, trajectory::Trajectory)
@@ -314,6 +315,7 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
     ## evaluate full likelihood for trajectory proposal and return
     return MarkovState(xi.parameters, xf_trajectory, compute_full_log_like(model, xi.parameters.value, xf_trajectory), prop_lk, prop_type)
 end # end of std proposal function
+
 ## model based proposal
 # single mbp iteration
 function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
@@ -579,6 +581,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     gw = run_geweke_test(mc, adapt_period)
     return MCMCResults(mc, mc_accepted, mc_bar, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p)
 end
+
 ## convergence diagnostics
 # autocorrelation R
 """
@@ -835,10 +838,8 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     # return results
     return GelmanResults(mu, sre, sre_ll, sre_ul, mcmc)
 end
-## print convergence test results
-# print Geweke results (private)
 
-# print autocorrelation
+## print autocorrelation
 """
     print_autocorrelation(autocorrelation, fpath)
 
@@ -864,7 +865,8 @@ function print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String
         end
     end
 end
-# print Gelman results
+
+## print Gelman results
 """
     print_gelman_results(results::GelmanResults, dpath::String)
 
@@ -891,6 +893,7 @@ function print_gelman_results(results::GelmanResults, dpath::String)
         print_mcmc_results(results.mcmc[i], string(dpath, "mc", i, "/"))
     end
 end
+
 ## print MCMC results to file
 """
     print_mcmc_results(mcmc, dpath)
@@ -955,6 +958,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         end
     end # end of print
 end
+
 ## save trajectory to file
 """
     print_trajectory(model, sim_results, fpath)
@@ -998,6 +1002,7 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
         end
     end # end of print
 end # end of function
+
 ## save observations data to file
 """
     print_observations(obs_data, fpath)
@@ -1024,10 +1029,13 @@ function print_observations(obs_data::Observations, fpath::String)
         end
     end # end of print
 end
+
 ## NEED TO ADD DOCS
 function get_observations_from_dataframe(df)
     return Observations(df[1], df[2:size(df, 2)])
 end
+
+## load observations data from file
 """
     get_observations_from_file(fpath)
 
@@ -1040,6 +1048,7 @@ function get_observations_from_file(fpath::String)
     df = CSV.read(fpath)
     return get_observations_from_dataframe(df)
 end
+
 ## MAKE THIS APPLICABLE TO ALL TYPES? *************
 """
     get_observations_from_array(array)

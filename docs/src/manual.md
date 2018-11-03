@@ -71,8 +71,9 @@ plot_autocorrelation
 
 ### custom MCMC
 
+NEED to add: generate_custom_x0
+
 ```@docs
-generate_custom_x0
 run_custom_mcmc
 run_custom_mcmc_gelman_diagnostic
 ```
