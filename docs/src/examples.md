@@ -134,7 +134,7 @@ print(p)
 
 ### Geweke test of stationarity
 
-The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
+<!-- The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:
 
 $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
 
@@ -374,4 +374,4 @@ Need to add commentary:
 <div id="bibtex_display"></div>
 </body>
 </html>
-```
+``` -->
