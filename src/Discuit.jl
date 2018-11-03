@@ -28,7 +28,7 @@ export generate_model, generate_gaussian_obs_model, generate_generic_observation
 # utilities (e.g. saving results to file0
 export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations_from_file, get_observations_from_array
 # visualisation
-export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_parameter_heatmap, plot_geweke_series
+export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_parameter_heatmap, plot_geweke_series, plot_autocorrelation
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
