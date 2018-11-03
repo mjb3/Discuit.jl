@@ -24,7 +24,7 @@ export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanRe
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # model helpers
-export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
+export generate_model, generate_gaussian_obs_model, generate_generic_observation_function, generate_weak_prior
 # utilities (e.g. saving results to file0
 export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations_from_file, get_observations_from_array
 # visualisation
@@ -92,7 +92,7 @@ function iterate_sim!(model::PrivateDiscuitModel, trajectory::Trajectory, popula
         push!(trajectory.event_type, et)
         # update population
         population .+= model.m_transition[et,:] # event_types[et].v_transition
-        # print("\n t: ", time, ". R: ", cum_rates[end])
+        # println(" t: ", time, ". R: ", cum_rates[end])
     end
 end
 
@@ -118,14 +118,14 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
     # run
-    print("running simulation...\n")
+    println("running simulation...")
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
         iterate_sim!(p_model, trajectory, population, parameters, t_prev, obs_times[i])
-        obs_vals[i,:] .= p_model.obs_function(population)
+        obs_vals[i,:] .= p_model.observation_function(population)
         t_prev = obs_times[i]
     end
-    print(" finished (", length(trajectory.time), " events).\n")
+    println(" finished (", length(trajectory.time), " events).")
     # print trajectory
     population .= p_model.initial_condition
     pop_long = Array{Int64, 2}(undef, length(trajectory.time), length(population))
@@ -146,9 +146,9 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
         output = 0.0    # obs model
         # run
         t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
-        # print("\n t0: ", t_prev)
+        # println(" t0: ", t_prev)
         for i in eachindex(model.obs_data.time)
-            # print("\n period: ", i, ". time: ", t_prev)
+            # println(" period: ", i, ". time: ", t_prev)
             iterate_sim!(model, trajectory, population, parameters, t_prev, model.obs_data.time[i])
             # evaluate log likelihood
             output += model.observation_model(model.obs_data.val[i,:], population)
@@ -209,7 +209,7 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
             ## deal with event
             # event log likelihood
             ll_traj += log(lambda[trajectory.event_type[evt_i]]) - (sum(lambda) * (trajectory.time[evt_i] - t))
-            # evt_i < 4 && print("\n i: ", evt_i, ". ll = ln ", lambda[trajectory.event_type[evt_i]], " - ", sum(lambda), "*", trajectory.time[evt_i] - t ,"=", ll_traj)
+            # evt_i < 4 && println(" i: ", evt_i, ". ll = ln ", lambda[trajectory.event_type[evt_i]], " - ", sum(lambda), "*", trajectory.time[evt_i] - t ,"=", ll_traj)
             # update population and handle -ve (NB. template? check not req'd for MBP)
             population .+= model.m_transition[trajectory.event_type[evt_i],:]
             any(x->x<0, population) && return -Inf
@@ -227,7 +227,7 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
         t = model.obs_data.time[obs_i]
     end
     # model.fc_index > 0 && (population[model.fc_index] == 0 || (log_like = NULL_LOG_LIKE))
-    # print("\n ll: ", ll_traj, " ::: ", ll_obs)
+    # println(" ll: ", ll_traj, " ::: ", ll_obs)
     return ll_traj + ll_obs
 end
 # event type count
@@ -298,7 +298,7 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
         else
             ## delete
-            # print("\n deleting... tp:", tp, " - ec: ", ec)
+            # println(" deleting... tp:", tp, " - ec: ", ec)
             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
             # choose event index (repeat if != tp)
             evt_i = rand(1:length(xi.trajectory.time))
@@ -430,11 +430,10 @@ Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The
 function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("running MCMC...\n")
+    println("running MCMC...")
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
-    # print(string("\nx0 length: ", length(x0.trajectory)))
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-    print(" finished (sample μ = ", output.mean, ").\n")
+    println(" finished (sample μ = ", output.mean, ")")
     return output
 end
 # - custom MH MCMC
@@ -456,9 +455,9 @@ Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`p
 function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    print("running custom MCMC...\n")
+    println("running custom MCMC...")
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
-    print(" finished (sample μ = ", output.mean, ").\n")
+    println(" finished (sample μ = ", output.mean, ").")
     return output
 end
 
@@ -558,13 +557,13 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                 # recalc covar matrix and update g
                 covar = cov(mc[1:i,:])
                 if sum(covar) == 0
-                    print("\nwarning: low acceptance rate detected in adaptation period")
+                    println("warning: low acceptance rate detected in adaptation period")
                 else
                     # t0 stuffs
                     if model.t0_index > 0
                         covar[model.t0_index, model.t0_index] == 0.0 && (covar[model.t0_index, model.t0_index] = 1.0)
                     end
-                    # print("\n covar: ")
+                    # println(" covar: ")
                     # print(covar)
                     g = MvNormal(covar)
                 end
@@ -613,9 +612,7 @@ function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
             # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
         end
     end
-    # print(tmp[1,:])
-    print("\nmu = ", mcmc.mean)
-
+    println("mu = ", mcmc.mean)
     return output
 end
 # autocorrelation R'
@@ -721,19 +718,18 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
     p_model = get_private_model(m_model, obs_data)
     ## initialise Markov chains
     # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
-    print("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)\n")
+    println("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)")
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     for i in eachindex(mcmc)
         x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
-        # print(string("\nx0 length: ", length(x0.trajectory)))
         mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-        print(" chain ", i, " complete.\n")
+        println(" chain ", i, " complete.")
     end
     # REJOIN THREADS HERE **********************
     ## ADD results check
     ## process results and return
     output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
-    print(" finished (sample μ = ", output.mu, ").\n")
+    println(" finished (sample μ = ", output.mu, ").")
     return output
 end
 # for custom MCMC
@@ -756,17 +752,17 @@ Run n (equal to the number of rows in `initial_parameters`) custom MCMC analyses
 function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)
-    print("running custom MCMC gelman diagnostic...\n")
+    println("running custom MCMC gelman diagnostic...")
     ## initialise Markov chains
     mcmc = Array{MCMCResults,1}(undef, length(x0))
     ## CHANGE XO.PARAMS
     for i in eachindex(mcmc)
         mcmc[i] = met_hastings_alg(model, steps, adapt_period, proposal_function, x0[i], prop_param, ppp)
-        print(" chain ", i, " complete.\n")
+        println(" chain ", i, " complete.")
     end
     ## process results and return
     output = gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
-    print(" finished (sample μ = ", output.mu, ").\n")
+    println(" finished (sample μ = ", output.mu, ").")
     return output
 end
 # internal function
@@ -810,18 +806,18 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         vv_b[j] = (2 * b[j] * b[j]) / (length(mcmc) - 1)
         cv_wb[j] = (num_iter / length(mcmc)) * (cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * cov(mcv[:,j], mce[:,j])))
     end
-    print(" vv w: ", vv_w, "\n")
-    print(" vv b: ", vv_b, "\n")
+    println(" vv w: ", vv_w)
+    println(" vv b: ", vv_b)
     # compute d; d_adj (var.V)
     # - SHOULD BENCHMARK PRECOMP **********
     d = Array{Float64, 1}(undef, theta_size)
     dd = Array{Float64, 1}(undef, theta_size)
-    print(" var.V: ", dd, "\n")
+    println(" var.V: ", dd)
     atmp = num_iter - 1
     btmp = 1 + (1 / length(mcmc))
     for j in 1:theta_size
         tmp = ((vv_w[j] * atmp * atmp) + (vv_b[j] * btmp * btmp) + (cv_wb[j] * 2 * atmp * btmp)) / (num_iter * num_iter)
-        # print(" ", tmp)
+        # println(" ", tmp)
         d[j] = (2 * v[j] * v[j]) / tmp
         dd[j] = (d[j] + 3) / (d[j] + 1)
     end
@@ -995,7 +991,7 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
                 evt_i += 1
             end
             # handle observation
-            model.obs_function(population)
+            model.observation_function(population)
             write(f, "\n $(sim_results.observations.time[obs_i]), -1")
             for p in 1:length(population)
                 write(f, ", $(population[p])")

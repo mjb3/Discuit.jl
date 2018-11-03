@@ -65,7 +65,7 @@ end
 - `initial_condition`   -- initial condition
 - `rate_function`       -- event rate function.
 - `m_transition`        -- transition matrix.
-- `obs_function`        -- observation function.
+- `observation_function -- observation function, use this to add 'noise' to simulated observations.
 - `prior_density`       -- prior density function.
 - `observation_model`   -- observation model likelihood function.
 - `t0_index`            -- index of the parameter that represents the initial time. `0` if fixed at `0.0`.
@@ -82,7 +82,7 @@ mutable struct DiscuitModel
     # transition matrix
     m_transition::Array{Int64, 2}
     # observation function (for sim TBA)
-    obs_function::Function
+    observation_function::Function
     # prior density function
     prior_density::Function
     # observation model (log likelihood)
@@ -92,7 +92,7 @@ mutable struct DiscuitModel
 end
 ## JIT private models
 function get_private_model(model::DiscuitModel, obs_data::Observations)
-    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.obs_function, model.prior_density, model.observation_model, obs_data)
+    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.observation_function, model.prior_density, model.observation_model, obs_data)
 end
 # latent observation model
 struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
@@ -105,7 +105,7 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # t0 index (0 ~ fixed at 0.0)
     t0_index::Int64
     # observation function (for sim TBA)
-    obs_function::OFT
+    observation_function::OFT
     # prior density function
     prior_density::PDT
     # observation model (log likelihood)

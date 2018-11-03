@@ -31,7 +31,7 @@ function pooley()
 
     ## run sim
     xi = gillespie_sim(model, [0.003, 0.1])
-    print(length(xi.trajectory.time), "\n")
+    println(length(xi.trajectory.time), "\n")
 end
 
 function pooley_prebaked()
@@ -50,7 +50,7 @@ function pooley_prebaked()
     #
     # ## Diagnostics
     # # geweke
-    # print(" geweke statistics: ", rs.geweke[2][1,:], "\n")
+    # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # # gelman
     rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
     print_gelman_results(rs, "./out/gelman_example/")
@@ -105,7 +105,7 @@ function custom_bobs()
         push!(evt_tp, 2)
     end
     x0 = generate_custom_x0(model, y, [0.001, 0.1, -4.0], evt_tm, evt_tp);
-    print("x0 log like: ", x0.log_like, "\n")
+    println("x0 log like: ", x0.log_like)
 
     ## custom proposal algorithm
     # - IS THERE A MORE EFFICIENT WAY TO DO THIS? I.E. ROTATE using circshift or something?
@@ -144,7 +144,7 @@ function custom_bobs()
     print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
-
+plot_parameter_trace
 # pooley()
 pooley_prebaked()
 # custom_bobs()

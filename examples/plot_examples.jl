@@ -9,7 +9,7 @@ function traj_example()
     ## run sim
     x = gillespie_sim(model, [0.5, 0.0025, 0.3]);
     p = plot_trajectory(x)
-    print(p)
+    println(p)
 end
 
 import HTTP
@@ -50,8 +50,9 @@ function mcmc_example()
 
     ## autocorrelation
     ac = compute_autocorrelation(mcmc)
-    print("ac: ", ac)
-    # p = UnicodePlots.lineplot
+    p = plot_autocorrelation(ac)
+    print(p)
+    # print("ac: ", ac)
 end
 
 # traj_example()

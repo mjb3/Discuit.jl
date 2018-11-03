@@ -58,6 +58,7 @@ function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
     return p
 end
+
 ## marginal
 """
     plot_parameter_marginal(mcmc, parameter)
@@ -75,6 +76,7 @@ function plot_parameter_marginal(mcmc::MCMCResults, parameter::Int64)
     UnicodePlots.xlabel!(p, "samples")
     return p
 end
+
 ## heatmap
 """
     plot_parameter_heatmap(mcmc, x_parameter, y_parameter)
@@ -94,6 +96,7 @@ function plot_parameter_heatmap(mcmc::MCMCResults, x_parameter::Int64, y_paramet
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + y_parameter)))
     return p
 end
+
 ## geweke
 """
     plot_geweke_series(mcmc)
@@ -116,6 +119,27 @@ function plot_geweke_series(mcmc::MCMCResults)
 end
 
 ## autocorrelation R
+# const AC_LAG_INT = 10       # number of autocorrelation lag intervals
+function plot_autocorrelation(autocorrelation::Array{Float64, 2})
+    # build x
+    x = zeros(size(autocorrelation, 1))
+    for i in eachindex(x)
+        x[i] = (i - 1) * AC_LAG_INT
+    end
+    # build y
+    for i in eachindex(autocorrelation)
+        autocorrelation[i] = max(autocorrelation[i], 0)
+    end
+    # plot
+    p = UnicodePlots.lineplot(x, autocorrelation[:,1], title = string("θ autocorrelation"))
+    for i in 2:size(autocorrelation, 2)
+        UnicodePlots.lineplot!(p, x, autocorrelation[:,i])
+    end
+    UnicodePlots.xlabel!(p, "lag")
+    UnicodePlots.ylabel!(p, "R")
+    return p
+end
+
 # single
 # """
 #     plot_autocorrelation(mcmc)

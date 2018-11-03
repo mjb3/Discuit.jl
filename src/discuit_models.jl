@@ -152,7 +152,7 @@ function generate_model(model_name::String, initial_condition::Array{Int64, 1}, 
         rate_fn = lotka_rf
         m_transition = [0 1; 1 -1; -1 0]
     else
-        print("\nERROR: ", model_name, " not recognised.")
+        println("ERROR: ", model_name, " not recognised.")
         # handle this better? ***
         return 0
     end
