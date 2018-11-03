@@ -199,7 +199,7 @@ The simulation can be visualised using `plot_trajectory(xi)`:
 
 Some situations...
 
-First we generate a standard [SIR](@ref) model and set the `t0_index = 3`.
+First we generate a standard `SIR` model and set the `t0_index = 3`.
 
 ```@repl 1
 set_random_seed(1) # hide

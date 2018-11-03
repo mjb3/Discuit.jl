@@ -76,7 +76,7 @@ The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="100"/>
 ```
 
-The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick ([SIR](@ref)) model for diseases which do not confer lasting immunity.
+The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick `SIR` model for diseases which do not confer lasting immunity.
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/>
