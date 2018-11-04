@@ -109,7 +109,7 @@ Plot the Geweke series...
 function plot_geweke_series(mcmc::MCMCResults)
     x = mcmc.geweke[1]
     p = UnicodePlots.scatterplot(x, mcmc.geweke[2][:,1])
-    for i in 2:size(mcmc.geweke[2], 1)
+    for i in 2:size(mcmc.geweke[2], 2)
         UnicodePlots.scatterplot!(p, x, mcmc.geweke[2][:,i])
     end
     UnicodePlots.lineplot!(p, -2.0, 0.0, color = :yellow)

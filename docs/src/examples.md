@@ -121,9 +121,8 @@ $\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
 NEED TO ADD image ...
 
 ```@repl 1
-ac = compute_autocorrelation(rs)
-p = plot_autocorrelation(ac)
-print(p)
+ac = compute_autocorrelation(rs);
+plot_autocorrelation(ac)
 ```
 
 ```@raw html

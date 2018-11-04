@@ -21,7 +21,7 @@ function mcmc_example()
     ## download pooley obs
     res = HTTP.get("https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv")
     df = DelimitedFiles.readdlm(res.body, ','; header=true)
-    y = get_observations_from_array(df[1])
+    y = get_observations(df[1])
 
     ## mcmc
     mcmc = run_met_hastings_mcmc(model, y, [0.003, 0.1])
@@ -38,8 +38,8 @@ function mcmc_example()
     # print(p)
 
     ## geweke plot
-    # p = plot_geweke_series(mcmc)
-    # print(p)
+    p = plot_geweke_series(mcmc)
+    print(p)
 
     # x = mcmc.geweke[1]
     # # print("x: ", x, "\n")
@@ -49,10 +49,9 @@ function mcmc_example()
     # UnicodePlots.lineplot!(p, 2.0, 0.0, color = :yellow)
 
     ## autocorrelation
-    ac = compute_autocorrelation(mcmc)
-    p = plot_autocorrelation(ac)
-    print(p)
-    # print("ac: ", ac)
+    # ac = compute_autocorrelation(mcmc)
+    # p = plot_autocorrelation(ac)
+    # print(p)
 end
 
 # traj_example()
