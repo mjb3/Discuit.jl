@@ -195,18 +195,14 @@ xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 plot_trajectory(xi)
 ```
 
-The maximum time of the simulation and number of observations to draw can also be specified, e.g. `generate_model("LOTKA", [79, 71], 100.0, 10)`. The simulation can be visualised using `plot_trajectory(xi)`:
-
-```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/>
-```
+The maximum time of the simulation and number of observations to draw can also be specified, e.g. `generate_model("LOTKA", [79, 71], 100.0, 10)`.
 
 ## Custom MCMC
 
 In addition to the two proposal algorithms included with the packages by default, Discuit allows for users to develop their own algorithms for data augmented MCMC via the alternative custom MCMC framework, while still taking
 advantage of features including automated, finite adaptive multivariate θ proposals.
 
-First we generate a standard `SIR` model and set the `t0_index = 3`.
+In some cases may wish to simply tweak the proposal algorithms included in the source code repositories for minor performance gains in certain models, but the custom MCMC framework can also be useful in cases where the augmented data aspects of the model have specific or complex constraints, such as the next example which is based on an analysis of a smallpox outbreak within a closed community in Abakaliki, Nigeria by O'Neill and Roberts (ADD CITATION). First we generate a standard `SIR` model and set the `t0_index = 3`:
 
 ```@repl 1
 set_random_seed(1) # hide
@@ -257,7 +253,11 @@ end
 x0 = generate_custom_x0(model, y, [0.001, 0.1, -4.0], evt_tm, evt_tp);
 ```
 
-The final step before we run our analysis is to define the algorithm which will propose changes to augmented data (parameter proposals are automatically configured by Discuit).
+The final step before we run our analysis is to define the algorithm which will propose changes to augmented data (parameter proposals are automatically configured by Discuit). Since it is assumed that the total number of events is known we can construct an algorithm that simply changes the time of an event in the trajectory. Events are chosen and new times drawn from uniform distributions ensuring that:
+
+$g(X_{f \rightarrow i}) = g(X_{i \rightarrow f})$
+
+such that the terms cancel in the Metropolis-Hastings acceptance equation. Some additional information is available regarding the times of recoveries; they are known to within a day. We therefore propose new recovery event times such that they remain within the time frame of a single time unit, which correspond to days in this model:
 
 ```@repl 1
 function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
@@ -297,18 +297,17 @@ We can now run the MCMC analysis:
 rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
 ```
 
-Need to add commentary:
+The output from the custom MCMC functionality is in the same format as the those produced using the core functions and thus be analysed in the same way. In this case the results were saved to file and analysed in R, in the manner described above:
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="220"/>
 ```
 
+The traceplots indicate good mixing and the results are fairly similar to that obtained by O'Neill and Roberts given the differences in the models used.
+
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="220"/>
 ```
-
-
-- link to [`set_random_seed(seed::Int64)`](@ref)
 
 ## References
 
