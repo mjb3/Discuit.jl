@@ -173,7 +173,7 @@ end
 - `event_times`         -- `Array` of floats representing the event times.
 - `event_types`         -- `Array` of integer event types.
 
-Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
+Generate an initial `MarkovState` for use in a custom MCMC algorithm.
 """
 function generate_custom_x0(model::DiscuitModel, obs_data::Observations, parameters::Array{Float64, 1}, event_times::Array{Float64, 1}, event_types::Array{Int, 1})
     prop = ParameterProposal(parameters, model.prior_density(parameters))
@@ -1030,11 +1030,6 @@ function print_observations(obs_data::Observations, fpath::String)
     end # end of print
 end
 
-## NEED TO ADD DOCS
-function get_observations_from_dataframe(df)
-    return Observations(df[1], df[2:size(df, 2)])
-end
-
 ## load observations data from file
 """
     get_observations_from_file(fpath)
@@ -1058,11 +1053,15 @@ end
 
 Create and return a variable of type `Observations` based on a two dimensional array.
 """
-function get_observations_from_array(array::Array{Float64, 2})
+function get_observations(array::Array{Float64, 2})
     # NEED TO FIX WARNING ***
     y = Array{Int64, 2}(undef, size(array, 1), size(array, 2) - 1)
     y .= array[:,2:size(array, 2)]
     return Observations(array[:,1], y)
 end
+function get_observations(df)
+    return Observations(df[1], df[2:size(df, 2)])
+end
+
 
 end # end of module

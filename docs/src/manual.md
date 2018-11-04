@@ -51,8 +51,8 @@ generate_model
 ```@docs
 print_trajectory
 print_observations
+get_observations
 get_observations_from_file
-get_observations_from_array
 print_mcmc_results
 print_gelman_results
 print_autocorrelation
@@ -76,6 +76,7 @@ NEED to add: generate_custom_x0
 ```@docs
 run_custom_mcmc
 run_custom_mcmc_gelman_diagnostic
+generate_custom_x0
 ```
 
 ## Index
