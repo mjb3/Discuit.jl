@@ -215,7 +215,7 @@ ylabel(&quot;density&quot;)</code></pre>
 <p>A pairwise representation can be produced by calling <code>plot_parameter_heatmap</code> (see below for an example).</p>
 <p><a id='Autocorrelation-1'></a></p>
 <h2 id="autocorrelation">Autocorrelation</h2>
-<p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation(rs.mcmc)</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
+<p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
 <p>
 <script type="math/tex; mode=display">
 R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
@@ -233,14 +233,73 @@ R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sig
 </script>
 </p>
 <p>NEED TO ADD image ...</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; ac = compute_autocorrelation(rs.mcmc)
-ERROR: type MCMCResults has no field mcmc
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; ac = compute_autocorrelation(rs)
+mu = [0.00342388, 0.11487]
+201×2 Array{Float64,2}:
+  0.999975    0.999975
+  0.978883    0.982691
+  0.960115    0.967129
+  0.942324    0.952159
+  0.925324    0.937872
+  0.909363    0.924751
+  0.893374    0.911469
+  0.877424    0.898126
+  0.86108     0.884304
+  0.844215    0.870004
+  ⋮
+ -0.0524794  -0.029821
+ -0.0534018  -0.0314974
+ -0.0545796  -0.0333193
+ -0.0554455  -0.0348109
+ -0.0564408  -0.0364807
+ -0.0578397  -0.0388771
+ -0.0590324  -0.0411647
+ -0.0606585  -0.0437381
+ -0.0625988  -0.0465779
 
 julia&gt; p = plot_autocorrelation(ac)
-ERROR: UndefVarError: ac not defined
+                   θ autocorrelation
+       ┌────────────────────────────────────────┐
+     1 │⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠈⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠙⡷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠘⢎⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠑⣍⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠈⠳⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+   R   │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠮⣗⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢗⡦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠳⠶⢦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀│
+     0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢷⣦⣀⣀⣀⣀⣀│
+       └────────────────────────────────────────┘
+       0                                     2000
+                          lag
 
 julia&gt; print(p)
-ERROR: UndefVarError: p not defined</code></pre>
+                   θ autocorrelation
+       ┌────────────────────────────────────────┐ 
+     1 │⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠈⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠙⡷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠘⢎⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠑⣍⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠈⠳⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+   R   │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠮⣗⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢗⡦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ 
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠳⠶⢦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀│ 
+     0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢷⣦⣀⣀⣀⣀⣀│ 
+       └────────────────────────────────────────┘ 
+       0                                     2000
+                          lag</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
@@ -299,7 +358,7 @@ running gelman diagnostic... (3 chains)
  chain 3 complete.
  vv w: [2.14888e-13, 4.18479e-7]
  vv b: [1.96555e-5, 30.3574]
- var.V: [4.94066e-324, NaN]
+ var.V: [NaN, 4.94066e-324]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
@@ -356,7 +415,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140606421966832])</code></pre>
+Observations([67.0], [0])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
