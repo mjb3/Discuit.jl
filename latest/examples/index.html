@@ -90,7 +90,6 @@
         <li class="main active"><a href="#discuitjl-examples">Discuit.jl examples</a></li>
             <li><a href="#defining-a-model">Defining a model</a></li>
             <li><a href="#mcmc">MCMC</a></li>
-            <li><a href="#autocorrelation">Autocorrelation</a></li>
             <li><a href="#convergence-diagnostics">Convergence diagnostics</a></li>
             <li><a href="#simulation">Simulation</a></li>
             <li><a href="#custom-mcmc">Custom MCMC</a></li>
@@ -214,7 +213,7 @@ ylabel(&quot;density&quot;)</code></pre>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/marginals.png" alt="MCMC traceplots" height="240"/></p>
 <p>A pairwise representation can be produced by calling <code>plot_parameter_heatmap</code> (see below for an example).</p>
 <p><a id='Autocorrelation-1'></a></p>
-<h2 id="autocorrelation">Autocorrelation</h2>
+<h3 id="autocorrelation">Autocorrelation</h3>
 <p>Autocorrelation can be used to help determine how well the algorithm mixed by using <code>compute_autocorrelation</code>. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:</p>
 <p>
 <script type="math/tex; mode=display">
@@ -232,7 +231,6 @@ R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sig
 \sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]
 </script>
 </p>
-<p>NEED TO ADD image ...</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; ac = compute_autocorrelation(rs);
 mu = [0.00342388, 0.11487]
 
@@ -259,9 +257,10 @@ julia&gt; plot_autocorrelation(ac)
                           lag</code></pre>
 
 
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/></p>
+<p>Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace <code>rs</code> with the results of a call to <code>run_gelman_diagnostic</code>.</p>
 <p><a id='Convergence-diagnostics-1'></a></p>
 <h2 id="convergence-diagnostics">Convergence diagnostics</h2>
+<p>The goal of an MCMC analysis is to construct a Markov chain that has the target distribution as its equilibrium distribution, i.e. it has converged. However assessing whether this is the case can be challenging since we do not know the target distribution. Visual inspection of the Markov chain may not be sufficient to diagnose convergence, particularly where the target distribution has local optima. Automated convergence diagnostics are therefore integrated closely with the MCMC functionality in Discuit; the Geweke test for single chains and the Gelman-Rubin for multiple chains. Just like autocorrelation, the latter, provided that the chains have been initialised with over dispersed parameters (with respect to the target distribution), provides a more reliable indication of algorithm performance (in this case, convergence).</p>
 <p><a id='Geweke-test-of-stationarity-1'></a></p>
 <h3 id="geweke-test-of-stationarity">Geweke test of stationarity</h3>
 <p>The Geweke statistic tests for non-stationarity by comparing the mean and variance for two sections of the Markov chain (see Geweke, 1992; Cowles, 1996). It is given by:</p>
@@ -270,6 +269,7 @@ julia&gt; plot_autocorrelation(ac)
 z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}
 </script>
 </p>
+<p>Geweke statistics are computed automatically for analyses run in Discuit and can be accessed directly (i.e. <code>rs.geweke</code>) or else inspected using one of the built in tools, e.g:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_geweke_series(rs)
         ┌────────────────────────────────────────┐
       2 │⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉│
@@ -291,7 +291,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
         0                                    20000</code></pre>
 
 
-<p>The results of MCMC analyses can also be saved to file for analysis in the companion <a href="https://mjb3.github.io/Discuit/">R package</a>. In Julia, run:</p>
+<p>Note that the results of MCMC analyses, including Geweke statistics, can be saved to file for analysis in the companion <a href="https://mjb3.github.io/Discuit/">R package</a>. In Julia, run:</p>
 <pre class="codehilite"><code>print_mcmc_results(rs, &quot;path/to/mcmc/data/&quot;)</code></pre>
 
 
@@ -332,23 +332,48 @@ running gelman diagnostic... (3 chains)
  chain 3 complete.
  vv w: [2.14888e-13, 4.18479e-7]
  vv b: [1.96555e-5, 30.3574]
- var.V: [4.94066e-324, NaN]
+ var.V: [NaN, 4.94066e-324]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
 <p><a id='Simulation-1'></a></p>
 <h2 id="simulation">Simulation</h2>
-<p>ADD SIM BLURB <code>generate_model("LOTKA", [79, 71])</code>.</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
+<p>The main purpose of the simulation functionality included in Discuit is to provide a source of simulated observations data for evaluation and validation of the MCMC functionality. However simulation can also be an interesting way to explore and better understand the dynamics of the model.</p>
+<p>To produce the Lotka-Volterra example given in the paper use:</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = generate_model(&quot;LOTKA&quot;, [79, 71]);
+
+julia&gt; xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
 running simulation...
- finished (17520 events).</code></pre>
+ finished (17520 events).
+
+julia&gt; plot_trajectory(xi)
+                                PN simulation
+                  ┌────────────────────────────────────────┐
+              500 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ P
+                  │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│ N
+                  │⠀⠀⠀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+                  │⠀⠀⢸⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+                  │⠀⠀⢸⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀│
+                  │⠀⢀⢸⢸⡀⠀⠀⠀⠀⠀⢰⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠇⡇⠀⠀⠀⠀⣷⠀⠀⠀│
+                  │⠀⢸⡏⠀⡇⠀⠀⠀⠀⠀⡟⢹⡀⠀⠀⠀⠀⠀⣶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⣇⠀⠀⠀⢰⠿⡄⠀⠀│
+   population     │⠀⡞⣧⠀⣇⠀⠀⠀⠀⢠⠇⠀⡇⠀⠀⠀⠀⢸⠙⡇⠀⠀⢸⢶⣴⡄⠀⠀⢠⣾⠀⢸⠀⠀⠀⣸⠀⡇⠀⠀│
+                  │⠀⡇⣿⠀⢸⠀⠀⠀⠀⣿⡀⠀⢳⠀⠀⠀⢀⡼⠀⢳⠀⠀⡏⠈⠁⢳⠀⠀⢸⣿⡄⠸⡄⠀⣰⣻⠀⢹⠀⠀│
+                  │⠀⣇⣿⠀⠈⣧⠀⠀⣸⣻⣧⠀⢸⡄⠀⠀⣸⢧⠀⢸⡄⢠⡇⠀⠀⠘⡇⠀⡞⡇⡇⠀⣇⠀⡏⡏⡇⠈⡇⠀│
+                  │⢸⢹⢸⠀⠀⠘⣇⢀⣯⡇⢸⡀⠀⢳⣠⢶⠟⠸⡄⠀⢿⣾⢷⢀⠀⠀⢧⠀⣷⠃⡇⠀⢸⢀⣷⠃⡇⠀⢹⡀│
+                  │⢸⢸⠈⡇⠀⠀⠸⣾⠟⠁⠈⣇⠀⠀⢻⡟⠀⠀⢧⠀⢀⡇⠘⠻⣦⠀⠘⢾⡿⠀⢧⠀⠘⣾⡾⠀⢧⠀⠀⢳│
+                  │⣏⡞⠀⣇⠀⠀⢀⡟⠀⠀⠀⢹⡀⢰⠋⠀⠀⠀⠘⡆⡾⠀⠀⠀⠸⣆⣴⠏⠀⠀⢸⠀⢀⡿⠃⠀⠸⡄⢀⣰│
+                  │⠈⠀⠀⠹⡴⠟⠞⠀⠀⠀⠀⠀⠳⠏⠀⠀⠀⠀⠀⠛⠃⠀⠀⠀⠀⠈⠁⠀⠀⠀⠈⢧⡟⠀⠀⠀⠀⠳⠞⠁│
+                0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+                  └────────────────────────────────────────┘
+                  0                                      100
+                                    time</code></pre>
 
 
-<p>The simulation can be visualised using <code>plot_trajectory(xi)</code>:</p>
+<p>The maximum time of the simulation and number of observations to draw can also be specified, e.g. <code>generate_model("LOTKA", [79, 71], 100.0, 10)</code>. The simulation can be visualised using <code>plot_trajectory(xi)</code>:</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/></p>
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
-<p>Some situations...</p>
+<p>In addition to the two proposal algorithms included with the packages by default, Discuit allows for users to develop their own algorithms for data augmented MCMC via the alternative custom MCMC framework, while still taking advantage of features including automated, finite adaptive multivariate θ proposals.</p>
 <p>First we generate a standard <code>SIR</code> model and set the <code>t0_index = 3</code>.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
 
@@ -389,7 +414,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [0])</code></pre>
+Observations([67.0], [140491054402416])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
