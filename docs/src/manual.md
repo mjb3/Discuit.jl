@@ -52,7 +52,6 @@ generate_model
 print_trajectory
 print_observations
 get_observations
-get_observations_from_file
 print_mcmc_results
 print_gelman_results
 print_autocorrelation

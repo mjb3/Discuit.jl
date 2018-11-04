@@ -42,10 +42,8 @@ function pooley_prebaked()
     xi = gillespie_sim(model, [0.003,0.1]);
 
     ## MCMC
-    obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-    # print_observations(obs, "./docs/data/pooley.csv")
-    obs = get_observations_from_file("./data/pooley.csv")
-    df = CSV.read("./data/pooley.csv")
+    # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
+    obs = get_observations("./data/pooley.csv")
     # rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
     # # print
     # print_mcmc_results(rs, "./out/doc/mcmc_example/")
@@ -146,7 +144,7 @@ function custom_bobs()
     print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
-plot_parameter_trace
+# plot_parameter_trace
 # pooley()
 pooley_prebaked()
 # custom_bobs()
