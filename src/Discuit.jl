@@ -27,7 +27,7 @@ export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrel
 # model helpers
 export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
-export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations, get_observations_from_file
+export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations
 # visualisation
 export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_parameter_heatmap, plot_geweke_series, plot_autocorrelation
 # custom functionality (in development)
@@ -1031,31 +1031,16 @@ function print_observations(obs_data::Observations, fpath::String)
     end # end of print
 end
 
-## load observations data from file
-"""
-    get_observations_from_file(fpath)
-
-**Parameters**
-- `fpath`       -- the destination file path.
-
-Read a set of observations from the location `fpath` and return the results as a variable of type `Observations`.
-"""
-function get_observations_from_file(fpath::String)
-    df = CSV.read(fpath)
-    return get_observations(df)
-end
-
-## MAKE THIS APPLICABLE TO ALL TYPES? *************
+## get observations data from object or file location
 """
     get_observations(source)
 
 **Parameters**
-- `source`      -- `Array` or `Dataframe` containing the data (with times in the first column).
+- `source`      -- `Array`, `DataFrame` or filepath (i.e. `String`) containing the data (with times in the first column).
 
-Create and return a variable of type `Observations` based on a two dimensional array.
+Create and return a variable of type `Observations` based on a two dimensional array, `DataFrame` or file location.
 """
 function get_observations(array::Array{Float64, 2})
-    # NEED TO FIX WARNING ***
     y = Array{Int64, 2}(undef, size(array, 1), size(array, 2) - 1)
     y .= array[:,2:size(array, 2)]
     return Observations(array[:,1], y)
@@ -1063,6 +1048,9 @@ end
 function get_observations(df::DataFrames.DataFrame)
     return Observations(df[1], df[2:size(df, 2)])
 end
-
+function get_observations(fpath::String)
+    df = CSV.read(fpath)
+    return get_observations(df)
+end
 
 end # end of module
