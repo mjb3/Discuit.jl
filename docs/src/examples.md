@@ -102,7 +102,7 @@ Plotting the data with third party packages such as PyPlot is simple:
 
 A pairwise representation can be produced by calling `plot_parameter_heatmap` (see below for an example).
 
-## Autocorrelation
+### Autocorrelation
 
 Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
@@ -118,18 +118,20 @@ R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sig
 
 $\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
 
-NEED TO ADD image ...
-
 ```@repl 1
 ac = compute_autocorrelation(rs);
 plot_autocorrelation(ac)
 ```
 
-```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis-sim.png" alt="SIS simulation" height="180"/>
-```
+Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace `rs` with the results of a call to `run_gelman_diagnostic`.
 
 ## Convergence diagnostics
+
+The goal of an MCMC analysis is to construct a Markov chain that has the target distribution as its equilibrium
+distribution, i.e. it has converged. However assessing whether this is the case can be challenging since we do not
+know the target distribution. Visual inspection of the Markov chain may not be sufficient to diagnose convergence,
+particularly where the target distribution has local optima. Automated convergence diagnostics are therefore
+integrated closely with the MCMC functionality in Discuit; the Geweke test for single chains and the Gelman-Rubin for multiple chains. Just like autocorrelation, the latter, provided that the chains have been initialised with over dispersed parameters (with respect to the target distribution), provides a more reliable indication of algorithm performance (in this case, convergence).
 
 ### Geweke test of stationarity
 
@@ -137,11 +139,13 @@ The Geweke statistic tests for non-stationarity by comparing the mean and varian
 
 $z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{i, \alpha})+Var(\theta_{i, \beta})})}$
 
+Geweke statistics are computed automatically for analyses run in Discuit and can be accessed directly (i.e. `rs.geweke`) or else inspected using one of the built in tools, e.g:
+
 ```@repl 1
 plot_geweke_series(rs)
 ```
 
-The results of MCMC analyses can also be saved to file for analysis in the companion [R package](https://mjb3.github.io/Discuit/). In Julia, run:
+Note that the results of MCMC analyses, including Geweke statistics, can be saved to file for analysis in the companion [R package](https://mjb3.github.io/Discuit/). In Julia, run:
 
     print_mcmc_results(rs, "path/to/mcmc/data/")
 
@@ -180,15 +184,18 @@ ac = compute_autocorrelation(rs.mcmc); # hide
 
 ## Simulation
 
-ADD SIM BLURB `generate_model("LOTKA", [79, 71])`.
+The main purpose of the simulation functionality included in Discuit is to provide a source of simulated observations data for evaluation and validation of the MCMC functionality. However simulation can also be an interesting way to explore and better understand the dynamics of the model.
+
+To produce the Lotka-Volterra example given in the paper use:
 
 ```@repl 1
 set_random_seed(1); # hide
-model = generate_model("LOTKA", [79, 71]); # hide
+model = generate_model("LOTKA", [79, 71]);
 xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
+plot_trajectory(xi)
 ```
 
-The simulation can be visualised using `plot_trajectory(xi)`:
+The maximum time of the simulation and number of observations to draw can also be specified, e.g. `generate_model("LOTKA", [79, 71], 100.0, 10)`. The simulation can be visualised using `plot_trajectory(xi)`:
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/>
@@ -196,7 +203,8 @@ The simulation can be visualised using `plot_trajectory(xi)`:
 
 ## Custom MCMC
 
-Some situations...
+In addition to the two proposal algorithms included with the packages by default, Discuit allows for users to develop their own algorithms for data augmented MCMC via the alternative custom MCMC framework, while still taking
+advantage of features including automated, finite adaptive multivariate θ proposals.
 
 First we generate a standard `SIR` model and set the `t0_index = 3`.
 
