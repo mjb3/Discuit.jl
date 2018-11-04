@@ -1059,7 +1059,7 @@ function get_observations(array::Array{Float64, 2})
     y .= array[:,2:size(array, 2)]
     return Observations(array[:,1], y)
 end
-function get_observations(df::Dataframe)
+function get_observations(df::Dataframes.Dataframe)
     return Observations(df[1], df[2:size(df, 2)])
 end
 
