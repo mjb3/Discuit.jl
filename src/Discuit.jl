@@ -1041,15 +1041,15 @@ Read a set of observations from the location `fpath` and return the results as a
 """
 function get_observations_from_file(fpath::String)
     df = CSV.read(fpath)
-    return get_observations_from_dataframe(df)
+    return get_observations(df)
 end
 
 ## MAKE THIS APPLICABLE TO ALL TYPES? *************
 """
-    get_observations_from_array(array)
+    get_observations(source)
 
 **Parameters**
-- `array`       -- the data (with times in the first column).
+- `source`      -- `Array` or `Dataframe` containing the data (with times in the first column).
 
 Create and return a variable of type `Observations` based on a two dimensional array.
 """
@@ -1059,7 +1059,7 @@ function get_observations(array::Array{Float64, 2})
     y .= array[:,2:size(array, 2)]
     return Observations(array[:,1], y)
 end
-function get_observations(df)
+function get_observations(df::Dataframe)
     return Observations(df[1], df[2:size(df, 2)])
 end
 
