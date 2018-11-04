@@ -162,7 +162,7 @@ end</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="100"/></p>
-<p>The susceptible-infectious-susceptible (<code>"SIS"</code>) model is an extension of the classic Kermack-McKendrick (<a href="../@ref">SIR</a>) model for diseases which do not confer lasting immunity.</p>
+<p>The susceptible-infectious-susceptible (<code>"SIS"</code>) model is an extension of the classic Kermack-McKendrick <code>SIR</code> model for diseases which do not confer lasting immunity.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/></p>
 <pre class="codehilite"><code>Discuit.generate_model(&quot;SIRS&quot;, [100, 1, 0])</code></pre>
 
@@ -181,11 +181,11 @@ end</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seir.png" alt="SEIR model" height="100"/></p>
-<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIS&quot;, [100, 1, 0, 0])</code></pre>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIS&quot;, [100, 1, 0])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seis.png" alt="SEIR model" height="100"/></p>
-<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIS&quot;, [100, 1, 0, 0])</code></pre>
+<pre class="codehilite"><code>Discuit.generate_model(&quot;SEIRS&quot;, [100, 1, 0, 0])</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/seirs.png" alt="SEIR model" height="100"/></p>

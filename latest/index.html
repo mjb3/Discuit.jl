@@ -103,14 +103,15 @@
 <blockquote>
 <p>Please note that this package is still in development.</p>
 </blockquote>
-<p>Discrete state space continuous time (DSSCT) models are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. Such models can be used to gain insights into biological parameters and processes that are difficult to directly observe. The augmented data MCMC methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:</p>
+<p>Discuit is a package for Bayesian inference in Discrete state space continuous time (DSSCT) models. DSSCT models, sometimes referred to as compartmental models, are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. They are a well established research tool in fields including physics, chemistry and ecology. Their use in scientific research typically involves the challenge of comparing ‘noisy’ experimental or observational data to the unobserved (i.e. latent) underlying processes described by the model. Bayes’ theorem provides a convenient framework for dealing with uncertainty in the data. The Bayesian framework also provide a natural, methodologically consistent way of incorporating existing scientific knowledge of the system; the prior distribution of the model parameters</p>
+<p>The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:</p>
 <p>
 <script type="math/tex; mode=display">
 \pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)
 </script>
 </p>
-<p>The main purpose of the Discuit package is to provide a framework for Bayesian inference on DSSCT models using data augmented MCMC. See <a href="mcmc_intro/mcmc_intro.md#Introduction-to-MCMC-1">Introduction to MCMC</a> for a basic introduction to MCMC and <a href="monte_carlo_intro/monte_carlo_intro.md#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a> for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative <a href="manual/#custom-MCMC-1">custom MCMC</a> framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). <a href="examples/#Simulation-1">Simulation</a> via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.</p>
-<p>See the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section for an introduction to the aforementioned functionality and the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of data types and functions. See the <a href="https://mjb3.github.io/Discuit/">Discuit in R</a> package documentation for a description of the equivalent functionality in that package. Some inline maths: $\sqrt[n]{1 + x + x^2 + \ldots}$.</p>
+<p>See <a href="mcmc_intro/mcmc_intro.md#Introduction-to-MCMC-1">Introduction to MCMC</a> for a basic introduction to MCMC and <a href="monte_carlo_intro/monte_carlo_intro.md#Introduction-to-Monte-Carlo-methods-1">Introduction to Monte Carlo methods</a> for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative <a href="manual/#custom-MCMC-1">custom MCMC</a> framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). <a href="examples/#Simulation-1">Simulation</a> via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.</p>
+<p>See the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section for an introduction to the aforementioned functionality and the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of data types and functions. See the <a href="https://mjb3.github.io/Discuit/">Discuit in R</a> package documentation for a description of the equivalent functionality in that package.</p>
 <p><a id='Package-features-1'></a></p>
 <h2 id="package-features">Package features</h2>
 <p><a id='Discuit' href='#Discuit'>#</a>
@@ -125,7 +126,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ffb23ee6e003b0574ade3964026eac01c8f637e9/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/3efd25d9ea02adf37ffb08ff682d7fbfda854367/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
 <p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
@@ -148,7 +149,7 @@ running simulation...
 <p>We can now run an MCMC analysis using observations data from <code>x</code>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; s = run_met_hastings_mcmc(model, x.observations, [0.0025, 0.12]);
 running MCMC...
- finished (sample μ = [0.00360464, 0.129626]).</code></pre>
+ finished (sample μ = [0.00360464, 0.129626])</code></pre>
 
 
 <p><a id='Further-usage-1'></a></p>
@@ -246,5 +247,5 @@ running MCMC...
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-10-15 00:11:58
+Build Date UTC : 2018-11-04 04:57:21
 -->
