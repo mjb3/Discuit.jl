@@ -17,6 +17,7 @@ module Discuit
 using Distributions
 import Random
 import CSV
+import DataFrames
 
 ## exports
 # public structs
