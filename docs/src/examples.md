@@ -104,7 +104,7 @@ A pairwise representation can be produced by calling `plot_parameter_heatmap` (s
 
 ## Autocorrelation
 
-Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation(rs.mcmc)`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
+Autocorrelation can be used to help determine how well the algorithm mixed by using `compute_autocorrelation`. The autocorrelation function for a single Markov chain is implemented in Discuit using the standard formula:
 
 ```math
 R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
@@ -121,7 +121,7 @@ $\sigma^2_b = \textrm{E} [(X_i - \bar{X}_b)^2]$
 NEED TO ADD image ...
 
 ```@repl 1
-ac = compute_autocorrelation(rs.mcmc)
+ac = compute_autocorrelation(rs)
 p = plot_autocorrelation(ac)
 print(p)
 ```
