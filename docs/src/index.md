@@ -10,7 +10,7 @@ The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discui
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
-See [Introduction to MCMC][https://mjb3.github.io/Discuit/articles/monte_carlo_intro/monte_carlo_intro.html] for a basic introduction to MCMC and [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/mcmc_intro/mcmc_intro.html) for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
+See [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/monte_carlo_intro/mcmc_intro.html) for a basic introduction to MCMC and [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/mcmc_intro/monte_carlo_intro.html) for an overview of random sampling generally. Two algorithms for making proposals to the augmented data space are shipped with the package, with user defined implementations made possible via an alternative [custom MCMC](@ref) framework. Automated tools for analysis and convergence diagnostics include autocorrelation, the Geweke test of stationarity and the Gelman-Rubin diagnostic for multiple Markov chains (a convenient way to run analyses where more than one processor thread is available for use). [Simulation](@ref) via the Gillespie direct method provides a source of simulated observations data for evaluation and validation of the core inference functionality.
 
 See the [Discuit.jl models](@ref) section for a guide to the pre defined model library and the [Discuit.jl manual](@ref) for a description of types and functions. See the [Discuit in R](https://mjb3.github.io/Discuit/) package documentation for a description of the equivalent functionality in that package.
 
@@ -51,7 +51,10 @@ More examples can be found in the section [Discuit.jl examples](@ref), including
 
 ## Tutorials
 
-* [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/monte_carlo_intro/monte_carlo_intro.html): a beginner's guide in Python.
-* A basic [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/mcmc_intro/mcmc_intro.html) methods in Python.
+* [Introduction to Monte Carlo methods][mc_intro]: a beginner's guide in Python.
+* A basic [Introduction to MCMC][mcmc_intro] methods in Python.
 * [Discuit.jl examples](@ref): an introduction to MCMC and simulation in [Discuit.jl](@ref) for Julia.
 * See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/articles/examples.html) for R examples.
+
+[mc_intro]: https://mjb3.github.io/Discuit/articles/mcmc_intro/monte_carlo_intro.html
+[mcmc_intro]: https://mjb3.github.io/Discuit/articles/monte_carlo_intro/mcmc_intro.html
