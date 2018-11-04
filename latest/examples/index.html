@@ -332,7 +332,7 @@ running gelman diagnostic... (3 chains)
  chain 3 complete.
  vv w: [2.14888e-13, 4.18479e-7]
  vv b: [1.96555e-5, 30.3574]
- var.V: [NaN, 4.94066e-324]
+ var.V: [4.94066e-324, NaN]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
@@ -369,12 +369,11 @@ julia&gt; plot_trajectory(xi)
                                     time</code></pre>
 
 
-<p>The maximum time of the simulation and number of observations to draw can also be specified, e.g. <code>generate_model("LOTKA", [79, 71], 100.0, 10)</code>. The simulation can be visualised using <code>plot_trajectory(xi)</code>:</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/lotka_sim.png" alt="Lotka Volterra simulation" height="240"/></p>
+<p>The maximum time of the simulation and number of observations to draw can also be specified, e.g. <code>generate_model("LOTKA", [79, 71], 100.0, 10)</code>.</p>
 <p><a id='Custom-MCMC-1'></a></p>
 <h2 id="custom-mcmc">Custom MCMC</h2>
 <p>In addition to the two proposal algorithms included with the packages by default, Discuit allows for users to develop their own algorithms for data augmented MCMC via the alternative custom MCMC framework, while still taking advantage of features including automated, finite adaptive multivariate θ proposals.</p>
-<p>First we generate a standard <code>SIR</code> model and set the <code>t0_index = 3</code>.</p>
+<p>In some cases may wish to simply tweak the proposal algorithms included in the source code repositories for minor performance gains in certain models, but the custom MCMC framework can also be useful in cases where the augmented data aspects of the model have specific or complex constraints, such as the next example which is based on an analysis of a smallpox outbreak within a closed community in Abakaliki, Nigeria by O'Neill and Roberts (ADD CITATION). First we generate a standard <code>SIR</code> model and set the <code>t0_index = 3</code>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; model = generate_model(&quot;SIR&quot;, [119, 1, 0]);
 
 julia&gt; model.t0_index = 3;</code></pre>
@@ -414,7 +413,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140491054402416])</code></pre>
+Observations([67.0], [140682978773872])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
@@ -435,7 +434,13 @@ julia&gt; for i in eachindex(t)     # recoveries
 julia&gt; x0 = generate_custom_x0(model, y, [0.001, 0.1, -4.0], evt_tm, evt_tp);</code></pre>
 
 
-<p>The final step before we run our analysis is to define the algorithm which will propose changes to augmented data (parameter proposals are automatically configured by Discuit).</p>
+<p>The final step before we run our analysis is to define the algorithm which will propose changes to augmented data (parameter proposals are automatically configured by Discuit). Since it is assumed that the total number of events is known we can construct an algorithm that simply changes the time of an event in the trajectory. Events are chosen and new times drawn from uniform distributions ensuring that:</p>
+<p>
+<script type="math/tex; mode=display">
+g(X_{f \rightarrow i}) = g(X_{i \rightarrow f})
+</script>
+</p>
+<p>such that the terms cancel in the Metropolis-Hastings acceptance equation. Some additional information is available regarding the times of recoveries; they are known to within a day. We therefore propose new recovery event times such that they remain within the time frame of a single time unit, which correspond to days in this model:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function custom_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
            t0 = xf_parameters.value[model.t0_index]
            ## move
@@ -474,12 +479,10 @@ running custom MCMC...
  finished (sample μ = [0.000993775, 0.104761, -3.18788]).</code></pre>
 
 
-<p>Need to add commentary:</p>
+<p>The output from the custom MCMC functionality is in the same format as the those produced using the core functions and thus be analysed in the same way. In this case the results were saved to file and analysed in R, in the manner described above:</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_trace.png" alt="SIR traceplots" height="220"/></p>
+<p>The traceplots indicate good mixing and the results are fairly similar to that obtained by O'Neill and Roberts given the differences in the models used.</p>
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/cmcmc_geweke_hm.png" alt="SIR traceplots" height="220"/></p>
-<ul>
-<li>link to <a href="../manual/#Discuit.set_random_seed"><code>set_random_seed(seed::Int64)</code></a></li>
-</ul>
 <p><a id='References-1'></a></p>
 <h2 id="references">References</h2>
 <p><html>
