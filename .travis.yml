@@ -2,7 +2,7 @@ language: julia
 jobs:
   include:
     - stage: "Documentation"
-      julia: 1.0
+      julia: nightly
       # matrix:
       #   - PYTHON=Conda-python
       os: linux
