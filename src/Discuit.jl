@@ -21,7 +21,7 @@ import DataFrames
 
 ## exports
 # public structs
-export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanResults
+export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanResults, AutocorrelationResults
 # core functionality
 export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
 # model helpers
