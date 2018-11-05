@@ -114,7 +114,7 @@ model = generate_model(&quot;SEIR&quot;, [100, 0, 1, 0]], 1.0)</code></pre>
 
 <p><a id='Defaults-1'></a></p>
 <h3 id="defaults">Defaults</h3>
-<p><a href="./#Discuit.jl-models-1">Discuit.jl models</a> are <code>mutable struct</code>s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the 'model*name' and <code>initial*condition</code>are required to call<code>generate_model</code>. The following gives an overview of important defaults that the user should note before proceeding with their analysis.</p>
+<p><a href="./#Discuit.jl-models-1">Discuit.jl models</a> are <code>mutable struct</code>s so it is convenient to generate pre defined models with default values for most things and overwrite as required. Only the <code>model_name</code> and <code>initial_condition</code> are required to call <code>generate_model</code>. The following gives an overview of important defaults that the user should note before proceeding with their analysis.</p>
 <p><a id='Observation-function-1'></a></p>
 <h4 id="observation-function">Observation function</h4>
 <p>The default <code>model.obs_function</code> returns a vector representing the state of the system at obsertion time $t_y$, i.e.:</p>

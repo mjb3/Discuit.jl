@@ -104,7 +104,7 @@
 <p>Please note that this package is still in development.</p>
 </blockquote>
 <p>Discuit is a package for Bayesian inference in Discrete state space continuous time (DSSCT) models. DSSCT models, sometimes referred to as compartmental models, are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. They are a well established research tool in fields including physics, chemistry and ecology. Their use in scientific research typically involves the challenge of comparing ‘noisy’ experimental or observational data to the unobserved (i.e. latent) underlying processes described by the model. Bayes’ theorem provides a convenient framework for dealing with uncertainty in the data. The Bayesian framework also provide a natural, methodologically consistent way of incorporating existing scientific knowledge of the system; the prior distribution of the model parameters</p>
-<p>The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:</p>
+<p>The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discuit work by introducing a latent variable $\xi$ to the model likelihood function which represents the sequence of events in a single realisation of the model:</p>
 <p>
 <script type="math/tex; mode=display">
 \pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)
@@ -126,7 +126,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/47f81ea89e849d745b13fed16fbe7af0694f27c1/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/fdfe3fc31f92a982769af300b37036668db4b1a5/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
 <p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
@@ -158,12 +158,11 @@ running MCMC...
 <p><a id='Tutorials-1'></a></p>
 <h2 id="tutorials">Tutorials</h2>
 <ul>
-<li>[Introduction to Monte Carlo methods][mc_intro]: a beginner's guide in Python.</li>
-<li>A basic [Introduction to MCMC][mcmc_intro] methods in Python.</li>
+<li><a href="https://mjb3.github.io/Discuit/articles/mcmc_intro/monte_carlo_intro.html">Introduction to Monte Carlo methods</a>: a beginner's guide in Python.</li>
+<li>A basic <a href="https://mjb3.github.io/Discuit/articles/monte_carlo_intro/mcmc_intro.html">Introduction to MCMC</a> methods in Python.</li>
 <li><a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a>: an introduction to MCMC and simulation in <a href=".#Discuit.jl-1">Discuit.jl</a> for Julia.</li>
 <li>See the <a href="https://mjb3.github.io/Discuit/articles/examples.html">Discuit for R package documentation</a> for R examples.</li>
-</ul>
-<p>[mc<em>intro]: https://mjb3.github.io/Discuit/articles/mcmc</em>intro/monte<em>carlo</em>intro.html [mcmc<em>intro]: https://mjb3.github.io/Discuit/articles/monte</em>carlo<em>intro/mcmc</em>intro.html</p></div>
+</ul></div>
         </div>
 
         <footer class="col-md-12">
@@ -248,5 +247,5 @@ running MCMC...
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-11-05 00:03:26
+Build Date UTC : 2018-11-05 19:53:05
 -->
