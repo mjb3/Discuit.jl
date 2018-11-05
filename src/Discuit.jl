@@ -599,24 +599,26 @@ Compute autocorrelation R for a single Markov chain. Autocorrelation can be used
 for any given lag `l`.
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
+    lag = zeros(Int64, lags)
     output = zeros(lags + 1, length(mcmc.mean))
     # tmp = zeros(lags, length(mcmc.mean))
     # for each lag interval
     for l in 0:lags
+        lag[l] = l * AC_LAG_INT
         # for each parameter
         for j in 1:length(mcmc.mean)
             # compute SWAP AND VECTORISE
-            for i in (mcmc.adapt_period + 1):(size(mcmc.samples, 1) - (l*AC_LAG_INT))
-                output[l + 1,j] += (mcmc.samples[i,j] - mcmc.mean[j]) * (mcmc.samples[i + (l*AC_LAG_INT), j] - mcmc.mean[j])
+            for i in (mcmc.adapt_period + 1):(size(mcmc.samples, 1) - lag[l])
+                output[l + 1,j] += (mcmc.samples[i,j] - mcmc.mean[j]) * (mcmc.samples[i + lag[l], j] - mcmc.mean[j])
                 # tmp[l,j] += mcmc.samples[i,j]
             end
-            output[l + 1,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
+            output[l + 1,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - lag[l]
             output[l + 1,j] /= mcmc.covar[j,j]
             # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
         end
     end
     println("mu = ", mcmc.mean)
-    return output
+    return (lag, output)
 end
 # autocorrelation R'
 """
@@ -654,6 +656,7 @@ function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
         wcv[j] /= length(mcmc) * (size(mcmc[1].samples, 1) - mcmc[1].adapt_period)
     end
     # for each lag interval
+    lag = zeros(Int64, lags)
     output = zeros(lags + 1, length(mu))
     for l in 0:lags
         for j in eachindex(mu)
@@ -666,7 +669,7 @@ function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
             output[l + 1,j] /= wcv[j]
         end
     end
-    return output
+    return (lag, output)
 end
 
 ## Geweke test
