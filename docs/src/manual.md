@@ -16,6 +16,7 @@ Trajectory
 Observations
 MCMCResults
 GelmanResults
+AutocorrelationResults
 ```
 
 ## Functions

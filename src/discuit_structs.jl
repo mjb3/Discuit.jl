@@ -128,7 +128,8 @@ struct MarkovState
     # TO BE REMOVED?
     prop_type::Int64
 end
-# results of an McMC analysis
+
+## results of an McMC analysis
 """
     MCMCResults
 
@@ -157,7 +158,23 @@ struct MCMCResults
     ll_g::Array{Float64, 1}
     mh_prob::Array{Float64, 1}
 end
-# NEED TO ADD A VARIANCE MEASURE ***
+
+## autocorrelation results
+"""
+    AutocorrelationResults
+
+**Fields**
+- `lag`             -- autocorrelation lag.
+- `autocorrelation` -- autocorrelation statistics.
+
+Results of a call to `compute_autocorrelation`.
+"""
+struct AutocorrelationResults
+    lag::Array{Int64,1}
+    autocorrelation::Array{Float64,2}
+end
+
+## Gelman Rubin test results
 """
     GelmanResults
 

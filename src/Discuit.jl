@@ -618,7 +618,7 @@ function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
         end
     end
     println("mu = ", mcmc.mean)
-    return (lag, output)
+    return AutocorrelationResults(lag, output)
 end
 # autocorrelation R'
 """
@@ -862,7 +862,7 @@ end
 
 Save the results from a call to `compute_autocorrelation` to the file `fpath`, e.g. "./out/ac.csv".
 """
-function print_autocorrelation(autocorrelation::Tuple{Array{Int64,1},Array{Float64,2}}, fpath::String)
+function print_autocorrelation(autocorrelation::AutocorrelationResults, fpath::String)
     open(fpath, "w") do f
         # print headers
         write(f, "lag")
@@ -872,9 +872,9 @@ function print_autocorrelation(autocorrelation::Tuple{Array{Int64,1},Array{Float
         # print autocorr
         for i in 1:size(autocorrelation, 1)
             # write(f, "\n$((i - 1) * AC_LAG_INT)")
-            write(f, "\n$(autocorrelation[1][i])")
+            write(f, "\n$(autocorrelation.lag[i])")
             for j in 1:size(autocorrelation, 2)
-                write(f, ", $(autocorrelation[2][i,j])")
+                write(f, ", $(autocorrelation.autocorrelation[i,j])")
             end
         end
     end

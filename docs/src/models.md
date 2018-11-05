@@ -56,7 +56,7 @@ The standard Kermack-McKendrick SIR model can be used to model diseases which co
 
     Discuit.generate_model("SI", [100, 1])
 
-The susceptible-infectious (`"SI"`) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory.
+The susceptible-infectious (`"SI"`) is a very basic model with only one type of event. Individuals who become infected remain infected for the duration of trajectory:
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/si.png" alt="SI model" height="100"/>
@@ -64,7 +64,7 @@ The susceptible-infectious (`"SI"`) is a very basic model with only one type of 
 
     Discuit.generate_model("SIR", [100, 1, 0])
 
-The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
+The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model includes an extra 'recovery' event and an additional compartment for recovered individuals:
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sir.png" alt="SIR model" height="100"/>
@@ -72,11 +72,11 @@ The classic Kermack-McKendrick susceptible-infectious-recovered (`"SIR"`) model.
 
     Discuit.generate_model("SIS", [100, 1])
 
+The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick `SIR` model for diseases which do not confer lasting immunity:
+
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis.png" alt="SIS model" height="100"/>
 ```
-
-The susceptible-infectious-susceptible (`"SIS"`) model is an extension of the classic Kermack-McKendrick `SIR` model for diseases which do not confer lasting immunity.
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sis_sim.png" alt="SIS simulation" height="140"/>
@@ -92,7 +92,7 @@ The susceptible-infectious-recovered-susceptible (`"SIRS"`) model incorporates a
 
 ## Latent Kermack-McKendrick models
 
-The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state `E` between infection and the onset of infectiousness. For example, the susceptible-exposed-infectious `SEI` model;
+The next class of models extend the classic Kermack-McKendrick by accounting for an exposed state `E` between infection and the onset of infectiousness. For example, the susceptible-exposed-infectious `SEI` model:
 
     Discuit.generate_model("SEI", [100, 1, 0])
 
@@ -100,7 +100,7 @@ The next class of models extend the classic Kermack-McKendrick by accounting for
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/sei.png" alt="SEI model" height="100"/>
 ```
 
-A notable extension of the `SEI` model is the `SEIR`:
+The latent Kermack-McKendrick models can be extended in the same way, i.e, the `SEIR` model, `SEIS` and `SEIRS`:
 
     Discuit.generate_model("SEIR", [100, 1, 0, 0])
 

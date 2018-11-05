@@ -127,15 +127,15 @@ end
 
 Plot autocorrelation for an MCMC analysis.
 """
-function plot_autocorrelation(autocorrelation::Tuple{Array{Int64,1},Array{Float64,2}})
+function plot_autocorrelation(autocorrelation::AutocorrelationResults)
     # build y
-    for i in eachindex(autocorrelation[2])
-        autocorrelation[2][i] = max(autocorrelation[i], 0)
+    for i in eachindex(autocorrelation.autocorrelation)
+        autocorrelation.autocorrelation[i] = max(autocorrelation.autocorrelation[i], 0)
     end
     # plot
-    p = UnicodePlots.lineplot(autocorrelation[1], autocorrelation[2][:,1], title = string("θ autocorrelation"))
+    p = UnicodePlots.lineplot(autocorrelation.lag, autocorrelation.autocorrelation[:,1], title = string("θ autocorrelation"))
     for i in 2:size(autocorrelation, 2)
-        UnicodePlots.lineplot!(p, autocorrelation[1], autocorrelation[2][:,i])
+        UnicodePlots.lineplot!(p, autocorrelation.lag, autocorrelation.autocorrelation[:,i])
     end
     UnicodePlots.xlabel!(p, "lag")
     UnicodePlots.ylabel!(p, "R")
