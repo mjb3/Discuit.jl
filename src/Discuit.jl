@@ -699,6 +699,14 @@ function run_geweke_test(mc::Array{Float64,2}, adapt_period::Int64)
     return (lbl, output)
 end
 
+## enable multithreading
+# NEED TO ADD DIFFERENT OS SUPPORT? ***
+# function EnableMultithreading(number_of_threads::Int)
+#     # linux, osx
+#     export JULIA_NUM_THREADS=number_of_threads
+#     # windows, c NEED TO ADD
+# end
+
 ## Gelman-Rubin diagnostic
 # NEED TO ADD OVERLOAD for those already run
 # public wrappers
@@ -723,12 +731,13 @@ function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, in
     println("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)")
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     ## use @threads to multithread loop
-    Threads.@threads for i in eachindex(mcmc)
+    # Threads.@threads for i in eachindex(mcmc)
+    for i in eachindex(mcmc)
         x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
         mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
-        println(" chain ", i, " complete.")
+        println(" chain ", i, " complete on thread ", Threads.threadid())
     end
-    # THREADS REJOINED HERE ***
+    # REJOIN THREADS HERE ***
     ## ADD results check
     ## process results and return
     output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)

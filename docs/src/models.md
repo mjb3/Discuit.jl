@@ -15,7 +15,7 @@ Pre defined models can be invoked by calling:
 
 ### Defaults
 
-[Discuit.jl models](@ref) are `mutable struct`s so it is convenient to generate pre defined with default values for most things and allow the user to overwrite as required. Only the 'model_name' and `initial_condition` are required to call `generate_model`. The following gives an overview of important defaults that the user should note before proceeding with their analysis.
+[Discuit.jl models](@ref) are `mutable struct`s so it is convenient to generate pre defined models with default values for most things and overwrite as required. Only the `model_name` and `initial_condition` are required to call `generate_model`. The following gives an overview of important defaults that the user should note before proceeding with their analysis.
 
 #### Observation function
 
