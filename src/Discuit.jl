@@ -669,7 +669,7 @@ function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
             output[l + 1,j] /= wcv[j]
         end
     end
-    return (lag, output)
+    return AutocorrelationResults(lag, output)
 end
 
 ## Geweke test
