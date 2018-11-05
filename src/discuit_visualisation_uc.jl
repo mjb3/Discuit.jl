@@ -119,7 +119,6 @@ function plot_geweke_series(mcmc::MCMCResults)
 end
 
 ## autocorrelation R
-# const AC_LAG_INT = 10       # number of autocorrelation lag intervals
 """
     plot_autocorrelation(autocorrelation)
 
@@ -128,25 +127,39 @@ end
 
 Plot autocorrelation for an MCMC analysis.
 """
-function plot_autocorrelation(autocorrelation::Array{Float64, 2})
-    # build x
-    x = zeros(size(autocorrelation, 1))
-    for i in eachindex(x)
-        x[i] = (i - 1) * AC_LAG_INT
-    end
+function plot_autocorrelation(autocorrelation::Tuple{Array{Int64,1},Array{Float64,2}})
     # build y
-    for i in eachindex(autocorrelation)
-        autocorrelation[i] = max(autocorrelation[i], 0)
+    for i in eachindex(autocorrelation[2])
+        autocorrelation[2][i] = max(autocorrelation[i], 0)
     end
     # plot
-    p = UnicodePlots.lineplot(x, autocorrelation[:,1], title = string("θ autocorrelation"))
+    p = UnicodePlots.lineplot(autocorrelation[1], autocorrelation[2][:,1], title = string("θ autocorrelation"))
     for i in 2:size(autocorrelation, 2)
-        UnicodePlots.lineplot!(p, x, autocorrelation[:,i])
+        UnicodePlots.lineplot!(p, autocorrelation[1], autocorrelation[2][:,i])
     end
     UnicodePlots.xlabel!(p, "lag")
     UnicodePlots.ylabel!(p, "R")
     return p
 end
+# function plot_autocorrelation(autocorrelation::Array{Float64, 2})
+#     # build x
+#     x = zeros(size(autocorrelation, 1))
+#     for i in eachindex(x)
+#         x[i] = (i - 1) * AC_LAG_INT
+#     end
+#     # build y
+#     for i in eachindex(autocorrelation)
+#         autocorrelation[i] = max(autocorrelation[i], 0)
+#     end
+#     # plot
+#     p = UnicodePlots.lineplot(x, autocorrelation[:,1], title = string("θ autocorrelation"))
+#     for i in 2:size(autocorrelation, 2)
+#         UnicodePlots.lineplot!(p, x, autocorrelation[:,i])
+#     end
+#     UnicodePlots.xlabel!(p, "lag")
+#     UnicodePlots.ylabel!(p, "R")
+#     return p
+# end
 
 # single
 # """

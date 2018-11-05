@@ -862,7 +862,7 @@ end
 
 Save the results from a call to `compute_autocorrelation` to the file `fpath`, e.g. "./out/ac.csv".
 """
-function print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String)
+function print_autocorrelation(autocorrelation::Tuple{Array{Int64,1},Array{Float64,2}}, fpath::String)
     open(fpath, "w") do f
         # print headers
         write(f, "lag")
@@ -871,9 +871,10 @@ function print_autocorrelation(autocorrelation::Array{Float64, 2}, fpath::String
         end
         # print autocorr
         for i in 1:size(autocorrelation, 1)
-            write(f, "\n$((i - 1) * AC_LAG_INT)")
+            # write(f, "\n$((i - 1) * AC_LAG_INT)")
+            write(f, "\n$(autocorrelation[1][i])")
             for j in 1:size(autocorrelation, 2)
-                write(f, ", $(autocorrelation[i,j])")
+                write(f, ", $(autocorrelation[2][i,j])")
             end
         end
     end
