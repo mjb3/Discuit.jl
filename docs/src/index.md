@@ -6,7 +6,7 @@
 
 Discuit is a package for Bayesian inference in Discrete state space continuous time (DSSCT) models. DSSCT models, sometimes referred to as compartmental models, are used to represent systems where individuals are assumed, usually as a simplifying abstraction, to move between discrete states. They are a well established research tool in fields including physics, chemistry and ecology. Their use in scientific research typically involves the challenge of comparing ‘noisy’ experimental or observational data to the unobserved (i.e. latent) underlying processes described by the model. Bayes’ theorem provides a convenient framework for dealing with uncertainty in the data. The Bayesian framework also provide a natural, methodologically consistent way of incorporating existing scientific knowledge of the system; the prior distribution of the model parameters
 
-The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discuit work by introducing a latent variable $\xi$ which represents the sequence of events in a single realisation of the model:
+The augmented data Markov chain Monte Carlo (MCMC) methods implemented in Discuit work by introducing a latent variable $\xi$ to the model likelihood function which represents the sequence of events in a single realisation of the model:
 
 $\pi(\theta|y) = \pi(y|\xi) \pi(\xi|\theta) \pi(\theta)$
 
@@ -51,10 +51,7 @@ More examples can be found in the section [Discuit.jl examples](@ref), including
 
 ## Tutorials
 
-* [Introduction to Monte Carlo methods][mc_intro]: a beginner's guide in Python.
-* A basic [Introduction to MCMC][mcmc_intro] methods in Python.
+* [Introduction to Monte Carlo methods](https://mjb3.github.io/Discuit/articles/mcmc_intro/monte_carlo_intro.html): a beginner's guide in Python.
+* A basic [Introduction to MCMC](https://mjb3.github.io/Discuit/articles/monte_carlo_intro/mcmc_intro.html) methods in Python.
 * [Discuit.jl examples](@ref): an introduction to MCMC and simulation in [Discuit.jl](@ref) for Julia.
 * See the [Discuit for R package documentation](https://mjb3.github.io/Discuit/articles/examples.html) for R examples.
-
-[mc_intro]: https://mjb3.github.io/Discuit/articles/mcmc_intro/monte_carlo_intro.html
-[mcmc_intro]: https://mjb3.github.io/Discuit/articles/monte_carlo_intro/mcmc_intro.html

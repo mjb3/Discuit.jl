@@ -720,15 +720,15 @@ Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and p
 function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     p_model = get_private_model(m_model, obs_data)
     ## initialise Markov chains
-    # NEED TO ADD MULTI THREADING OR ASYNC HERE ***************
     println("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)")
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
-    for i in eachindex(mcmc)
+    ## use @threads to multithread loop
+    Threads.@threads for i in eachindex(mcmc)
         x0 = gillespie_sim_x0(p_model, initial_parameters[i,:], !mbp)
         mcmc[i] = met_hastings_alg(p_model, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
         println(" chain ", i, " complete.")
     end
-    # REJOIN THREADS HERE **********************
+    # THREADS REJOINED HERE ***
     ## ADD results check
     ## process results and return
     output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
