@@ -6,7 +6,7 @@ function pooley()
     set_random_seed(1)
     ## define model
     # rate function
-    function sis_rf(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
+    function sis_rf!(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
         output[1] = parameters[1] * population[1] * population[2]
         output[2] = parameters[2] * population[2]
     end
@@ -27,7 +27,7 @@ function pooley()
         return tmp1 - ((obs_diff * obs_diff) / tmp2)
     end
     # define model
-    model = DiscuitModel("SIS", sis_rf, [-1 1; 1 -1], [100, 1], obs_fn, prior_density, si_gaussian, 0)
+    model = DiscuitModel("SIS", sis_rf!, [-1 1; 1 -1], [100, 1], obs_fn, prior_density, si_gaussian, 0)
 
     ## run sim
     xi = gillespie_sim(model, [0.003, 0.1])

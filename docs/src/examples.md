@@ -12,28 +12,33 @@ set_random_seed(1) # hide
 ?DiscuitModel
 ```
 
-Next we define a rate function equivalent to that of the basic Kermack-McKendrick `SIS` (and `SIR`) model. The event rates for infection and recovery events respectively are given by:
+The events in a `DiscuitModel` are defined by the rates at which they occur and a transition matrix, which governs how individuals migrate between states.  In the basic Kermack-McKendrick `SIS` (and `SIR`) model, rates for infection and recovery events respectively are given by:
 
 $r_1 = \theta_1 SI$
 
 $r_2 = \theta_2 I$
 
-The code is correspondingly straightforward:
+With the transition matrix:
+
+ADD MATRIX
+
+Note how the first row of the matrix reflects the removal of a susceptible individual from the `S` state, and migrates them to the second element of the row, the 'I' state. The code required to represent the rates (or 'rate function') and transition matrxi as Julia variables is correspondingly straightforward:
 
 ```@repl 1
 function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
     output[1] = parameters[1] * population[1] * population[2]
     output[2] = parameters[2] * population[2]
 end
+t_matrix = [-1 1; 1 -1]
 ```
 
-Note that the correct signature must be used in the implementation for it to be compatible with the package. Next we define a simple observation function, again with the correct signature:
+Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three `Array` parameters of a given type, the first of which is the `output` variable modified by the function (which is why it does not need to `return` any actual output variable). Next we define a simple observation function, again with the correct signature:
 
 ```@repl 1
 obs_fn(population::Array{Int64, 1}) = population
 ```
 
-The default prior distribution is flat and improper and is equivalent to:
+The default prior distribution is flat and improper, and is equivalent to:
 
 ```@repl 1
 function weak_prior(parameters::Array{Float64, 1})
@@ -54,11 +59,11 @@ function si_gaussian(y::Array{Int64, 1}, population::Array{Int64, 1})
     return tmp1 - ((obs_diff * obs_diff) / tmp2)
 end
 ```
-We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:
+We can now define a model. We must also specify the `initial_condition` which represents the state of the population at the origin of each trajectory. A final parameter declared inline is an optional index for the `t0` parameter (ignore for now):
 
 ```@repl 1
-
-model = DiscuitModel("SIS", [100, 1], sis_rf, [-1 1; 1 -1], obs_fn, weak_prior, si_gaussian, 0);
+initial_condition = [100, 1]
+model = DiscuitModel("SIS", initial_condition, sis_rf, t_matrix, obs_fn, weak_prior, si_gaussian, 0);
 ```
 
 ## MCMC

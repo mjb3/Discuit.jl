@@ -134,7 +134,7 @@ function plot_autocorrelation(autocorrelation::AutocorrelationResults)
     end
     # plot
     p = UnicodePlots.lineplot(autocorrelation.lag, autocorrelation.autocorrelation[:,1], title = string("θ autocorrelation"))
-    for i in 2:size(autocorrelation, 2)
+    for i in 2:size(autocorrelation.autocorrelation, 2)
         UnicodePlots.lineplot!(p, autocorrelation.lag, autocorrelation.autocorrelation[:,i])
     end
     UnicodePlots.xlabel!(p, "lag")
