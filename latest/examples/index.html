@@ -107,7 +107,7 @@
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; using Discuit;</code></pre>
 
 
-<p>Next we define a rate function equivalent to that of the basic Kermack-McKendrick <code>SIS</code> (and <code>SIR</code>) model. The event rates for infection and recovery events respectively are given by:</p>
+<p>The events in a <code>DiscuitModel</code> are defined by the rates at which they occur and a transition matrix, which governs how individuals migrate between states.  In the basic Kermack-McKendrick <code>SIS</code> (and <code>SIR</code>) model, rates for infection and recovery events respectively are given by:</p>
 <p>
 <script type="math/tex; mode=display">
 r_1 = \theta_1 SI
@@ -118,20 +118,27 @@ r_1 = \theta_1 SI
 r_2 = \theta_2 I
 </script>
 </p>
-<p>The code is correspondingly straightforward:</p>
+<p>With the transition matrix:</p>
+<p>ADD MATRIX</p>
+<p>Note how the first row of the matrix reflects the removal of a susceptible individual from the <code>S</code> state, and migrates them to the second element of the row, the 'I' state. The code required to represent the rates (or 'rate function') and transition matrxi as Julia variables is correspondingly straightforward:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
            output[2] = parameters[2] * population[2]
        end
-sis_rf (generic function with 1 method)</code></pre>
+sis_rf (generic function with 1 method)
+
+julia&gt; t_matrix = [-1 1; 1 -1]
+2×2 Array{Int64,2}:
+ -1   1
+  1  -1</code></pre>
 
 
-<p>Note that the correct signature must be used in the implementation for it to be compatible with the package. Next we define a simple observation function, again with the correct signature:</p>
+<p>Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three <code>Array</code> parameters of a given type, the first of which is the <code>output</code> variable modified by the function (which is why it does not need to <code>return</code> any actual output variable). Next we define a simple observation function, again with the correct signature:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs_fn(population::Array{Int64, 1}) = population
 obs_fn (generic function with 1 method)</code></pre>
 
 
-<p>The default prior distribution is flat and improper and is equivalent to:</p>
+<p>The default prior distribution is flat and improper, and is equivalent to:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function weak_prior(parameters::Array{Float64, 1})
            parameters[1] &gt; 0.0 || return 0.0
            parameters[2] &gt; 0.0 || return 0.0
@@ -151,8 +158,13 @@ weak_prior (generic function with 1 method)</code></pre>
 si_gaussian (generic function with 1 method)</code></pre>
 
 
-<p>We can now define a model. The three parameters declared inline are the transition matrix; an optional index for the t0 parameter (ignore for now); and the initial condition which represents the state of the population at the origin of each trajectory:</p>
-<pre class="codehilite"><code class="language-julia-repl">julia&gt; model = DiscuitModel(&quot;SIS&quot;, [100, 1], sis_rf, [-1 1; 1 -1], obs_fn, weak_prior, si_gaussian, 0);</code></pre>
+<p>We can now define a model. We must also specify the <code>initial_condition</code> which represents the state of the population at the origin of each trajectory. A final parameter declared inline is an optional index for the <code>t0</code> parameter (ignore for now):</p>
+<pre class="codehilite"><code class="language-julia-repl">julia&gt; initial_condition = [100, 1]
+2-element Array{Int64,1}:
+ 100
+   1
+
+julia&gt; model = DiscuitModel(&quot;SIS&quot;, initial_condition, sis_rf, t_matrix, obs_fn, weak_prior, si_gaussian, 0);</code></pre>
 
 
 <p><a id='MCMC-1'></a></p>
@@ -235,12 +247,26 @@ R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sig
 mu = [0.00342388, 0.11487]
 
 julia&gt; plot_autocorrelation(ac)
-ERROR: MethodError: no method matching size(::AutocorrelationResults, ::Int64)
-Closest candidates are:
-  size(!Matched::BitArray{1}, ::Any) at bitarray.jl:74
-  size(!Matched::Tuple, ::Any) at tuple.jl:22
-  size(!Matched::Number, ::Any) at number.jl:63
-  ...</code></pre>
+                   θ autocorrelation
+       ┌────────────────────────────────────────┐
+     1 │⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠈⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠙⡷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠘⢎⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠑⣍⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠈⠳⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+   R   │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠮⣗⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢗⡦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
+       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠳⠶⢦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀│
+     0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢷⣦⣀⣀⣀⣀⣀│
+       └────────────────────────────────────────┘
+       0                                     2000
+                          lag</code></pre>
 
 
 <p>Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace <code>rs</code> with the results of a call to <code>run_gelman_diagnostic</code>.</p>
@@ -399,7 +425,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140017469702720])</code></pre>
+Observations([67.0], [4294967297])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
