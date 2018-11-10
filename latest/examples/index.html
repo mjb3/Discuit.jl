@@ -119,7 +119,11 @@ r_2 = \theta_2 I
 </script>
 </p>
 <p>With the transition matrix:</p>
-<p>ADD MATRIX</p>
+<p>
+<script type="math/tex; mode=display">
+T = \begin{bmatrix} -1 & 1 \\ 1 & -1 \end{bmatrix}
+</script>
+</p>
 <p>Note how the first row of the matrix reflects the removal of a susceptible individual from the <code>S</code> state, and migrates them to the second element of the row, the 'I' state. The code required to represent the rates (or 'rate function') and transition matrxi as Julia variables is correspondingly straightforward:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; function sis_rf(output::Array{Float64, 1}, parameters::Array{Float64, 1}, population::Array{Int64, 1})
            output[1] = parameters[1] * population[1] * population[2]
@@ -133,7 +137,7 @@ julia&gt; t_matrix = [-1 1; 1 -1]
   1  -1</code></pre>
 
 
-<p>Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three <code>Array</code> parameters of a given type, the first of which is the <code>output</code> variable modified by the function (which is why it does not need to <code>return</code> any actual output variable). Next we define a simple observation function, again with the correct signature:</p>
+<p>The output confirms that <code>sis_rf</code>, a <code>generic function with 1 method</code> has been defined and gives a description of the 2 dimensional <code>Array</code> variable that represents the transition matrix (do not copy and paste these bits when running the code on your own machine). Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three <code>Array</code> parameters of a given type, the first of which is the <code>output</code> variable modified by the function (which is why it does not need to <code>return</code> any actual output variable). Next we define a simple observation function, again with the correct signature:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; obs_fn(population::Array{Int64, 1}) = population
 obs_fn (generic function with 1 method)</code></pre>
 
@@ -170,7 +174,7 @@ julia&gt; model = DiscuitModel(&quot;SIS&quot;, initial_condition, sis_rf, t_mat
 <p><a id='MCMC-1'></a></p>
 <h2 id="mcmc">MCMC</h2>
 <p>The following example is based on that published by Pooley et al. (2015) in the paper that introduces the model based proposal method. The observations data simulated by Pooley can be downloaded <a href="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv">here</a> and saved, e.g. to <code>path/to/data/</code>. Next, load the observations data using:</p>
-<pre class="codehilite"><code>y = get_observations_from_file(&quot;path/to/data/pooley.csv&quot;)</code></pre>
+<pre class="codehilite"><code>y = get_observations(&quot;path/to/data/pooley.csv&quot;)</code></pre>
 
 
 <p>Now we can run an MCMC analysis based on the simulated datset:</p>
@@ -180,7 +184,7 @@ running MCMC...
 
 
 <p>Visual inspection of the Markov chain using the traceplot is one way of assessing the convergence of the algorithm:</p>
-<pre class="codehilite"><code>plot_parameter_trace(rs, 1);</code></pre>
+<pre class="codehilite"><code>julia&gt; plot_parameter_trace(rs, 1)</code></pre>
 
 
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/></p>
@@ -344,7 +348,7 @@ running gelman diagnostic... (3 chains)
  chain 3 complete on thread 1
  vv w: [2.14888e-13, 4.18479e-7]
  vv b: [1.96555e-5, 30.3574]
- var.V: [4.94066e-324, NaN]
+ var.V: [NaN, 4.94066e-324]
  finished (sample μ = [0.00330828, 0.109512]).</code></pre>
 
 
@@ -425,7 +429,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [4294967297])</code></pre>
+Observations([67.0], [4710])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
