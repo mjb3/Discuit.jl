@@ -20,7 +20,7 @@ $r_2 = \theta_2 I$
 
 With the transition matrix:
 
-ADD MATRIX
+$T = \begin{bmatrix} -1 & 1 \\ 1 & -1 \end{bmatrix}$
 
 Note how the first row of the matrix reflects the removal of a susceptible individual from the `S` state, and migrates them to the second element of the row, the 'I' state. The code required to represent the rates (or 'rate function') and transition matrxi as Julia variables is correspondingly straightforward:
 
@@ -32,7 +32,7 @@ end
 t_matrix = [-1 1; 1 -1]
 ```
 
-Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three `Array` parameters of a given type, the first of which is the `output` variable modified by the function (which is why it does not need to `return` any actual output variable). Next we define a simple observation function, again with the correct signature:
+The output confirms that `sis_rf`, a `generic function with 1 method` has been defined and gives a description of the 2 dimensional `Array` variable that represents the transition matrix (do not copy and paste these bits when running the code on your own machine). Note that the correct function signature must be used in the implementation for it to be compatible with the package. In this case the function takes three `Array` parameters of a given type, the first of which is the `output` variable modified by the function (which is why it does not need to `return` any actual output variable). Next we define a simple observation function, again with the correct signature:
 
 ```@repl 1
 obs_fn(population::Array{Int64, 1}) = population
@@ -70,7 +70,7 @@ model = DiscuitModel("SIS", initial_condition, sis_rf, t_matrix, obs_fn, weak_pr
 
 The following example is based on that published by Pooley et al. (2015) in the paper that introduces the model based proposal method. The observations data simulated by Pooley can be downloaded [here](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/data/pooley.csv) and saved, e.g. to `path/to/data/`. Next, load the observations data using:
 
-    y = get_observations_from_file("path/to/data/pooley.csv")
+    y = get_observations("path/to/data/pooley.csv")
 
 Now we can run an MCMC analysis based on the simulated datset:
 
@@ -81,7 +81,7 @@ rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
 
 Visual inspection of the Markov chain using the traceplot is one way of assessing the convergence of the algorithm:
 
-    plot_parameter_trace(rs, 1);
+    julia> plot_parameter_trace(rs, 1)
 
 ```@raw html
 <img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/>
