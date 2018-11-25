@@ -37,20 +37,21 @@ end
 function pooley_prebaked()
     set_random_seed(1)
 
+    ## demo 1
     ic = [100, 1]
     model = generate_model("SIS", ic);
-
-    ## run sim
     theta = [0.003,0.1]
     x = gillespie_sim(model, theta);
-
     plot_trajectory(x)
 
-    ## slide 2
+    ## demo 2
     y = x.observations
-    initial_theta = [0.0025, 0.12]
-    mcmc = run_met_hastings_mcmc(model, y, initial_theta);
+    initial_theta = [0.005, 0.12]
+    mcmc = run_met_hastings_mcmc(model, x.observations, initial_theta);
+
+    ## demo 3
     plot_parameter_trace(mcmc, 1)
+    plot_parameter_heatmap(mcmc, 1, 2)
 
 
     ## MCMC

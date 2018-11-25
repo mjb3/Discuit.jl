@@ -30,13 +30,19 @@ pkg> add https://github.com/mjb3/Discuit.jl
 
 ## Getting started
 
-The following code initialises a `DiscuitModel` and runs a simulation, storing the results in `x`.
+The following code initialises a `DiscuitModel` from the predefined library and runs a simulation, storing the results in `x`:
 
 ```@repl 1
 using Discuit;
 set_random_seed(1); # hide
 model = generate_model("SIS", [100,1]);
 x = gillespie_sim(model, [0.003, 0.1]);
+```
+
+Demo:
+
+```@raw html
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s1.gif" alt="SIS demo" height="240"/>
 ```
 
 We can now run an MCMC analysis using observations data from `x`:
