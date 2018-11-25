@@ -100,7 +100,9 @@
 
 <p><a id='Discuit.jl-examples-1'></a></p>
 <h1 id="discuitjl-examples">Discuit.jl examples</h1>
-<p>The following examples provide a flavour of package's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of the data types and functions in Discuit, and <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for a description of the predefined models available in the package.</p>
+<p>The following examples provide a flavour of package's core functionality. See the <a href="../manual/#Discuit.jl-manual-1">Discuit.jl manual</a> for a description of the data types and functions in Discuit, and <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for a description of the predefined models available in the package. The tutorial is designed to be run using the <em>REPL</em> but usually it is wise to save code and analyses to a text file for reference later. By convention Julia code files have the extension '.jl'. For example, the file <a href="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/examples/pooley_model.jl">pooley_model.jl</a> (click to download) contains code equivalent to the next section, i.e. it defines a <code>SIS</code> model and stores it in variable <code>model</code> which can then be used just as if we had typed the commands manually.</p>
+<p>One way to run a code file is to open a command prompt or terminal and <code>cd</code> to the location of the file. Check the code and save the file. Next start the <em>REPL</em> using the command <code>julia</code>. Finally type the name of the file to run the code:</p>
+<p>ADD GIF</p>
 <p><a id='Defining-a-model-1'></a></p>
 <h2 id="defining-a-model">Defining a model</h2>
 <p><code>DiscuitModel</code>s can be created automatically using helper functions or manually by specifying each component. For example the model we are about to create could be generated automatically using <code>generate_model("SIS", [100,1])</code>. However constructing it manually is a helpful exercise for getting to know the package. See <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for further details of the <code>generate_model</code> function. We start by examining <code>DiscuitModel</code> in the package documentation:</p>
@@ -429,7 +431,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [4710])</code></pre>
+Observations([67.0], [140674751269504])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
