@@ -1,6 +1,9 @@
 # Discuit.jl examples
+The following examples provide a flavour of package's core functionality. See the [Discuit.jl manual](@ref) for a description of the data types and functions in Discuit, and [Discuit.jl models](@ref) for a description of the predefined models available in the package. The tutorial is designed to be run using the *REPL* but usually it is wise to save code and analyses to a text file for reference later. By convention Julia code files have the extension '.jl'. For example, the file [pooley_model.jl](https://raw.githubusercontent.com/mjb3/Discuit.jl/master/examples/pooley_model.jl) (click to download) contains code equivalent to the next section, i.e. it defines a `SIS` model and stores it in variable `model` which can then be used just as if we had typed the commands manually.
 
-The following examples provide a flavour of package's core functionality. See the [Discuit.jl manual](@ref) for a description of the data types and functions in Discuit, and [Discuit.jl models](@ref) for a description of the predefined models available in the package.
+One way to run a code file is to open a command prompt or terminal and `cd` to the location of the file. Check the code and save the file. Next start the *REPL* using the command `julia`. Finally type the name of the file to run the code:
+
+ADD GIF
 
 ## Defining a model
 

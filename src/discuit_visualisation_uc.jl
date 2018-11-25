@@ -32,8 +32,8 @@ end
 Trace plot of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_trace(mcmc::MCMCResults, parameter::Int64)
-    x = mcmc.adapt_period:size(mcmc.samples, 1)
-    p = UnicodePlots.lineplot(x, mcmc.samples[mcmc.adapt_period:size(mcmc.samples, parameter)], title = string("θ", Char(8320 + parameter), " traceplot."))
+    x = 1:size(mcmc.samples, 1)
+    p = UnicodePlots.lineplot(x, mcmc.samples[:, parameter], title = string("θ", Char(8320 + parameter), " traceplot."))
     UnicodePlots.xlabel!(p, "sample")
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
     return p

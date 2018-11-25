@@ -36,10 +36,22 @@ end
 
 function pooley_prebaked()
     set_random_seed(1)
-    model = generate_model("SIS", [100, 1]);
+
+    ic = [100, 1]
+    model = generate_model("SIS", ic);
 
     ## run sim
-    xi = gillespie_sim(model, [0.003,0.1]);
+    theta = [0.003,0.1]
+    x = gillespie_sim(model, theta);
+
+    plot_trajectory(x)
+
+    ## slide 2
+    y = x.observations
+    initial_theta = [0.0025, 0.12]
+    mcmc = run_met_hastings_mcmc(model, y, initial_theta);
+    plot_parameter_trace(mcmc, 1)
+
 
     ## MCMC
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
