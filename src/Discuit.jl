@@ -716,7 +716,7 @@ end
 # public wrappers
 # - calls mcmc
 """
-    run_gelman_diagnostic(m_model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
+    run_gelman_diagnostic(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -729,8 +729,8 @@ end
 
 Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 """
-function run_gelman_diagnostic(m_model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
-    p_model = get_private_model(m_model, obs_data)
+function run_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+    p_model = get_private_model(model, obs_data)
     ## initialise Markov chains
     println("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)")
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))

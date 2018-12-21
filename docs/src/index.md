@@ -42,10 +42,10 @@ x = gillespie_sim(model, [0.003, 0.1]);
 Demo:
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s1.gif" alt="SIS demo" height="360"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s1.gif" alt="SIS demo" height="400"/>
 ```
 
-Note that the first simulation produced a trajectory with only three events. Hint: hitting up on the keyboard recalls previous commands for easy reuse. We can now run an MCMC analysis using observations data from `x`:
+Note that the first simulation produced a trajectory with only three events. Hint: hitting up on the keyboard recalls previous commands for easy reuse. Having rerun the simulation (1067 on the second run) we can now run an MCMC analysis using observations data from `x`:
 
 ```@repl 1
 mcmc = run_met_hastings_mcmc(model, x.observations, [0.005, 0.12]);
@@ -54,16 +54,16 @@ mcmc = run_met_hastings_mcmc(model, x.observations, [0.005, 0.12]);
 Demo:
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s2.gif" alt="SIS demo" height="360"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s2.gif" alt="SIS demo" height="400"/>
 ```
 
 The MCMC output can also be visualised using the command line tool. Example:
 
 ```@raw html
-<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s3.gif" alt="SIS demo" height="360"/>
+<img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s3.gif" alt="SIS demo" height="400"/>
 ```
 
-See the [Discuit.jl examples](@ref) page for code. Further information can be found in the [Discuit.jl manual](@ref). 
+See the [Discuit.jl examples](@ref) page for code. Further information can be found in the [Discuit.jl manual](@ref).
 
 ## Further usage
 

@@ -134,10 +134,14 @@ end
     MCMCResults
 
 **Fields**
-- `samples`     -- two dimensional array of samples.
-- `mc_accepted` -- proposal accepted
-- `mean`        -- sample mean.
-- `covar`       -- parameter covariance matrix.
+- `samples`         -- two dimensional array of samples.
+- `mc_accepted`     -- proposal accepted
+- `mean`            -- sample mean.
+- `covar`           -- parameter covariance matrix.
+- `proposal_alg`    -- proposal algorithm.
+- `num_obs`         -- number of observations.
+- `adapt_period`    -- adaptation (i.e. 'burn in') period.
+- `geweke`          -- Geweke convergence diagnostic results (`Tuple` of `Array`s).
 
 The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.
 """
