@@ -126,7 +126,7 @@
 <li>Author: Martin Burke (martin.burke@bioss.ac.uk)</li>
 <li>Date: 2018-08-22</li>
 </ul>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/e6b5e339c622dbf2554261db06d92313b7258791/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/ff982b55651ff3e0fc4659c6f9823b4aef2b6c59/src/Discuit.jl#L1-L13' class='documenter-source'>source</a><br></p>
 <p><a id='Installation-1'></a></p>
 <h2 id="installation">Installation</h2>
 <p>The package can be installed by typing <code>]</code> in the REPL to enter the Pkg mode and running:</p>
@@ -147,18 +147,18 @@ running simulation...
 
 
 <p>Demo:</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s1.gif" alt="SIS demo" height="360"/></p>
-<p>Note that the first simulation produced a trajectory with only three events. Hint: hitting up on the keyboard recalls previous commands for easy reuse. We can now run an MCMC analysis using observations data from <code>x</code>:</p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s1.gif" alt="SIS demo" height="400"/></p>
+<p>Note that the first simulation produced a trajectory with only three events. Hint: hitting up on the keyboard recalls previous commands for easy reuse. Having rerun the simulation (1067 on the second run) we can now run an MCMC analysis using observations data from <code>x</code>:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; mcmc = run_met_hastings_mcmc(model, x.observations, [0.005, 0.12]);
 running MCMC...
  finished (sample μ = [0.00377631, 0.134883])</code></pre>
 
 
 <p>Demo:</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s2.gif" alt="SIS demo" height="360"/></p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s2.gif" alt="SIS demo" height="400"/></p>
 <p>The MCMC output can also be visualised using the command line tool. Example:</p>
-<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s3.gif" alt="SIS demo" height="360"/></p>
-<p>See the <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> page for code. Further information can be found in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>. </p>
+<p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/s3.gif" alt="SIS demo" height="400"/></p>
+<p>See the <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a> page for code. Further information can be found in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
 <p><a id='Further-usage-1'></a></p>
 <h2 id="further-usage">Further usage</h2>
 <p>More examples can be found in the section <a href="examples/#Discuit.jl-examples-1">Discuit.jl examples</a>, including enough code to get up and running with convergence diagnostics and customised models. A more detailed guide to the pre defined models is available in the <a href="models/#Discuit.jl-models-1">Discuit.jl models</a> section. Further information regarding the packages other functionality can be found in the <a href="manual/#Discuit.jl-manual-1">Discuit.jl manual</a>.</p>
@@ -254,5 +254,5 @@ running MCMC...
 
 <!--
 MkDocs version : 0.17.5
-Build Date UTC : 2018-11-25 23:36:54
+Build Date UTC : 2018-12-21 21:02:48
 -->
