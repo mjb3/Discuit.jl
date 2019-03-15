@@ -8,19 +8,19 @@
 
 Save the results from a call to `compute_autocorrelation` to the file `fpath`, e.g. "./out/ac.csv".
 """
-function print_autocorrelation(autocorrelation::AutocorrelationResults, fpath::String)
+function print_autocorrelation(acr::AutocorrelationResults, fpath::String)
     open(fpath, "w") do f
         # print headers
         write(f, "lag")
-        for j in 1:size(autocorrelation, 2)
+        for j in 1:size(acr.autocorrelation, 2)
             write(f, ", x$j")
         end
         # print autocorr
-        for i in 1:size(autocorrelation, 1)
+        for i in 1:size(acr.autocorrelation, 1)
             # write(f, "\n$((i - 1) * AC_LAG_INT)")
-            write(f, "\n$(autocorrelation.lag[i])")
-            for j in 1:size(autocorrelation, 2)
-                write(f, ", $(autocorrelation.autocorrelation[i,j])")
+            write(f, "\n$(acr.lag[i])")
+            for j in 1:size(acr.autocorrelation, 2)
+                write(f, ", $(acr.autocorrelation[i,j])")
             end
         end
     end
