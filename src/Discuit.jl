@@ -395,7 +395,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         pop_i = copy(model.initial_condition)
         pop_f = copy(model.initial_condition)
         # - time / event counter
-        time = model.t0_index == 0 ? 0.0 : xf_parameters[model.t0_index]
+        time = model.t0_index == 0 ? 0.0 : xf_parameters.value[model.t0_index]
         evt_i = [1]
         # - log likelihood
         output = 0.0
