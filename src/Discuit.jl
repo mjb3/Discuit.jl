@@ -822,13 +822,10 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         vv_b[j] = (2 * b[j] * b[j]) / (length(mcmc) - 1)
         cv_wb[j] = (num_iter / length(mcmc)) * (cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * cov(mcv[:,j], mce[:,j])))
     end
-    println(" vv w: ", vv_w)
-    println(" vv b: ", vv_b)
     # compute d; d_adj (var.V)
     # - SHOULD BENCHMARK PRECOMP **********
     d = Array{Float64, 1}(undef, theta_size)
     dd = Array{Float64, 1}(undef, theta_size)
-    println(" var.V: ", dd)
     atmp = num_iter - 1
     btmp = 1 + (1 / length(mcmc))
     for j in 1:theta_size
