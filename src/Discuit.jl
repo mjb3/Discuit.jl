@@ -388,10 +388,12 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
     return evt_i
 end
 
-# initialise sequence
+# initialise sequence for MBP
 function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
     evt_i::Int64 = 1
     if theta_f[model.t0_index] < xi.parameters.value[model.t0_index]
+        # workspace
+        lambda_f = Array{Float64, 1}(undef, size(model.m_transition, 1))
         # sim on 'full'
         time::Float64 = theta_f[model.t0_index]
         while true
