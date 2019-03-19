@@ -198,7 +198,11 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
     # log_like = 0.0
     ll_traj = 0.0
     ll_obs = 0.0
-    t = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
+    t = 0.0
+    if model.t0_index > 0
+        trajectory.time[1] < parameters[model.t0_index] && (return -Inf)
+        t = parameters[model.t0_index]
+    end
     evt_i = 1
     # workspace
     lambda = Array{Float64, 1}(undef, size(model.m_transition, 1))
@@ -324,6 +328,7 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
     lambda_i = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_f = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_d = Array{Float64, 1}(undef, size(model.m_transition, 1))
+    # model.t0_index != 0 && xi.parameters.value
     # iterate until next observation
     while true
         if evt_i > length(xi.trajectory.time)
@@ -382,6 +387,44 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
     end
     return evt_i
 end
+
+# initialise sequence
+function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
+    evt_i::Int64 = 1
+    if theta_f[model.t0_index] < xi.parameters.value[model.t0_index]
+        # sim on 'full'
+        time::Float64 = theta_f[model.t0_index]
+        while true
+            # calculate rate delta
+            model.rate_function(lambda_f, theta_f, pop_f)
+            cumsum!(lambda_f, lambda_f)
+            # 0 rate test
+            lambda_f[end] == 0.0 && break
+            time -= log(rand()) / lambda_f[end]
+            # break if prev t0 time exceeded
+            time > xi.parameters.value[model.t0_index] && break
+            # else choose event type (init as final event)
+            et = choose_event(lambda_f)
+            # add event to trajectory
+            push!(xf_trajectory.time, time)
+            push!(xf_trajectory.event_type,  et)
+            length(xf_trajectory.time) > MAX_TRAJ && (return evt_i)
+            # update population
+            pop_f .+= model.m_transition[et,:]
+        end
+    else
+        # 'delete'
+        while true
+            # update for i
+            pop_i .+= model.m_transition[et,:]
+            # - iterate event counter
+            evt_i += 1
+            # ADD BREAK ********************
+        end
+    end
+    return evt_i
+end
+
 # mbp function
 function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     MBP_PROP_TYPE = 10
@@ -395,8 +438,12 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         pop_i = copy(model.initial_condition)
         pop_f = copy(model.initial_condition)
         # - time / event counter
-        time = model.t0_index == 0 ? 0.0 : xf_parameters.value[model.t0_index]
         evt_i = [1]
+        time = 0.0
+        if model.t0_index > 0
+            evt_i[1] = initialise_sequence(model, xi, pop_i, xf_trajectory, theta_f, pop_f)
+            time = max(xf_parameters.value[model.t0_index], xi.xf_parameters.value[model.t0_index])
+        end
         # - log likelihood
         output = 0.0
         # for each observation period
