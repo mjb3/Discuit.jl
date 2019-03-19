@@ -417,11 +417,11 @@ function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i:
     else
         # 'delete'
         while true
+            xi.trajectory.time[evt_i] > theta_f[model.t0_index] && break
             # update for i
             pop_i .+= model.m_transition[xi.trajectory.event_type[evt_i],:]
             # - iterate event counter
             evt_i += 1
-            # ADD BREAK ********************
         end
     end
     return evt_i
