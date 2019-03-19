@@ -418,7 +418,7 @@ function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i:
         # 'delete'
         while true
             # update for i
-            pop_i .+= model.m_transition[et,:]
+            pop_i .+= model.m_transition[xi.trajectory.event_type[evt_i],:]
             # - iterate event counter
             evt_i += 1
             # ADD BREAK ********************
