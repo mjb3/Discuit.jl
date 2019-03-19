@@ -441,7 +441,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         evt_i = [1]
         time = 0.0
         if model.t0_index > 0
-            evt_i[1] = initialise_sequence(model, xi, pop_i, xf_trajectory, theta_f, pop_f)
+            evt_i[1] = initialise_sequence(model, xi, pop_i, xf_trajectory, xf_parameters.parameters, pop_f)
             time = max(xf_parameters.value[model.t0_index], xi.xf_parameters.value[model.t0_index])
         end
         # - log likelihood
