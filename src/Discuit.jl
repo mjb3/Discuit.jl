@@ -646,7 +646,7 @@ Compute autocorrelation R for a single Markov chain. Autocorrelation can be used
 
 \$R_l  = \\frac{\\textrm{E} [(X_i - \\bar{X})(X_{i+l} - \\bar{X})]}{\\sigma^2}\$
 
-for any given lag `l`.
+for any given lag `l` up to `lags` (default: 200).
 """
 function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
     lag = zeros(Int64, lags + 1)
@@ -684,7 +684,7 @@ Compute autocorrelation R' for a two or more Markov chains. The formula for mult
 
 \$\\sigma^2_b = \\textrm{E} [(X_i - \\bar{X}_b)^2]\$
 
-where .
+for any given lag `l` up to `lags` (default: 200).
 """
 function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     mce = Array{Float64, 2}(undef, length(mcmc), length(mcmc[1].mean))
