@@ -106,7 +106,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         for p in 1:size(mcmc.samples, 2)
             write(f, ", x$p, xf$p")
         end
-        write(f, ", xf_ll, prop_type, ll_g, mh_prob")
+        write(f, ", xf_ll, prop_type, ll_g, mh_prob, sys_time")
         #
         for i in 1:size(mcmc.samples, 1)
             write(f, "\n $i, $(mcmc.mc_accepted[i])")
@@ -114,7 +114,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
                 # t = mc[i, p]
                 write(f, ", $(mcmc.samples[i, p]), $(mcmc.mcf[i, p])")
             end
-            write(f, ", $(mcmc.mc_log_like[i]), $(mcmc.prop_type[i]), $(mcmc.ll_g[i]), $(mcmc.mh_prob[i])")
+            write(f, ", $(mcmc.mc_log_like[i]), $(mcmc.prop_type[i]), $(mcmc.ll_g[i]), $(mcmc.mh_prob[i]), $(mcmc.mh_time[i])")
         end
     end # end of print
 end

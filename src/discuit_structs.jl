@@ -161,6 +161,7 @@ struct MCMCResults
     prop_type::Array{Int64, 1}
     ll_g::Array{Float64, 1}
     mh_prob::Array{Float64, 1}
+    mc_time::Array{Float64, 1}  # TO BE REMOVED
 end
 
 ## autocorrelation results
