@@ -541,7 +541,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     prop_type = Array{Int64,1}(undef, steps)
     ll_g = Array{Float64,1}(undef, steps)
     mh_p = Array{Float64,1}(undef, steps)
-    mc_time = zeros(steps)
+    mc_time = zeros(UInt64, steps)
     # get some samples
     # - NEED TO TIDY THIS UP ***
     mc[1,:] .= xi.parameters.value
@@ -553,7 +553,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     prop_type[1] = 0
     ll_g[1] = 0
     mh_p[1] = 1
-    st_time = time()
+    st_time = time_ns()
     for i in 2:steps
         ## JP, CAN THIS BE DONE BETTER WITH TEMPLATE?
         # make theta proposal
@@ -602,7 +602,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
         else
             mc[i,:] .= mc[i - 1,:]
         end
-        mc_time[i] = time() - st_time
+        mc_time[i] = time_ns() - st_time
         ## ADAPTATION PERIOD
         if i < adapt_period
             # adjust theta jump scalar
