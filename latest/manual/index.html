@@ -134,7 +134,7 @@
 <li><code>t0_index</code>            – index of the parameter that represents the initial time. <code>0</code> if fixed at <code>0.0</code>.</li>
 </ul>
 <p>A <code>mutable struct</code> which represents a DSSCT model (see <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a> for further details).</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L60-L74' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L60-L74' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.SimResults' href='#Discuit.SimResults'>#</a>
 <strong><code>Discuit.SimResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>SimResults</code></pre>
@@ -147,7 +147,7 @@
 <li><code>observations</code>    – variable of type <code>Observations</code>.</li>
 </ul>
 <p>The results of a simulation.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L42-L51' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L42-L51' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.Trajectory' href='#Discuit.Trajectory'>#</a>
 <strong><code>Discuit.Trajectory</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>Trajectory</code></pre>
@@ -159,7 +159,7 @@
 <li><code>event_type</code>  – event type, index of <code>model.rate_function</code>.</li>
 </ul>
 <p>A single realisation of the model.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L9-L17' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L9-L17' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.Observations' href='#Discuit.Observations'>#</a>
 <strong><code>Discuit.Observations</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>Observations</code></pre>
@@ -176,7 +176,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 
 
 <p>Stores one column vector of observation times and one or more column vectors of observation integer values.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L23-L36' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L23-L36' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.MCMCResults' href='#Discuit.MCMCResults'>#</a>
 <strong><code>Discuit.MCMCResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>MCMCResults</code></pre>
@@ -194,7 +194,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>geweke</code>          – Geweke convergence diagnostic results (<code>Tuple</code> of <code>Array</code>s).</li>
 </ul>
 <p>The results of an MCMC analysis including samples; mean; covariance matrix; adaptation period; and results of the Geweke test of stationarity.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L133-L147' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L133-L147' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.GelmanResults' href='#Discuit.GelmanResults'>#</a>
 <strong><code>Discuit.GelmanResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>GelmanResults</code></pre>
@@ -210,7 +210,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>mcmc</code>    – array of <code>MCMCResults</code></li>
 </ul>
 <p>Results of a Gelman Rubin convergence diagnostic including n <code>MCMCResults</code> variables; <code>mu</code>; and the scale reduction factor estimates (<code>sre</code>).</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L183-L195' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L183-L195' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.AutocorrelationResults' href='#Discuit.AutocorrelationResults'>#</a>
 <strong><code>Discuit.AutocorrelationResults</code></strong> &mdash; <em>Type</em>.</p>
 <pre class="codehilite"><code>AutocorrelationResults</code></pre>
@@ -222,7 +222,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>autocorrelation</code> – autocorrelation statistics.</li>
 </ul>
 <p>Results of a call to <code>compute_autocorrelation</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_structs.jl#L168-L176' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_structs.jl#L168-L176' class='documenter-source'>source</a><br></p>
 <p><a id='Functions-1'></a></p>
 <h2 id="functions">Functions</h2>
 <p>This section is organised in three parts:</p>
@@ -243,7 +243,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 
 
 <p>Does what it says on the tin but only if you give it an integer.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L54-L62' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L54-L62' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.gillespie_sim' href='#Discuit.gillespie_sim'>#</a>
 <strong><code>Discuit.gillespie_sim</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>gillespie_sim(model, parameters, tmax = 100.0, num_obs = 5)</code></pre>
@@ -257,7 +257,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>num_obs</code>     – number of observations to draw,</li>
 </ul>
 <p>Run a DGA simulation on <code>model</code>. Returns a SimResults containing the trajectory and observations data.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L102-L112' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L102-L112' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_met_hastings_mcmc' href='#Discuit.run_met_hastings_mcmc'>#</a>
 <strong><code>Discuit.run_met_hastings_mcmc</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
@@ -273,7 +273,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.</li>
 </ul>
 <p>Run an MCMC analysis based on <code>model</code> and <code>obs_data</code> of type <code>Observations</code>. The number of samples obtained is equal to <code>steps</code> - <code>adapt_period</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L469-L481' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L469-L481' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_gelman_diagnostic' href='#Discuit.run_gelman_diagnostic'>#</a>
 <strong><code>Discuit.run_gelman_diagnostic</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_gelman_diagnostic(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
@@ -290,7 +290,7 @@ pooley = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])</co
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.</li>
 </ul>
 <p>Run n (equal to the number of rows in <code>initial_parameters</code>)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L771-L784' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L771-L784' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.compute_autocorrelation' href='#Discuit.compute_autocorrelation'>#</a>
 <strong><code>Discuit.compute_autocorrelation</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>compute_autocorrelation(mcmc, lags = 200)</code></pre>
@@ -308,7 +308,7 @@ R_l  = \frac{\textrm{E} [(X_i - \bar{X})(X_{i+l} - \bar{X})]}{\sigma^2}
 </script>
 </p>
 <p>for any given lag <code>l</code> up to <code>lags</code> (default: 200).</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L641-L653' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L641-L653' class='documenter-source'>source</a><br></p>
 <pre class="codehilite"><code>compute_autocorrelation(mcmc, lags = 200)</code></pre>
 
 
@@ -329,7 +329,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 </script>
 </p>
 <p>for any given lag <code>l</code> up to <code>lags</code> (default: 200).</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L677-L691' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L677-L691' class='documenter-source'>source</a><br></p>
 <p><a id='model-helpers-1'></a></p>
 <h3 id="model-helpers">model helpers</h3>
 <p><a href="..#Discuit.jl-1">Discuit.jl</a> includes tools for generating components which can help minimise the amount of work required to generate customised <code>DiscuitModel</code>s, including <code>generate_model(...)</code> which is used to access a library of pre defined <a href="../models/#Discuit.jl-models-1">Discuit.jl models</a>.</p>
@@ -339,7 +339,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 
 
 <p>Generates a simple observation function for use in a <code>DiscuitModel</code>. Not very realistic...</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_models.jl#L98-L102' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_models.jl#L98-L102' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.generate_weak_prior-Tuple{Int64}' href='#Discuit.generate_weak_prior-Tuple{Int64}'>#</a>
 <strong><code>Discuit.generate_weak_prior</code></strong> &mdash; <em>Method</em>.</p>
 <pre class="codehilite"><code>generate_weak_prior(n)</code></pre>
@@ -354,7 +354,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 
 
 <p>Generate a "weak" prior density function, where <code>n</code> is the number of parameters in the model.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_models.jl#L4-L16' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_models.jl#L4-L16' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.generate_gaussian_obs_model' href='#Discuit.generate_gaussian_obs_model'>#</a>
 <strong><code>Discuit.generate_gaussian_obs_model</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>generate_gaussian_obs_model(n, σ = 2.0)</code></pre>
@@ -376,7 +376,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 
 
 <p>Generate a Gaussian observation model for a model with <code>n</code> states. Optionally specify observation error <code>σ</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_models.jl#L27-L45' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_models.jl#L27-L45' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.generate_model' href='#Discuit.generate_model'>#</a>
 <strong><code>Discuit.generate_model</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>generate_model(model_name, initial_condition, σ = 2.0)</code></pre>
@@ -405,7 +405,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 
 
 <p>Generates a <code>DiscuitModel</code>. Optionally specify observation error <code>σ</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_models.jl#L107-L131' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_models.jl#L107-L131' class='documenter-source'>source</a><br></p>
 <p><a id='utilities-1'></a></p>
 <h3 id="utilities">utilities</h3>
 <p><a id='Discuit.print_trajectory' href='#Discuit.print_trajectory'>#</a>
@@ -420,7 +420,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>fpath</code>       – the destination file path.</li>
 </ul>
 <p>Save an augmented trajectory from a variable of type <code>SimResults</code> (i.e. from a call to <code>gillespie_sim</code>, see <a href="../examples/#Simulation-1">Simulation</a>) to the file <code>fpath</code>, e.g. "./out/sim.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L123-L132' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L127-L136' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_observations' href='#Discuit.print_observations'>#</a>
 <strong><code>Discuit.print_observations</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>print_observations(obs_data, fpath)</code></pre>
@@ -432,7 +432,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>fpath</code>       – the destination file path.</li>
 </ul>
 <p>Save a set of observations (e.g. from a <code>SimResults</code> obtained by a call to <code>gillespie_sim</code> to the file <code>fpath</code>, e.g. "./out/obs.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L167-L175' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L171-L179' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.get_observations' href='#Discuit.get_observations'>#</a>
 <strong><code>Discuit.get_observations</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>get_observations(source)</code></pre>
@@ -443,7 +443,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>source</code>      – <code>Array</code>, <code>DataFrame</code> or filepath (i.e. <code>String</code>) containing the data (with times in the first column).</li>
 </ul>
 <p>Create and return a variable of type <code>Observations</code> based on a two dimensional array, <code>DataFrame</code> or file location.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L194-L201' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L198-L205' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_mcmc_results' href='#Discuit.print_mcmc_results'>#</a>
 <strong><code>Discuit.print_mcmc_results</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>print_mcmc_results(mcmc, dpath)</code></pre>
@@ -455,7 +455,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>dpath</code>   – the path of the directory where the results will be saved.</li>
 </ul>
 <p>Save the results from a call to <code>run_met_hastings_mcmc</code> or <code>run_custom_mcmc</code> to the directory <code>dpath</code>, e.g. "./out/mcmc/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L58-L66' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L62-L70' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_gelman_results' href='#Discuit.print_gelman_results'>#</a>
 <strong><code>Discuit.print_gelman_results</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>print_gelman_results(results::GelmanResults, dpath::String)</code></pre>
@@ -467,7 +467,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>dpath</code>   – the path of the directory where the results will be saved.</li>
 </ul>
 <p>Save the results from a call to <code>run_gelman_diagnostic</code> to the directory <code>dpath</code>, e.g. "./out/gelman/".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L30-L38' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L30-L38' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.tabulate_gelman_results' href='#Discuit.tabulate_gelman_results'>#</a>
 <strong><code>Discuit.tabulate_gelman_results</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>tabulate_gelman_results</code></pre>
@@ -479,7 +479,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>proposals</code>   – display proposal analysis.</li>
 </ul>
 <p>Display the results of a multi chain analysis run using <code>run_gelman_diagnostic</code>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L240-L248' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L244-L252' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.print_autocorrelation' href='#Discuit.print_autocorrelation'>#</a>
 <strong><code>Discuit.print_autocorrelation</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>print_autocorrelation(autocorrelation, fpath)</code></pre>
@@ -491,7 +491,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>fpath</code>           – the file path of the destination file.</li>
 </ul>
 <p>Save the results from a call to <code>compute_autocorrelation</code> to the file <code>fpath</code>, e.g. "./out/ac.csv".</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_utils.jl#L2-L10' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_utils.jl#L2-L10' class='documenter-source'>source</a><br></p>
 <p><a id='visualisation-1'></a></p>
 <h3 id="visualisation">visualisation</h3>
 <p><a id='Discuit.plot_trajectory' href='#Discuit.plot_trajectory'>#</a>
@@ -504,7 +504,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>x</code>       – <code>SimResults</code>, i.e. from a call to <code>gillespie_sim</code>.</li>
 </ul>
 <p>Plot the trajectory of a a DGA simulation on <code>model</code> using <a href="https://github.com/Evizero/UnicodePlots.jl">UnicodePlots.jl</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L5-L12' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L5-L12' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.plot_parameter_trace' href='#Discuit.plot_parameter_trace'>#</a>
 <strong><code>Discuit.plot_parameter_trace</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>plot_parameter_trace(mcmc, parameter)</code></pre>
@@ -516,7 +516,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>parameter</code>   – the index of the model parameter to be plotted.</li>
 </ul>
 <p>Trace plot of samples from an MCMC analysis for a given model <code>parameter</code> using <a href="https://github.com/Evizero/UnicodePlots.jl">UnicodePlots.jl</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L25-L33' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L25-L33' class='documenter-source'>source</a><br></p>
 <pre class="codehilite"><code>plot_parameter_trace(mcmc, parameter)</code></pre>
 
 
@@ -526,7 +526,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>parameter</code>   – the index of the model parameter to be plotted.</li>
 </ul>
 <p>Trace plot of samples from <code>n</code> MCMC analyses for a given model <code>parameter</code> using <a href="https://github.com/Evizero/UnicodePlots.jl">UnicodePlots.jl</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L42-L50' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L42-L50' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.plot_parameter_marginal' href='#Discuit.plot_parameter_marginal'>#</a>
 <strong><code>Discuit.plot_parameter_marginal</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>plot_parameter_marginal(mcmc, parameter)</code></pre>
@@ -538,7 +538,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>parameter</code>   – the index of the model parameter to be plotted.</li>
 </ul>
 <p>Plot the marginal distribution of samples from an MCMC analysis for a given model <code>parameter</code> using <a href="https://github.com/Evizero/UnicodePlots.jl">UnicodePlots.jl</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L63-L71' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L63-L71' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.plot_parameter_heatmap' href='#Discuit.plot_parameter_heatmap'>#</a>
 <strong><code>Discuit.plot_parameter_heatmap</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>plot_parameter_heatmap(mcmc, x_parameter, y_parameter)</code></pre>
@@ -551,7 +551,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>y_parameter</code>   – the index of the model parameter to be plotted on the y axis.</li>
 </ul>
 <p>Plot the marginal distribution of samples from an MCMC analysis for two model parameters using <a href="https://github.com/Evizero/UnicodePlots.jl">UnicodePlots.jl</a>.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L81-L90' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L81-L90' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.plot_geweke_series' href='#Discuit.plot_geweke_series'>#</a>
 <strong><code>Discuit.plot_geweke_series</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>plot_geweke_series(mcmc)</code></pre>
@@ -562,7 +562,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>mcmc</code>        – <code>MCMCResults</code>, e.g. from a call to <code>run_met_hastings_mcmc</code>.</li>
 </ul>
 <p>Plot the Geweke series...</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L101-L108' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L101-L108' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.plot_autocorrelation' href='#Discuit.plot_autocorrelation'>#</a>
 <strong><code>Discuit.plot_autocorrelation</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>plot_autocorrelation(autocorrelation)</code></pre>
@@ -573,7 +573,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>autocorrelation</code>     – The results from a call to <code>compute_autocorrelation</code>.</li>
 </ul>
 <p>Plot autocorrelation for an MCMC analysis.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/discuit_visualisation_uc.jl#L122-L129' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/discuit_visualisation_uc.jl#L122-L129' class='documenter-source'>source</a><br></p>
 <p><a id='custom-MCMC-1'></a></p>
 <h3 id="custom-mcmc">custom MCMC</h3>
 <p><a id='Discuit.run_custom_mcmc' href='#Discuit.run_custom_mcmc'>#</a>
@@ -593,7 +593,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if <code>prop_param = true</code>.</li>
 </ul>
 <p>Run a custom MCMC analysis. Similar to <code>run_met_hastings_mcmc</code> except that the<code>proposal_function</code> (of type Function) and initial state <code>x0</code> (of type MarkovState) are user defined.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L492-L506' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L492-L506' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.run_custom_mcmc_gelman_diagnostic' href='#Discuit.run_custom_mcmc_gelman_diagnostic'>#</a>
 <strong><code>Discuit.run_custom_mcmc_gelman_diagnostic</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>run_custom_mcmc_gelman_diagnostic(m_model, obs_data, proposal_function, x0, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)</code></pre>
@@ -612,7 +612,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>ppp</code>                 – the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.</li>
 </ul>
 <p>Run n (equal to the number of rows in <code>initial_parameters</code>) custom MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L805-L820' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L805-L820' class='documenter-source'>source</a><br></p>
 <p><a id='Discuit.generate_custom_x0' href='#Discuit.generate_custom_x0'>#</a>
 <strong><code>Discuit.generate_custom_x0</code></strong> &mdash; <em>Function</em>.</p>
 <pre class="codehilite"><code>generate_custom_x0(model, obs_data, parameters, event_times, event_types)</code></pre>
@@ -627,7 +627,7 @@ R^{\prime}_l = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}
 <li><code>event_types</code>         – <code>Array</code> of integer event types.</li>
 </ul>
 <p>Generate an initial <code>MarkovState</code> for use in a custom MCMC algorithm.</p>
-<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/26868eee1c009225f3ab6c907f998c157c98eb98/src/Discuit.jl#L167-L178' class='documenter-source'>source</a><br></p>
+<p><a target='_blank' href='https://github.com/mjb3/Discuit.jl/blob/c685c79bdd76183f59769b884233d0848229dc66/src/Discuit.jl#L167-L178' class='documenter-source'>source</a><br></p>
 <p><a id='Index-1'></a></p>
 <h2 id="index">Index</h2>
 <ul>
