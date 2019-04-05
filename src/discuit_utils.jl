@@ -13,7 +13,7 @@ function print_autocorrelation(acr::AutocorrelationResults, fpath::String)
         # print headers
         write(f, "lag")
         for j in 1:size(acr.autocorrelation, 2)
-            write(f, ", x$j")
+            write(f, ",x$j")
         end
         # print autocorr
         for i in 1:size(acr.autocorrelation, 1)
@@ -104,7 +104,7 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         # print headers
         write(f, "iter,accepted")
         for p in 1:size(mcmc.samples, 2)
-            write(f, ", x$p, xf$p")
+            write(f, ",x$p,xf$p")
         end
         write(f, ",xf_ll,prop_type,ll_g,mh_prob,sys_time")
         #
@@ -178,7 +178,7 @@ function print_observations(obs_data::Observations, fpath::String)
         # print headers
         write(f, "time")
         for j in 1:size(obs_data.val, 2)
-            write(f, ", val$j")
+            write(f, ",val$j")
         end
         # print observations
         for i in eachindex(obs_data.time)
