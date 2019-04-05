@@ -50,9 +50,9 @@ Trace plot of samples from `n` MCMC analyses for a given model `parameter` using
 """
 function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     x = 1:size(mcmc[1].samples, 1)
-    p = UnicodePlots.lineplot(x, mcmc[1].samples[:, parameter)], title = string("θ", Char(8320 + parameter), " traceplot."))
+    p = UnicodePlots.lineplot(x, mcmc[1].samples[:, parameter], title = string("θ", Char(8320 + parameter), " traceplot."))
     for i in 2:length(mcmc)
-        UnicodePlots.lineplot!(p, mcmc[i].samples[:, parameter)])
+        UnicodePlots.lineplot!(p, mcmc[i].samples[:, parameter])
     end
     UnicodePlots.xlabel!(p, "sample")
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
