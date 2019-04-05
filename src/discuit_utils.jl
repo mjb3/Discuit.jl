@@ -41,7 +41,7 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     # dpath = string("./out/", dname, "/")
     isdir(dpath) || mkpath(dpath)
     # print summary by theta row
-    open(string(dpath, "gelman.csv"), "w") do f
+    open(string(dpath, "params.csv"), "w") do f
         # print headers
         write(f, "parameter,mu,sdw,sre,sre_ll,sre_ul")
         for p in eachindex(results.mu)
