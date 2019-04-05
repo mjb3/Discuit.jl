@@ -20,7 +20,7 @@ function print_autocorrelation(acr::AutocorrelationResults, fpath::String)
             # write(f, "\n$((i - 1) * AC_LAG_INT)")
             write(f, "\n$(acr.lag[i])")
             for j in 1:size(acr.autocorrelation, 2)
-                write(f, ", $(acr.autocorrelation[i,j])")
+                write(f, ",$(acr.autocorrelation[i,j])")
             end
         end
     end
@@ -43,9 +43,9 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     # print summary by theta row
     open(string(dpath, "gelman.csv"), "w") do f
         # print headers
-        write(f, "parameter, mu, sre, sre_ll, sre_ul")
+        write(f, "parameter,mu,sre,sre_ll,sre_ul")
         for p in eachindex(results.mu)
-            write(f, "\n$p, $(results.mu[p]), $(results.sre[p]), $(results.sre_ll[p]), $(results.sre_ul[p])")
+            write(f, "\n$p,$(results.mu[p]),$(results.sre[p]),$(results.sre_ll[p]),$(results.sre_ul[p])")
         end
     end # end of print summary
     # print chains
@@ -71,17 +71,17 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
     # print metadata
     open(string(dpath, "metadata.csv"), "w") do f
         # print headers
-        write(f, "proposal_alg, num_obs, adapt_period")
+        write(f, "proposal_alg,num_obs,adapt_period")
         # print md
-        write(f, "\n$(mcmc.proposal_alg), $(mcmc.num_obs), $(mcmc.adapt_period)")
+        write(f, "\n$(mcmc.proposal_alg),$(mcmc.num_obs),$(mcmc.adapt_period)")
     end
     # print parameter summary
     open(string(dpath, "parameters.csv"), "w") do f
         # print headers
-        write(f, "parameter, mean, sd")
+        write(f, "parameter,mean,sd")
         for p in eachindex(mcmc.mean)
             sd = sqrt(mcmc.covar[p,p])
-            write(f, "\n$p, $(mcmc.mean[p]), $sd")
+            write(f, "\n$p,$(mcmc.mean[p]),$sd")
         end
     end
     # print Geweke results
@@ -89,32 +89,32 @@ function print_mcmc_results(mcmc::MCMCResults, dpath::String)
         # print headers
         write(f, "lag")
         for p in eachindex(mcmc.mean)
-            write(f, ", $p")
+            write(f, ",$p")
         end
         # print test statistics
         for i in eachindex(mcmc.geweke[1])
             write(f, "\n$(mcmc.geweke[1][i])")
             for p in eachindex(mcmc.mean)
-                write(f, ", $(mcmc.geweke[2][i,p])")
+                write(f, ",$(mcmc.geweke[2][i,p])")
             end
         end
     end
     # print samples
     open(string(dpath, "samples.csv"), "w") do f
         # print headers
-        write(f, "iter, accepted")
+        write(f, "iter,accepted")
         for p in 1:size(mcmc.samples, 2)
             write(f, ", x$p, xf$p")
         end
-        write(f, ", xf_ll, prop_type, ll_g, mh_prob, sys_time")
+        write(f, ",xf_ll,prop_type,ll_g,mh_prob,sys_time")
         #
         for i in 1:size(mcmc.samples, 1)
-            write(f, "\n $i, $(mcmc.mc_accepted[i])")
+            write(f, "\n $i,$(mcmc.mc_accepted[i])")
             for p in 1:size(mcmc.samples, 2)
                 # t = mc[i, p]
-                write(f, ", $(mcmc.samples[i, p]), $(mcmc.mcf[i, p])")
+                write(f, ",$(mcmc.samples[i, p]),$(mcmc.mcf[i, p])")
             end
-            write(f, ", $(mcmc.mc_log_like[i]), $(mcmc.prop_type[i]), $(mcmc.ll_g[i]), $(mcmc.mh_prob[i]), $(mcmc.mc_time[i])")
+            write(f, ",$(mcmc.mc_log_like[i]),$(mcmc.prop_type[i]),$(mcmc.ll_g[i]),$(mcmc.mh_prob[i]),$(mcmc.mc_time[i])")
         end
     end # end of print
 end
@@ -134,10 +134,10 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
     open(fpath, "w") do f
         population = copy(model.initial_condition)
         # print headers
-        write(f, "time, event")
+        write(f, "time,event")
         for p in eachindex(population)
             c = model.model_name[p]
-            write(f, ", $c")
+            write(f, ",$c")
         end
         # print event trajectory
         evt_i = 1
@@ -146,10 +146,10 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
             while evt_i <= length(sim_results.trajectory.time)
                 sim_results.trajectory.time[evt_i] > sim_results.observations.time[obs_i] && break
                 tp = sim_results.trajectory.event_type[evt_i]
-                write(f, "\n $(sim_results.trajectory.time[evt_i]), $tp")
+                write(f, "\n $(sim_results.trajectory.time[evt_i]),$tp")
                 population .+= model.m_transition[tp,:]
                 for p in 1:length(population)
-                    write(f, ", $(population[p])")
+                    write(f, ",$(population[p])")
                 end
                 evt_i += 1
             end
@@ -157,7 +157,7 @@ function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::S
             model.observation_function(population)
             write(f, "\n $(sim_results.observations.time[obs_i]), -1")
             for p in 1:length(population)
-                write(f, ", $(population[p])")
+                write(f, ",$(population[p])")
             end
         end
     end # end of print
@@ -184,7 +184,7 @@ function print_observations(obs_data::Observations, fpath::String)
         for i in eachindex(obs_data.time)
             write(f, "\n$(obs_data.time[i])")
             for j in 1:size(obs_data.val, 2)
-                write(f, ", $(obs_data.val[i,j])")
+                write(f, ",$(obs_data.val[i,j])")
             end
         end
     end # end of print
