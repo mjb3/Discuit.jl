@@ -798,7 +798,7 @@ function run_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, init
     ## ADD results check
     ## process results and return
     output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
-    println(" finished (sample μ = ", output.mu, ").")
+    println(" finished (sample μ = ", round.(output.mu; sigdigits = C_PR_SIGDIG), ").")
     return output
 end
 # for custom MCMC
