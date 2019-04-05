@@ -55,6 +55,7 @@ print_observations
 get_observations
 print_mcmc_results
 print_gelman_results
+tabulate_gelman_results
 print_autocorrelation
 ```
 

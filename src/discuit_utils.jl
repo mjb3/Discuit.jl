@@ -211,3 +211,52 @@ function get_observations(fpath::String)
     df = CSV.read(fpath)
     return get_observations(df)
 end
+
+### tabulate stuff
+import PrettyTables
+const C_PR_SIGDIG = 3
+
+## proposal summary
+function tabulate_proposals(results::GelmanResults)
+    println("Proposal summary:")
+    h = ["Adapted", "Chain", "Proposed", "Accepted", "Rate"]
+    d = Matrix(undef, length(results.mcmc) * 2, 5)
+    for mc in eachindex(results.mcmc)
+        # burnin
+        pr = results.mcmc[mc].adapt_period
+        ac = sum(results.mcmc[mc].mc_accepted[1:results.mcmc[mc].adapt_period])
+        d[mc, :] .= [ "false", mc, pr, ac, round(100 * ac / pr; sigdigits = C_PR_SIGDIG) ]
+    end
+    for mc in eachindex(results.mcmc)
+        # adapted
+        pr = length(results.mcmc[mc].mc_accepted) - results.mcmc[mc].adapt_period
+        ac = sum(results.mcmc[mc].mc_accepted[(results.mcmc[mc].adapt_period + 1):length(results.mcmc[mc].mc_accepted)])
+        d[(length(results.mcmc) + mc), :] .= [ "true", mc, pr, ac, round(100 * ac / pr; sigdigits = C_PR_SIGDIG) ]
+    end
+    PrettyTables.pretty_table(d, h)
+end
+
+## results summary AS DataFrame?
+"""
+    tabulate_gelman_results
+
+**Parameters**
+- `results`     -- the results of a call to `run_gelman_diagnostic`.
+- `proposals`   -- display proposal analysis.
+
+Display the results of a multi chain analysis run using `run_gelman_diagnostic`.
+"""
+function tabulate_gelman_results(results::GelmanResults, proposals = false)
+    ## proposals
+    proposals && tabulate_proposals(results)
+    ## samples
+    println("Gelman diagnostic:")
+    h = ["θ", "μ", "σ", "SRE", "SRE95"]
+    d = Matrix(undef, length(results.mu), 5)
+    d[:,1] .= 1:length(results.mu)
+    d[:,2] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
+    d[:,3] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
+    d[:,4] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
+    d[:,5] .= round.(results.sre_ul; sigdigits = C_PR_SIGDIG)
+    PrettyTables.pretty_table(d, h)
+end

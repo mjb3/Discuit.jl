@@ -185,6 +185,7 @@ end
 
 **Fields**
 - `mu`      -- between chain sample mean.
+- `sdw`     -- within chain standard deviation.
 - `sre`     -- scale reduction factor estimate.
 - `sre_ll`  -- scale reduction factor lower confidence interval.
 - `sre_ul`  -- scale reduction factor upper confidence interval.
@@ -194,6 +195,7 @@ Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` varia
 """
 struct GelmanResults
     mu::Array{Float64, 1}
+    sdw::Array{Float64, 1}
     sre::Array{Float64, 1}
     sre_ll::Array{Float64, 1}
     sre_ul::Array{Float64, 1}
