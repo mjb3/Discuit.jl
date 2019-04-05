@@ -40,6 +40,10 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     # create directory
     # dpath = string("./out/", dname, "/")
     isdir(dpath) || mkpath(dpath)
+    # run metadata
+    open(string(dpath, "metadata.csv"), "w") do f
+        write(f, "chains\n$(length(results.mcmc))")
+    end
     # print summary by theta row
     open(string(dpath, "params.csv"), "w") do f
         # print headers
