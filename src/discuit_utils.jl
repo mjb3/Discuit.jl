@@ -45,7 +45,7 @@ function print_gelman_results(results::GelmanResults, dpath::String)
         write(f, "chains\n$(length(results.mcmc))")
     end
     # print summary by theta row
-    open(string(dpath, "params.csv"), "w") do f
+    open(string(dpath, "parameters.csv"), "w") do f
         # print headers
         write(f, "parameter,mu,sdw,sre,sre_ll,sre_ul")
         for p in eachindex(results.mu)
