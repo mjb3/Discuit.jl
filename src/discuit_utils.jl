@@ -43,9 +43,9 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     # print summary by theta row
     open(string(dpath, "gelman.csv"), "w") do f
         # print headers
-        write(f, "parameter,mu,sre,sre_ll,sre_ul")
+        write(f, "parameter,mu,sdw,sre,sre_ll,sre_ul")
         for p in eachindex(results.mu)
-            write(f, "\n$p,$(results.mu[p]),$(results.sre[p]),$(results.sre_ll[p]),$(results.sre_ul[p])")
+            write(f, "\n$p,$(results.mu[p]),$(results.sdw[p]),$(results.sre[p]),$(results.sre_ll[p]),$(results.sre_ul[p])")
         end
     end # end of print summary
     # print chains
