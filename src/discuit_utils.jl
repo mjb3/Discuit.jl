@@ -223,20 +223,21 @@ const C_PR_SIGDIG = 3
 ## proposal summary
 function tabulate_proposals(results::GelmanResults)
     println("Proposal summary:")
-    h = ["Adapted", "Chain", "Proposed", "Accepted", "Rate"]
-    d = Matrix(undef, length(results.mcmc) * 2, 5)
+    h = ["Adapted", "Proposed", "Accepted", "Rate"]
+    n_iter = length(results.mcmc[1].mc_accepted)
+    adp_prd = results.mcmc[1].adapt_period
+    ## summarise:
+    pr = [length(results.mcmc) * adp_prd, length(results.mcmc) * (n_iter - adp_prd)]
+    ac = zeros(Int64, 2)
     for mc in eachindex(results.mcmc)
-        # burnin
-        pr = results.mcmc[mc].adapt_period
-        ac = sum(results.mcmc[mc].mc_accepted[1:results.mcmc[mc].adapt_period])
-        d[mc, :] .= [ "false", mc, pr, ac, round(100 * ac / pr; sigdigits = C_PR_SIGDIG) ]
+        ac[1] += sum(results.mcmc[mc].mc_accepted[1:adp_prd])
+        ac[2] += sum(results.mcmc[mc].mc_accepted[(adp_prd + 1):n_iter])
     end
-    for mc in eachindex(results.mcmc)
-        # adapted
-        pr = length(results.mcmc[mc].mc_accepted) - results.mcmc[mc].adapt_period
-        ac = sum(results.mcmc[mc].mc_accepted[(results.mcmc[mc].adapt_period + 1):length(results.mcmc[mc].mc_accepted)])
-        d[(length(results.mcmc) + mc), :] .= [ "true", mc, pr, ac, round(100 * ac / pr; sigdigits = C_PR_SIGDIG) ]
-    end
+    d = Matrix(undef, 3, 4)
+    d[1, :] .= [ "false", pr[1], ac[1], round(100 * ac[1] / pr[1]; sigdigits = C_PR_SIGDIG) ]
+    d[2, :] .= [ "true", pr[2], ac[2], round(100 * ac[2] / pr[2]; sigdigits = C_PR_SIGDIG) ]
+    d[3, :] .= [ "total", sum(pr), sum(ac), round(100 * sum(ac) / sum(pr); sigdigits = C_PR_SIGDIG) ]
+    ## display
     PrettyTables.pretty_table(d, h)
 end
 
