@@ -65,7 +65,7 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
     return evt_i
 end
 
-# initialise sequence for MBP
+## initialise sequence for MBP
 function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
     evt_i::Int64 = 1
     if theta_f[model.t0_index] < xi.parameters.value[model.t0_index]
@@ -105,7 +105,7 @@ function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i:
     return evt_i
 end
 
-# mbp function
+## mbp function
 function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     MBP_PROP_TYPE = 10
     # make theta proposal (RENAME TO T F)

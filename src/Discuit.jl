@@ -33,7 +33,7 @@ export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_para
 # custom functionality (in development)
 export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
 # for unit testing:
-export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like # Event
+# export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like # Event
 
 
 include("./discuit_structs.jl")
