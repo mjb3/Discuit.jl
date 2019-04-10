@@ -500,10 +500,10 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     mc_mu ./= (steps - adapt_period)
     is_mu ./= is_tpd
     ## TEMP
-    is_mu .= mc_mu
-    for i in eachindex(mc_mu)
-        mc_mu[i] = mean(mc[(adapt_period + 1):steps,i])
-    end
+    # is_mu .= mc_mu
+    # for i in eachindex(mc_mu)
+    #     mc_mu[i] = mean(mc[(adapt_period + 1):steps,i])
+    # end
     pan = prop_param ? "MBP" : "Standard"
     ## MAKE GEWKE TEST OPTIONAL? ****************
     gw = run_geweke_test(mc, adapt_period)
