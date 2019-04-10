@@ -113,6 +113,26 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # obs data
     obs_data::Observations
 end
+# DAC model IN DEV ***
+# struct PrivateDiscuitDACModel{RFT<:Function, TFA<:Array, OFT<:Function, PDT<:Function, OMT<:Function}
+#     # event rate function
+#     rate_function::RFT
+#     # transition matrix
+#     f_transition::TFA
+#     # initial condition
+#     initial_condition::Array{Int64, 1}
+#     # t0 index (0 ~ fixed at 0.0)
+#     t0_index::Int64
+#     # observation function (for sim TBA)
+#     observation_function::OFT
+#     # prior density function
+#     prior_density::PDT
+#     # observation model (log likelihood)
+#     observation_model::OMT
+#     # obs data
+#     obs_data::Observations
+# end
+
 ## generic proposal data structures
 # parameter
 struct ParameterProposal
