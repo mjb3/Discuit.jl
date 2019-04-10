@@ -39,6 +39,7 @@ end
 
 ## chaff
 function chaff(a::Array{Int64})
+    ndims(a) > 1 && throw("can't handle dim >1") 
     return sum(a)
 end
 

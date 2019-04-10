@@ -74,7 +74,7 @@ function choose_event(cum_rates::Array{Float64,1})
     return length(cum_rates)
 end
 # iterate particle
-function iterate_sim!(model::PrivateDiscuitModel, trajectory::Trajectory, population::Array{Int64,1}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
+function iterate_sim!(model::PrivateDiscuitModel, trajectory::Trajectory, population::Array{Int64}, parameters::Array{Float64,1}, time::Float64, tmax::Float64)
     # declare array for use by loop
     cum_rates = Array{Float64, 1}(undef, size(model.m_transition, 1))
     while true
@@ -114,7 +114,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     # initialise some things
     p_model = get_private_model(model, Observations([0.0], [0 0]) ) # NOTE TO JAMIE: can this be made nullable? or is it better to use delegates?
     obs_times = collect(tmax / num_obs : tmax / num_obs : tmax)
-    obs_vals = Array{Int64, 2}(undef, length(obs_times), length(p_model.initial_condition))
+    obs_vals = Array{Int64, ndims(p_model.initial_condition) + 1}(undef, length(obs_times), length(p_model.initial_condition))
     # time = 0.0
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
@@ -129,7 +129,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     println(" finished (", length(trajectory.time), " events).")
     # print trajectory
     population .= p_model.initial_condition
-    pop_long = Array{Int64, 2}(undef, length(trajectory.time), length(population))
+    pop_long = zeros(Int64, length(trajectory.time), length(population))
     for i in eachindex(trajectory.time)
         population .+= p_model.m_transition[trajectory.event_type[i], :]
         pop_long[i,:] .= population

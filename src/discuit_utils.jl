@@ -135,6 +135,7 @@ end
 Save an augmented trajectory from a variable of type `SimResults` (i.e. from a call to `gillespie_sim`, see [Simulation](@ref)) to the file `fpath`, e.g. "./out/sim.csv".
 """
 function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
+    ndims(model.m_transition) > 2 && throw("sorry, can't handle population dim >1")
     open(fpath, "w") do f
         population = copy(model.initial_condition)
         # print headers
@@ -178,6 +179,7 @@ end # end of function
 Save a set of observations (e.g. from a `SimResults` obtained by a call to `gillespie_sim` to the file `fpath`, e.g. "./out/obs.csv".
 """
 function print_observations(obs_data::Observations, fpath::String)
+    ndims(obs_data.val) > 2 && throw("sorry, can't handle population dim >2")
     open(fpath, "w") do f
         # print headers
         write(f, "time")

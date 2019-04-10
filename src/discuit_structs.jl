@@ -36,7 +36,7 @@ Stores one column vector of observation times and one or more column vectors of 
 """
 struct Observations
     time::Array{Float64, 1}
-    val::Array{Int64, 2}
+    val::Array{Int64}
 end
 ## results of gillespie sim
 """
@@ -52,7 +52,7 @@ The results of a simulation.
 struct SimResults
     model_name::String
     trajectory::Trajectory
-    population::Array{Int64, 2}
+    population::Array{Int64}
     observations::Observations
 end
 
@@ -76,11 +76,11 @@ mutable struct DiscuitModel
     # model name
     model_name::String
     # initial condition
-    initial_condition::Array{Int64, 1}
+    initial_condition::Array{Int64}
     # event rate function
     rate_function::Function
     # transition matrix
-    m_transition::Array{Int64, 2}
+    m_transition::Array{Int64}
     # observation function (for sim TBA)
     observation_function::Function
     # prior density function
@@ -99,9 +99,9 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     # event rate function
     rate_function::RFT
     # transition matrix
-    m_transition::Array{Int64, 2}
+    m_transition::Array{Int64}
     # initial condition
-    initial_condition::Array{Int64, 1}
+    initial_condition::Array{Int64}
     # t0 index (0 ~ fixed at 0.0)
     t0_index::Int64
     # observation function (for sim TBA)

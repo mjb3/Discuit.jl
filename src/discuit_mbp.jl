@@ -2,7 +2,7 @@
 # this code is based on the method described by Pooley et al. 2015
 
 ## single mbp iteration
-function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
+function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, time::Float64, xi::MarkovState, pop_i::Array{Int64}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64})
     # workspace
     lambda_i = Array{Float64, 1}(undef, size(model.m_transition, 1))
     lambda_f = Array{Float64, 1}(undef, size(model.m_transition, 1))
@@ -66,7 +66,7 @@ function iterate_mbp(model::PrivateDiscuitModel, obs_i::Int64, evt_i::Int64, tim
 end
 
 ## initialise sequence for MBP
-function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i::Array{Int64, 1}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64, 1})
+function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i::Array{Int64}, xf_trajectory::Trajectory, theta_f::Array{Float64, 1}, pop_f::Array{Int64})
     evt_i::Int64 = 1
     if theta_f[model.t0_index] < xi.parameters.value[model.t0_index]
         # workspace
