@@ -374,6 +374,9 @@ function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_f
     return output
 end
 
+## macros
+# TBA? (proposal step)
+
 ## metropolis hastings algorithm (internal)
 # - default proportion of parameter proposals (ppp): 0.3
 # - NEED TO TEMPLATE FOR SINGLE EVENT TYPE MODELS ***********
@@ -403,9 +406,10 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     ll_g = Array{Float64,1}(undef, steps)
     mh_p = Array{Float64,1}(undef, steps)
     mc_time = zeros(UInt64, steps)
-    mc_mu = zeros(length(xi.parameters.value))
-    is_mu = zeros(length(xi.parameters.value))
+    mc_mu = copy(xi.parameters.value)
     is_tpd = exp(xi.parameters.prior + xi.log_like)
+    is_mu = is_tpd * xi.parameters.value
+
     # add first sample
     mc[1,:] .= xi.parameters.value
     mcf[1,:] .= xi.parameters.value
@@ -418,7 +422,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     mh_p[1] = 1
     st_time = time_ns()
     for i in 2:steps
-        ## JP, CAN THIS BE DONE BETTER WITH TEMPLATE?
         # make theta proposal
         adapt::Bool = true
         if prop_param
@@ -458,7 +461,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                 mh_prob > rand() && (mc_accepted[i] = true)
             end
         end
-        #
+        ## acceptance handling
         if mc_accepted[i]
             mc[i,:] .= mcf[i,:]
             xi = xf
@@ -466,8 +469,8 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
             mc[i,:] .= mc[i - 1,:]
         end
         mc_time[i] = time_ns() - st_time
-        ## ADAPTATION PERIOD
         if i < adapt_period
+            ## ADAPTATION PERIOD
             # adjust theta jump scalar
             adapt && (sclr_j *= (mc_accepted[i] ? 1.002 : 0.999))
             # end of adaption period
@@ -484,12 +487,13 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                     # update proposal dist
                     g = MvNormal(covar)
                 end
-            else
-                # mu
-                mc_mu .+=  mc[i,:]
-                is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
-                is_tpd += exp(xf.parameters.prior + xf.log_like)
             end
+        else
+            ## ADAPTED
+            # mu
+            mc_mu .+=  mc[i,:]
+            is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
+            is_tpd += exp(xf.parameters.prior + xf.log_like)
         end
     end # end of Markov chain for loop
     # compute means and return results
@@ -504,11 +508,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     ## MAKE GEWKE TEST OPTIONAL? ****************
     gw = run_geweke_test(mc, adapt_period)
     return MCMCResults(mc, mc_accepted, is_mu, mc_mu, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
-end
-
-## compute is mu
-function compute_is_mu(mc, adapt_period, mcf)
-
 end
 
 ## convergence diagnostics
