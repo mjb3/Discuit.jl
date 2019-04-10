@@ -36,3 +36,11 @@ function pooley_sis_model()
     comps = "ABCDEFGH"
     return DiscuitModel(comps, ic, sis_rf, m_t, obs_fn, weak_prior, si_gaussian, 0)
 end
+
+## chaff
+function chaff(a::Array{Int64})
+    return sum(a)
+end
+
+println(chaff([1, 2, 3]))
+println(chaff([1 2 3; 1 2 3]))
