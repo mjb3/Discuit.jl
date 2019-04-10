@@ -449,6 +449,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
             mh_p[i] = -1.0
         else
             # accept or reject
+            mc_log_like[i] = xf.log_like
             mh_prob::Float64 = xf.prop_like * (xf.parameters.prior / xi.parameters.prior) * exp(xf.log_like - xi.log_like)
             mh_p[i] = mh_prob
             if mh_prob > 1.0
@@ -487,13 +488,12 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                 # mu
                 mc_mu .+=  mc[i,:]
                 is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
-                mc_log_like[i] = xf.log_like
                 is_tpd += exp(xf.parameters.prior + xf.log_like)
             end
         end
     end # end of Markov chain for loop
     # compute means and return results
-    mc_mu ./= steps - adapt_period
+    mc_mu ./= (steps - adapt_period)
     is_mu ./= is_tpd
     # mc_bar = Array{Float64, 1}(undef, length(xi.parameters.value))
     # for i in eachindex(mc_bar)
@@ -502,7 +502,7 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     pan = prop_param ? "MBP" : "Standard"
     ## MAKE GEWKE TEST OPTIONAL? ****************
     gw = run_geweke_test(mc, adapt_period)
-    return MCMCResults(mc, mc_accepted, mc_mu, is_mu, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
+    return MCMCResults(mc, mc_accepted, is_mu, mc_mu, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
 end
 
 ## compute is mu
