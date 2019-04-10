@@ -44,14 +44,16 @@ function pooley_prebaked()
     x = gillespie_sim(model, theta);
     plot_trajectory(x)
 
-    ## demo 2
-    y = x.observations
-    initial_theta = [0.005, 0.12]
-    mcmc = run_met_hastings_mcmc(model, x.observations, initial_theta);
-
-    ## demo 3
-    plot_parameter_trace(mcmc, 1)
-    plot_parameter_heatmap(mcmc, 1, 2)
+    ## UNCOMMENT ************************
+    # ## demo 2
+    # y = x.observations
+    # initial_theta = [0.005, 0.12]
+    # mcmc = run_met_hastings_mcmc(model, x.observations, initial_theta);
+    # # NEED TO ADD TAB(MCMC) ***
+    #
+    # ## demo 3
+    # plot_parameter_trace(mcmc, 1)
+    # plot_parameter_heatmap(mcmc, 1, 2)
 
 
     ## MCMC
@@ -66,11 +68,11 @@ function pooley_prebaked()
     # # geweke
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # # gelman
-    # rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+    rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+    tabulate_gelman_results(rs)
     # print_gelman_results(rs, "./out/gelman_example/")
     # # # autocorrelation
     # ac = compute_autocorrelation(rs.mcmc)
-    println(typeof(ac))
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # # standard proposals (for comparison)

@@ -258,12 +258,13 @@ function tabulate_gelman_results(results::GelmanResults, proposals = false)
     proposals && tabulate_proposals(results)
     ## samples
     println("Gelman diagnostic:")
-    h = ["θ", "μ", "σ", "SRE", "SRE95"]
+    h = ["θ", "Iμ", "Rμ", "σ", "SRE", "SRE95"]
     d = Matrix(undef, length(results.mu), 5)
-    d[:,1] .= 1:length(results.mu)
-    d[:,2] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
-    d[:,3] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
-    d[:,4] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
-    d[:,5] .= round.(results.sre_ul; sigdigits = C_PR_SIGDIG)
+    d[:,1] .= 1:length(results.is_mu)
+    d[:,2] .= 1:length(results.mu)
+    d[:,3] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
+    d[:,4] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
+    d[:,5] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
+    d[:,6] .= round.(results.sre_ul; sigdigits = C_PR_SIGDIG)
     PrettyTables.pretty_table(d, h)
 end

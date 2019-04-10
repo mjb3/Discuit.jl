@@ -403,8 +403,10 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     ll_g = Array{Float64,1}(undef, steps)
     mh_p = Array{Float64,1}(undef, steps)
     mc_time = zeros(UInt64, steps)
-    # get some samples
-    # - NEED TO TIDY THIS UP ***
+    mc_mu = zeros(length(xi.parameters.value))
+    is_mu = zeros(length(xi.parameters.value))
+    is_tpd = exp(xi.parameters.prior + xi.log_like)
+    # add first sample
     mc[1,:] .= xi.parameters.value
     mcf[1,:] .= xi.parameters.value
     mc_log_like[1] = xi.log_like
@@ -446,7 +448,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
             mc_log_like[i] = NULL_LOG_LIKE
             mh_p[i] = -1.0
         else
-            mc_log_like[i] = xf.log_like
             # accept or reject
             mh_prob::Float64 = xf.prop_like * (xf.parameters.prior / xi.parameters.prior) * exp(xf.log_like - xi.log_like)
             mh_p[i] = mh_prob
@@ -483,18 +484,31 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                     # print(covar)
                     g = MvNormal(covar)
                 end
+            else
+                # mu
+                mc_mu .+=  xf.parameters.value
+                is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
+                mc_log_like[i] = xf.log_like
+                is_tpd += exp(xf.parameters.prior + xf.log_like)
             end
         end
     end # end of Markov chain for loop
-    # compute mean/var and return results
-    mc_bar = Array{Float64, 1}(undef, length(xi.parameters.value))
-    for i in eachindex(mc_bar)
-        mc_bar[i] = mean(mc[(adapt_period + 1):steps,i])
-    end
+    # compute means and return results
+    mc_mu ./= steps - adapt_period
+    is_mu ./= is_tpd
+    # mc_bar = Array{Float64, 1}(undef, length(xi.parameters.value))
+    # for i in eachindex(mc_bar)
+    #     mc_bar[i] = mean(mc[(adapt_period + 1):steps,i])
+    # end
     pan = prop_param ? "MBP" : "Standard"
-    ## MAKE GEWKE TEST OPTIONAL ****************
+    ## MAKE GEWKE TEST OPTIONAL? ****************
     gw = run_geweke_test(mc, adapt_period)
-    return MCMCResults(mc, mc_accepted, mc_bar, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
+    return MCMCResults(mc, mc_accepted, mc_mu, is_mu, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
+end
+
+## compute is mu
+function compute_is_mu(mc, adapt_period, mcf)
+
 end
 
 ## convergence diagnostics
@@ -701,12 +715,15 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     # collect means and variances
     mce = Array{Float64, 2}(undef, length(mcmc), theta_size)
     mcv = Array{Float64, 2}(undef, length(mcmc), theta_size)
+    is_mu = zeros(theta_size)
     for i in eachindex(mcmc)
         mce[i,:] .= mcmc[i].mean
+        is_mu .+= mcmc[i].is_mu
         for j in 1:theta_size
             mcv[i,j] = mcmc[i].covar[j,j]
         end
     end
+    is_mu ./= length(mcmc)
     # compute W, B
     b = Array{Float64, 1}(undef, theta_size)
     w = Array{Float64, 1}(undef, theta_size)
@@ -761,7 +778,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         sre_ul[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + quantile(fdst, 0.975) * rr))
     end
     # return results
-    return GelmanResults(mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
+    return GelmanResults(is_mu, mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
 end
 
 include("./discuit_utils.jl")

@@ -169,6 +169,7 @@ struct MCMCResults
     samples::Array{Float64, 2}
     mc_accepted::Array{Float64, 1}
     mean::Array{Float64, 1}
+    is_mu::Array{Float64, 1}
     covar::Array{Float64, 2}
     proposal_alg::String
     num_obs::Int64
@@ -214,6 +215,7 @@ end
 Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`).
 """
 struct GelmanResults
+    is_mu::Array{Float64, 1}
     mu::Array{Float64, 1}
     sdw::Array{Float64, 1}
     sre::Array{Float64, 1}
