@@ -259,7 +259,7 @@ function tabulate_gelman_results(results::GelmanResults, proposals = false)
     ## samples
     println("Gelman diagnostic:")
     h = ["θ", "Iμ", "Rμ", "σ", "SRE", "SRE95"]
-    d = Matrix(undef, length(results.mu), 5)
+    d = Matrix(undef, length(results.mu), 6)
     d[:,1] .= 1:length(results.is_mu)
     d[:,2] .= 1:length(results.mu)
     d[:,3] .= round.(results.mu; sigdigits = C_PR_SIGDIG)

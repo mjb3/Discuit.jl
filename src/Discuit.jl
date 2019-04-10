@@ -480,13 +480,12 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
                     if model.t0_index > 0
                         covar[model.t0_index, model.t0_index] == 0.0 && (covar[model.t0_index, model.t0_index] = 1.0)
                     end
-                    # println(" covar: ")
-                    # print(covar)
+                    # update proposal dist
                     g = MvNormal(covar)
                 end
             else
                 # mu
-                mc_mu .+=  xf.parameters.value
+                mc_mu .+=  mc[i,:]
                 is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
                 mc_log_like[i] = xf.log_like
                 is_tpd += exp(xf.parameters.prior + xf.log_like)
@@ -545,7 +544,7 @@ function compute_autocorrelation(mcmc::MCMCResults, lags::Int64 = 200)
             # tmp[l,j] /= size(mcmc.samples, 1) - mcmc.adapt_period - (l*AC_LAG_INT)
         end
     end
-    println("mu = ", mcmc.mean)
+    # println("mu = ", mcmc.mean)
     return AutocorrelationResults(lag, output)
 end
 # autocorrelation R'
