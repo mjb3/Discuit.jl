@@ -278,7 +278,7 @@ function tabulate_mcmc_results(results::MCMCResults, proposals = false)
     ## samples
     println("Gelman diagnostic:")
     h = ["θ", "Iμ", "Rμ", "σ", "z"]
-    d = Matrix(undef, length(results.mean), 6)
+    d = Matrix(undef, length(results.mean), 5)
     sigma = zeros(length(results.mean))
     for p in eachindex(sigma)
         sigma[p] = sqrt(results.covar[p,p])
