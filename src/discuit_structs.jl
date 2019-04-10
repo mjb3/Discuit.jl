@@ -168,8 +168,8 @@ The results of an MCMC analysis including samples; mean; covariance matrix; adap
 struct MCMCResults
     samples::Array{Float64, 2}
     mc_accepted::Array{Float64, 1}
-    mean::Array{Float64, 1}
     is_mu::Array{Float64, 1}
+    mean::Array{Float64, 1}
     covar::Array{Float64, 2}
     proposal_alg::String
     num_obs::Int64
