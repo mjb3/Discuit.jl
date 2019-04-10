@@ -40,7 +40,7 @@ function pooley_prebaked()
     ## demo 1
     ic = [100, 1]
     model = generate_model("SIS", ic);
-    theta = [0.003,0.1]
+    theta = [0.003, 0.1]
     x = gillespie_sim(model, theta);
     plot_trajectory(x)
 
