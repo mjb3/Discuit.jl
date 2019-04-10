@@ -222,7 +222,26 @@ end
 import PrettyTables
 const C_PR_SIGDIG = 3
 
-## proposal summary
+## MCMC proposal summary
+function tabulate_proposals(results::MCMCResults)
+    println("Proposal summary:")
+    h = ["Adapted", "Proposed", "Accepted", "Rate"]
+    n_iter = length(results.mc_accepted)
+    adp_prd = results.adapt_period
+    ## summarise:
+    pr = [adp_prd, n_iter - adp_prd]
+    ac = zeros(Int64, 2)
+    ac[1] = sum(results.mc_accepted[1:adp_prd])
+    ac[2] = sum(results.mc_accepted[(adp_prd + 1):n_iter])
+    d = Matrix(undef, 3, 4)
+    d[1, :] .= [ "false", pr[1], ac[1], round(100 * ac[1] / pr[1]; sigdigits = C_PR_SIGDIG) ]
+    d[2, :] .= [ "true", pr[2], ac[2], round(100 * ac[2] / pr[2]; sigdigits = C_PR_SIGDIG) ]
+    d[3, :] .= [ "total", sum(pr), sum(ac), round(100 * sum(ac) / sum(pr); sigdigits = C_PR_SIGDIG) ]
+    ## display
+    PrettyTables.pretty_table(d, h)
+end
+
+## Gelman proposal summary
 function tabulate_proposals(results::GelmanResults)
     println("Proposal summary:")
     h = ["Adapted", "Proposed", "Accepted", "Rate"]
@@ -235,25 +254,6 @@ function tabulate_proposals(results::GelmanResults)
         ac[1] += sum(results.mcmc[mc].mc_accepted[1:adp_prd])
         ac[2] += sum(results.mcmc[mc].mc_accepted[(adp_prd + 1):n_iter])
     end
-    d = Matrix(undef, 3, 4)
-    d[1, :] .= [ "false", pr[1], ac[1], round(100 * ac[1] / pr[1]; sigdigits = C_PR_SIGDIG) ]
-    d[2, :] .= [ "true", pr[2], ac[2], round(100 * ac[2] / pr[2]; sigdigits = C_PR_SIGDIG) ]
-    d[3, :] .= [ "total", sum(pr), sum(ac), round(100 * sum(ac) / sum(pr); sigdigits = C_PR_SIGDIG) ]
-    ## display
-    PrettyTables.pretty_table(d, h)
-end
-
-## MCMC proposal summary
-function tabulate_proposals(results::GelmanResults)
-    println("Proposal summary:")
-    h = ["Adapted", "Proposed", "Accepted", "Rate"]
-    n_iter = length(results.mc_accepted)
-    adp_prd = results.adapt_period
-    ## summarise:
-    pr = [adp_prd, n_iter - adp_prd]
-    ac = zeros(Int64, 2)
-    ac[1] = sum(results.mc_accepted[1:adp_prd])
-    ac[2] = sum(results.mc_accepted[(adp_prd + 1):n_iter])
     d = Matrix(undef, 3, 4)
     d[1, :] .= [ "false", pr[1], ac[1], round(100 * ac[1] / pr[1]; sigdigits = C_PR_SIGDIG) ]
     d[2, :] .= [ "true", pr[2], ac[2], round(100 * ac[2] / pr[2]; sigdigits = C_PR_SIGDIG) ]
