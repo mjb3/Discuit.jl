@@ -182,7 +182,7 @@ julia&gt; model = DiscuitModel(&quot;SIS&quot;, initial_condition, sis_rf, t_mat
 <p>Now we can run an MCMC analysis based on the simulated datset:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
 running MCMC...
- finished (sample μ = [0.003423883623706267, 0.1148696268930491])</code></pre>
+ERROR: UndefVarError: mu not defined</code></pre>
 
 
 <p>Visual inspection of the Markov chain using the traceplot is one way of assessing the convergence of the algorithm:</p>
@@ -192,35 +192,7 @@ running MCMC...
 <p><img src="https://raw.githubusercontent.com/mjb3/Discuit.jl/master/docs/img/jl_traceplot.png" alt="MCMC traceplots" height="220"/></p>
 <p>The marginal distribution of parameters can be plotted by calling:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_parameter_marginal(rs, 1)
-┌ Warning: The keyword parameter `bins` is deprecated, use `nbins` instead
-│   caller = ip:0x0
-└ @ Core :-1
-                       ┌                                        ┐
-      [0.001 , 0.0015) ┤▇ 295
-      [0.0015, 0.002 ) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 3378
-      [0.002 , 0.0025) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 6960
-      [0.0025, 0.003 ) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 7700
-      [0.003 , 0.0035) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 7265
-      [0.0035, 0.004 ) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 5425
-      [0.004 , 0.0045) ┤▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 3148
-      [0.0045, 0.005 ) ┤▇▇▇▇▇▇▇▇▇ 2092
-      [0.005 , 0.0055) ┤▇▇▇▇▇ 1023
-      [0.0055, 0.006 ) ┤▇▇▇ 675
-      [0.006 , 0.0065) ┤▇▇ 494
-   θ₁ [0.0065, 0.007 ) ┤▇ 271
-      [0.007 , 0.0075) ┤ 68
-      [0.0075, 0.008 ) ┤▇ 138
-      [0.008 , 0.0085) ┤ 76
-      [0.0085, 0.009 ) ┤ 80
-      [0.009 , 0.0095) ┤ 111
-      [0.0095, 0.01  ) ┤▇ 273
-      [0.01  , 0.0105) ┤▇ 195
-      [0.0105, 0.011 ) ┤▇ 133
-      [0.011 , 0.0115) ┤ 67
-      [0.0115, 0.012 ) ┤ 77
-      [0.012 , 0.0125) ┤ 57
-                       └                                        ┘
-                                        samples</code></pre>
+ERROR: UndefVarError: rs not defined</code></pre>
 
 
 <p>Plotting the data with third party packages such as PyPlot is simple:</p>
@@ -253,29 +225,10 @@ R_{b,l} = \frac{\textrm{E} [ (X_i - \bar{X}_b) ( X_{i + l} - \bar{X}_b ) ]}{\sig
 </script>
 </p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; ac = compute_autocorrelation(rs);
-mu = [0.003423883623706267, 0.1148696268930491]
+ERROR: UndefVarError: rs not defined
 
 julia&gt; plot_autocorrelation(ac)
-                   θ autocorrelation
-       ┌────────────────────────────────────────┐
-     1 │⢧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠈⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠘⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠙⡷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠘⢎⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠑⣍⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠈⠳⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-   R   │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⠮⣗⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢗⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣧⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⡦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢗⡦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-       │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠙⠛⠳⠶⢦⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀│
-     0 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢷⣦⣀⣀⣀⣀⣀│
-       └────────────────────────────────────────┘
-       0                                     2000
-                          lag</code></pre>
+ERROR: UndefVarError: ac not defined</code></pre>
 
 
 <p>Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace <code>rs</code> with the results of a call to <code>run_gelman_diagnostic</code>.</p>
@@ -292,24 +245,7 @@ z = \frac{\bar{\theta}_{i, \alpha} - \bar{\theta}_{i, \beta}}{\sqrt{Var(\theta_{
 </p>
 <p>Geweke statistics are computed automatically for analyses run in Discuit and can be accessed directly (i.e. <code>rs.geweke</code>) or else inspected using one of the built in tools, e.g:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; plot_geweke_series(rs)
-        ┌────────────────────────────────────────┐
-      2 │⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-   z    │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        │⠉⠉⠉⠉⡉⠉⠉⠉⡍⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠋⠉⠉⠉⠉⠉⠉⠉⡍⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉⠉│
-        │⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘│
-        │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-     -1 │⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀│
-        └────────────────────────────────────────┘
-        0                                    20000</code></pre>
+ERROR: UndefVarError: rs not defined</code></pre>
 
 
 <p>Note that the results of MCMC analyses, including Geweke statistics, can be saved to file for analysis in the companion <a href="https://mjb3.github.io/Discuit/">R package</a>. In Julia, run:</p>
@@ -348,10 +284,7 @@ R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}
 <p>where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_gelman_diagnostic(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
 running gelman diagnostic... (3 chains)
- chain 1 complete on thread 1
- chain 2 complete on thread 1
- chain 3 complete on thread 1
- finished (sample μ = [0.00331, 0.11]).</code></pre>
+ERROR: UndefVarError: mu not defined</code></pre>
 
 
 <p><a id='Simulation-1'></a></p>
