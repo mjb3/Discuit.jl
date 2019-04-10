@@ -182,7 +182,7 @@ julia&gt; model = DiscuitModel(&quot;SIS&quot;, initial_condition, sis_rf, t_mat
 <p>Now we can run an MCMC analysis based on the simulated datset:</p>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
 running MCMC...
- finished (sample μ = [0.0008798261748757208, 0.029924133112822403])</code></pre>
+ finished (sample μ = [0.0008798261748757218, 0.029924133112822313])</code></pre>
 
 
 <p>Visual inspection of the Markov chain using the traceplot is one way of assessing the convergence of the algorithm:</p>
@@ -430,7 +430,7 @@ julia&gt; model.observation_model = observation_model;</code></pre>
 <pre class="codehilite"><code class="language-julia-repl">julia&gt; t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
 
 julia&gt; y = Observations([67.0], Array{Int64, 2}(undef, 1, 1))
-Observations([67.0], [140511477914096])</code></pre>
+Observations([67.0], [139669679718976])</code></pre>
 
 
 <p>We also need to define an initial state using the <code>generate_custom_x0</code> function using some parameter values and a vector of event times and corresponding event types, consistent with <code>t</code>:</p>
