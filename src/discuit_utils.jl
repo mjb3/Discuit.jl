@@ -261,7 +261,7 @@ function tabulate_gelman_results(results::GelmanResults, proposals = false)
     h = ["θ", "Iμ", "Rμ", "σ", "SRE", "SRE95"]
     d = Matrix(undef, length(results.mu), 6)
     d[:,1] .= 1:length(results.is_mu)
-    d[:,2] .= 1:length(results.mu)
+    d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
     d[:,3] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
     d[:,4] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
     d[:,5] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
