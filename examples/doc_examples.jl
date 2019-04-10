@@ -60,6 +60,7 @@ function pooley_prebaked()
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
     obs = get_observations("./data/pooley.csv")
     rs = run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
+    tabulate_mcmc_results(rs, true)
     ac = compute_autocorrelation(rs)
     # # print
     # print_mcmc_results(rs, "./out/doc/mcmc_example/")

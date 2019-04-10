@@ -243,7 +243,55 @@ function tabulate_proposals(results::GelmanResults)
     PrettyTables.pretty_table(d, h)
 end
 
-## results summary AS DataFrame?
+## MCMC proposal summary
+function tabulate_proposals(results::GelmanResults)
+    println("Proposal summary:")
+    h = ["Adapted", "Proposed", "Accepted", "Rate"]
+    n_iter = length(results.mc_accepted)
+    adp_prd = results.adapt_period
+    ## summarise:
+    pr = [adp_prd, n_iter - adp_prd]
+    ac = zeros(Int64, 2)
+    ac[1] = sum(results.mc_accepted[1:adp_prd])
+    ac[2] = sum(results.mc_accepted[(adp_prd + 1):n_iter])
+    d = Matrix(undef, 3, 4)
+    d[1, :] .= [ "false", pr[1], ac[1], round(100 * ac[1] / pr[1]; sigdigits = C_PR_SIGDIG) ]
+    d[2, :] .= [ "true", pr[2], ac[2], round(100 * ac[2] / pr[2]; sigdigits = C_PR_SIGDIG) ]
+    d[3, :] .= [ "total", sum(pr), sum(ac), round(100 * sum(ac) / sum(pr); sigdigits = C_PR_SIGDIG) ]
+    ## display
+    PrettyTables.pretty_table(d, h)
+end
+
+## results summary
+"""
+    tabulate_mcmc_results
+
+**Parameters**
+- `results`     -- `MCMCResults` object.
+- `proposals`   -- display proposal analysis.
+
+Display the results of an MCMC analysis.
+"""
+function tabulate_mcmc_results(results::MCMCResults, proposals = false)
+    ## proposals
+    proposals && tabulate_proposals(results)
+    ## samples
+    println("Gelman diagnostic:")
+    h = ["θ", "Iμ", "Rμ", "σ", "z"]
+    d = Matrix(undef, length(results.mean), 6)
+    sigma = zeros(length(results.mean))
+    for p in eachindex(sigma)
+        sigma[p] = sqrt(results.covar[p,p])
+    end
+    d[:,1] .= 1:length(results.mean)
+    d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
+    d[:,3] .= round.(results.mean; sigdigits = C_PR_SIGDIG)
+    d[:,4] .= round.(sigma; sigdigits = C_PR_SIGDIG)
+    d[:,5] .= round.(results.geweke[2][1,:]; sigdigits = C_PR_SIGDIG)
+    PrettyTables.pretty_table(d, h)
+end
+
+## results summary
 """
     tabulate_gelman_results
 
