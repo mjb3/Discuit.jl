@@ -3,7 +3,7 @@ import Discuit
 
 ### pooley ###
 function pooley()
-    set_random_seed(1)
+    # set_random_seed(1)
     ## define model
     # rate function
     function sis_rf!(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -35,7 +35,7 @@ function pooley()
 end
 
 function pooley_prebaked()
-    set_random_seed(2)
+    # set_random_seed(2)
 
     ## demo 1
     ic = [100, 1]
@@ -76,8 +76,9 @@ function pooley_prebaked()
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
-    # # standard proposals (for comparison)
-    # rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
+    # standard proposals (for comparison)
+    rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
+    Discuit.tabulate_gelman_results(rs, true)
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
 end
@@ -85,7 +86,7 @@ end
 ## custom roberts
 import Distributions
 function custom_bobs()
-    set_random_seed(1)
+    # set_random_seed(1)
     ## define model
     model = Discuit.generate_model("SIR", [119, 1, 0]);
     model.t0_index = 3
@@ -165,5 +166,5 @@ end
 
 # plot_parameter_trace
 # pooley()
-# pooley_prebaked()
-custom_bobs()
+pooley_prebaked()
+# custom_bobs()
