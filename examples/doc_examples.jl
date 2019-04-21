@@ -78,8 +78,9 @@ function pooley_prebaked()
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # standard proposals (for comparison)
-    rs = Discuit.run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
+    rs = Discuit.run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 200000, 20000, false);
     Discuit.tabulate_gelman_results(rs, true)
+    println(Discuit.plot_parameter_trace(rs, 1))
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
 end

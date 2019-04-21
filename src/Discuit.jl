@@ -234,14 +234,6 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
     # println(" ll: ", ll_traj, " ::: ", ll_obs)
     return ll_traj + ll_obs
 end
-# event type count
-function get_event_type_count(trajectory::Trajectory, et::Int64)
-    output = 0
-    for i in eachindex(trajectory.event_type)
-        trajectory.event_type[i] == et && (output += 1)
-    end
-    return output
-end
 
 ## insert event at appropriate index (std)
 function add_event!(xf_trajectory::Trajectory, evt_tp::Int64, evt_tm::Float64)
@@ -259,88 +251,17 @@ function add_event!(xf_trajectory::Trajectory, evt_tp::Int64, evt_tm::Float64)
     end
 end
 
-## standard proposal function
-# function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
-#     ## choose proposal type
-#     prop_type = rand(1:3)
-#     # trajectory proposal
-#     # - NEED TO MAKE THIS MORE EFFICIENT ****
-#     xf_trajectory = deepcopy(xi.trajectory)
-#     t0 = (model.t0_index == 0) ? 0.0 : xf_parameters.value[model.t0_index]
-#     if prop_type == 3
-#         ## move
-#         length(xi.trajectory.time) == 0 && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
-#         # - IS THERE A MORE EFFICIENT WAY TO DO THIS? I.E. ROTATE using circshift or something?
-#         # choose event and define new one
-#         evt_i = rand(1:length(xi.trajectory.time))
-#         evt_tm = (rand() * (model.obs_data.time[end] - t0)) + t0 #, xi.trajectory.event_type[evt_i])
-#         evt_tp = xi.trajectory.event_type[evt_i]
-#         # remove old one
-#         splice!(xf_trajectory.time, evt_i)
-#         splice!(xf_trajectory.event_type, evt_i)
-#         # add new one
-#         add_event!(xf_trajectory, evt_tp, evt_tm)
-#         # if evt_tm > xf_trajectory.time[end]
-#         #     push!(xf_trajectory.time, evt_tm)
-#         #     push!(xf_trajectory.event_type, evt_tp)
-#         # else
-#         #     for i in eachindex(xf_trajectory.time)
-#         #         if xf_trajectory.time[i] > evt_tm
-#         #             insert!(xf_trajectory.time, i, evt_tm)
-#         #             insert!(xf_trajectory.event_type, i, evt_tp)
-#         #             break
-#         #         end
-#         #     end
-#         # end
-#         # compute ln g(x)
-#         prop_lk = 1.0
-#     else
-#         ## insert / delete
-#         # choose type and count
-#         tp = rand(1:size(model.m_transition, 1))
-#         ec = get_event_type_count(xf_trajectory, tp)
-#         if prop_type == 1
-#             ## insert
-#             # choose time
-#             tm = (rand() * (model.obs_data.time[end] - t0)) + t0
-#             # insert at new index
-#             add_event!(xf_trajectory, tp, tm)
-#             # if (length(xf_trajectory.time) == 0 || tm > xf_trajectory.time[end])
-#             #     push!(xf_trajectory.time, tm)
-#             #     push!(xf_trajectory.event_type, tp)
-#             # else
-#             #     for i in eachindex(xf_trajectory.time)
-#             #         if xf_trajectory.time[i] > tm
-#             #             insert!(xf_trajectory.time, i, tm)
-#             #             insert!(xf_trajectory.event_type, i, tp)
-#             #             break
-#             #         end
-#             #     end
-#             # end
-#             # compute ln g(x)
-#             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
-#         else
-#             ## delete
-#             # println(" deleting... tp:", tp, " - ec: ", ec)
-#             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
-#             # choose event index (repeat if != tp)
-#             evt_i = rand(1:length(xi.trajectory.time))
-#             while xi.trajectory.event_type[evt_i] != tp
-#                 evt_i = rand(1:length(xi.trajectory.time))
-#             end
-#             # remove
-#             splice!(xf_trajectory.time, evt_i)
-#             splice!(xf_trajectory.event_type, evt_i)
-#             # compute ln g(x)
-#             prop_lk = ec / (model.obs_data.time[end] - t0)
-#         end # end of insert/delete
-#     end
-#     ## evaluate full likelihood for trajectory proposal and return
-#     return MarkovState(xi.parameters, xf_trajectory, compute_full_log_like(model, xi.parameters.value, xf_trajectory), prop_lk, prop_type)
-# end # end of std proposal function
+## event type count
+function get_event_type_count(trajectory::Trajectory, et::Int64)
+    output = 0
+    for i in eachindex(trajectory.event_type)
+        trajectory.event_type[i] == et && (output += 1)
+    end
+    return output
+end
 
-## standard proposal function
-function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+## standard proposal function (OLD)
+function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
     # trajectory proposal
@@ -368,33 +289,25 @@ function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_p
         tp = rand(1:size(model.m_transition, 1))
         ec = get_event_type_count(xf_trajectory, tp)
         if prop_type == 1
-            ## insert at randomly chosen time
-            add_event!(xf_trajectory, tp, (rand() * (model.obs_data.time[end] - t0)) + t0)
-            ## compute ln g(x)
+            ## insert
+            # choose time
+            tm = (rand() * (model.obs_data.time[end] - t0)) + t0
+            # insert at new index
+            add_event!(xf_trajectory, tp, tm)
+            # compute ln g(x)
             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
         else
             ## delete
+            # println(" deleting... tp:", tp, " - ec: ", ec)
             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
-            # choose event
-            evt_t_i = rand(1:ec)
-            evt_t_c = 0
-            for i in eachindex(xi.trajectory.event_type)
-                xf_trajectory.event_type[i] == tp && (evt_t_c += 1)
-                if evt_t_c == evt_t_i
-                    # remove
-                    splice!(xf_trajectory.time, i)
-                    splice!(xf_trajectory.event_type, i)
-                    break
-                end
+            # choose event index (repeat if != tp)
+            evt_i = rand(1:length(xi.trajectory.time))
+            while xi.trajectory.event_type[evt_i] != tp
+                evt_i = rand(1:length(xi.trajectory.time))
             end
-            # # choose event index (repeat if != tp)
-            # evt_i = rand(1:length(xi.trajectory.time))
-            # while xi.trajectory.event_type[evt_i] != tp
-            #     evt_i = rand(1:length(xi.trajectory.time))
-            # end
-            # # remove
-            # splice!(xf_trajectory.time, evt_i)
-            # splice!(xf_trajectory.event_type, evt_i)
+            # remove
+            splice!(xf_trajectory.time, evt_i)
+            splice!(xf_trajectory.event_type, evt_i)
             # compute ln g(x)
             prop_lk = ec / (model.obs_data.time[end] - t0)
         end # end of insert/delete
@@ -404,7 +317,7 @@ function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_p
 end # end of std proposal function
 
 ## new standard proposal function (WIP) ***
-function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+function standard_proposal_dev(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
     # trajectory proposal
@@ -428,10 +341,8 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
         prop_lk = 1.0
     else
         ## insert / delete
-        # choose type and count
-        # tp = rand(1:size(model.m_transition, 1))
-        # ec = get_event_type_count(xf_trajectory, tp)
         if prop_type == 1
+            ## choose type:
             tp = rand(1:size(model.m_transition, 1))
             ## insert at randomly chosen time
             add_event!(xf_trajectory, tp, (rand() * (model.obs_data.time[end] - t0)) + t0)
@@ -443,9 +354,6 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             length(xi.trajectory.time) == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
             # choose event index (repeat if != tp)
             evt_i = rand(1:length(xi.trajectory.time))
-            # while xi.trajectory.event_type[evt_i] != tp
-            #     evt_i = rand(1:length(xi.trajectory.time))
-            # end
             # remove
             splice!(xf_trajectory.time, evt_i)
             splice!(xf_trajectory.event_type, evt_i)
