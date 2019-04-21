@@ -374,16 +374,27 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
         else
             ## delete
-            # println(" deleting... tp:", tp, " - ec: ", ec)
             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
-            # choose event index (repeat if != tp)
-            evt_i = rand(1:length(xi.trajectory.time))
-            while xi.trajectory.event_type[evt_i] != tp
-                evt_i = rand(1:length(xi.trajectory.time))
+            # choose event
+            evt_t_i = rand(1:ec)
+            evt_t_c = 0
+            for i in eachindex(xi.trajectory.event_type)
+                xf_trajectory[i].event_type == tp && (evt_t_c += 1)
+                if evt_t_c == evt_t_i
+                    # remove
+                    splice!(xf_trajectory.time, i)
+                    splice!(xf_trajectory.event_type, i)
+                    break
+                end
             end
-            # remove
-            splice!(xf_trajectory.time, evt_i)
-            splice!(xf_trajectory.event_type, evt_i)
+            # # choose event index (repeat if != tp)
+            # evt_i = rand(1:length(xi.trajectory.time))
+            # while xi.trajectory.event_type[evt_i] != tp
+            #     evt_i = rand(1:length(xi.trajectory.time))
+            # end
+            # # remove
+            # splice!(xf_trajectory.time, evt_i)
+            # splice!(xf_trajectory.event_type, evt_i)
             # compute ln g(x)
             prop_lk = ec / (model.obs_data.time[end] - t0)
         end # end of insert/delete
