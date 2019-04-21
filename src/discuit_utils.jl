@@ -276,7 +276,7 @@ function tabulate_mcmc_results(results::MCMCResults, proposals = false)
     ## proposals
     proposals && tabulate_proposals(results)
     ## samples
-    println("Gelman diagnostic:")
+    println("MCMC summary:")
     h = ["θ", "Iμ", "Rμ", "σ", "z"]
     d = Matrix(undef, length(results.mean), 5)
     sigma = zeros(length(results.mean))

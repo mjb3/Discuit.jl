@@ -200,7 +200,7 @@ To produce the Lotka-Volterra example given in the paper use:
 set_random_seed(1); # hide
 model = generate_model("LOTKA", [79, 71]);
 xi = gillespie_sim(model, [0.5, 0.0025, 0.3]);
-plot_trajectory(xi)
+println(plot_trajectory(xi))
 ```
 
 The maximum time of the simulation and number of observations to draw can also be specified, e.g. `generate_model("LOTKA", [79, 71], 100.0, 10)`.

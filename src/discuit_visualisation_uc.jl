@@ -11,6 +11,7 @@ import UnicodePlots
 Plot the trajectory of a a DGA simulation on `model` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_trajectory(x::SimResults)
+    ## add origin? ***
     p = UnicodePlots.lineplot(x.trajectory.time, x.population[:,1], title = string(x.model_name, " simulation"), name = string(x.model_name[1]))
     for i in 2:size(x.population, 2)
         UnicodePlots.lineplot!(p, x.trajectory.time, x.population[:,i], name = string(x.model_name[i]))

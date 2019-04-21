@@ -1,9 +1,10 @@
-## import the package
+## resources:
 import Discuit
+import Random
 
-### pooley ###
+### pooley SIS model example ###
 function pooley()
-    # set_random_seed(1)
+    Random.seed!(1)
     ## define model
     # rate function
     function sis_rf!(output, parameters::Array{Float64, 1}, population::Array{Int64, 1})
@@ -35,14 +36,14 @@ function pooley()
 end
 
 function pooley_prebaked()
-    # set_random_seed(2)
+    Random.seed!(2)
 
     ## demo 1
     ic = [100, 1]
     model = Discuit.generate_model("SIS", ic);
     theta = [0.003, 0.1]
     x = Discuit.gillespie_sim(model, theta);
-    Discuit.plot_trajectory(x)
+    println(Discuit.plot_trajectory(x))
 
     ## UNCOMMENT ************************
     # ## demo 2
@@ -69,15 +70,15 @@ function pooley_prebaked()
     # # geweke
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # # gelman
-    rs = Discuit.run_gelman_diagnostic(model, obs, [0.002 0.08; 0.0028 0.12; 0.0035 0.1], 220000, 20000);
-    Discuit.tabulate_gelman_results(rs, true)
+    # rs = Discuit.run_gelman_diagnostic(model, obs, [0.002 0.08; 0.0028 0.12; 0.0035 0.1], 220000, 20000);
+    # Discuit.tabulate_gelman_results(rs, true)
     # print_gelman_results(rs, "./out/gelman_example/")
     # # # autocorrelation
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # standard proposals (for comparison)
-    rs = run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
+    rs = Discuit.run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 80000, 30000, false);
     Discuit.tabulate_gelman_results(rs, true)
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
