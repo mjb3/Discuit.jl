@@ -224,7 +224,6 @@ function compute_full_log_like(model::PrivateDiscuitModel, parameters::Array{Flo
         ## handle observation
         model.rate_function(lambda, parameters, population)
         # log likelihood
-        # model.pop_index > 0 && (ll_traj += log(lambda[model.pop_index]))
         ll_traj -= sum(lambda) * (model.obs_data.time[obs_i] - t)
         # obs model
         ll_obs += model.observation_model(model.obs_data.val[obs_i,:], population)
@@ -243,7 +242,104 @@ function get_event_type_count(trajectory::Trajectory, et::Int64)
     end
     return output
 end
-# proposal function
+
+## insert event at appropriate index (std)
+function add_event!(xf_trajectory::Trajectory, evt_tp::Int64, evt_tm::Float64)
+    if (length(xf_trajectory.time) == 0 || evt_tm > xf_trajectory.time[end])
+        push!(xf_trajectory.time, evt_tm)
+        push!(xf_trajectory.event_type, evt_tp)
+    else
+        for i in eachindex(xf_trajectory.time)
+            if xf_trajectory.time[i] > evt_tm
+                insert!(xf_trajectory.time, i, evt_tm)
+                insert!(xf_trajectory.event_type, i, evt_tp)
+                break
+            end
+        end
+    end
+end
+
+## standard proposal function
+# function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+#     ## choose proposal type
+#     prop_type = rand(1:3)
+#     # trajectory proposal
+#     # - NEED TO MAKE THIS MORE EFFICIENT ****
+#     xf_trajectory = deepcopy(xi.trajectory)
+#     t0 = (model.t0_index == 0) ? 0.0 : xf_parameters.value[model.t0_index]
+#     if prop_type == 3
+#         ## move
+#         length(xi.trajectory.time) == 0 && (return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
+#         # - IS THERE A MORE EFFICIENT WAY TO DO THIS? I.E. ROTATE using circshift or something?
+#         # choose event and define new one
+#         evt_i = rand(1:length(xi.trajectory.time))
+#         evt_tm = (rand() * (model.obs_data.time[end] - t0)) + t0 #, xi.trajectory.event_type[evt_i])
+#         evt_tp = xi.trajectory.event_type[evt_i]
+#         # remove old one
+#         splice!(xf_trajectory.time, evt_i)
+#         splice!(xf_trajectory.event_type, evt_i)
+#         # add new one
+#         add_event!(xf_trajectory, evt_tp, evt_tm)
+#         # if evt_tm > xf_trajectory.time[end]
+#         #     push!(xf_trajectory.time, evt_tm)
+#         #     push!(xf_trajectory.event_type, evt_tp)
+#         # else
+#         #     for i in eachindex(xf_trajectory.time)
+#         #         if xf_trajectory.time[i] > evt_tm
+#         #             insert!(xf_trajectory.time, i, evt_tm)
+#         #             insert!(xf_trajectory.event_type, i, evt_tp)
+#         #             break
+#         #         end
+#         #     end
+#         # end
+#         # compute ln g(x)
+#         prop_lk = 1.0
+#     else
+#         ## insert / delete
+#         # choose type and count
+#         tp = rand(1:size(model.m_transition, 1))
+#         ec = get_event_type_count(xf_trajectory, tp)
+#         if prop_type == 1
+#             ## insert
+#             # choose time
+#             tm = (rand() * (model.obs_data.time[end] - t0)) + t0
+#             # insert at new index
+#             add_event!(xf_trajectory, tp, tm)
+#             # if (length(xf_trajectory.time) == 0 || tm > xf_trajectory.time[end])
+#             #     push!(xf_trajectory.time, tm)
+#             #     push!(xf_trajectory.event_type, tp)
+#             # else
+#             #     for i in eachindex(xf_trajectory.time)
+#             #         if xf_trajectory.time[i] > tm
+#             #             insert!(xf_trajectory.time, i, tm)
+#             #             insert!(xf_trajectory.event_type, i, tp)
+#             #             break
+#             #         end
+#             #     end
+#             # end
+#             # compute ln g(x)
+#             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
+#         else
+#             ## delete
+#             # println(" deleting... tp:", tp, " - ec: ", ec)
+#             ec == 0 && (return MarkovState(xi.parameters, xf_trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, prop_type))
+#             # choose event index (repeat if != tp)
+#             evt_i = rand(1:length(xi.trajectory.time))
+#             while xi.trajectory.event_type[evt_i] != tp
+#                 evt_i = rand(1:length(xi.trajectory.time))
+#             end
+#             # remove
+#             splice!(xf_trajectory.time, evt_i)
+#             splice!(xf_trajectory.event_type, evt_i)
+#             # compute ln g(x)
+#             prop_lk = ec / (model.obs_data.time[end] - t0)
+#         end # end of insert/delete
+#     end
+#     ## evaluate full likelihood for trajectory proposal and return
+#     return MarkovState(xi.parameters, xf_trajectory, compute_full_log_like(model, xi.parameters.value, xf_trajectory), prop_lk, prop_type)
+# end # end of std proposal function
+
+## standard proposal function
 function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
@@ -263,18 +359,7 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
         splice!(xf_trajectory.time, evt_i)
         splice!(xf_trajectory.event_type, evt_i)
         # add new one
-        if evt_tm > xf_trajectory.time[end]
-            push!(xf_trajectory.time, evt_tm)
-            push!(xf_trajectory.event_type, evt_tp)
-        else
-            for i in eachindex(xf_trajectory.time)
-                if xf_trajectory.time[i] > evt_tm
-                    insert!(xf_trajectory.time, i, evt_tm)
-                    insert!(xf_trajectory.event_type, i, evt_tp)
-                    break
-                end
-            end
-        end
+        add_event!(xf_trajectory, evt_tp, evt_tm)
         # compute ln g(x)
         prop_lk = 1.0
     else
@@ -283,23 +368,9 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
         tp = rand(1:size(model.m_transition, 1))
         ec = get_event_type_count(xf_trajectory, tp)
         if prop_type == 1
-            ## insert
-            # choose time
-            tm = (rand() * (model.obs_data.time[end] - t0)) + t0
-            # insert at new index
-            if (length(xf_trajectory.time) == 0 || tm > xf_trajectory.time[end])
-                push!(xf_trajectory.time, tm)
-                push!(xf_trajectory.event_type, tp)
-            else
-                for i in eachindex(xf_trajectory.time)
-                    if xf_trajectory.time[i] > tm
-                        insert!(xf_trajectory.time, i, tm)
-                        insert!(xf_trajectory.event_type, i, tp)
-                        break
-                    end
-                end
-            end
-            # compute ln g(x)
+            ## insert at randomly chosen time
+            add_event!(xf_trajectory, tp, (rand() * (model.obs_data.time[end] - t0)) + t0)
+            ## compute ln g(x)
             prop_lk = (model.obs_data.time[end] - t0) / (ec + 1)
         else
             ## delete
@@ -444,7 +515,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
         mcf[i,:] .= xf.parameters.value
         prop_type[i] = xf.prop_type
         ll_g[i] = xf.prop_like
-        # mc_prior[i] = xf.parameters.prior
         # PRIOR CHECK REDUNDANT? ******
         if (xf.parameters.prior == 0.0 || xf.log_like == NULL_LOG_LIKE)
             # reject automatically NEED TO THINK ABOUT THIS, BIT OF A MESS!
@@ -499,11 +569,6 @@ function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period
     # compute means and return results
     mc_mu ./= (steps - adapt_period)
     is_mu ./= is_tpd
-    ## TEMP
-    # is_mu .= mc_mu
-    # for i in eachindex(mc_mu)
-    #     mc_mu[i] = mean(mc[(adapt_period + 1):steps,i])
-    # end
     pan = prop_param ? "MBP" : "Standard"
     ## MAKE GEWKE TEST OPTIONAL? ****************
     gw = run_geweke_test(mc, adapt_period)
@@ -707,7 +772,8 @@ function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observ
     println(" finished (sample μ = ", output.mu, ").")
     return output
 end
-# internal function
+
+## gelman diagnostic (internal)
 function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_iter::Int64)
     ## compute W; B; V
     # collect means and variances
