@@ -379,7 +379,7 @@ function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_param
             evt_t_i = rand(1:ec)
             evt_t_c = 0
             for i in eachindex(xi.trajectory.event_type)
-                xf_trajectory[i].event_type == tp && (evt_t_c += 1)
+                xf_trajectory.event_type[i] == tp && (evt_t_c += 1)
                 if evt_t_c == evt_t_i
                     # remove
                     splice!(xf_trajectory.time, i)
