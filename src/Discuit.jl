@@ -340,7 +340,7 @@ end
 # end # end of std proposal function
 
 ## standard proposal function
-function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
     # trajectory proposal
@@ -392,8 +392,8 @@ function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_p
     return MarkovState(xi.parameters, xf_trajectory, compute_full_log_like(model, xi.parameters.value, xf_trajectory), prop_lk, prop_type)
 end # end of std proposal function
 
-## standard proposal function
-function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+## new standard proposal function (WIP) ***
+function standard_proposal_test(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
     # trajectory proposal
