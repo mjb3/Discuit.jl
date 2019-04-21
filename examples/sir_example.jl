@@ -16,8 +16,8 @@ function sir_example()
 
     ## MCMC (MBP)
     obs = x.observations
-    rs = Discuit.run_met_hastings_mcmc(model, obs, [0.001, 0.1])
-    Discuit.tabulate_mcmc_results(rs, true, 100000, 20000)
+    rs = Discuit.run_met_hastings_mcmc(model, obs, [0.001, 0.1], 100000, 20000)
+    Discuit.tabulate_mcmc_results(rs, true)
     println(Discuit.plot_parameter_trace(rs, 1))
     println(Discuit.plot_parameter_heatmap(rs, 1, 2))
 
