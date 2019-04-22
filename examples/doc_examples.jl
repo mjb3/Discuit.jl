@@ -59,7 +59,8 @@ function pooley_prebaked()
 
     ## MCMC
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
-    obs = Discuit.get_observations("./data/pooley.csv")
+    # obs = Discuit.get_observations("./data/pooley.csv")
+    obs = x.observations
     rs = Discuit.run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
     Discuit.tabulate_mcmc_results(rs, true)
     ac = Discuit.compute_autocorrelation(rs)
@@ -69,9 +70,9 @@ function pooley_prebaked()
     # ## Diagnostics
     # # geweke
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
-    # # gelman
-    # rs = Discuit.run_gelman_diagnostic(model, obs, [0.002 0.08; 0.0028 0.12; 0.0035 0.1], 220000, 20000);
-    # Discuit.tabulate_gelman_results(rs, true)
+    # gelman
+    rs = Discuit.run_gelman_diagnostic(model, obs, [0.002 0.08; 0.0028 0.12; 0.0035 0.1])
+    Discuit.tabulate_gelman_results(rs, true)
     # print_gelman_results(rs, "./out/gelman_example/")
     # # # autocorrelation
     # ac = compute_autocorrelation(rs.mcmc)
@@ -80,7 +81,7 @@ function pooley_prebaked()
     # standard proposals (for comparison)
     rs = Discuit.run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 200000, 20000, false);
     Discuit.tabulate_gelman_results(rs, true)
-    println(Discuit.plot_parameter_trace(rs, 1))
+    println(Discuit.plot_parameter_trace(rs.mcmc, 1))
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
 end
