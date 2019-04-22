@@ -10,13 +10,15 @@ function sir_example()
     model = Discuit.generate_model("SIR", ic);
 
     ## sim
-    theta = [0.003, 0.1]
-    x = Discuit.gillespie_sim(model, theta);
-    Discuit.print_trajectory(model, x, "./out/sir_sim.csv")
+    theta = [0.005, 0.1]
+    x = Discuit.gillespie_sim(model, theta, 100.0, 10);
+    # Discuit.print_trajectory(model, x, "./out/sir_sim.csv")
     println(Discuit.plot_trajectory(x))
 
     obs = x.observations
-    Discuit.print_observations(obs, "./out/sir_obs.csv")
+    # Discuit.print_observations(obs, "./out/sir_obs.csv")
+
+    Random.seed!(1)
     ## MCMC (STD)
     # rs = Discuit.run_met_hastings_mcmc(model, obs, [0.001, 0.1], 300000, 50000, false)
     # Discuit.tabulate_mcmc_results(rs, true)
