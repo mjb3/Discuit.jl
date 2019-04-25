@@ -261,7 +261,7 @@ function get_event_type_count(trajectory::Trajectory, et::Int64)
 end
 
 ## standard proposal function (VALIDATED)
-function standard_proposal_val(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+function standard_proposal_old(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
     # trajectory proposal
@@ -322,6 +322,7 @@ end # end of std proposal function
 
 
 ## new standard proposal function
+# NEED TO BENCHMARK AGAINST OLD ***
 function standard_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
     ## choose proposal type
     prop_type = rand(1:3)
