@@ -139,8 +139,8 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
 end
 # sim to initialise Markov chain
 function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,1}, full_like::Bool)
-    generate = true
-    while generate
+    # generate = true
+    while true
         # initialise some things
         population = copy(model.initial_condition)
         trajectory = Trajectory(Float64[], Int64[])
@@ -157,7 +157,7 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
             t_prev = model.obs_data.time[i]
         end
         ## REPLACE WITH CONST OR PARAMETER? *****
-        if output != NULL_LOG_LIKE && length(trajectory.time) > 5
+        if output != NULL_LOG_LIKE # && length(trajectory.time) > e.g. 5?
             return MarkovState(ParameterProposal(parameters, model.prior_density(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
         end
     end
