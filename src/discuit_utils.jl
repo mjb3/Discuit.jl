@@ -266,7 +266,7 @@ end
 
 ## results summary
 """
-    tabulate_mcmc_results
+    tabulate_results
 
 **Parameters**
 - `results`     -- `MCMCResults` object.
@@ -274,7 +274,7 @@ end
 
 Display the results of an MCMC analysis.
 """
-function tabulate_mcmc_results(results::MCMCResults, proposals = false)
+function tabulate_results(results::MCMCResults, proposals = false)
     ## proposals
     proposals && tabulate_proposals(results)
     ## samples
@@ -295,7 +295,7 @@ end
 
 ## results summary
 """
-    tabulate_gelman_results
+    tabulate_results
 
 **Parameters**
 - `results`     -- the results of a call to `run_gelman_diagnostic`.
@@ -303,7 +303,7 @@ end
 
 Display the results of a multi chain analysis run using `run_gelman_diagnostic`.
 """
-function tabulate_gelman_results(results::GelmanResults, proposals = false)
+function tabulate_results(results::GelmanResults, proposals = false)
     ## proposals
     proposals && tabulate_proposals(results)
     ## samples

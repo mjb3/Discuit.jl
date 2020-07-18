@@ -207,7 +207,7 @@ function compute_sigma(cv::Array{Float64,2})
 end
 
 ## importance sample:
-function tabulate_sample(results::ImportanceSample, proposals = false)
+function tabulate_results(results::ImportanceSample, proposals = false)
     ## samples
     println("IBIS results:")
     h = ["θ", "μ", "σ", "BME"]
@@ -261,14 +261,17 @@ C_DF_ESS_CRIT = 0.5
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `obs_data`            -- `Observations` data.
-- `initial_parameters`  -- initial model parameters (i.e. sample).
-- `steps`               -- number of iterations.
-- `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
-- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
+- `theta_init`          -- initial model parameters.
+- `ess_rs_crit`         -- resampling criteria (default = 0.5.)
+- `n_props`             -- MBP mutations per step (default = 3.)
+- `ind_prop`            -- true for independent theta proposals (default = false.)
+- `alpha`               -- user-defined, increase for lower acceptance rate targeted (default = 1.002.)
 
-Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained is equal to `steps` - `adapt_period`.
+Run an MBP IBIS analysis based on `model` and `obs_data` of type `Observations`, with manually specified initial theta.
 """
-function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, theta_init::Array{Float64, 2}, ess_rs_crit = C_DF_ESS_CRIT; n_props = 3, ind_prop = false, alpha = 1.002)
+function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, theta_init::Array{Float64, 2}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 3, ind_prop = false, alpha = 1.002)
+    theta_init
+    ## initialise
     model = get_private_model(mdl, obs_data)
     outer_p = size(theta_init,1)
     println("running MBP IBIS. n = ", outer_p)
@@ -372,4 +375,34 @@ function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, theta_init::Arr
     ## return results
     println("finished. ar: ", k_log, " - ", k_log[2] / k_log[1])
     return ImportanceSample(mu, cv, theta, w, time_ns() - start_time, bme)#, rejs
+end
+
+## draw initial samples
+function draw_from_limit(n::Int64, theta_limits::Array{Float64, 1})
+    output = zeros(n, length(theta_limits))
+    for i in eachindex(theta_limits)
+        output[:,i] .= rand(n) * theta_limits[i]
+    end
+    return output
+end
+
+"""
+    run_mbp_ibis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
+
+**Parameters**
+- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
+- `obs_data`            -- `Observations` data.
+- `n_parts`             -- number of particles.
+- `theta_limits`        -- upper bounds of parameter space (lower = 0.)
+- `ess_rs_crit`         -- resampling criteria (default = 0.5.)
+- `n_props`             -- MBP mutations per step (default = 3.)
+- `ind_prop`            -- true for independent theta proposals (default = false.)
+- `alpha`               -- user-defined, increase for lower acceptance rate targeted (default = 1.002.)
+
+Run an n = `n_parts` particle MBP IBIS analysis, based on `model` and `obs_data` of type `Observations`.
+"""
+function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, n_parts::Int64, theta_limits::Array{Float64, 1}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 10, ind_prop = false, alpha = 1.002)
+    ## generate intial theta
+    theta_init = draw_from_limit(n_parts, theta_limits)
+    return run_mbp_ibis(mdl, obs_data, theta_init; ess_rs_crit = ess_rs_crit, n_props = n_props, ind_prop = ind_prop, alpha = alpha)
 end
