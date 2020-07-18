@@ -5,9 +5,9 @@ import Random
 ## example
 function sir_example()
     Random.seed!(1)
-    ## model
-    ic = [50, 1, 0]
-    model = Discuit.generate_model("SIR", ic);
+    # generate model
+    initial_condition = [50, 1, 0]
+    model = Discuit.generate_model("SIR", initial_condition);
 
     ## sim
     theta = [0.005, 0.1]

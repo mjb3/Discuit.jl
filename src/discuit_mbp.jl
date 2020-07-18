@@ -106,7 +106,7 @@ function initialise_sequence(model::PrivateDiscuitModel, xi::MarkovState, pop_i:
 end
 
 ## mbp function
-function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+function partial_model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal, ymax::Int64)
     MBP_PROP_TYPE = 10
     # make theta proposal (RENAME TO T F)
     if xf_parameters.prior == 0.0
@@ -127,7 +127,7 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         # - log likelihood
         output = 0.0
         # for each observation period
-        for obs_i in eachindex(model.obs_data.time)
+        for obs_i in 1:ymax
             # iterate until next observation
             evt_i[1] = iterate_mbp(model, obs_i, evt_i[1], time, xi, pop_i, xf_trajectory, xf_parameters.value, pop_f)
             # check trajectory length
@@ -138,4 +138,9 @@ function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_pa
         end
         return MarkovState(xf_parameters, xf_trajectory, output, DF_PROP_LIKE, MBP_PROP_TYPE)
     end
+end
+
+## for (eventual adaption for IBIS)
+function model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal)
+    return partial_model_based_proposal(model, xi, xf_parameters, length(model.obs_data.time))
 end

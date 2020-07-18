@@ -136,6 +136,8 @@ Save an augmented trajectory from a variable of type `SimResults` (i.e. from a c
 """
 function print_trajectory(model::DiscuitModel, sim_results::SimResults, fpath::String)
     ndims(model.m_transition) > 2 && throw("sorry, can't handle population dim >1")
+    # check dir
+    # isdir(dpath) || mkpath(dpath)
     open(fpath, "w") do f
         population = copy(model.initial_condition)
         # print headers

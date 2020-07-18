@@ -826,4 +826,7 @@ end
 
 include("./discuit_utils.jl")
 
+## MBP IBIS - need to fold this in at some point ***
+include("discuit_ibis.jl")
+
 end # end of module

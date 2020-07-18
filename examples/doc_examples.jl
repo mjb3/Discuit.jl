@@ -35,6 +35,7 @@ function pooley()
     println(length(xi.trajectory.time), "\n")
 end
 
+##
 function pooley_prebaked()
     Random.seed!(2)
 
@@ -44,6 +45,11 @@ function pooley_prebaked()
     theta = [0.003, 0.1]
     x = Discuit.gillespie_sim(model, theta);
     println(Discuit.plot_trajectory(x))
+
+    theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
+    ## IBIS - MOVE DOWN *********
+    rs = Discuit.run_mbp_ibis(model, x.observations, theta_i)
+    Discuit.tabulate_sample(rs)
 
     ## UNCOMMENT ************************
     # ## demo 2
