@@ -221,6 +221,71 @@ function tabulate_results(results::ImportanceSample, proposals = false)
     PrettyTables.pretty_table(d, h)
 end
 
+## print theta summary (internal use)
+function print_sample_summary(results, dpath::String)
+    # print theta summary
+    open(string(dpath, "summary.csv"), "w") do f
+        # print headers
+        write(f, "theta,mu,sigma")
+        # print data
+        for p in eachindex(results.mu)
+            # c = model.model_name[p]
+            write(f, "\n$p,$(results.mu[p]),$(sqrt(results.cv[p,p]))")
+        end
+    end
+end
+
+## print importance sample (just the weighed sample and summary)
+function print_imp_sample(results::ImportanceSample, dpath::String)
+    # check dir
+    isdir(dpath) || mkpath(dpath)
+    # print importance samples
+    open(string(dpath, "theta.csv"), "w") do f
+        # print headers
+        write(f, "1")
+        for i in 2:length(results.mu)
+            write(f, ",$i")
+        end
+        # print data
+        for i in 1:size(results.theta, 1)
+            write(f, "\n$(results.theta[i,1])")
+            for p in 2:length(results.mu)
+                write(f, ",$(results.theta[i,p])")
+            end
+        end
+    end
+    # print weights
+    open(string(dpath, "weight.csv"), "w") do f
+        # print headers
+        write(f, "i,w")
+        for i in eachindex(results.weight)
+            write(f, "\n$i,$(results.weight[i])")
+        end
+    end
+    # print theta summary
+    print_sample_summary(results, string(dpath, "is_"))
+end
+
+"""
+    print_sample
+
+**Parameters**
+- `samples`     -- a data structure of type `MCMCSample` or `ImportanceSample`.
+- `dpath`       -- the directory where the results will be saved.
+
+Print the results of an inference analysis to file.
+"""
+## print importance sample results
+function print_sample(results::ImportanceSample, dpath::String)
+    # check dir
+    isdir(dpath) || mkpath(dpath)
+    # print metadata
+    open(string(dpath, "metadata.csv"), "w") do f
+        write(f, "st,n,run_time,bme\nis,$(length(results.mu)),$(results.run_time),$(results.bme[1])")
+    end
+    ##
+    print_imp_sample(results, dpath)
+end
 
 ##################### MAIN #####################
 
@@ -367,13 +432,13 @@ function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, theta_init::Arr
         t .= model.obs_data.time[obs_i]
     end # END OF OBS LOOP
     compute_is_mu_covar!(mu, cv, theta, w)
-    println(" is mcv: ", mu, cv)
+    println(" - IS mu = ", mu)
     # bme[1] += log(sum(w) / outer_p)
     # bme[2] += log(Statistics.mean(w))
     bme .*= -2
 
     ## return results
-    println("finished. ar: ", k_log, " - ", k_log[2] / k_log[1])
+    println(" - finished. AR = ", 100.0 * k_log[2] / k_log[1])
     return ImportanceSample(mu, cv, theta, w, time_ns() - start_time, bme)#, rejs
 end
 

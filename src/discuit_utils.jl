@@ -279,17 +279,17 @@ function tabulate_results(results::MCMCResults, proposals = false)
     proposals && tabulate_proposals(results)
     ## samples
     println("MCMC summary:")
-    h = ["θ", "Iμ", "Rμ", "σ", "z"]
-    d = Matrix(undef, length(results.mean), 5)
+    h = ["θ", "Rμ", "σ", "z"]#, "Iμ"
+    d = Matrix(undef, length(results.mean), 4)
     sigma = zeros(length(results.mean))
     for p in eachindex(sigma)
         sigma[p] = sqrt(results.covar[p,p])
     end
     d[:,1] .= 1:length(results.mean)
-    d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
-    d[:,3] .= round.(results.mean; sigdigits = C_PR_SIGDIG)
-    d[:,4] .= round.(sigma; sigdigits = C_PR_SIGDIG)
-    d[:,5] .= round.(results.geweke[2][1,:]; sigdigits = C_PR_SIGDIG)
+    # d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
+    d[:,2] .= round.(results.mean; sigdigits = C_PR_SIGDIG)
+    d[:,3] .= round.(sigma; sigdigits = C_PR_SIGDIG)
+    d[:,4] .= round.(results.geweke[2][1,:]; sigdigits = C_PR_SIGDIG)
     PrettyTables.pretty_table(d, h)
 end
 
@@ -308,13 +308,13 @@ function tabulate_results(results::GelmanResults, proposals = false)
     proposals && tabulate_proposals(results)
     ## samples
     println("Gelman diagnostic:")
-    h = ["θ", "Iμ", "Rμ", "σ", "SRE", "SRE95"]
-    d = Matrix(undef, length(results.mu), 6)
+    h = ["θ", "Rμ", "σ", "SRE", "SRE95"]#, "Iμ"
+    d = Matrix(undef, length(results.mu), 5)
     d[:,1] .= 1:length(results.is_mu)
-    d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
-    d[:,3] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
-    d[:,4] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
-    d[:,5] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
-    d[:,6] .= round.(results.sre_ul; sigdigits = C_PR_SIGDIG)
+    # d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
+    d[:,2] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
+    d[:,3] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
+    d[:,4] .= round.(results.sre; sigdigits = C_PR_SIGDIG)
+    d[:,5] .= round.(results.sre_ul; sigdigits = C_PR_SIGDIG)
     PrettyTables.pretty_table(d, h)
 end
