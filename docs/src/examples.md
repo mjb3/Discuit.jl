@@ -225,10 +225,8 @@ import Pkg; Pkg.add("Distributions"); # hide
 using Distributions;
 p1 = Gamma(10, 0.0001);
 p2 = Gamma(10, 0.01);
-function prior_density(parameters::Array{Float64, 1})
-    return parameters[3] < 0.0 ? pdf(p1, parameters[1]) * pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
-end
-model.prior_density = prior_density;
+p3 = Uniform(-360, 0)
+model.prior = Product([p1, p2, p3]);
 ```
 
 The observation model is replaced with one that returns `log(1)` since we will only propose sequences consitent with the observed recoveries and ``\pi(\xi | \theta)`` is evaluated automatically by Discuit):

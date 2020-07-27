@@ -7,21 +7,23 @@
 **Parameters**
 
 - `n`   -- the number of parameters in the model.
+- `b`   -- the upper bound of the [Uniform] distribution.
 
 # Examples
 
     generate_weak_prior(1)
 
-Generate a "weak" prior density function, where `n` is the number of parameters in the model.
+Generate a "weak" prior distribution, Uniform multivariate ~ U(0, max) for dim = n,  where `n` is the number of parameters in the model.
 """
-function generate_weak_prior(n::Int)
-    function prior_density(parameters::Array{Float64, 1})
-        for i in eachindex(parameters)
-            parameters[i] < 0.0 && (return 0.0)
-        end
-        return 1.0
-    end
-    return prior_density
+function generate_weak_prior(n::Int, b::Float64 = 1.0)
+    # function priorr_density(parameters::Array{Float64, 1})
+    #     for i in eachindex(parameters)
+    #         parameters[i] < 0.0 && (return 0.0)
+    #     end
+    #     return 1.0
+    # end
+    # return priorr_density
+    return Distributions.Product(Distributions.Uniform.(zeros(n), b))
 end
 # gaussian observation likelihood model
 """
@@ -39,7 +41,7 @@ test latex eqn:
 
 # Examples
 
-    p = generate_weak_prior(1)
+    p = generate_gaussian_obs_model(2)
 
 Generate a Gaussian observation model for a model with `n` states. Optionally specify observation error `σ`.
 """

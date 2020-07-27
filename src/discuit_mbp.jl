@@ -108,11 +108,8 @@ end
 ## mbp function
 function partial_model_based_proposal(model::PrivateDiscuitModel, xi::MarkovState, xf_parameters::ParameterProposal, ymax::Int64)
     MBP_PROP_TYPE = 10
-    # make theta proposal (RENAME TO T F)
-    if xf_parameters.prior == 0.0
-        # no need to evaluate
-        return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE)
-    else
+    ## make x proposal
+    if Distributions.pdf(model.prior, xf_parameters.value) > 0.0
         # initialise
         xf_trajectory = Trajectory(Float64[], Int64[])
         pop_i = copy(model.initial_condition)
@@ -137,6 +134,9 @@ function partial_model_based_proposal(model::PrivateDiscuitModel, xi::MarkovStat
             output += model.observation_model(model.obs_data.val[obs_i,:], pop_f)
         end
         return MarkovState(xf_parameters, xf_trajectory, output, DF_PROP_LIKE, MBP_PROP_TYPE)
+    else
+        # no need to evaluate
+        return MarkovState(xf_parameters, xi.trajectory, NULL_LOG_LIKE, DF_PROP_LIKE, MBP_PROP_TYPE)
     end
 end
 

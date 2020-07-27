@@ -265,15 +265,6 @@ function tabulate_proposals(results::MultiMCMCResults)
 end
 
 ## results summary
-"""
-    tabulate_results
-
-**Parameters**
-- `results`     -- `MCMCResults` object.
-- `proposals`   -- display proposal analysis.
-
-Display the results of an MCMC analysis.
-"""
 function tabulate_results(results::MCMCResults, proposals = false)
     ## proposals
     proposals && tabulate_proposals(results)
@@ -286,7 +277,6 @@ function tabulate_results(results::MCMCResults, proposals = false)
         sigma[p] = sqrt(results.covar[p,p])
     end
     d[:,1] .= 1:length(results.mean)
-    # d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
     d[:,2] .= round.(results.mean; sigdigits = C_PR_SIGDIG)
     d[:,3] .= round.(sigma; sigdigits = C_PR_SIGDIG)
     d[:,4] .= round.(results.geweke[2][1,:]; sigdigits = C_PR_SIGDIG)
@@ -301,7 +291,7 @@ end
 - `results`     -- the results of a call to `run_multi_chain_analysis`.
 - `proposals`   -- display proposal analysis.
 
-Display the results of a multi chain analysis run using `run_multi_chain_analysis`.
+Display the results of an MCMC analysis.
 """
 function tabulate_results(results::MultiMCMCResults, proposals = false)
     ## proposals
@@ -310,8 +300,7 @@ function tabulate_results(results::MultiMCMCResults, proposals = false)
     println("Gelman diagnostic:")
     h = ["θ", "Rμ", "σ", "SRE", "SRE95"]#, "Iμ"
     d = Matrix(undef, length(results.mu), 5)
-    d[:,1] .= 1:length(results.is_mu)
-    # d[:,2] .= round.(results.is_mu; sigdigits = C_PR_SIGDIG)
+    d[:,1] .= 1:length(results.mu)
     d[:,2] .= round.(results.mu; sigdigits = C_PR_SIGDIG)
     d[:,3] .= round.(results.sdw; sigdigits = C_PR_SIGDIG)
     d[:,4] .= round.(results.sre; sigdigits = C_PR_SIGDIG)

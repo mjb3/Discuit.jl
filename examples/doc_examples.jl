@@ -1,5 +1,6 @@
 ## resources:
 import Discuit
+import Distributions
 import Random
 
 ### pooley SIS model example ###
@@ -42,14 +43,13 @@ function pooley_prebaked()
     ## demo 1
     ic = [100, 1]
     model = Discuit.generate_model("SIS", ic);
+    # - optional prior
+    model.prior = Distributions.Product(Distributions.Uniform.(0, [0.01, 0.5]))
+
+    ## simulation
     theta = [0.003, 0.1]
     x = Discuit.gillespie_sim(model, theta);
     println(Discuit.plot_trajectory(x))
-
-    ## IBIS - MOVE DOWN *********
-    theta_b = [0.01, 0.5]
-    rs = Discuit.run_mbp_ibis_analysis(model, x.observations, 2000, theta_b)
-    Discuit.tabulate_results(rs)
 
     ## UNCOMMENT ************************
     # ## demo 2
@@ -67,7 +67,8 @@ function pooley_prebaked()
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
     # obs = Discuit.get_observations("./data/pooley.csv")
     obs = x.observations
-    rs = Discuit.run_single_chain_analysis(model, obs, [0.003, 0.1]);
+    # rs = Discuit.run_single_chain_analysis(model, obs, [0.003, 0.1]);
+    rs = Discuit.run_single_chain_analysis(model, obs);
     Discuit.tabulate_results(rs, true)
     ac = Discuit.compute_autocorrelation(rs)
     # # print
@@ -78,7 +79,8 @@ function pooley_prebaked()
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # gelman
     theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
-    rs = Discuit.run_multi_chain_analysis(model, obs, theta_i)
+    # rs = Discuit.run_multi_chain_analysis(model, obs, theta_i)
+    rs = Discuit.run_multi_chain_analysis(model, obs; initial_parameters = theta_i)
     Discuit.tabulate_results(rs, true)
     # print_results(rs, "./out/gelman_example/")
     # # # autocorrelation
@@ -86,11 +88,15 @@ function pooley_prebaked()
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # standard proposals (for comparison)
-    rs = Discuit.run_multi_chain_analysis(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 200000, 20000, false);
+    rs = Discuit.run_multi_chain_analysis(model, obs; initial_parameters = theta_i, steps = 200000, mbp = false);
     Discuit.tabulate_results(rs, true)
     println(Discuit.plot_parameter_trace(rs.mcmc, 1))
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_std.csv"))
+
+    ## IBIS - MOVE DOWN *********
+    rs = Discuit.run_mbp_ibis_analysis(model, x.observations)
+    Discuit.tabulate_results(rs)
 end
 
 ## custom roberts

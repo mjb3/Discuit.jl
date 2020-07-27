@@ -46,6 +46,7 @@ const MAX_TRAJ = 196000
 const DF_PROP_LIKE = 1.0
 const NULL_LOG_LIKE = -Inf
 const AC_LAG_INT = 10       # number of autocorrelation lag intervals
+const C_DEBUG = true
 
 ## model generating functions
 # TO BE ADDED *******
@@ -158,7 +159,8 @@ function gillespie_sim_x0(model::PrivateDiscuitModel, parameters::Array{Float64,
         end
         ## REPLACE WITH CONST OR PARAMETER? *****
         if output != NULL_LOG_LIKE # && length(trajectory.time) > e.g. 5?
-            return MarkovState(ParameterProposal(parameters, model.prior_density(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
+            # return MarkovState(ParameterProposal(parameters, model.prior_density(parameters)), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
+            return MarkovState(ParameterProposal(parameters), trajectory, full_like ? compute_full_log_like(model, parameters, trajectory) : output, DF_PROP_LIKE, 0)
         end
     end
 end
@@ -177,18 +179,18 @@ end
 Generate an initial `MarkovState` for use in a custom MCMC algorithm.
 """
 function generate_custom_x0(model::DiscuitModel, obs_data::Observations, parameters::Array{Float64, 1}, event_times::Array{Float64, 1}, event_types::Array{Int, 1})
-    prop = ParameterProposal(parameters, model.prior_density(parameters))
+    prop = ParameterProposal(parameters)
     trajectory = Trajectory(event_times, event_types)
     ## return as Proposal result
     return MarkovState(prop, trajectory, compute_full_log_like(get_private_model(model, obs_data), parameters, trajectory), DF_PROP_LIKE, 0)
 end
 
 ## mv parameter proposal
-function get_mv_param(model::PrivateDiscuitModel, g::MvNormal, sclr::Float64, theta_i::Array{Float64, 1})
+function get_mv_param(model::PrivateDiscuitModel, g::Distributions.MvNormal, sclr::Float64, theta_i::Array{Float64, 1})
     output = rand(g)
     output .*= sclr
     output .+= theta_i
-    return ParameterProposal(output, model.prior_density(output))
+    return ParameterProposal(output)
 end
 
 ## standard trajectory proposal
@@ -374,26 +376,147 @@ end # end of std proposal function
 ## model based proposal
 include("discuit_mbp.jl")
 
+
+
+## macros
+# TBA? (proposal step)
+
+## metropolis hastings algorithm (internal)
+# - default proportion of parameter proposals (ppp): 0.3
+# - NEED TO TEMPLATE FOR SINGLE EVENT TYPE MODELS ***********
+function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period::Int64, proposal_alg::Function, x0::MarkovState, prop_param::Bool, ppp::Float64) # full_like::Bool
+    ## constants
+    PARAMETER_PROPOSAL::Int64 = 4
+    INITIAL_J::Float64 = 0.1
+    # adaption interval
+    a_h::Int64 = adapt_period / 10
+    # initialise xi MOVE THIS OUT AND PASS ***********************
+    xi = x0
+    # covar matrix
+    covar = zeros(length(xi.parameters.value), length(xi.parameters.value))
+    for i in eachindex(xi.parameters.value)
+        covar[i,i] = 0.1 * xi.parameters.value[i] * xi.parameters.value[i]
+    end
+    g = Distributions.MvNormal(covar)
+    sclr_j::Float64 = INITIAL_J
+    # declare results
+    mc = Array{Float64, 2}(undef, steps, length(xi.parameters.value))
+    mcf = Array{Float64, 2}(undef, steps, length(xi.parameters.value))
+    mc_log_like = Array{Float64,1}(undef, steps)
+    # mc_prior = Array{Float64,1}(undef, steps)
+    mc_accepted = falses(steps)
+    # TO BE REMOVED? *******
+    prop_type = Array{Int64,1}(undef, steps)
+    ll_g = Array{Float64,1}(undef, steps)
+    mh_p = Array{Float64,1}(undef, steps)
+    mc_time = zeros(UInt64, steps)
+    mc_mu = copy(xi.parameters.value)
+    # is_tpd = exp(xi.parameters.prior + xi.log_like)
+    # is_mu = is_tpd * xi.parameters.value
+
+    # add first sample
+    mc[1,:] .= xi.parameters.value
+    mcf[1,:] .= xi.parameters.value
+    mc_log_like[1] = xi.log_like
+    # mc_prior[1] = xi.parameters.prior
+    # mc_prior[1] = Distributions.pdf(xi.parameters.value)
+    mc_accepted[1] = true
+    # db
+    prop_type[1] = 0
+    ll_g[1] = 0
+    mh_p[1] = 1
+    st_time = time_ns()
+    for i in 2:steps
+        # make theta proposal
+        adapt::Bool = true
+        if prop_param
+            # always make combined proposal (i.e. mbp)
+            xf::MarkovState = proposal_alg(model, xi, get_mv_param(model, g, sclr_j, xi.parameters.value))
+        else
+            # choose parameter or trajectory proposal (i.e. standard)
+            if rand() < ppp
+                # parameter proposal
+                prop = get_mv_param(model, g, sclr_j, xi.parameters.value)
+                ll = Distributions.logpdf(model.prior, prop.value) == -Inf ? NULL_LOG_LIKE : compute_full_log_like(model, prop.value, xi.trajectory)
+                xf = MarkovState(prop, xi.trajectory, ll, DF_PROP_LIKE, PARAMETER_PROPOSAL)
+            else
+                # trajectory proposal
+                xf = proposal_alg(model, xi, xi.parameters)
+                adapt = false
+            end
+        end
+        # for DEBUG
+        mcf[i,:] .= xf.parameters.value
+        prop_type[i] = xf.prop_type
+        ll_g[i] = xf.prop_like
+        # PRIOR CHECK REDUNDANT? ******
+        if (Distributions.logpdf(model.prior, xf.parameters.value) == -Inf || xf.log_like == NULL_LOG_LIKE)
+            # reject automatically NEED TO THINK ABOUT THIS, BIT OF A MESS!
+            mc_log_like[i] = NULL_LOG_LIKE
+            mh_p[i] = -1.0
+        else
+            # accept or reject
+            mc_log_like[i] = xf.log_like
+            mh_prob::Float64 = exp(Distributions.logpdf(model.prior, xf.parameters.value) + xf.log_like - Distributions.logpdf(model.prior, xi.parameters.value) - xi.log_like)
+            mh_p[i] = xf.prop_like * mh_prob
+            if mh_prob > 1.0
+                mc_accepted[i] = true
+            else
+                mh_prob > rand() && (mc_accepted[i] = true)
+            end
+        end
+        ## acceptance handling
+        if mc_accepted[i]
+            mc[i,:] .= mcf[i,:]
+            xi = xf
+        else
+            mc[i,:] .= mc[i - 1,:]
+        end
+        mc_time[i] = time_ns() - st_time
+        if i < adapt_period
+            ## ADAPTATION PERIOD
+            # adjust theta jump scalar
+            adapt && (sclr_j *= (mc_accepted[i] ? 1.002 : 0.999))
+            # end of adaption period
+            if i % a_h == 0
+                # recalc covar matrix and update g
+                covar = Distributions.cov(mc[1:i,:])
+                if sum(covar) == 0
+                    println("warning: low acceptance rate detected in adaptation period")
+                else
+                    # t0 stuffs
+                    if model.t0_index > 0
+                        covar[model.t0_index, model.t0_index] == 0.0 && (covar[model.t0_index, model.t0_index] = 1.0)
+                    end
+                    # update proposal dist
+                    g = Distributions.MvNormal(covar)
+                end
+            end
+        else
+            ## ADAPTED
+            # mu
+            mc_mu .+=  mc[i,:]
+            # is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
+            # is_tpd += exp(xf.parameters.prior + xf.log_like)
+        end
+    end # end of Markov chain for loop
+    # compute means and return results
+    mc_mu ./= (steps - adapt_period)
+    # is_mu ./= is_tpd
+    pan = prop_param ? "MBP" : "Standard"
+    ## MAKE GEWKE TEST OPTIONAL? ****************
+    gw = run_geweke_test(mc, adapt_period)
+    return MCMCResults(mc, mc_accepted, mc_mu, Distributions.cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
+end
+
 ## adaptive mh mcmc
 # public wrappers
 # - vanilla
-"""
-    run_single_chain_analysis(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
-
-**Parameters**
-- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
-- `obs_data`            -- `Observations` data.
-- `initial_parameters`  -- initial model parameters (i.e. sample).
-- `steps`               -- number of iterations.
-- `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
-- `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
-
-Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained is equal to `steps` - `adapt_period`.
-"""
-function run_single_chain_analysis(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_single_chain_analysis(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1} = rand(model.prior); steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
     println("running single-chain ", mbp ? "MBP" : "std", "-MCMC analysis (model: ", model.model_name, ")")
+    C_DEBUG && println(" theta init: ", initial_parameters)
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
     println(" finished (sample μ = ", output.mean, ")")
@@ -422,136 +545,6 @@ function run_custom_single_chain_analysis(model::DiscuitModel, obs_data::Observa
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
     println(" finished (sample μ = ", output.mean, ").")
     return output
-end
-
-## macros
-# TBA? (proposal step)
-
-## metropolis hastings algorithm (internal)
-# - default proportion of parameter proposals (ppp): 0.3
-# - NEED TO TEMPLATE FOR SINGLE EVENT TYPE MODELS ***********
-function met_hastings_alg(model::PrivateDiscuitModel, steps::Int64, adapt_period::Int64, proposal_alg::Function, x0::MarkovState, prop_param::Bool, ppp::Float64) # full_like::Bool
-    ## constants
-    PARAMETER_PROPOSAL::Int64 = 4
-    INITIAL_J::Float64 = 0.1
-    # adaption interval
-    a_h::Int64 = adapt_period / 10
-    # initialise xi MOVE THIS OUT AND PASS ***********************
-    xi = x0
-    # covar matrix
-    covar = zeros(length(xi.parameters.value), length(xi.parameters.value))
-    for i in eachindex(xi.parameters.value)
-        covar[i,i] = 0.1 * xi.parameters.value[i] * xi.parameters.value[i]
-    end
-    g = MvNormal(covar)
-    sclr_j::Float64 = INITIAL_J
-    # declare results
-    mc = Array{Float64, 2}(undef, steps, length(xi.parameters.value))
-    mcf = Array{Float64, 2}(undef, steps, length(xi.parameters.value))
-    mc_log_like = Array{Float64,1}(undef, steps)
-    mc_prior = Array{Float64,1}(undef, steps)
-    mc_accepted = falses(steps)
-    # TO BE REMOVED? *******
-    prop_type = Array{Int64,1}(undef, steps)
-    ll_g = Array{Float64,1}(undef, steps)
-    mh_p = Array{Float64,1}(undef, steps)
-    mc_time = zeros(UInt64, steps)
-    mc_mu = copy(xi.parameters.value)
-    is_tpd = exp(xi.parameters.prior + xi.log_like)
-    is_mu = is_tpd * xi.parameters.value
-
-    # add first sample
-    mc[1,:] .= xi.parameters.value
-    mcf[1,:] .= xi.parameters.value
-    mc_log_like[1] = xi.log_like
-    mc_prior[1] = xi.parameters.prior
-    mc_accepted[1] = true
-    # db
-    prop_type[1] = 0
-    ll_g[1] = 0
-    mh_p[1] = 1
-    st_time = time_ns()
-    for i in 2:steps
-        # make theta proposal
-        adapt::Bool = true
-        if prop_param
-            # always make combined proposal (i.e. mbp)
-            xf::MarkovState = proposal_alg(model, xi, get_mv_param(model, g, sclr_j, xi.parameters.value))
-        else
-            # choose parameter or trajectory proposal (i.e. standard)
-            if rand() < ppp
-                # parameter proposal
-                prop = get_mv_param(model, g, sclr_j, xi.parameters.value)
-                ll = prop.prior == 0.0 ? NULL_LOG_LIKE : compute_full_log_like(model, prop.value, xi.trajectory)
-                xf = MarkovState(prop, xi.trajectory, ll, DF_PROP_LIKE, PARAMETER_PROPOSAL)
-            else
-                # trajectory proposal
-                xf = proposal_alg(model, xi, xi.parameters)
-                adapt = false
-            end
-        end
-        # for DEBUG
-        mcf[i,:] .= xf.parameters.value
-        prop_type[i] = xf.prop_type
-        ll_g[i] = xf.prop_like
-        # PRIOR CHECK REDUNDANT? ******
-        if (xf.parameters.prior == 0.0 || xf.log_like == NULL_LOG_LIKE)
-            # reject automatically NEED TO THINK ABOUT THIS, BIT OF A MESS!
-            mc_log_like[i] = NULL_LOG_LIKE
-            mh_p[i] = -1.0
-        else
-            # accept or reject
-            mc_log_like[i] = xf.log_like
-            mh_prob::Float64 = xf.prop_like * (xf.parameters.prior / xi.parameters.prior) * exp(xf.log_like - xi.log_like)
-            mh_p[i] = mh_prob
-            if mh_prob > 1.0
-                mc_accepted[i] = true
-            else
-                mh_prob > rand() && (mc_accepted[i] = true)
-            end
-        end
-        ## acceptance handling
-        if mc_accepted[i]
-            mc[i,:] .= mcf[i,:]
-            xi = xf
-        else
-            mc[i,:] .= mc[i - 1,:]
-        end
-        mc_time[i] = time_ns() - st_time
-        if i < adapt_period
-            ## ADAPTATION PERIOD
-            # adjust theta jump scalar
-            adapt && (sclr_j *= (mc_accepted[i] ? 1.002 : 0.999))
-            # end of adaption period
-            if i % a_h == 0
-                # recalc covar matrix and update g
-                covar = cov(mc[1:i,:])
-                if sum(covar) == 0
-                    println("warning: low acceptance rate detected in adaptation period")
-                else
-                    # t0 stuffs
-                    if model.t0_index > 0
-                        covar[model.t0_index, model.t0_index] == 0.0 && (covar[model.t0_index, model.t0_index] = 1.0)
-                    end
-                    # update proposal dist
-                    g = MvNormal(covar)
-                end
-            end
-        else
-            ## ADAPTED
-            # mu
-            mc_mu .+=  mc[i,:]
-            is_mu .+= xf.parameters.value * exp(xf.parameters.prior + xf.log_like)
-            is_tpd += exp(xf.parameters.prior + xf.log_like)
-        end
-    end # end of Markov chain for loop
-    # compute means and return results
-    mc_mu ./= (steps - adapt_period)
-    is_mu ./= is_tpd
-    pan = prop_param ? "MBP" : "Standard"
-    ## MAKE GEWKE TEST OPTIONAL? ****************
-    gw = run_geweke_test(mc, adapt_period)
-    return MCMCResults(mc, mc_accepted, is_mu, mc_mu, cov(mc[(adapt_period + 1):steps,:]), pan, length(model.obs_data.time), adapt_period, gw, mcf, mc_log_like, xi, prop_type, ll_g, mh_p, mc_time)
 end
 
 ## convergence diagnostics
@@ -618,7 +611,7 @@ function compute_autocorrelation(mcmc::Array{MCMCResults, 1}, lags::Int64 = 200)
     for j in eachindex(mu)
         # compute mean and whole chain var
         # - VECTORISE THIS? ********
-        mu[j] = mean(mce[:,j])
+        mu[j] = Statistics.mean(mce[:,j])
         for mc in eachindex(mcmc)
             for i in (mcmc[mc].adapt_period + 1):(size(mcmc[mc].samples, 1))
                 wcv[j] += (mcmc[mc].samples[i,j] - mu[j]) * (mcmc[mc].samples[i,j] - mu[j])
@@ -655,8 +648,8 @@ function run_geweke_test(mc::Array{Float64,2}, adapt_period::Int64)
     b_mu = Array{Float64, 1}(undef, size(mc, 2))
     b_var = Array{Float64, 1}(undef, size(mc, 2))
     for j in 1:size(mc, 2)
-        b_mu[j] = mean(mc[nd2:n,j])
-        b_var[j] = var(mc[nd2:n,j])
+        b_mu[j] = Statistics.mean(mc[nd2:n,j])
+        b_var[j] = Statistics.var(mc[nd2:n,j])
     end
     ## compute test statistics
     lbl = Array{Int64, 1}(undef, NUM_A)
@@ -665,8 +658,8 @@ function run_geweke_test(mc::Array{Float64,2}, adapt_period::Int64)
         frow = adapt_period + (i * h)
         lbl[i] = frow - adapt_period
         for j in 1:size(mc, 2)
-            mu = mean(mc[(frow - h):frow,j]) # collapse this ***************
-            output[i,j] = (mu - b_mu[j]) / sqrt(var(mc[(frow - h):frow,j]) + b_var[j])
+            mu = Statistics.mean(mc[(frow - h):frow,j]) # collapse this ***************
+            output[i,j] = (mu - b_mu[j]) / sqrt(Statistics.var(mc[(frow - h):frow,j]) + b_var[j])
         end
     end
     # return results as tuple
@@ -691,18 +684,23 @@ end
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `obs_data`            -- `Observations` data.
-- `initial_parameters`  -- matrix of initial model parameters. Each column vector correspondes to a single model parameter.
+- `n_chains`            -- number of Markov chains (optional, default: 3.)
+- `initial_parameters`  -- 2d array of initial model parameters. Each column vector correspondes to a single model parameter.
 - `steps`               -- number of iterations.
 - `adapt_period`        -- number of discarded samples.
 - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
 
-Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results.
+Run an `n_chains`-MCMC analysis, and perform a Gelman-Rubin convergence diagnostic on the results.
+
+The `initial_parameters` are sampled from the prior distribution unless otherwise specified by the user.
 """
-function run_multi_chain_analysis(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_multi_chain_analysis(model::DiscuitModel, obs_data::Observations; n_chains::Int64 = 3, initial_parameters = transpose(rand(model.prior, n_chains)), steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+    # if n_chains > 1
     p_model = get_private_model(model, obs_data)
     ## initialise Markov chains
     println("running ", size(initial_parameters, 1) ,"-chain ", mbp ? "MBP" : "std", "-MCMC analysis (model: ", model.model_name, ")")
+    C_DEBUG && println(" theta init: ", initial_parameters)
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     ## use @threads to multithread loop
     # Threads.@threads for i in eachindex(mcmc)
@@ -717,7 +715,10 @@ function run_multi_chain_analysis(model::DiscuitModel, obs_data::Observations, i
     output = gelman_diagnostic(mcmc, size(initial_parameters, 2), steps - adapt_period)
     println(" finished (sample μ = ", round.(output.mu; sigdigits = C_PR_SIGDIG), ").")
     return output
+    # else
+    # run_single_chain_analysis
 end
+
 # for custom MCMC
 """
     run_custom_multi_chain_analysis(m_model, obs_data, proposal_function, x0, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
@@ -759,15 +760,15 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     # collect means and variances
     mce = Array{Float64, 2}(undef, length(mcmc), theta_size)
     mcv = Array{Float64, 2}(undef, length(mcmc), theta_size)
-    is_mu = zeros(theta_size)
+    # is_mu = zeros(theta_size)
     for i in eachindex(mcmc)
         mce[i,:] .= mcmc[i].mean
-        is_mu .+= mcmc[i].is_mu
+        # is_mu .+= mcmc[i].is_mu
         for j in 1:theta_size
             mcv[i,j] = mcmc[i].covar[j,j]
         end
     end
-    is_mu ./= length(mcmc)
+    # is_mu ./= length(mcmc)
     # compute W, B
     b = Array{Float64, 1}(undef, theta_size)
     w = Array{Float64, 1}(undef, theta_size)
@@ -775,11 +776,11 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     co = Array{Float64, 1}(undef, theta_size)
     v = Array{Float64, 1}(undef, theta_size)
     for j in 1:theta_size
-        b[j] = num_iter * cov(mce[:,j])
-        w[j] = mean(mcv[:,j])
+        b[j] = num_iter * Distributions.cov(mce[:,j])
+        w[j] = Statistics.mean(mcv[:,j])
         # mean of means and var of vars (used later)
-        mu[j] = mean(mce[:,j])
-        co[j] = cov(mcv[:,j])
+        mu[j] = Statistics.mean(mce[:,j])
+        co[j] = Distributions.cov(mcv[:,j])
         # compute pooled variance
         # - BENCHMARK THESE..?
         v[j] = w[j] * ((num_iter - 1) / num_iter) + b[j] * ((theta_size + 1) / (theta_size * num_iter))
@@ -795,7 +796,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
     for j in 1:theta_size
         vv_w[j] = co[j] / length(mcmc)
         vv_b[j] = (2 * b[j] * b[j]) / (length(mcmc) - 1)
-        cv_wb[j] = (num_iter / length(mcmc)) * (cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * cov(mcv[:,j], mce[:,j])))
+        cv_wb[j] = (num_iter / length(mcmc)) * (Distributions.cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * Distributions.cov(mcv[:,j], mce[:,j])))
     end
     # compute d; d_adj (var.V)
     d = Array{Float64, 1}(undef, theta_size)
@@ -815,12 +816,12 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         rr = (1 + (1 / length(mcmc))) * (1 / num_iter)  * (b[j] / w[j])
         sre[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + rr))
         # F dist(nu1, nu2)
-        fdst = FDist(length(mcmc) - 1, 2 * w[j] * w[j] / vv_w[j])
-        sre_ll[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + quantile(fdst, 0.025) * rr))
-        sre_ul[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + quantile(fdst, 0.975) * rr))
+        fdst = Distributions.FDist(length(mcmc) - 1, 2 * w[j] * w[j] / vv_w[j])
+        sre_ll[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + Distributions.quantile(fdst, 0.025) * rr))
+        sre_ul[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + Distributions.quantile(fdst, 0.975) * rr))
     end
     # return results
-    return MultiMCMCResults(is_mu, mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
+    return MultiMCMCResults(mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
 end
 
 include("./discuit_utils.jl")

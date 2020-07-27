@@ -9,14 +9,16 @@ function custom_bobs()
     # add "medium" prior
     p1 = Distributions.Gamma(10, 0.0001)
     p2 = Distributions.Gamma(10, 0.01)
-    function prior_density(parameters::Array{Float64, 1})
-        return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
-    end
-    # 'weak' prior
-    function prior_density(parameters::Array{Float64, 1})
-        return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
-    end
-    model.prior_density = prior_density
+    p3 = Distributions.Uniform(-360, 0)
+    model.prior = Distributions.Product([p1, p2, p3])
+    # function prior_density(parameters::Array{Float64, 1})
+    #     return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+    # end
+    # # 'weak' prior
+    # function prior_density(parameters::Array{Float64, 1})
+    #     return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+    # end
+    # model.prior_density = prior_density
     # dummy observation model
     observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
     model.observation_model = observation_model

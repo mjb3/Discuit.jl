@@ -169,7 +169,8 @@ end
 
 ## up to time y_i
 function partial_model_based_proposal(model::PrivateDiscuitModel, theta_f::Array{Float64,1}, xi::Particle, ymax::Int64)
-    xf = Particle(theta_f, copy(xi.initial_condition), copy(xi.initial_condition), Event[], [log(model.prior_density(theta_f)), 0.0, 0.0])
+    # xf = Particle(theta_f, copy(xi.initial_condition), copy(xi.initial_condition), Event[], [log(model.prior_density(theta_f)), 0.0, 0.0])
+    xf = Particle(theta_f, copy(xi.initial_condition), copy(xi.initial_condition), Event[], [Distributions.logpdf(model.prior, theta_f), 0.0, 0.0])
     ## evaluate prior density
     if xf.log_like[1] == -Inf
         xf.log_like[2] = xf.log_like[1]
@@ -326,7 +327,7 @@ C_DF_ESS_CRIT = 0.5
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
 - `obs_data`            -- `Observations` data.
-- `theta_init`          -- initial model parameters.
+- `np`                  -- number of particles (default = 2000.)
 - `ess_rs_crit`         -- resampling criteria (default = 0.5.)
 - `n_props`             -- MBP mutations per step (default = 3.)
 - `ind_prop`            -- true for independent theta proposals (default = false.)
@@ -334,11 +335,12 @@ C_DF_ESS_CRIT = 0.5
 
 Run an MBP IBIS analysis based on `model` and `obs_data` of type `Observations`, with manually specified initial theta.
 """
-function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, theta_init::Array{Float64, 2}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 3, ind_prop = false, alpha = 1.002)
-    theta_init
+function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations; np = 2000, ess_rs_crit = C_DF_ESS_CRIT, n_props = 3, ind_prop = false, alpha = 1.002)
+    # , theta_init::Array{Float64, 2}
+    theta_init = transpose(rand(mdl.prior, np))
     ## initialise
     model = get_private_model(mdl, obs_data)
-    outer_p = size(theta_init,1)
+    outer_p = np # TIDY THIS UP *********************
     println("running MBP IBIS analysis for n = ", outer_p, " (model: ", mdl.model_name, ")")
     start_time = time_ns()
     ess_crit = ess_rs_crit * outer_p
@@ -349,7 +351,8 @@ function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, theta_
     theta = copy(theta_init) # GET RID? *
     for p in eachindex(ptcls)
         ic = model.initial_condition
-        ptcls[p] = Particle(theta[p,:], ic, copy(ic), Event[], [log(model.prior_density(theta[p,:])), 0.0])
+        # ptcls[p] = Particle(theta[p,:], ic, copy(ic), Event[], [log(model.prior_density(theta[p,:])), 0.0])
+        ptcls[p] = Particle(theta[p,:], ic, copy(ic), Event[], [Distributions.logpdf(model.prior, theta[p,:]), 0.0, 0.0])
     end
     ## resampling workspace
     ptcls2 = deepcopy(ptcls)
@@ -370,65 +373,61 @@ function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, theta_
     t = zeros(outer_p)
     model.t0_index > 0 && (t .= theta[:, model.t0_index])
     for obs_i in eachindex(model.obs_data.time)
-        # if model.obs_data[obs_i].obs_id > 0
-            ## for each 'outer' particle
+        ## for each 'outer' particle
+        for p in eachindex(ptcls)
+            ## compute incremental weights (i.e. run pf)
+            gx[p] = exp(iterate_particle!(ptcls[p], model, t[p], obs_i))
+        end
+        ## COMPUTE L and update weights
+        lml = log(sum(w .* gx) / sum(w))
+        bme[1] += lml
+        # bme[1] += log(sum(w .* gx) / sum(w))
+        w .*= gx
+        ##
+        compute_is_mu_covar!(mu, cv, theta, w)
+        ## resample and mutate if criteria satisfied:
+        essv = compute_ess(w)
+        # t = model.obs_data[obs_i].time
+        if (essv < ess_crit)
+            ## resample and swap
+            propd = get_prop_density(cv, propd)
+            nidx = rs_systematic(w)
+            # println(obs_i, " - ", length(nidx), " - ", length(mtd_gx))
+            mtd_gx .= gx[nidx]
             for p in eachindex(ptcls)
-                ## compute incremental weights (i.e. run pf)
-                gx[p] = exp(iterate_particle!(ptcls[p], model, t[p], obs_i))
+                ptcls2[p] = deepcopy(ptcls[nidx[p]])
             end
-            ## COMPUTE L and update weights
-            lml = log(sum(w .* gx) / sum(w))
-            bme[1] += lml
-            # bme[1] += log(sum(w .* gx) / sum(w))
-            w .*= gx
-            ##
-            compute_is_mu_covar!(mu, cv, theta, w)
-            ## resample and mutate if criteria satisfied:
-            essv = compute_ess(w)
-            # t = model.obs_data[obs_i].time
-            if (essv < ess_crit)
-                ## resample and swap
-                propd = get_prop_density(cv, propd)
-                nidx = rs_systematic(w)
-                # println(obs_i, " - ", length(nidx), " - ", length(mtd_gx))
-                mtd_gx .= gx[nidx]
-                for p in eachindex(ptcls)
-                    ptcls2[p] = deepcopy(ptcls[nidx[p]])
-                end
-                mlr = Statistics.mean(gx[nidx]) * exp(lml)
-                ptcls, ptcls2 = ptcls2, ptcls
-                # mutate:
-                k_log[1] += outer_p * n_props
-                for p in eachindex(ptcls)
-                    for mki in 1:n_props
-                        ## propose new theta - independent OR conditional on current sample (rec'd)
-                        theta_f = ind_prop ? get_mv_param(propd, 1.0, mu) : get_mv_param(propd, tj, ptcls[p].theta)
-                        # - RETRIEVE MOST RECENT MARGINAL
-                        xf = partial_model_based_proposal(model, theta_f, ptcls[p], obs_i)
-                        ## HACK:
-                        # if exp(sum(xf.log_like) - sum(ptcls[p].log_like)) > rand()
-                        if exp(xf.log_like[2] - ptcls[p].log_like[2]) > rand()
-                            mtd_gx[p] = exp(xf.log_like[3])
-                            ptcls[p] = xf
-                            k_log[2] += 1
-                            tj *= alpha
-                        else
-                            tj *= 0.999
-                        end
+            mlr = Statistics.mean(gx[nidx]) * exp(lml)
+            ptcls, ptcls2 = ptcls2, ptcls
+            # mutate:
+            k_log[1] += outer_p * n_props
+            for p in eachindex(ptcls)
+                for mki in 1:n_props
+                    ## propose new theta - independent OR conditional on current sample (rec'd)
+                    theta_f = ind_prop ? get_mv_param(propd, 1.0, mu) : get_mv_param(propd, tj, ptcls[p].theta)
+                    # - RETRIEVE MOST RECENT MARGINAL
+                    xf = partial_model_based_proposal(model, theta_f, ptcls[p], obs_i)
+                    ## HACK: ADD BACK?
+                    if exp(sum(xf.log_like) - sum(ptcls[p].log_like)) > rand()
+                    # if exp(xf.log_like[2] - ptcls[p].log_like[2]) > rand()
+                        mtd_gx[p] = exp(xf.log_like[3])
+                        ptcls[p] = xf
+                        k_log[2] += 1
+                        tj *= alpha
+                    else
+                        tj *= 0.999
                     end
-                    theta[p,:] .= ptcls[p].theta
                 end
-                ## RB ML update
-                bme[2] += log(mlr / Statistics.mean(mtd_gx))
-                w .= 1  # reset w = 1
-            else
-                ## standard ML update
-                bme[2] += log(sum(w .* gx) / sum(w))
-            end # END OF sample/mutate
-            # obs_min = obs_i + 1
-        # else
-        #     iterate_particle!(ptcls[p], model, t, model.obs_data[obs_i])
-        # end
+                theta[p,:] .= ptcls[p].theta
+            end
+            ## RB ML update
+            bme[2] += log(mlr / Statistics.mean(mtd_gx))
+            w .= 1  # reset w = 1
+        else
+            ## standard ML update
+            bme[2] += log(sum(w .* gx) / sum(w))
+        end # END OF sample/mutate
+        # obs_min = obs_i + 1
         t .= model.obs_data.time[obs_i]
     end # END OF OBS LOOP
     compute_is_mu_covar!(mu, cv, theta, w)
@@ -438,7 +437,7 @@ function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, theta_
     bme .*= -2
 
     ## return results
-    println(" - finished. AR = ", 100.0 * k_log[2] / k_log[1])
+    println(" - finished. AR = ", round(100.0 * k_log[2] / k_log[1]; sigdigits = 3), "%")
     return ImportanceSample(mu, cv, theta, w, time_ns() - start_time, bme)#, rejs
 end
 
@@ -449,25 +448,4 @@ function draw_from_limit(n::Int64, theta_limits::Array{Float64, 1})
         output[:,i] .= rand(n) * theta_limits[i]
     end
     return output
-end
-
-"""
-    run_mbp_ibis_analysis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
-
-**Parameters**
-- `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
-- `obs_data`            -- `Observations` data.
-- `n_parts`             -- number of particles.
-- `theta_limits`        -- upper bounds of parameter space (lower = 0.)
-- `ess_rs_crit`         -- resampling criteria (default = 0.5.)
-- `n_props`             -- MBP mutations per step (default = 3.)
-- `ind_prop`            -- true for independent theta proposals (default = false.)
-- `alpha`               -- user-defined, increase for lower acceptance rate targeted (default = 1.002.)
-
-Run an n = `n_parts` particle MBP IBIS analysis, based on `model` and `obs_data` of type `Observations`.
-"""
-function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, n_parts::Int64, theta_limits::Array{Float64, 1}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 10, ind_prop = false, alpha = 1.002)
-    ## generate intial theta
-    theta_init = draw_from_limit(n_parts, theta_limits)
-    return run_mbp_ibis_analysis(mdl, obs_data, theta_init; ess_rs_crit = ess_rs_crit, n_props = n_props, ind_prop = ind_prop, alpha = alpha)
 end

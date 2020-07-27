@@ -29,10 +29,9 @@ This section is organised in three parts:
 ### core functionality
 
 ```@docs
-set_random_seed
 gillespie_sim
-run_single_chain_analysis
 run_multi_chain_analysis
+run_mbp_ibis_analysis
 compute_autocorrelation
 ```
 
@@ -53,9 +52,7 @@ generate_model
 print_trajectory
 print_observations
 get_observations
-tabulate_mcmc_results
-print_results
-tabulate_gelman_results
+tabulate_results
 print_results
 print_autocorrelation
 ```

@@ -84,7 +84,9 @@ mutable struct DiscuitModel
     # observation function (for sim TBA)
     observation_function::Function
     # prior density function
-    prior_density::Function
+    # prior_density::Function
+    # prior distribution
+    prior::Distributions.Distribution
     # observation model (log likelihood)
     observation_model::Function
     # t0 index (0 ~ fixed at 0.0)
@@ -92,10 +94,10 @@ mutable struct DiscuitModel
 end
 ## JIT private models
 function get_private_model(model::DiscuitModel, obs_data::Observations)
-    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.observation_function, model.prior_density, model.observation_model, obs_data)
+    return PrivateDiscuitModel(model.rate_function, model.m_transition, model.initial_condition, model.t0_index, model.observation_function, model.prior, model.observation_model, obs_data)
 end
 # latent observation model
-struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Function}
+struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Distributions.Distribution, OMT<:Function}
     # event rate function
     rate_function::RFT
     # transition matrix
@@ -106,8 +108,8 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Function, OMT<:Fun
     t0_index::Int64
     # observation function (for sim TBA)
     observation_function::OFT
-    # prior density function
-    prior_density::PDT
+    # prior distribution
+    prior::PDT
     # observation model (log likelihood)
     observation_model::OMT
     # obs data
@@ -133,11 +135,11 @@ end
 #     obs_data::Observations
 # end
 
-## generic proposal data structures
+## generic proposal data structures - (PHASE OUT AND MAP DISCRETE?) ***
 # parameter
 struct ParameterProposal
     value::Array{Float64, 1}
-    prior::Float64
+    # prior::Float64
 end
 # state
 struct MarkovState
@@ -168,7 +170,7 @@ The results of an MCMC analysis including samples; mean; covariance matrix; adap
 struct MCMCResults
     samples::Array{Float64, 2}
     mc_accepted::Array{Float64, 1}
-    is_mu::Array{Float64, 1}
+    # is_mu::Array{Float64, 1}
     mean::Array{Float64, 1}
     covar::Array{Float64, 2}
     proposal_alg::String
@@ -215,7 +217,7 @@ end
 Results of an n > 1 chain MCMC analysis. Includes an n-length vector of `MCMCResults` variables; expectations estimate `mu`; and Gelman Rubin convergence diagnostic results, i.e. scale reduction factor estimates (`sre`).
 """
 struct MultiMCMCResults
-    is_mu::Array{Float64, 1}
+    # is_mu::Array{Float64, 1}
     mu::Array{Float64, 1}
     sdw::Array{Float64, 1}
     sre::Array{Float64, 1}
