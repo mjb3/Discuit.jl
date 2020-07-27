@@ -26,7 +26,7 @@ function sir_example()
     # println(Discuit.plot_parameter_trace(rs, 1))
     # println(Discuit.plot_parameter_heatmap(rs, 1, 2))
     ## convergence
-    gmn = Discuit.run_multi_chain_analysis(model, obs, theta_init, 100000, 20000, false)
+    gmn = Discuit.run_mcmc_analysis(model, obs, theta_init, 100000, 20000, false)
     Discuit.tabulate_gelman_results(gmn, true)
 
     ## MCMC (MBP)
@@ -34,7 +34,7 @@ function sir_example()
     # Discuit.tabulate_mcmc_results(rs, true)
     # println(Discuit.plot_parameter_trace(rs, 1))
     # println(Discuit.plot_parameter_heatmap(rs, 1, 2))
-    gmn = Discuit.run_multi_chain_analysis(model, obs, theta_init)
+    gmn = Discuit.run_mcmc_analysis(model, obs, theta_init)
     Discuit.tabulate_gelman_results(gmn, true)
 
 end

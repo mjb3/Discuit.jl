@@ -30,7 +30,7 @@ This section is organised in three parts:
 
 ```@docs
 gillespie_sim
-run_multi_chain_analysis
+run_mcmc_analysis
 run_mbp_ibis_analysis
 compute_autocorrelation
 ```
@@ -71,8 +71,7 @@ plot_autocorrelation
 ### custom MCMC
 
 ```@docs
-run_custom_single_chain_analysis
-run_custom_multi_chain_analysis
+run_custom_mcmc_analysis
 generate_custom_x0
 ```
 

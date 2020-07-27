@@ -67,20 +67,20 @@ function pooley_prebaked()
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
     # obs = Discuit.get_observations("./data/pooley.csv")
     obs = x.observations
-    # rs = Discuit.run_single_chain_analysis(model, obs, [0.003, 0.1]);
-    rs = Discuit.run_single_chain_analysis(model, obs);
+    # rs = Discuit.run_mcmc_analysis(model, obs, [0.003, 0.1]);
+    rs = Discuit.run_mcmc_analysis(model, obs; n_chains = 1);
     Discuit.tabulate_results(rs, true)
     ac = Discuit.compute_autocorrelation(rs)
     # # print
     # print_results(rs, "./out/doc/mcmc_example/")
     #
     # ## Diagnostics
+    theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
     # # geweke
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # gelman
-    theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
-    # rs = Discuit.run_multi_chain_analysis(model, obs, theta_i)
-    rs = Discuit.run_multi_chain_analysis(model, obs; initial_parameters = theta_i)
+    # rs = Discuit.run_mcmc_analysis(model, obs)
+    rs = Discuit.run_mcmc_analysis(model, obs; initial_parameters = theta_i)
     Discuit.tabulate_results(rs, true)
     # print_results(rs, "./out/gelman_example/")
     # # # autocorrelation
@@ -88,7 +88,7 @@ function pooley_prebaked()
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # standard proposals (for comparison)
-    rs = Discuit.run_multi_chain_analysis(model, obs; initial_parameters = theta_i, steps = 200000, mbp = false);
+    rs = Discuit.run_mcmc_analysis(model, obs; initial_parameters = theta_i, steps = 200000, mbp = false);
     Discuit.tabulate_results(rs, true)
     println(Discuit.plot_parameter_trace(rs.mcmc, 1))
     # ac = compute_autocorrelation(rs.mcmc)
@@ -109,14 +109,16 @@ function custom_bobs()
     # add "medium" prior
     p1 = Distributions.Gamma(10, 0.0001)
     p2 = Distributions.Gamma(10, 0.01)
-    function prior_density(parameters::Array{Float64, 1})
-        return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
-    end
-    # 'weak' prior
-    function prior_density(parameters::Array{Float64, 1})
-        return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
-    end
-    model.prior_density = prior_density
+    p3 = Distributions.Uniform(-360, 0)
+    model.prior = Distributions.Product([p1,p2,p3]
+    # function prior_density(parameters::Array{Float64, 1})
+    #     return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+    # end
+    # # 'weak' prior
+    # function prior_density(parameters::Array{Float64, 1})
+    #     return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
+    # end
+    # model.prior_density = prior_density
     # dummy observation model
     observation_model(y::Array{Int, 1}, population::Array{Int, 1}) = 0.0
     model.observation_model = observation_model
@@ -175,7 +177,7 @@ function custom_bobs()
     end # end of std proposal function
 
     ## run MCMC
-    rs = run_custom_single_chain_analysis(model, y, custom_proposal, x0, 120000, 20000)
+    rs = run_custom_mcmc_analysis(model, y, custom_proposal, [x0]; steps = 120000, adapt_period = 20000)
     Discuit.tabulate_mcmc_results(rs, true)
     # print_results(rs, "./out/doc/custom_mcmc_example/")
 end

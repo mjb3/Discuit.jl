@@ -186,7 +186,7 @@ $R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}$
 where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.
 
 ```@repl 1
-rs = run_multi_chain_analysis(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+rs = run_mcmc_analysis(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
 ac = compute_autocorrelation(rs.mcmc); # hide
 ```
 

@@ -65,7 +65,7 @@ end
 function run_conv_diag()
     obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67])
     model = pooley_sis_model()
-    rs = run_multi_chain_analysis(model, obs, [0.0025 0.15; 0.004 0.08; 0.0033 0.1])
+    rs = run_mcmc_analysis(model, obs, [0.0025 0.15; 0.004 0.08; 0.0033 0.1])
     tabulate_gelman_results(rs)
     ac = compute_autocorrelation(rs.mcmc)
     print_results(rs, "./out/gelman_example/")
