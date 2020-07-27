@@ -79,7 +79,7 @@ Now we can run an MCMC analysis based on the simulated datset:
 
 ```@repl 1
 y = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]); # hide
-rs = run_met_hastings_mcmc(model, y, [0.0025, 0.12]);
+rs = run_single_chain_analysis(model, y, [0.0025, 0.12]);
 ```
 
 Visual inspection of the Markov chain using the traceplot is one way of assessing the convergence of the algorithm:
@@ -131,7 +131,7 @@ ac = compute_autocorrelation(rs);
 plot_autocorrelation(ac)
 ```
 
-Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace `rs` with the results of a call to `run_gelman_diagnostic`.
+Note that the latter formulation (for multiple chains) is likely to give a more accurate indication of algorithm performance. The code is virtually identical. Just replace `rs` with the results of a call to `run_multi_chain_analysis`.
 
 ## Convergence diagnostics
 
@@ -155,7 +155,7 @@ plot_geweke_series(rs)
 
 Note that the results of MCMC analyses, including Geweke statistics, can be saved to file for analysis in the companion [R package](https://mjb3.github.io/Discuit/). In Julia, run:
 
-    print_mcmc_results(rs, "path/to/mcmc/data/")
+    print_results(rs, "path/to/mcmc/data/")
 
 Now, in R, run:
 
@@ -186,7 +186,7 @@ $R = \sqrt{\frac{d + 3}{d + 1} \frac{N-1}{N} + (\frac{M+1}{MN} \frac{B}{W})}$
 where the first quantity on the RHS adjusts for sampling variance and $d$ is degrees of freedom estimated using the method of moments. For a valid test of convergence the Gelman-Rubin requires two or more Markov chains with over dispersed target values relative to the target distribution. A matrix of such values is therefore required in place of the vector representing the initial values an McMC analysis when calling the function in Discuit, with the $i^{th}$ row vector used to initialise the $i^{th}$ Markov chain.
 
 ```@repl 1
-rs = run_gelman_diagnostic(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
+rs = run_multi_chain_analysis(model, y, [0.0025 0.08; 0.003 0.12; 0.0035 0.1]);
 ac = compute_autocorrelation(rs.mcmc); # hide
 ```
 
@@ -302,7 +302,7 @@ end # end of std proposal function
 We can now run the MCMC analysis:
 
 ```@repl 1
-rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000);
+rs = run_custom_single_chain_analysis(model, y, custom_proposal, x0, 120000, 20000);
 ```
 
 The output from the custom MCMC functionality is in the same format as the those produced using the core functions and thus be analysed in the same way. In this case the results were saved to file and analysed in R, in the manner described above:

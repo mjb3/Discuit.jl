@@ -75,9 +75,9 @@ function custom_bobs()
     end # end of std proposal function
 
     ## run MCMC
-    rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+    rs = run_custom_single_chain_analysis(model, y, custom_proposal, x0, 120000, 20000)
     Discuit.tabulate_mcmc_results(rs, true)
-    # print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
+    # print_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
 # plot_parameter_trace

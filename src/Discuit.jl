@@ -14,24 +14,24 @@ Discuit is a package for:
 module Discuit
 
 ## depends CHANGE TO IMPORT
-using Distributions
+import Distributions
 import Random
 import CSV
 import DataFrames
 
 ## exports
 # public structs
-export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, GelmanResults, AutocorrelationResults
+export DiscuitModel, Trajectory, Observations, SimResults, MCMCResults, MultiMCMCResults, AutocorrelationResults
 # core functionality
-export set_random_seed, gillespie_sim, run_met_hastings_mcmc, compute_autocorrelation, run_gelman_diagnostic
+export set_random_seed, gillespie_sim, run_single_chain_analysis, run_multi_chain_analysis, compute_autocorrelation
 # model helpers
 export generate_model, generate_gaussian_obs_model, generate_generic_obs_function, generate_weak_prior
 # utilities (e.g. saving results to file0
-export print_trajectory, print_observations, print_mcmc_results, print_autocorrelation, print_gelman_results, get_observations, tabulate_results
+export print_trajectory, print_observations, print_results, print_autocorrelation, get_observations, tabulate_results
 # visualisation
 export plot_trajectory, plot_parameter_trace, plot_parameter_marginal, plot_parameter_heatmap, plot_geweke_series, plot_autocorrelation
 # custom functionality (in development)
-export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_mcmc, run_custom_mcmc_gelman_diagnostic
+export MarkovState, ParameterProposal, PrivateDiscuitModel, generate_custom_x0, run_custom_single_chain_analysis, run_custom_multi_chain_analysis
 # for unit testing:
 # export PrivateDiscuitModel, get_private_model, model_based_proposal, standard_proposal, gillespie_sim_x0, run_geweke_test, compute_full_log_like # Event
 
@@ -108,7 +108,7 @@ end
 - `tmax`        -- maximum time.
 - `num_obs`     -- number of observations to draw,
 
-Run a DGA simulation on `model`. Returns a SimResults containing the trajectory and observations data.
+Run a Doob-Gillespie simulation on `model`. Returns a SimResults containing the trajectory and observations data.
 """
 function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::Float64 = 100.0, num_obs::Int64 = 5)
     # initialise some things
@@ -119,7 +119,7 @@ function gillespie_sim(model::DiscuitModel, parameters::Array{Float64,1}, tmax::
     population = copy(p_model.initial_condition)
     trajectory = Trajectory(Float64[], Int64[])
     # run
-    println("running simulation...")
+    println("running DGA simulation...")
     t_prev = model.t0_index == 0 ? 0.0 : parameters[model.t0_index]
     for i in eachindex(obs_times)
         iterate_sim!(p_model, trajectory, population, parameters, t_prev, obs_times[i])
@@ -378,7 +378,7 @@ include("discuit_mbp.jl")
 # public wrappers
 # - vanilla
 """
-    run_met_hastings_mcmc(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
+    run_single_chain_analysis(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -390,10 +390,10 @@ include("discuit_mbp.jl")
 
 Run an MCMC analysis based on `model` and `obs_data` of type `Observations`. The number of samples obtained is equal to `steps` - `adapt_period`.
 """
-function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_single_chain_analysis(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    println("running MCMC...")
+    println("running single-chain ", mbp ? "MBP" : "std", "-MCMC analysis (model: ", model.model_name, ")")
     x0 = gillespie_sim_x0(pm, initial_parameters, !mbp)
     output = met_hastings_alg(pm, steps, adapt_period, mbp ? model_based_proposal : standard_proposal, x0, mbp, ppp)
     println(" finished (sample μ = ", output.mean, ")")
@@ -401,7 +401,7 @@ function run_met_hastings_mcmc(model::DiscuitModel, obs_data::Observations, init
 end
 # - custom MH MCMC
 """
-    run_custom_mcmc(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)
+    run_custom_single_chain_analysis(model, obs_data, proposal_function, x0, steps = 50000, adapt_period = 10000, prop_param = false, ppp = 0.3)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -413,12 +413,12 @@ end
 - `prop_param`          -- simulaneously propose changes to parameters. Default: `false`.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not relevant if `prop_param = true`.
 
-Run a custom MCMC analysis. Similar to `run_met_hastings_mcmc` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
+Run a custom MCMC analysis. Similar to `run_single_chain_analysis` except that the`proposal_function` (of type Function) and initial state `x0` (of type MarkovState) are user defined.
 """
-function run_custom_mcmc(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
+function run_custom_single_chain_analysis(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::MarkovState, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     # ADD TIME / MSGS HERE *********************
     pm = get_private_model(model, obs_data)
-    println("running custom MCMC...")
+    println("running custom-proposal MCMC analysis (model: ", model.model_name, ")")
     output =  met_hastings_alg(pm, steps, adapt_period, proposal_function, x0, prop_param, ppp)
     println(" finished (sample μ = ", output.mean, ").")
     return output
@@ -686,7 +686,7 @@ end
 # public wrappers
 # - calls mcmc
 """
-    run_gelman_diagnostic(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
+    run_multi_chain_analysis(model, obs_data, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -697,12 +697,12 @@ end
 - `mbp`                 -- model based proposals (MBP). Set `mbp = false` for standard proposals.
 - `ppp`                 -- the proportion of parameter (vs. trajectory) proposals. Default: 30%. NB. not required for MBP.
 
-Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
+Run n (equal to the number of rows in `initial_parameters`)  MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results.
 """
-function run_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
+function run_multi_chain_analysis(model::DiscuitModel, obs_data::Observations, initial_parameters::Array{Float64, 2}, steps::Int64 = 50000, adapt_period::Int64 = 10000, mbp::Bool = true, ppp::Float64 = 0.3)
     p_model = get_private_model(model, obs_data)
     ## initialise Markov chains
-    println("running gelman diagnostic... (", size(initial_parameters, 1) ," chains)")
+    println("running ", size(initial_parameters, 1) ,"-chain ", mbp ? "MBP" : "std", "-MCMC analysis (model: ", model.model_name, ")")
     mcmc = Array{MCMCResults,1}(undef, size(initial_parameters, 1))
     ## use @threads to multithread loop
     # Threads.@threads for i in eachindex(mcmc)
@@ -720,7 +720,7 @@ function run_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, init
 end
 # for custom MCMC
 """
-    run_custom_mcmc_gelman_diagnostic(m_model, obs_data, proposal_function, x0, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
+    run_custom_multi_chain_analysis(m_model, obs_data, proposal_function, x0, initial_parameters, steps = 50000, adapt_period = 10000, mbp = true, ppp = 0.3)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -735,10 +735,10 @@ end
 
 Run n (equal to the number of rows in `initial_parameters`) custom MCMC analyses and perform a Gelman-Rubin convergence diagnostic on the results. NEED TO OVERLOAD AND EXPAND.
 """
-function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
+function run_custom_multi_chain_analysis(model::DiscuitModel, obs_data::Observations, proposal_function::Function, x0::Array{MarkovState,1}, steps::Int64 = 50000, adapt_period::Int64 = 10000, prop_param::Bool = false, ppp::Float64 = 0.3)
     TEMP = 3
     model = get_private_model(model, obs_data)
-    println("running custom MCMC gelman diagnostic...")
+    println("running ", length(x0), "-chain custom-proposal MCMC analysis (model: ", model.model_name, ")")
     ## initialise Markov chains
     mcmc = Array{MCMCResults,1}(undef, length(x0))
     ## CHANGE XO.PARAMS
@@ -747,6 +747,7 @@ function run_custom_mcmc_gelman_diagnostic(model::DiscuitModel, obs_data::Observ
         println(" chain ", i, " complete.")
     end
     ## process results and return
+    println(" - done. Running Gelman diagnostic...")
     output = gelman_diagnostic(mcmc, length(x0[1].parameters.value), steps - adapt_period)
     println(" finished (sample μ = ", output.mu, ").")
     return output
@@ -797,14 +798,12 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         cv_wb[j] = (num_iter / length(mcmc)) * (cov(mcv[:,j], mce2[:,j]) - (2 * mu[j] * cov(mcv[:,j], mce[:,j])))
     end
     # compute d; d_adj (var.V)
-    # - SHOULD BENCHMARK PRECOMP **********
     d = Array{Float64, 1}(undef, theta_size)
     dd = Array{Float64, 1}(undef, theta_size)
     atmp = num_iter - 1
     btmp = 1 + (1 / length(mcmc))
     for j in 1:theta_size
         tmp = ((vv_w[j] * atmp * atmp) + (vv_b[j] * btmp * btmp) + (cv_wb[j] * 2 * atmp * btmp)) / (num_iter * num_iter)
-        # println(" ", tmp)
         d[j] = (2 * v[j] * v[j]) / tmp
         dd[j] = (d[j] + 3) / (d[j] + 1)
     end
@@ -821,7 +820,7 @@ function gelman_diagnostic(mcmc::Array{MCMCResults,1}, theta_size::Int64, num_it
         sre_ul[j] = sqrt(dd[j] * (((num_iter - 1) / num_iter) + quantile(fdst, 0.975) * rr))
     end
     # return results
-    return GelmanResults(is_mu, mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
+    return MultiMCMCResults(is_mu, mu, sqrt.(w), sre, sre_ll, sre_ul, mcmc)
 end
 
 include("./discuit_utils.jl")

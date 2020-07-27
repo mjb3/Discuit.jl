@@ -48,7 +48,7 @@ Demo:
 Note that the first simulation produced a trajectory with only three events. Hint: hitting up on the keyboard recalls previous commands for easy reuse. Having rerun the simulation (1067 on the second run) we can now run an MCMC analysis using observations data from `x`:
 
 ```@repl 1
-mcmc = run_met_hastings_mcmc(model, x.observations, [0.005, 0.12]);
+mcmc = run_single_chain_analysis(model, x.observations, [0.005, 0.12]);
 ```
 
 Demo:

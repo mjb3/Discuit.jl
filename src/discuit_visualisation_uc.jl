@@ -27,7 +27,7 @@ end
     plot_parameter_trace(mcmc, parameter)
 
 **Parameters**
-- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
 Trace plot of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
@@ -44,7 +44,7 @@ end
     plot_parameter_trace(mcmc, parameter)
 
 **Parameters**
-- `mcmc`        -- array of `MCMCResults`, e.g. from a call to `run_gelman_diagnostic`.
+- `mcmc`        -- array of `MCMCResults`, e.g. from a call to `run_multi_chain_analysis`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
 Trace plot of samples from `n` MCMC analyses for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
@@ -65,7 +65,7 @@ end
     plot_parameter_marginal(mcmc, parameter)
 
 **Parameters**
-- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
 Plot the marginal distribution of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
@@ -83,7 +83,7 @@ end
     plot_parameter_heatmap(mcmc, x_parameter, y_parameter)
 
 **Parameters**
-- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 - `x_parameter`   -- the index of the model parameter to be plotted on the x axis.
 - `y_parameter`   -- the index of the model parameter to be plotted on the y axis.
 
@@ -103,7 +103,7 @@ end
     plot_geweke_series(mcmc)
 
 **Parameters**
-- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+- `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 
 Plot the Geweke series...
 """
@@ -167,7 +167,7 @@ end
 #     plot_autocorrelation(mcmc)
 #
 # **Parameters**
-# - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_met_hastings_mcmc`.
+# - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 #
 # Plot autocorrelation R using ADD PYPLOT LINK.
 # """

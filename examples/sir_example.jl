@@ -21,20 +21,20 @@ function sir_example()
 
     Random.seed!(6)
     ## MCMC (STD)
-    # rs = Discuit.run_met_hastings_mcmc(model, obs, [0.001, 0.1], 300000, 50000, false)
+    # rs = Discuit.run_single_chain_analysis(model, obs, [0.001, 0.1], 300000, 50000, false)
     # Discuit.tabulate_mcmc_results(rs, true)
     # println(Discuit.plot_parameter_trace(rs, 1))
     # println(Discuit.plot_parameter_heatmap(rs, 1, 2))
     ## convergence
-    gmn = Discuit.run_gelman_diagnostic(model, obs, theta_init, 100000, 20000, false)
+    gmn = Discuit.run_multi_chain_analysis(model, obs, theta_init, 100000, 20000, false)
     Discuit.tabulate_gelman_results(gmn, true)
 
     ## MCMC (MBP)
-    # rs = Discuit.run_met_hastings_mcmc(model, obs, [0.001, 0.1], 100000, 20000)
+    # rs = Discuit.run_single_chain_analysis(model, obs, [0.001, 0.1], 100000, 20000)
     # Discuit.tabulate_mcmc_results(rs, true)
     # println(Discuit.plot_parameter_trace(rs, 1))
     # println(Discuit.plot_parameter_heatmap(rs, 1, 2))
-    gmn = Discuit.run_gelman_diagnostic(model, obs, theta_init)
+    gmn = Discuit.run_multi_chain_analysis(model, obs, theta_init)
     Discuit.tabulate_gelman_results(gmn, true)
 
 end

@@ -48,14 +48,14 @@ function pooley_prebaked()
 
     ## IBIS - MOVE DOWN *********
     theta_b = [0.01, 0.5]
-    rs = Discuit.run_mbp_ibis(model, x.observations, 2000, theta_b)
+    rs = Discuit.run_mbp_ibis_analysis(model, x.observations, 2000, theta_b)
     Discuit.tabulate_results(rs)
 
     ## UNCOMMENT ************************
     # ## demo 2
     # y = x.observations
     # initial_theta = [0.005, 0.12]
-    # mcmc = run_met_hastings_mcmc(model, x.observations, initial_theta);
+    # mcmc = run_single_chain_analysis(model, x.observations, initial_theta);
     # # NEED TO ADD TAB(MCMC) ***
     #
     # ## demo 3
@@ -67,26 +67,26 @@ function pooley_prebaked()
     # obs = Observations([20, 40, 60, 80, 100], [0 18; 0 65; 0 70; 0 66; 0 67]);
     # obs = Discuit.get_observations("./data/pooley.csv")
     obs = x.observations
-    rs = Discuit.run_met_hastings_mcmc(model, obs, [0.003, 0.1]);
+    rs = Discuit.run_single_chain_analysis(model, obs, [0.003, 0.1]);
     Discuit.tabulate_results(rs, true)
     ac = Discuit.compute_autocorrelation(rs)
     # # print
-    # print_mcmc_results(rs, "./out/doc/mcmc_example/")
+    # print_results(rs, "./out/doc/mcmc_example/")
     #
     # ## Diagnostics
     # # geweke
     # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # gelman
     theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
-    rs = Discuit.run_gelman_diagnostic(model, obs, theta_i)
+    rs = Discuit.run_multi_chain_analysis(model, obs, theta_i)
     Discuit.tabulate_results(rs, true)
-    # print_gelman_results(rs, "./out/gelman_example/")
+    # print_results(rs, "./out/gelman_example/")
     # # # autocorrelation
     # ac = compute_autocorrelation(rs.mcmc)
     # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
     #
     # standard proposals (for comparison)
-    rs = Discuit.run_gelman_diagnostic(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 200000, 20000, false);
+    rs = Discuit.run_multi_chain_analysis(model, obs, [0.0025 0.08; 0.003 0.12; 0.0035 0.1], 200000, 20000, false);
     Discuit.tabulate_results(rs, true)
     println(Discuit.plot_parameter_trace(rs.mcmc, 1))
     # ac = compute_autocorrelation(rs.mcmc)
@@ -169,9 +169,9 @@ function custom_bobs()
     end # end of std proposal function
 
     ## run MCMC
-    rs = run_custom_mcmc(model, y, custom_proposal, x0, 120000, 20000)
+    rs = run_custom_single_chain_analysis(model, y, custom_proposal, x0, 120000, 20000)
     Discuit.tabulate_mcmc_results(rs, true)
-    # print_mcmc_results(rs, "./out/doc/custom_mcmc_example/")
+    # print_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
 # plot_parameter_trace

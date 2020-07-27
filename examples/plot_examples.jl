@@ -24,7 +24,7 @@ function mcmc_example()
     y = get_observations(df[1])
 
     ## mcmc
-    mcmc = run_met_hastings_mcmc(model, y, [0.003, 0.1])
+    mcmc = run_single_chain_analysis(model, y, [0.003, 0.1])
     ## traceplots
     # p = plot_parameter_trace(mcmc, 1)
     # print(p)

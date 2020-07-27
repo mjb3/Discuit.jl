@@ -202,7 +202,7 @@ end
 
 ## Gelman Rubin test results
 """
-    GelmanResults
+    MultiMCMCResults
 
 **Fields**
 - `mu`      -- between chain sample mean.
@@ -212,9 +212,9 @@ end
 - `sre_ul`  -- scale reduction factor upper confidence interval.
 - `mcmc`    -- array of `MCMCResults`
 
-Results of a Gelman Rubin convergence diagnostic including n `MCMCResults` variables; `mu`; and the scale reduction factor estimates (`sre`).
+Results of an n > 1 chain MCMC analysis. Includes an n-length vector of `MCMCResults` variables; expectations estimate `mu`; and Gelman Rubin convergence diagnostic results, i.e. scale reduction factor estimates (`sre`).
 """
-struct GelmanResults
+struct MultiMCMCResults
     is_mu::Array{Float64, 1}
     mu::Array{Float64, 1}
     sdw::Array{Float64, 1}

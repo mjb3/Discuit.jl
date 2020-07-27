@@ -28,15 +28,15 @@ end
 
 ## print Gelman results
 """
-    print_gelman_results(results::GelmanResults, dpath::String)
+    print_results(results::MultiMCMCResults, dpath::String)
 
 **Parameters**
-- `results` -- `GelmanResults` variable.
+- `results` -- `MultiMCMCResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
-Save the results from a call to `run_gelman_diagnostic` to the directory `dpath`, e.g. "./out/gelman/".
+Save the results from a call to `run_multi_chain_analysis` to the directory `dpath`, e.g. "./out/gelman/".
 """
-function print_gelman_results(results::GelmanResults, dpath::String)
+function print_results(results::MultiMCMCResults, dpath::String)
     # create directory
     # dpath = string("./out/", dname, "/")
     isdir(dpath) || mkpath(dpath)
@@ -54,21 +54,21 @@ function print_gelman_results(results::GelmanResults, dpath::String)
     end # end of print summary
     # print chains
     for i in eachindex(results.mcmc)
-        print_mcmc_results(results.mcmc[i], string(dpath, "mc", i, "/"))
+        print_results(results.mcmc[i], string(dpath, "mc", i, "/"))
     end
 end
 
 ## print MCMC results to file
 """
-    print_mcmc_results(mcmc, dpath)
+    print_results(mcmc, dpath)
 
 **Parameters**
 - `results` -- `MCMCResults` variable.
 - `dpath`   -- the path of the directory where the results will be saved.
 
-Save the results from a call to `run_met_hastings_mcmc` or `run_custom_mcmc` to the directory `dpath`, e.g. "./out/mcmc/".
+Save the results from a call to `run_single_chain_analysis` or `run_custom_single_chain_analysis` to the directory `dpath`, e.g. "./out/mcmc/".
 """
-function print_mcmc_results(mcmc::MCMCResults, dpath::String)
+function print_results(mcmc::MCMCResults, dpath::String)
     # NEED TO ADD / IF NOT THERE ALREADY *******
     # create directory
     isdir(dpath) || mkpath(dpath)
@@ -244,7 +244,7 @@ function tabulate_proposals(results::MCMCResults)
 end
 
 ## Gelman proposal summary
-function tabulate_proposals(results::GelmanResults)
+function tabulate_proposals(results::MultiMCMCResults)
     println("Proposal summary:")
     h = ["Adapted", "Proposed", "Accepted", "Rate"]
     n_iter = length(results.mcmc[1].mc_accepted)
@@ -298,12 +298,12 @@ end
     tabulate_results
 
 **Parameters**
-- `results`     -- the results of a call to `run_gelman_diagnostic`.
+- `results`     -- the results of a call to `run_multi_chain_analysis`.
 - `proposals`   -- display proposal analysis.
 
-Display the results of a multi chain analysis run using `run_gelman_diagnostic`.
+Display the results of a multi chain analysis run using `run_multi_chain_analysis`.
 """
-function tabulate_results(results::GelmanResults, proposals = false)
+function tabulate_results(results::MultiMCMCResults, proposals = false)
     ## proposals
     proposals && tabulate_proposals(results)
     ## samples

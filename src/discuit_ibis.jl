@@ -267,7 +267,7 @@ function print_imp_sample(results::ImportanceSample, dpath::String)
 end
 
 """
-    print_sample
+    print_results
 
 **Parameters**
 - `samples`     -- a data structure of type `MCMCSample` or `ImportanceSample`.
@@ -276,7 +276,7 @@ end
 Print the results of an inference analysis to file.
 """
 ## print importance sample results
-function print_sample(results::ImportanceSample, dpath::String)
+function print_results(results::ImportanceSample, dpath::String)
     # check dir
     isdir(dpath) || mkpath(dpath)
     # print metadata
@@ -321,7 +321,7 @@ end
 ## MBP IBIS algorithm
 C_DF_ESS_CRIT = 0.5
 """
-    run_mbp_ibis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
+    run_mbp_ibis_analysis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -334,12 +334,12 @@ C_DF_ESS_CRIT = 0.5
 
 Run an MBP IBIS analysis based on `model` and `obs_data` of type `Observations`, with manually specified initial theta.
 """
-function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, theta_init::Array{Float64, 2}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 3, ind_prop = false, alpha = 1.002)
+function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, theta_init::Array{Float64, 2}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 3, ind_prop = false, alpha = 1.002)
     theta_init
     ## initialise
     model = get_private_model(mdl, obs_data)
     outer_p = size(theta_init,1)
-    println("running MBP IBIS. n = ", outer_p)
+    println("running MBP IBIS analysis for n = ", outer_p, " (model: ", mdl.model_name, ")")
     start_time = time_ns()
     ess_crit = ess_rs_crit * outer_p
     # fn_rs = rsp_systematic
@@ -452,7 +452,7 @@ function draw_from_limit(n::Int64, theta_limits::Array{Float64, 1})
 end
 
 """
-    run_mbp_ibis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
+    run_mbp_ibis_analysis(model, obs_data, initial_parameters, ess_rs_crit = 0.5; n_props = 3, ind_prop = false, alpha = 1.002)
 
 **Parameters**
 - `model`               -- `DiscuitModel` (see [Discuit.jl models]@ref).
@@ -466,8 +466,8 @@ end
 
 Run an n = `n_parts` particle MBP IBIS analysis, based on `model` and `obs_data` of type `Observations`.
 """
-function run_mbp_ibis(mdl::DiscuitModel, obs_data::Observations, n_parts::Int64, theta_limits::Array{Float64, 1}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 10, ind_prop = false, alpha = 1.002)
+function run_mbp_ibis_analysis(mdl::DiscuitModel, obs_data::Observations, n_parts::Int64, theta_limits::Array{Float64, 1}; ess_rs_crit = C_DF_ESS_CRIT, n_props = 10, ind_prop = false, alpha = 1.002)
     ## generate intial theta
     theta_init = draw_from_limit(n_parts, theta_limits)
-    return run_mbp_ibis(mdl, obs_data, theta_init; ess_rs_crit = ess_rs_crit, n_props = n_props, ind_prop = ind_prop, alpha = alpha)
+    return run_mbp_ibis_analysis(mdl, obs_data, theta_init; ess_rs_crit = ess_rs_crit, n_props = n_props, ind_prop = ind_prop, alpha = alpha)
 end
