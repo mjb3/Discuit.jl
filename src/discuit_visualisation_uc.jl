@@ -26,11 +26,17 @@ end
 """
     plot_parameter_trace(mcmc, parameter)
 
+Trace plot of samples from a single MCMC analysis for a given model `parameter`, using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
+
 **Parameters**
 - `mcmc`        -- `MCMCResults`, e.g. from a call to `run_single_chain_analysis`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
-Trace plot of samples from an MCMC analysis for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
+**Examples**
+
+Plot first parameter:
+
+`julia> x = run_single_chain_analysis(model, y)\njulia> plot_parameter_trace(x, 1)`
 """
 function plot_parameter_trace(mcmc::MCMCResults, parameter::Int64)
     x = 1:size(mcmc.samples, 1)
@@ -43,11 +49,12 @@ end
 """
     plot_parameter_trace(mcmc, parameter)
 
+Trace plot of samples from an, e.g. `n`-chain MCMC analysis, for a given model `parameter`. Implemented using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
+
 **Parameters**
-- `mcmc`        -- array of `MCMCResults`, e.g. from a call to `run_multi_chain_analysis`.
+- `mcmc`        -- array of `MCMCResults`, or a variable of type `MultiMCMCResults` - e.g. from a call to `run_multi_chain_analysis`.
 - `parameter`   -- the index of the model parameter to be plotted.
 
-Trace plot of samples from `n` MCMC analyses for a given model `parameter` using [UnicodePlots.jl](https://github.com/Evizero/UnicodePlots.jl).
 """
 function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     x = 1:size(mcmc[1].samples, 1)
@@ -58,6 +65,9 @@ function plot_parameter_trace(mcmc::Array{MCMCResults, 1}, parameter::Int64)
     UnicodePlots.xlabel!(p, "sample")
     UnicodePlots.ylabel!(p, string("θ", Char(8320 + parameter)))
     return p
+end
+function plot_parameter_trace(mcmc::MultiMCMCResults, parameter::Int64)
+    return plot_parameter_trace(mcmc.mcmc, parameter)
 end
 
 ## marginal

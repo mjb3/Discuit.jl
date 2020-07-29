@@ -14,12 +14,9 @@ function pooley()
     end
     # define obs function (no error)
     obs_fn(population::Array{Int64, 1}) = population
-    # prior
-    function prior_density(parameters::Array{Float64, 1})
-        parameters[1] > 0.0 || return 0.0
-        parameters[2] > 0.0 || return 0.0
-        return 1.0
-    end
+    # prior TBA
+    prior = 0 # use discuit function
+
     # obs model
     function si_gaussian(y::Array{Int64, 1}, population::Array{Int64, 1})
         obs_err = 2
@@ -29,7 +26,7 @@ function pooley()
         return tmp1 - ((obs_diff * obs_diff) / tmp2)
     end
     # define model
-    model = Discuit.DiscuitModel("SIS", sis_rf!, [-1 1; 1 -1], [100, 1], obs_fn, prior_density, si_gaussian, 0)
+    model = Discuit.DiscuitModel("SIS", sis_rf!, [-1 1; 1 -1], [100, 1], obs_fn, prior, si_gaussian, 0)
 
     ## run sim
     xi = Discuit.gillespie_sim(model, [0.003, 0.1])
@@ -70,22 +67,26 @@ function pooley_prebaked()
     # rs = Discuit.run_mcmc_analysis(model, obs, [0.003, 0.1]);
     rs = Discuit.run_mcmc_analysis(model, obs; n_chains = 1);
     Discuit.tabulate_results(rs, true)
+    ## autocorrelation
+    # ac = compute_autocorrelation(rs.mcmc)
     ac = Discuit.compute_autocorrelation(rs)
+    # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
+
     # # print
     # print_results(rs, "./out/doc/mcmc_example/")
     #
-    # ## Diagnostics
-    theta_i = [0.002 0.08; 0.0028 0.12; 0.0035 0.1]
-    # # geweke
-    # println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
+    ## Diagnostics
+    theta_i = [0.0025 0.0028 0.0035; 0.08 0.12 0.1]
+    # geweke
+    println(" geweke statistics: ", rs.geweke[2][1,:], "\n")
     # gelman
     # rs = Discuit.run_mcmc_analysis(model, obs)
     rs = Discuit.run_mcmc_analysis(model, obs; initial_parameters = theta_i)
     Discuit.tabulate_results(rs, true)
     # print_results(rs, "./out/gelman_example/")
-    # # # autocorrelation
-    # ac = compute_autocorrelation(rs.mcmc)
-    # print_autocorrelation(ac, string("./out/doc/acp_mbp.csv"))
+    println(Discuit.plot_parameter_trace(rs.mcmc, 1))
+
+
     #
     # standard proposals (for comparison)
     rs = Discuit.run_mcmc_analysis(model, obs; initial_parameters = theta_i, steps = 200000, mbp = false);
@@ -110,7 +111,7 @@ function custom_bobs()
     p1 = Distributions.Gamma(10, 0.0001)
     p2 = Distributions.Gamma(10, 0.01)
     p3 = Distributions.Uniform(-360, 0)
-    model.prior = Distributions.Product([p1,p2,p3]
+    model.prior = Distributions.Product([p1,p2,p3])
     # function prior_density(parameters::Array{Float64, 1})
     #     return parameters[3] < 0.0 ? Distributions.pdf(p1, parameters[1]) * Distributions.pdf(p2, parameters[2]) * (0.1 * exp(0.1 * parameters[3])) : 0.0
     # end
@@ -126,7 +127,7 @@ function custom_bobs()
     ## initial trajectory
     # removal times
     t = [0.0, 13.0, 20.0, 22.0, 25.0, 25.0, 25.0, 26.0, 30.0, 35.0, 38.0, 40.0, 40.0, 42.0, 42.0, 47.0, 50.0, 51.0, 55.0, 55.0, 56.0, 57.0, 58.0, 60.0, 60.0, 61.0, 66.0];
-    y = Observations([67.0], Array{Int64, 2}(undef, 1, 1));
+    y = Discuit.Observations([67.0], Array{Int64, 2}(undef, 1, 1));
     # initial sequence
     # n::Int64 = (2 * length(t)) - 1;
     evt_tm = Float64[];
@@ -177,12 +178,12 @@ function custom_bobs()
     end # end of std proposal function
 
     ## run MCMC
-    rs = run_custom_mcmc_analysis(model, y, custom_proposal, [x0]; steps = 120000, adapt_period = 20000)
-    Discuit.tabulate_mcmc_results(rs, true)
+    rs = Discuit.run_custom_mcmc_analysis(model, y, custom_proposal, [x0]; steps = 120000, adapt_period = 20000)
+    Discuit.tabulate_results(rs, true)
     # print_results(rs, "./out/doc/custom_mcmc_example/")
 end
 
 # plot_parameter_trace
 # pooley()
-pooley_prebaked()
-# custom_bobs()
+# pooley_prebaked()
+custom_bobs()

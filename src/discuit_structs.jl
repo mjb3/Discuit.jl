@@ -101,7 +101,7 @@ struct PrivateDiscuitModel{RFT<:Function, OFT<:Function, PDT<:Distributions.Dist
     # event rate function
     rate_function::RFT
     # transition matrix
-    m_transition::Array{Int64}
+    m_transition::Array{Int64,2}
     # initial condition
     initial_condition::Array{Int64}
     # t0 index (0 ~ fixed at 0.0)
